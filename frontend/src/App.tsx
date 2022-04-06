@@ -2,6 +2,7 @@ import React from 'react';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import GlobalCSS from './styles/global.css';
 import Screen404 from './views/Screen404';
@@ -16,6 +17,7 @@ function App () {
           <Route path='/*' element={<Screen404 />} />
         </Routes>
       </main>
+      <Footer />
     </Router>
   );
 }
