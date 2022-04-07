@@ -13,7 +13,7 @@ const Header: FC = () => {
     isLoading,
     error,
     data: categories
-  } = useFetch('https://fakestoreapi.com/products/categories');
+  } = useFetch('categories', 'https://fakestoreapi.com/products/categories');
 
   if (error !== undefined) {
     return <Screen404 error={error.message} />;
