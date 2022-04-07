@@ -1,40 +1,16 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-import { faTruck, IconDefinition, faCircleDollarToSlot, faClock, faLock	 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container, Row, Col } from 'react-bootstrap';
 
+import { TextAreaData } from '../../data/infoBarData';
 import CenteredItems from '../../styles/CenteredItems';
 
-interface TextAreaData {
-	icon: IconDefinition;
-	firstText: string;
-	secondText: string;
+interface Props {
+  textAreas: TextAreaData[];
 }
 
-const InfoBar = () => {
-  const textAreas: TextAreaData[] = [
-    {
-      icon: faTruck,
-      firstText: 'Free shipping & return',
-      secondText: 'Free shipping on all orders over 99$'
-    },
-    {
-      icon: faCircleDollarToSlot,
-      firstText: 'Money back guarantee',
-      secondText: '100% money back guarantee'
-    },
-    {
-      icon: faClock,
-      firstText: 'Online support 24/7',
-      secondText: 'Lorem ipsum lorem lorem'
-    },
-    {
-      icon: faLock,
-      firstText: 'Secure payment',
-      secondText: 'Lorem ipsum lorem lorem'
-    }
-  ];
+const InfoBar: FC<Props> = ({ textAreas }) => {
   return (
 		<Container>
 			<Row className='justify-content-center'>
