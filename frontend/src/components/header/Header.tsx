@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { Navigate } from 'react-router-dom';
 
 import useFetch from '../../hooks/useFetch';
-import Screen404 from '../../views/Screen404';
 import Loading from '../loading/Loading';
 import SearchBar from './SearchBar';
 
@@ -15,10 +15,11 @@ const Header: FC = () => {
     data: categories
   } = useFetch('categories', 'https://fakestoreapi.com/products/categories');
 
-  if (error !== undefined) {
-    return <Screen404 error={error.message} />;
-  }
   return (
+		<>
+			{error !== undefined && (
+          <Navigate to="/404" state={{ error: error.message }} />
+			)}
 		<Navbar collapseOnSelect expand="lg" bg="black" variant="dark">
 			<Container>
 				<LinkContainer to={'/'}>
@@ -46,6 +47,7 @@ const Header: FC = () => {
 			</Navbar.Collapse>
 			</Container>
 		</Navbar>
+		</>
   );
 };
 
