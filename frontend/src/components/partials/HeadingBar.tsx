@@ -12,7 +12,7 @@ interface Props {
 }
 
 const HeadingBar: FC<Props> = ({ title, description }) => {
-  const squiggleLines = Array(3).fill(0).map((value: any, index: number) => (
+  const squiggleLines = Array(4).fill(0).map((value: any, index: number) => (
 		<FontAwesomeIcon key={index} icon={faWaveSquare} beatFade/>
   ));
 
