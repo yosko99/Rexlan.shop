@@ -10,7 +10,7 @@ import CustomCarousel from '../../components/carousel/CustomCarousel';
 import Loading from '../../components/loading/Loading';
 import HeadingBar from '../../components/partials/HeadingBar';
 import InfoBar from '../../components/partials/InfoBar';
-import ProductCard from '../../components/product/ProductCard';
+import MultipleProductCards from '../../components/product/MultipleProductCards';
 import { textAreas } from '../../data/infoBarData';
 import CenteredItems from '../../styles/CenteredItems';
 import { Product } from '../../types/productTypes';
@@ -31,20 +31,29 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, menClothing, w
 
 		<InfoBar textAreas={textAreas}/>
 
+		{/* Women photos */}
+			<Row className='my-5'>
+				{Array(3).fill(0).map((value: any, index: number) => (
+					<Col key={index}>
+						<Image
+							fluid
+							width={400}
+							src={require(`../../assets/mainpage/women-grid${index + 1}.webp`)}
+						/>
+					</Col>
+				))}
+			</Row>
+		{/* Women photos */}
+
 		{/* Featured products */}
 			<HeadingBar
 				title={'Featured Products'}
 				description={'Amazing products added recently in our catalog'}
 			/>
-			<Row>
-			{isLoading
-			  ? <Loading />
-			  : featuredProducts.map((product: Product, index: number) => (
-					<Col key={index} className='mt-2'>
-						<ProductCard product={product}/>
-					</Col>
-			  ))}
-			</Row>
+			<MultipleProductCards
+				isLoading={isLoading}
+				products={featuredProducts}
+			/>
 		{/* Featured products */}
 
 		{/* Summer collection */}
@@ -77,15 +86,10 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, menClothing, w
 				title={'Best Seller Products'}
 				description={'Amazing products added recently in our catalog'}
 			/>
-			<Row>
-			{isLoading
-			  ? <Loading />
-			  : bestSellers.map((product: Product, index: number) => (
-					<Col key={index} className='mt-2'>
-						<ProductCard product={product}/>
-					</Col>
-			  ))}
-			</Row>
+			<MultipleProductCards
+				isLoading={isLoading}
+				products={bestSellers}
+			/>
 		{/* Best seller */}
 
 		{/* Company logos */}
