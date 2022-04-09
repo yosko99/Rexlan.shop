@@ -2,8 +2,9 @@ import React, { FC } from 'react';
 
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Card 	} from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import Rating from 'react-rating';
+import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 
 import CenteredItems from '../../styles/CenteredItems';
@@ -23,7 +24,9 @@ const ProductCard: FC<Props> = ({ product }) => {
   return (
 	<Card>
 		<CenteredItems>
-			<ProductCardImg src={product.image} />
+			<LinkContainer to={`/${product.category}/product/${product.id}`} role='button'>
+				<ProductCardImg src={product.image} />
+			</LinkContainer>
 		</CenteredItems>
 		<Card.Body>
 			<div className='d-flex justify-content-between'>

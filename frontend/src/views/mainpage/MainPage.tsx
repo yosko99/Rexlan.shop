@@ -14,10 +14,6 @@ const MainPage = () => {
     data
   } = useMultipleFetch([
     {
-      queryKey: 'featuredProducts',
-      link: 'https://fakestoreapi.com/products?limit=4'
-    },
-    {
       queryKey: 'menClothing',
       link: 'https://fakestoreapi.com/products/category/men\'s%20clothing?limit=1'
     },
@@ -26,7 +22,7 @@ const MainPage = () => {
       link: 'https://fakestoreapi.com/products/category/women\'s%20clothing?limit=1'
     },
     {
-      queryKey: 'bestSeller',
+      queryKey: 'allProducts',
       link: 'https://fakestoreapi.com/products'
     }
   ]);
@@ -35,10 +31,11 @@ const MainPage = () => {
     return <Loading height='90vh'/>;
   }
 
-  const featuredProducts: Product[] = data[0];
-  const [menClothing] = data[1];
-  const [womenClothing] = data[2];
-  const bestSellers: Product[] = data[3].sort(
+  const featuredProducts: Product[] = data[2].slice(5, 9);
+  const [menClothing] = data[0];
+  const [womenClothing] = data[1];
+  // sort by rating value and pick first 3
+  const bestSellers: Product[] = data[2].sort(
     (a: Product, b: Product) =>
       (a.rating.count > b.rating.count) ? -1 : 1).slice(0, 3);
 
