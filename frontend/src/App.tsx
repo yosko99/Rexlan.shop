@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import GlobalCSS from './styles/global.css';
-import MainPage from './views/MainPage';
+import MainPage from './views/mainpage/MainPage';
 import Screen404 from './views/Screen404';
 
 function App () {
