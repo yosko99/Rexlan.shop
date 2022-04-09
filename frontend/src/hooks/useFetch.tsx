@@ -20,7 +20,7 @@ const useFetch = (queryKey: string, url: string): ReturnTypes => {
     error,
     isError,
     data
-  } = useQuery([queryKey, url], () => getData());
+  } = useQuery(queryKey, () => getData());
 
   return {
     isLoading,

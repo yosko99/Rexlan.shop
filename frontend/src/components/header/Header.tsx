@@ -34,7 +34,7 @@ const Header: FC = () => {
 						{isLoading
 						  ? <Loading />
 						  : categories.map((category: string) => (
-							<LinkContainer key={category} to={category}>
+							<LinkContainer key={category} to={`/category/${category}`}>
 								<NavDropdown.Item href="#action/3.1">{category}</NavDropdown.Item>
 							</LinkContainer>
 						  ))

@@ -3,7 +3,6 @@ import React, { FC } from 'react';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 
 import clothingBannerImg from '../../assets/mainpage/clothing-banner.webp';
-import companiesImg from '../../assets/mainpage/companies.webp';
 import forHerImg from '../../assets/mainpage/for-her.png';
 import forHimImg from '../../assets/mainpage/for-him.png';
 import CustomCarousel from '../../components/carousel/CustomCarousel';
@@ -37,6 +36,7 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, menClothing, w
 					<Col key={index}>
 						<Image
 							fluid
+							alt='women photo'
 							width={400}
 							src={require(`../../assets/mainpage/women-grid${index + 1}.webp`)}
 						/>
@@ -65,15 +65,15 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, menClothing, w
 			  ? <Loading />
 			  :	<Row>
 						<Col lg={6} md={12}>
-							<Image width={'100%'} height={'100%'} style={{ objectFit: 'contain' }} src={clothingBannerImg} />
+							<Image width={'100%'} alt='clothing' height={'100%'} style={{ objectFit: 'contain' }} src={clothingBannerImg} />
 						</Col>
 						<Col lg={6} md={12} className='d-flex flex-column justify-content-between'>
 							<CenteredItems className='m-3'>
-								<Image width={250} src={forHimImg}/>
+								<Image width={250} alt='for him' src={forHimImg}/>
 								<Image width={250} height={250} style={{ objectFit: 'contain' }} src={menClothing.image}/>
 							</CenteredItems>
 							<CenteredItems className='m-3'>
-								<Image fluid width={250} src={forHerImg}/>
+								<Image fluid width={250} alt='for her' src={forHerImg}/>
 								<Image width={250} height={250} style={{ objectFit: 'contain' }} src={womenClothing.image}/>
 							</CenteredItems>
 						</Col>
@@ -91,14 +91,6 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, menClothing, w
 				products={bestSellers}
 			/>
 		{/* Best seller */}
-
-		{/* Company logos */}
-			<div className='text-center'>
-				<hr className='mt-5 mb-0'/>
-				<Image fluid src={companiesImg} />
-			</div>
-		{/* Company logos */}
-
 	</Container>
   );
 };

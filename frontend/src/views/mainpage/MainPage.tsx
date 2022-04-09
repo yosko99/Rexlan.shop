@@ -54,7 +54,6 @@ const MainPage = () => {
 						bestSellers={bestSellers}
 					/>
 			}
-
 		</>
   );
 };
