@@ -1,7 +1,5 @@
 import React, { FC } from 'react';
 
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Card } from 'react-bootstrap';
 import Rating from 'react-rating';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -9,6 +7,7 @@ import styled from 'styled-components';
 
 import CenteredItems from '../../styles/CenteredItems';
 import { Product } from '../../types/productTypes';
+import FavouriteBtn from './FavouriteBtn';
 
 interface Props {
 	product: Product;
@@ -33,7 +32,7 @@ const ProductCard: FC<Props> = ({ product }) => {
 				<small>
 					{product.category}
 				</small>
-				<FontAwesomeIcon color='red' border icon={faHeart} />
+				<FavouriteBtn productID={product.id}/>
 			</div>
 			<Card.Title>
 				{product.title}
