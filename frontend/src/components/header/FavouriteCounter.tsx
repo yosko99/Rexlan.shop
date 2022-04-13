@@ -7,14 +7,22 @@ import { LinkContainer } from 'react-router-bootstrap';
 import CenteredItems from '../../styles/CenteredItems';
 
 const FavouriteCounter: FC = () => {
-  const [counter, setCounter] = useState<number>(localStorage.length);
+  const [counter, setCounter] = useState<number>();
+
+  const setCounterNumber = () => {
+    const localStorageLiked = localStorage.getItem('liked');
+
+    if (localStorageLiked === null || localStorageLiked === '') {
+      setCounter(0);
+    } else {
+      setCounter(JSON.parse(localStorageLiked).length);
+    }
+  };
 
   useEffect(() => {
-    window.addEventListener('storage', () => {
-      setCounter(localStorage.length);
-      console.log('test');
-    });
-  }, [counter]);
+    setCounterNumber();
+    window.addEventListener('storage', setCounterNumber);
+  }, []);
 
   return (
 		<LinkContainer to='/favourites'>
