@@ -9,4 +9,9 @@ const productController = require('../controllers/productController');
 // @access Public
 router.get('/', asyncHandler(productController.getProducts));
 
+// @desc Fetch single product
+// @route GET /api/products/:id
+// @access Public
+router.get('/:id', asyncHandler(productController.getProduct));
+
 module.exports = router;
