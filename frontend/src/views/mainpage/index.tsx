@@ -22,8 +22,12 @@ const MainPage = () => {
       link: '/api/products/category/women\'s%20clothing?qty=1'
     },
     {
-      queryKey: 'allProducts',
-      link: '/api/products'
+      queryKey: 'featuredProducts',
+      link: '/api/products?qty=4'
+    },
+    {
+      queryKey: 'bestSellers',
+      link: '/api/products/sort/rating?qty=3'
     }
   ]);
 
@@ -34,13 +38,10 @@ const MainPage = () => {
     return <Navigate to="/404" state={{ error: error.message }} />;
   }
 
-  const featuredProducts: Product[] = data[2].slice(5, 9);
   const [menClothing] = data[0];
   const [womenClothing] = data[1];
-  // sort by rating value and pick first 3
-  const bestSellers: Product[] = data[2].sort(
-    (a: Product, b: Product) =>
-      (a.rating.count > b.rating.count) ? -1 : 1).slice(0, 3);
+  const featuredProducts: Product[] = data[2];
+  const bestSellers: Product[] = data[3];
 
   return (
 		<>

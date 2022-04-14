@@ -7,8 +7,12 @@ import Loading from '../loading/Loading';
 import FavouriteCounter from '../partials/FavouriteCounter';
 import SearchBar from '../partials/SearchBar';
 
+interface CategoryData {
+	name: string;
+}
+
 interface Props {
-	categories: string[];
+	categories: CategoryData[];
 	isLoading: boolean;
 }
 
@@ -27,9 +31,11 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 					<NavDropdown title="Categories" id="collasible-nav-dropdown">
 						{isLoading
 						  ? <Loading />
-						  : categories.map((category: string) => (
-							<LinkContainer key={category} to={`/category/${category}`}>
-								<NavDropdown.Item href="#action/3.1">{category}</NavDropdown.Item>
+						  : categories.map((category: CategoryData, index: number) => (
+							<LinkContainer key={index} to={`/category/${category.name}`}>
+								<NavDropdown.Item href="#action/3.1">
+									{category.name}
+								</NavDropdown.Item>
 							</LinkContainer>
 						  ))
 						}

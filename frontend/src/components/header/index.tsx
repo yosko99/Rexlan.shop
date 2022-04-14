@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { Navigate } from 'react-router-dom';
 
 import useFetch from '../../hooks/useFetch';
+import Loading from '../loading/Loading';
 import RenderHeader from './RenderHeader';
 
 const Header: FC = () => {
@@ -10,14 +11,15 @@ const Header: FC = () => {
     isLoading,
     error,
     data: categories
-  } = useFetch('categories', 'https://fakestoreapi.com/products/categories');
+  } = useFetch('categories', '/api/categories/');
+
+  if (error !== undefined) {
+    return <Navigate to="/404" state={{ error: error.message }} />;
+  }
 
   return (
 		<>
-			{error !== undefined
-			  ? <Navigate to="/404" state={{ error: error.message }} />
-			  : <RenderHeader isLoading={isLoading} categories={categories}/>
-			}
+			<RenderHeader isLoading={isLoading} categories={categories}/>
 		</>
   );
 };

@@ -26,8 +26,8 @@ const FavouriteCounter: FC = () => {
 
   return (
 		<LinkContainer to='/favourites'>
-			<CenteredItems role={'button'}>
-				<FontAwesomeIcon size='2x' icon={faHeart} color='white'/>
+			<CenteredItems role={'button'} >
+				<FontAwesomeIcon size='2x' className='py-2' icon={faHeart} color='white'/>
 				<span className='text-white ps-2 pe-3'>{counter}</span>
 			</CenteredItems>
 		</LinkContainer>

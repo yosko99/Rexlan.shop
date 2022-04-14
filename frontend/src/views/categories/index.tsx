@@ -13,7 +13,7 @@ const CategoryProductsPage: FC = () => {
     isLoading,
     error,
     data: categoryProducts
-  } = useFetch(category!, `https://fakestoreapi.com/products/category/${category}`);
+  } = useFetch(category!, `/api/products/category/${category}`);
 
   if (isLoading) {
     return <Loading height='90vh'/>;
