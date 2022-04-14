@@ -15,20 +15,23 @@ const MainPage = () => {
   } = useMultipleFetch([
     {
       queryKey: 'menClothing',
-      link: 'https://fakestoreapi.com/products/category/men\'s%20clothing?limit=1'
+      link: '/api/products/category/men\'s%20clothing?qty=1'
     },
     {
       queryKey: 'womenClothing',
-      link: 'https://fakestoreapi.com/products/category/women\'s%20clothing?limit=1'
+      link: '/api/products/category/women\'s%20clothing?qty=1'
     },
     {
       queryKey: 'allProducts',
-      link: 'https://fakestoreapi.com/products'
+      link: '/api/products'
     }
   ]);
 
   if (isLoading) {
     return <Loading height='90vh'/>;
+  }
+  if (error !== undefined) {
+    return <Navigate to="/404" state={{ error: error.message }} />;
   }
 
   const featuredProducts: Product[] = data[2].slice(5, 9);
@@ -41,16 +44,13 @@ const MainPage = () => {
 
   return (
 		<>
-			{error !== undefined
-			  ? <Navigate to="/404" state={{ error: error.message }} />
-			  : <RenderMainPage
-						isLoading={isLoading}
-						featuredProducts={featuredProducts}
-						menClothing={menClothing}
-						womenClothing={womenClothing}
-						bestSellers={bestSellers}
-					/>
-			}
+    	<RenderMainPage
+        isLoading={isLoading}
+        featuredProducts={featuredProducts}
+        menClothing={menClothing}
+        womenClothing={womenClothing}
+        bestSellers={bestSellers}
+      />
 		</>
   );
 };

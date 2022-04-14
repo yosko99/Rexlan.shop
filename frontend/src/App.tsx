@@ -8,8 +8,8 @@ import CompanyLogos from './components/partials/CompanyLogos';
 import GlobalCSS from './styles/global.css';
 import CategoryProductsPage from './views/categories';
 import MainPage from './views/mainpage';
-import PDPPage from './views/pdp';
 import Page404 from './views/page404';
+import PDPPage from './views/pdp';
 
 function App () {
   return (

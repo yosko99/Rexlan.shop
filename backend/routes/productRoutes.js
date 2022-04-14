@@ -14,4 +14,14 @@ router.get('/', asyncHandler(productController.getProducts));
 // @access Public
 router.get('/:id', asyncHandler(productController.getProduct));
 
+// @desc Fetch products by category
+// @route GET /api/products/category/:category
+// @access Public
+router.get('/category/:category', asyncHandler(productController.getProductsByCategory));
+
+// @desc Fetch products sorted by passed attribute
+// @route GET /api/products/sort/:attribute
+// @access Public
+router.get('/sort/:attribute', asyncHandler(productController.getProductsSortedBy));
+
 module.exports = router;
