@@ -6,7 +6,7 @@ import Loading from '../../components/loading/Loading';
 import useFetch from '../../hooks/useFetch';
 import RenderPDP from './RenderPDP';
 
-const ScreenPDP = () => {
+const PDPPage = () => {
   const { id } = useParams();
 
   useEffect(() => {
@@ -35,4 +35,4 @@ const ScreenPDP = () => {
   );
 };
 
-export default ScreenPDP;
+export default PDPPage;

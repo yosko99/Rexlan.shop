@@ -3,13 +3,13 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Footer from './components/footer/Footer';
-import Header from './components/header/Header';
+import Header from './components/header';
 import CompanyLogos from './components/partials/CompanyLogos';
 import GlobalCSS from './styles/global.css';
-import CategoryProducts from './views/categories/CategoryProducts';
-import MainPage from './views/mainpage/MainPage';
-import ScreenPDP from './views/pdp/ScreenPDP';
-import Screen404 from './views/Screen404';
+import CategoryProductsPage from './views/categories';
+import MainPage from './views/mainpage';
+import PDPPage from './views/pdp';
+import Page404 from './views/page404';
 
 function App () {
   return (
@@ -19,9 +19,9 @@ function App () {
       <main style={{ minHeight: '90vh' }}>
         <Routes>
           <Route path='/' element={<MainPage />} />
-          <Route path='/category/:category' element={<CategoryProducts />} />
-          <Route path='/:category/product/:id' element={<ScreenPDP />} />
-          <Route path='/*' element={<Screen404 />} />
+          <Route path='/category/:category' element={<CategoryProductsPage />} />
+          <Route path='/:category/product/:id' element={<PDPPage />} />
+          <Route path='/*' element={<Page404 />} />
         </Routes>
       </main>
       <CompanyLogos />

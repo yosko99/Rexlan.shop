@@ -8,7 +8,6 @@ import styled from 'styled-components';
 
 import FreeShippingBar from '../../components/partials/FreeShippingBar';
 import FavouriteBtn from '../../components/product/FavouriteBtn';
-import CenteredItems from '../../styles/CenteredItems';
 import { Product } from '../../types/productTypes';
 
 interface Props {

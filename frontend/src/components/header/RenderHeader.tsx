@@ -4,8 +4,8 @@ import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import Loading from '../loading/Loading';
-import FavouriteCounter from './FavouriteCounter';
-import SearchBar from './SearchBar';
+import FavouriteCounter from '../partials/FavouriteCounter';
+import SearchBar from '../partials/SearchBar';
 
 interface Props {
 	categories: string[];

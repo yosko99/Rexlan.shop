@@ -6,7 +6,7 @@ import Loading from '../../components/loading/Loading';
 import useFetch from '../../hooks/useFetch';
 import RenderCategoryProducts from './RenderCategoryProducts';
 
-const CategoryProducts: FC = () => {
+const CategoryProductsPage: FC = () => {
   const { category } = useParams();
 
   const {
@@ -32,4 +32,4 @@ const CategoryProducts: FC = () => {
   );
 };
 
-export default CategoryProducts;
+export default CategoryProductsPage;
