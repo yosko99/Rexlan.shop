@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import FreeShippingBar from '../../components/partials/FreeShippingBar';
-import FavouriteBtn from '../../components/product/FavouriteBtn';
+import FavouriteBtn from '../../components/product/favouriteButton/FavouriteBtn';
 import { Product } from '../../types/productTypes';
 
 interface Props {

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import CenteredItems from '../../styles/CenteredItems';
 import { Product } from '../../types/productTypes';
-import FavouriteBtn from './FavouriteBtn';
+import FavouriteBtn from './favouriteButton/FavouriteBtn';
 
 interface Props {
 	product: Product;
