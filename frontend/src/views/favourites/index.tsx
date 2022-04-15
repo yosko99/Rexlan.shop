@@ -25,14 +25,13 @@ const FavouritesPage = () => {
   });
 
   // TODO: Fix conditional hook
-  // eslint-disable-next-line
   const { isLoading, error, data } = useMultipleFetch(fetchArr);
 
   return (
 		<>
 		<FreeShippingBar />
 		{ error !== undefined
-			  ? <Navigate to="/404" state={{ error: error?.message }} />
+			  ? <Navigate to="/404" state={{ error: error.message }} />
 			  : <Container>
 						<h2 className='text-center my-3'>My Favourites</h2>
 						<MultipleProductCards products={data} isLoading={isLoading} />

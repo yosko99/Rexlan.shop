@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 
 import { Container, Row, Col } from 'react-bootstrap';
-import Rating from 'react-rating';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import FreeShippingBar from '../../components/partials/FreeShippingBar';
+import CustomRating from '../../components/product/CustomRating';
 import FavouriteBtn from '../../components/product/favouriteButton/FavouriteBtn';
 import { Product } from '../../types/productTypes';
 
@@ -44,10 +44,10 @@ const RenderPDP: FC<Props> = ({ product }) => {
 							<p className='fs-3 mb-0'>
 								$ {product.price}
 							</p>
-							<Rating
-								className='my-2'
-								initialRating={product.rating.rate}
-								fractions={2}
+							<CustomRating
+								initialValue={product.rating.rate}
+								size={30}
+								className='my-3'
 							/>
 							<p className='text-muted mb-5'>
 								{product.description}

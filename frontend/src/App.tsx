@@ -17,7 +17,7 @@ function App () {
     <Router>
       <GlobalCSS/>
       <Header />
-      <main style={{ minHeight: '90vh' }}>
+      <main style={{ minHeight: '70vh' }}>
         <Routes>
           <Route path='/' element={<MainPage />} />
           <Route path='/category/:category' element={<CategoryProductsPage />} />

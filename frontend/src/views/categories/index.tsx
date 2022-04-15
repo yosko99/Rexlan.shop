@@ -21,8 +21,8 @@ const CategoryProductsPage: FC = () => {
 
   return (
 		<>
-		{error !== undefined || categoryProducts.length === 0
-		  ? <Navigate to="/404" state={{ error: error?.message }} />
+		{error !== undefined
+		  ? <Navigate to="/404" state={{ error: error.message }} />
 		  : <RenderCategoryProducts
 					categoryProducts={categoryProducts}
 					isLoading={isLoading}

@@ -3,7 +3,6 @@ import React, { FC } from 'react';
 import { Navigate } from 'react-router-dom';
 
 import useFetch from '../../hooks/useFetch';
-import Loading from '../loading/Loading';
 import RenderHeader from './RenderHeader';
 
 const Header: FC = () => {

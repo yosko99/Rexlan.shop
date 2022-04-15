@@ -1,12 +1,20 @@
 import React from 'react';
 
+import { Navigate } from 'react-router-dom';
+
+import useFetch from '../../hooks/useFetch';
+import RenderFooter from './RenderFooter';
+
 const Footer = () => {
+  const { isLoading, error, data: categories } = useFetch('categories', '/api/categories/');
+
   return (
-		<footer className='bg-black text-center'>
-			<p className='text-white py-3'>
-				copyright @yosko99
-			</p>
-		</footer>
+		<>
+			{error !== undefined
+			  ? <Navigate to="/404" state={{ error: error.message }} />
+			  :	<RenderFooter isLoading={isLoading} categories={categories}/>
+			}
+		</>
   );
 };
 

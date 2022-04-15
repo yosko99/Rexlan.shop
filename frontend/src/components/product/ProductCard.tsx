@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 
 import { Card } from 'react-bootstrap';
-import Rating from 'react-rating';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 
 import CenteredItems from '../../styles/CenteredItems';
 import { Product } from '../../types/productTypes';
+import CustomRating from './CustomRating';
 import FavouriteBtn from './favouriteButton/FavouriteBtn';
 
 interface Props {
@@ -37,9 +37,10 @@ const ProductCard: FC<Props> = ({ product }) => {
 			<Card.Title>
 				{product.title}
 			</Card.Title>
-			<Rating
-  			initialRating={product.rating.rate}
-				fractions={2}
+			<CustomRating
+				initialValue={product.rating.rate}
+				size={20}
+				className='mb-2'
 			/>
 			<Card.Text>
 			 {product.price.toFixed(2)} $
