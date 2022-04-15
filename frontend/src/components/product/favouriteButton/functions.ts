@@ -1,7 +1,7 @@
 export const checkIfLiked = (productID: string): boolean => {
   const liked = localStorage.getItem('liked');
 
-  if (liked !== null && liked !== '') {
+  if (liked !== null && liked !== '[]') {
     const localStorageProcuts = JSON.parse(liked);
     const productIndex = localStorageProcuts.indexOf(productID);
 
@@ -9,7 +9,7 @@ export const checkIfLiked = (productID: string): boolean => {
   }
 
   // Init liked key in local storage
-  localStorage.setItem('liked', '');
+  localStorage.setItem('liked', '[]');
   return false;
 };
 
@@ -18,7 +18,7 @@ export const clickHandle = (productID: string): void => {
 
   // Check if array is empty
   let likedLocalStorage: string[] = [];
-  if (localStorage.getItem('liked') !== '') {
+  if (localStorage.getItem('liked') !== '[]') {
     likedLocalStorage = JSON.parse(localStorage.getItem('liked')!);
   }
 
