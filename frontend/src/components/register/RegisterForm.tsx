@@ -1,16 +1,17 @@
 import React, { useState, FC } from 'react';
 
 import { Form, Button } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
 
+import AddressInput from '../inputs/AddressInput';
 import EmailInput from '../inputs/EmailInput';
+import NameInput from '../inputs/NameInput';
 import PasswordInput from '../inputs/PasswordInput';
 
 interface Props {
 	className?: string;
 }
 
-const LoginForm: FC<Props> = ({ className }) => {
+const RegisterForm: FC<Props> = ({ className }) => {
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -27,21 +28,17 @@ const LoginForm: FC<Props> = ({ className }) => {
 		<Form className={className} noValidate validated={validated} onSubmit={(e) => handleSubmit(e)}>
 			<EmailInput />
 
+			<NameInput />
+
+			<AddressInput />
+
 			<PasswordInput />
 
-			<div className='d-flex justify-content-between'>
-				<Form.Group className="mb-3" controlId="checkbox">
-					<Form.Check type="checkbox" label="Remember me" />
-				</Form.Group>
-				<LinkContainer to='/password-reset'>
-					<p role='button'><u>Forgot your password?</u></p>
-				</LinkContainer>
-			</div>
-			<Button variant="outline-primary rounded-pill" className='w-100' type="submit">
-				Login
+			<Button variant="outline-primary rounded-pill" className='w-100 mt-3' type="submit">
+				Register
 			</Button>
 		</Form>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
