@@ -6,7 +6,11 @@ import useFetch from '../../hooks/useFetch';
 import RenderFooter from './RenderFooter';
 
 const Footer = () => {
-  const { isLoading, error, data: categories } = useFetch('categories', '/api/categories/');
+  const {
+    isLoading,
+    error,
+    data: categories
+  } = useFetch('categories', '/api/categories/');
 
   return (
 		<>
