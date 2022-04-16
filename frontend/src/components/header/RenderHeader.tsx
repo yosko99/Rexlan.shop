@@ -5,6 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 import Loading from '../loading/Loading';
 import FavouriteCounter from '../partials/FavouriteCounter';
+import ProfileIcon from '../partials/ProfileIcon';
 import SearchBar from '../partials/SearchBar';
 
 interface CategoryData {
@@ -25,27 +26,28 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 						Rexlan E-Commerce
 					</Navbar.Brand>
 				</LinkContainer>
-			<Navbar.Toggle aria-controls="responsive-navbar-nav" />
-			<Navbar.Collapse id="responsive-navbar-nav">
-				<Nav className="me-auto">
-					<NavDropdown title="Categories" id="collasible-nav-dropdown">
-						{isLoading
-						  ? <Loading />
-						  : categories.map((category: CategoryData, index: number) => (
-							<LinkContainer key={index} to={`/category/${category.name}`}>
-								<NavDropdown.Item href="#action/3.1">
-									{category.name}
-								</NavDropdown.Item>
-							</LinkContainer>
-						  ))
-						}
-					</NavDropdown>
-				</Nav>
-				<Nav>
-					<FavouriteCounter />
-					<SearchBar />
-				</Nav>
-			</Navbar.Collapse>
+				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
+				<Navbar.Collapse id="responsive-navbar-nav">
+					<Nav className="me-auto">
+						<NavDropdown title="Categories" id="collasible-nav-dropdown">
+							{isLoading
+							  ? <Loading />
+							  : categories.map((category: CategoryData, index: number) => (
+								<LinkContainer key={index} to={`/category/${category.name}`}>
+									<NavDropdown.Item>
+										{category.name}
+									</NavDropdown.Item>
+								</LinkContainer>
+							  ))
+							}
+						</NavDropdown>
+					</Nav>
+					<Nav>
+						<FavouriteCounter />
+						<ProfileIcon />
+						<SearchBar />
+					</Nav>
+				</Navbar.Collapse>
 			</Container>
 		</Navbar>
   );
