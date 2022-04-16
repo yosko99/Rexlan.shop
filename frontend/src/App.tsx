@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Footer from './components/footer/Footer';
 import Header from './components/header';
 import CompanyLogos from './components/partials/CompanyLogos';
+import { TokenContext } from './context/TokenContext';
 import GlobalCSS from './styles/global.css';
 import CategoryProductsPage from './views/categories';
 import FavouritesPage from './views/favourites';
@@ -18,7 +19,9 @@ function App () {
   return (
     <Router>
       <GlobalCSS/>
-      <Header />
+      <TokenContext.Provider value={null}>
+        <Header />
+      </TokenContext.Provider>
       <main style={{ minHeight: '70vh' }}>
         <Routes>
           <Route path='/' element={<MainPage />} />

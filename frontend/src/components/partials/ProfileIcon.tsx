@@ -8,7 +8,6 @@ import useToken from '../../hooks/useToken';
 
 const ProfileIcon = () => {
   const { token } = useToken();
-
   return (
 		<>
 			<LinkContainer to={token !== null ? '/dashboard' : '/login'} role='button'>

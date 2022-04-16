@@ -42,7 +42,7 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 							}
 						</NavDropdown>
 					</Nav>
-					<Nav>
+					<Nav className='d-flex flex-row justify-content-center'>
 						<FavouriteCounter />
 						<ProfileIcon />
 						<SearchBar />

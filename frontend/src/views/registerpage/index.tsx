@@ -20,7 +20,7 @@ const RegisterPage = () => {
 							<RegisterForm className='w-100'/>
 						</Col>
 					<Col lg={7}>
-						<Image className='rounded' width={'100%'} src={registerImg} />
+						<Image className='rounded' width={'100%'} height={'100%'} fluid src={registerImg} />
 					</Col>
 				</Row>
 			</Container>

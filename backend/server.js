@@ -3,6 +3,7 @@ const connectDb = require('./config/db');
 
 const productRoutes = require('./routes/productRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const express = require('express');
 const cors = require('cors');
@@ -19,6 +20,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 connectDb();
 
 app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use(notFound);
 app.use(errorHandler);
