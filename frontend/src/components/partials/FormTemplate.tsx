@@ -13,9 +13,10 @@ interface Props {
 	onErrorMsg: string;
 	onSuccessMsg: string;
 	inputs: React.ReactChild;
+  login?: boolean;
 }
 
-const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, onErrorMsg, onSuccessMsg, inputs }) => {
+const FormTemplate: FC<Props> = ({ login, className, data, setData, mutateURL, onErrorMsg, onSuccessMsg, inputs }) => {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [alert, setAlert] = useState<React.ReactNode>();
@@ -28,13 +29,28 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, onErrorM
         className='mt-3 rounded-pill text-center'
         variant='danger'>{onErrorMsg}</Alert>);
     },
-    onSuccess: () => {
-      setAlert(<Alert
-        className='mt-3 rounded-pill text-center'
-        variant='success'>{onSuccessMsg}</Alert>);
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
+    onSuccess: (data) => {
+      if (login) {
+        if (data.data) {
+          setAlert(<Alert
+            className='mt-3 rounded-pill text-center'
+            variant='success'>{onSuccessMsg}</Alert>);
+          setTimeout(() => {
+            navigate('/');
+          }, 2000);
+        } else {
+          setAlert(<Alert
+            className='mt-3 rounded-pill text-center'
+            variant='danger'>Password does not match registered email.</Alert>);
+        }
+      } else {
+        setAlert(<Alert
+          className='mt-3 rounded-pill text-center'
+          variant='success'>{onSuccessMsg}</Alert>);
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
+      }
     }
   });
 
