@@ -11,7 +11,7 @@ const ProfileIcon = () => {
   return (
 		<>
 			<LinkContainer to={token !== null ? '/dashboard' : '/login'} role='button'>
-				<FontAwesomeIcon icon={faUserCircle} size='2x' className='me-3 ms-2 py-2' color='white'/>
+				<FontAwesomeIcon icon={faUserCircle} size='lg' className='me-3 ms-2 py-2' color='black'/>
 			</LinkContainer>
 		</>
   );

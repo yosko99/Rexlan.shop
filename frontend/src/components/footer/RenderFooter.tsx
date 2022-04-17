@@ -20,7 +20,7 @@ const RenderFooter: FC<Props> = ({ isLoading, categories }) => {
   const brands: IconDefinition[] = [faFacebook, faGithub, faGoogle, faInstagram, faLinkedin, faTwitter];
 
   return (
-		<footer className="text-center text-lg-start bg-primary text-white">
+		<footer className="text-center text-lg-start bg-light text-black">
 			<section
 				className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom container">
 				<div className="me-5 d-none d-lg-block ">
@@ -112,7 +112,7 @@ const RenderFooter: FC<Props> = ({ isLoading, categories }) => {
 
 			<div className="text-center p-4">
 				© 2021 Copyright:
-				<a className="text-reset fw-bold" href="https://github.com/yosko99"> yosko99</a>
+				<a className="text-reset fw-bold" href="https://github.com/yosko99">yosko99</a>
 			</div>
 		</footer>
   );

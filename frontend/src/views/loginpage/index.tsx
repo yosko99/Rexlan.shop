@@ -11,7 +11,7 @@ import LoginForm from '../../components/login/LoginForm';
 const LoginPage = () => {
   return (
 		<Fade>
-			<Container className='shadow-lg p-0'>
+			<Container className='shadow-lg p-0 mt-3'>
 				<Row>
 						<Col lg={5} className='d-flex p-5 flex-column justify-content-center'>
 							<h2>Welcome back !</h2>

@@ -10,7 +10,7 @@ import RegisterForm from '../../components/register/RegisterForm';
 const RegisterPage = () => {
   return (
 		<Fade>
-			<Container className='shadow-lg p-0'>
+			<Container className='shadow-lg p-0 mt-3'>
 				<Row>
 						<Col lg={5} className='d-flex p-5 flex-column justify-content-center'>
 							<h2>Register</h2>

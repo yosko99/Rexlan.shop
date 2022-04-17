@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
 
-import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Container, Nav, NavDropdown, Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
+import logo from '../../assets/header/logo192.png';
 import Loading from '../loading/Loading';
 import FavouriteCounter from '../partials/FavouriteCounter';
 import ProfileIcon from '../partials/ProfileIcon';
@@ -19,16 +20,22 @@ interface Props {
 
 const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
   return (
-		<Navbar collapseOnSelect expand="lg" bg="black" variant="dark">
+		<Navbar collapseOnSelect expand="lg" bg="white" className='shadow-sm p-2' variant="light">
 			<Container>
 				<LinkContainer to={'/'}>
 					<Navbar.Brand href="#home">
-						Rexlan E-Commerce
+						<Image src={logo} width={40} className='me-2' fluid/>
+							Rexlan
 					</Navbar.Brand>
 				</LinkContainer>
 				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 				<Navbar.Collapse id="responsive-navbar-nav">
 					<Nav className="me-auto">
+						<Nav.Link>
+							<LinkContainer to="/">
+								<p className='m-0'>Home</p>
+							</LinkContainer>
+						</Nav.Link>
 						<NavDropdown title="Categories" id="collasible-nav-dropdown">
 							{isLoading
 							  ? <Loading />
@@ -41,6 +48,11 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 							  ))
 							}
 						</NavDropdown>
+						<Nav.Link>
+							<LinkContainer to="/contacts">
+								<p className='m-0'>Contacts</p>
+							</LinkContainer>
+						</Nav.Link>
 					</Nav>
 					<Nav className='d-flex flex-row justify-content-center'>
 						<FavouriteCounter />
