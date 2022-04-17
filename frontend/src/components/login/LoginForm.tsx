@@ -29,7 +29,7 @@ const LoginForm: FC<Props> = ({ className }) => {
 
 			<PasswordInput />
 
-			<div className='d-flex justify-content-between'>
+			<div className='d-flex justify-content-between flex-wrap'>
 				<Form.Group className="mb-3" controlId="checkbox">
 					<Form.Check type="checkbox" label="Remember me" />
 				</Form.Group>

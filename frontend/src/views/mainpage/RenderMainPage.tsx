@@ -68,12 +68,20 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, menClothing, w
 							</Col>
 							<Col lg={6} md={12} className='d-flex flex-column justify-content-between'>
 								<CenteredItems className='m-3'>
-									<Image width={250} alt='for him' src={forHimImg}/>
-									<Image width={250} height={250} style={{ objectFit: 'contain' }} src={menClothing.image}/>
+									<div>
+										<Image width={'90%'} alt='for him' src={forHimImg}/>
+									</div>
+									<div>
+										<Image width={'90%'} height={300} style={{ objectFit: 'contain' }} src={menClothing.image}/>
+									</div>
 								</CenteredItems>
 								<CenteredItems className='m-3'>
-									<Image fluid width={250} alt='for her' src={forHerImg}/>
-									<Image width={250} height={250} style={{ objectFit: 'contain' }} src={womenClothing.image}/>
+									<div>
+										<Image width={'90%'} alt='for her' src={forHerImg}/>
+									</div>
+									<div>
+										<Image width={'90%'} height={300} style={{ objectFit: 'contain' }}src={womenClothing.image}/>
+									</div>
 								</CenteredItems>
 							</Col>
 						</Row>

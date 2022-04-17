@@ -12,10 +12,10 @@ interface Props {
 
 const InfoBar: FC<Props> = ({ textAreas }) => {
   return (
-		<Container>
+		<Container className='mb-2'>
 			<Row className='justify-content-center'>
 				{textAreas.map((textArea: TextAreaData, index: number) => (
-					<Col key={index} className='shadow mx-1'>
+					<Col key={index} className='shadow-sm mx-1'>
 						<CenteredItems flexColumn className='py-2'>
 							<FontAwesomeIcon icon={textArea.icon} size={'2x'} />
 							<div className='text-center mt-2'>

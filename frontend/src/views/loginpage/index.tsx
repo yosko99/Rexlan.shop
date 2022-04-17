@@ -22,7 +22,7 @@ const LoginPage = () => {
 							<p className='mt-3'>
 								Dont have an account?
 								<LinkContainer to='/register'>
-									<span role="button" className='ms-2'>
+									<span role="button" className='ms-2 text-right'>
 										<u>
 											Sign up for free!
 										</u>

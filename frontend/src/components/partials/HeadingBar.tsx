@@ -12,21 +12,15 @@ interface Props {
 }
 
 const HeadingBar: FC<Props> = ({ title, description }) => {
-  const squiggleLines = Array(4).fill(0).map((value: any, index: number) => (
-		<FontAwesomeIcon key={index} icon={faWaveSquare} beatFade/>
-  ));
-
   return (
-		<Container className='mt-5'>
+		<Container className='mt-3'>
 			<CenteredItems flexColumn>
 				<div className='d-flex'>
-					{squiggleLines}
-					<p className='fs-3 mb-0'>
+					<p className='fs-3 mb-0 text-nowrap'>
 						{title}
 					</p>
-					{squiggleLines}
 				</div>
-				<p className='fs-5 text-muted'>
+				<p className='fs-5 text-muted text-center'>
 					{description}
 				</p>
 			</CenteredItems>

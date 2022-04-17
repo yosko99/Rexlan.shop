@@ -11,7 +11,7 @@ const CustomCarousel = () => {
   ));
 
   return (
-    <Container className='mb-5'>
+    <Container className='mb-4'>
       <Carousel axis='vertical' showThumbs={false} emulateTouch showStatus={false}>
         {carouselItems}
       </Carousel>
