@@ -10,6 +10,7 @@ const PasswordInput = () => {
 				className='rounded-pill'
 				required
 				type="password"
+				name='password'
 				placeholder="Password"
 				pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,}$"
 			/>

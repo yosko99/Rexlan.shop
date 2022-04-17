@@ -7,6 +7,7 @@ const EmailInput = () => {
 		<Form.Group className="mb-3" controlId="email">
 			<Form.Label>Email address</Form.Label>
 			<Form.Control
+				name='email'
 				className='rounded-pill'
 				pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
 				required type="email"

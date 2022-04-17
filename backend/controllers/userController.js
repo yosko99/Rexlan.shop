@@ -30,10 +30,11 @@ exports.addUser = async (req, res) => {
     newUser.save((err) => {
       if (err) {
         return res.status(404).send(err);
+      } else {
+        res.status(200).send('User created');
       }
     });
   });
-  res.status(200).send('User created');
 };
 
 exports.loginUser = async (req, res) => {

@@ -9,8 +9,9 @@ const AddressInput = () => {
 				Your address
 			</Form.Label>
 			<Form.Control
+				name='address'
 				className='rounded-pill'
-				pattern='[a-zA-Z0-9]+'
+				pattern='[a-zA-Z0-9a-zA-Zа-яА-Я\s]+'
 				required type="text"
 				placeholder="Enter your address"
 			/>

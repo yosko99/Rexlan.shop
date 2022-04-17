@@ -9,8 +9,9 @@ const NameInput = () => {
 				Name
 			</Form.Label>
 			<Form.Control
+				name='name'
 				className='rounded-pill'
-				pattern='[a-zA-Z]+'
+				pattern='[a-zA-Zа-яА-Я\s]+'
 				required type="text"
 				placeholder="Enter name"
 			/>

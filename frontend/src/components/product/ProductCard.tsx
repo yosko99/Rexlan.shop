@@ -21,32 +21,32 @@ const ProductCardImg = styled.img`
 
 const ProductCard: FC<Props> = ({ product }) => {
   return (
-	<Card>
-		<CenteredItems>
-			<LinkContainer to={`/${product.category}/product/${product.id}`} role='button'>
-				<ProductCardImg src={product.image} />
-			</LinkContainer>
-		</CenteredItems>
-		<Card.Body>
-			<div className='d-flex justify-content-between'>
-				<small>
-					{product.category}
-				</small>
-				<FavouriteBtn productID={product.id}/>
-			</div>
-			<Card.Title>
-				{product.title}
-			</Card.Title>
-			<CustomRating
-				initialValue={product.rating.rate}
-				size={20}
-				className='mb-2'
-			/>
-			<Card.Text>
-			 {product.price.toFixed(2)} $
-			</Card.Text>
-		</Card.Body>
-	</Card>
+		<Card>
+			<CenteredItems>
+				<LinkContainer to={`/${product.category}/product/${product.id}`} role='button'>
+					<ProductCardImg src={product.image} />
+				</LinkContainer>
+			</CenteredItems>
+			<Card.Body>
+				<div className='d-flex justify-content-between'>
+					<small>
+						{product.category}
+					</small>
+					<FavouriteBtn productID={product.id}/>
+				</div>
+				<Card.Title>
+					{product.title}
+				</Card.Title>
+				<CustomRating
+					initialValue={product.rating.rate}
+					size={20}
+					className='mb-2'
+				/>
+				<Card.Text>
+				{product.price.toFixed(2)} $
+				</Card.Text>
+			</Card.Body>
+		</Card>
   );
 };
 
