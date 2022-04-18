@@ -16,37 +16,50 @@ interface Props {
 const ProductCardImg = styled.img`
 	width: 200px;
 	height: 200px;
+	transition: 0.5s ease-in-out;
 	object-fit: contain;
+	:hover {
+		width: 250px;
+	}
+`;
+
+const ProductCardBody = styled.div`
+	transition: 0.5s ease-in-out;
+	:hover {
+		box-shadow: 5px 5px lightgray;
+	}
 `;
 
 const ProductCard: FC<Props> = ({ product }) => {
   return (
-		<Card>
-			<CenteredItems>
-				<LinkContainer to={`/${product.category}/product/${product.id}`} role='button'>
-					<ProductCardImg src={product.image} />
-				</LinkContainer>
-			</CenteredItems>
-			<Card.Body>
-				<div className='d-flex justify-content-between'>
-					<small>
-						{product.category}
-					</small>
-					<FavouriteBtn productID={product.id}/>
-				</div>
-				<Card.Title>
-					{product.title}
-				</Card.Title>
-				<CustomRating
-					initialValue={product.rating.rate}
-					size={20}
-					className='mb-2'
-				/>
-				<Card.Text>
-				{product.price.toFixed(2)} $
-				</Card.Text>
-			</Card.Body>
-		</Card>
+		<ProductCardBody>
+			<Card>
+				<CenteredItems>
+					<LinkContainer to={`/${product.category}/product/${product.id}`} role='button'>
+						<ProductCardImg src={product.image} />
+					</LinkContainer>
+				</CenteredItems>
+				<Card.Body>
+					<div className='d-flex justify-content-between'>
+						<small>
+							{product.category}
+						</small>
+						<FavouriteBtn productID={product.id}/>
+					</div>
+					<Card.Title>
+						{product.title}
+					</Card.Title>
+					<CustomRating
+						initialValue={product.rating.rate}
+						size={20}
+						className='mb-2'
+					/>
+					<Card.Text>
+					{product.price.toFixed(2)} $
+					</Card.Text>
+				</Card.Body>
+			</Card>
+		</ProductCardBody>
   );
 };
 
