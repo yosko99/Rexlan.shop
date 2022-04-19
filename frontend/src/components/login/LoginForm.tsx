@@ -28,9 +28,6 @@ const LoginForm: FC<Props> = ({ className }) => {
 				data={formData}
 				setData={setFormData}
 				mutateURL={'/api/users/login'}
-				onErrorMsg={'User with this email does not exist.'}
-				onSuccessMsg={'You Have Successfully Logged in.'}
-				login
 				inputs={
 					<>
 						<EmailInput />

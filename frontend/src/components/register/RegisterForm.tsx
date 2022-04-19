@@ -33,8 +33,6 @@ const RegisterForm: FC<Props> = ({ className }) => {
         data={formData}
         setData={setFormData}
         mutateURL={'/api/users/'}
-        onErrorMsg={'User with this email already exists.'}
-        onSuccessMsg={'Your account has been successfully created.'}
         inputs={
           <>
             <EmailInput />

@@ -4,9 +4,10 @@ import { Navbar, Container, Nav, NavDropdown, Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import logo from '../../assets/header/logo192.png';
+import FavouriteCounter from '../icons/FavouriteCounter';
+import LoginIcon from '../icons/LoginIcon';
+import ProfileIcon from '../icons/ProfileIcon';
 import Loading from '../loading/Loading';
-import FavouriteCounter from '../partials/FavouriteCounter';
-import ProfileIcon from '../partials/ProfileIcon';
 import SearchBar from '../partials/SearchBar';
 
 interface CategoryData {
@@ -55,8 +56,9 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 						</Nav.Link>
 					</Nav>
 					<Nav className='d-flex flex-row justify-content-center'>
-						<FavouriteCounter />
+						<LoginIcon />
 						<ProfileIcon />
+						<FavouriteCounter />
 						<SearchBar />
 					</Nav>
 				</Navbar.Collapse>

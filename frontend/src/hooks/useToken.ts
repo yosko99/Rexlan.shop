@@ -1,15 +1,10 @@
 import { useState } from 'react';
 
-interface Token {
-	token: string;
-}
-
 const useToken = () => {
   const getToken = () => {
-    const tokenString = sessionStorage.getItem('token');
+    const tokenString = localStorage.getItem('token');
     if (tokenString !== null) {
-      const userToken = JSON.parse(tokenString);
-      return userToken.token;
+      return tokenString;
     }
 
     return null;
@@ -17,9 +12,15 @@ const useToken = () => {
 
   const [token, setToken] = useState(getToken());
 
-  const saveToken = (userToken: Token) => {
-    sessionStorage.setItem('token', JSON.stringify(userToken));
-    setToken(userToken.token);
+  const saveToken = (userToken: string | null) => {
+    // delete token from local storage
+    if (userToken === null) {
+      localStorage.removeItem('token');
+    } else {
+      localStorage.setItem('token', userToken);
+      setToken(userToken);
+    }
+    setToken(getToken());
   };
 
   return {

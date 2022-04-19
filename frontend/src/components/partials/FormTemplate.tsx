@@ -1,56 +1,53 @@
-import React, { useState, FC } from 'react';
+import React, { useState, FC, useContext } from 'react';
 
 import axios from 'axios';
 import { Form, Alert } from 'react-bootstrap';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
+import { TokenContext } from '../../context/TokenContext';
+
 interface Props {
 	className?: string;
 	data: object,
 	setData: React.Dispatch<any>;
 	mutateURL: string;
-	onErrorMsg: string;
-	onSuccessMsg: string;
 	inputs: React.ReactChild;
   login?: boolean;
 }
 
-const FormTemplate: FC<Props> = ({ login, className, data, setData, mutateURL, onErrorMsg, onSuccessMsg, inputs }) => {
-  const navigate = useNavigate();
-  const [validated, setValidated] = useState(false);
+interface ErrorResponse {
+  response: {
+    data: {
+      msg: string;
+    }
+  }
+}
+
+const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs }) => {
   const [alert, setAlert] = useState<React.ReactNode>();
+  const [validated, setValidated] = useState(false);
+  const token = useContext(TokenContext);
+  const navigate = useNavigate();
 
   const mutation = useMutation(data => {
     return axios.post(mutateURL, data);
   }, {
-    onError: () => {
+    onError: (err: ErrorResponse) => {
+      const errorMsg = err.response.data.msg;
+
       setAlert(<Alert
         className='mt-3 rounded-pill text-center'
-        variant='danger'>{onErrorMsg}</Alert>);
+        variant='danger'>{errorMsg}</Alert>);
     },
     onSuccess: (data) => {
-      if (login) {
-        if (data.data) {
-          setAlert(<Alert
-            className='mt-3 rounded-pill text-center'
-            variant='success'>{onSuccessMsg}</Alert>);
-          setTimeout(() => {
-            navigate('/');
-          }, 2000);
-        } else {
-          setAlert(<Alert
-            className='mt-3 rounded-pill text-center'
-            variant='danger'>Password does not match registered email.</Alert>);
-        }
-      } else {
-        setAlert(<Alert
-          className='mt-3 rounded-pill text-center'
-          variant='success'>{onSuccessMsg}</Alert>);
-        setTimeout(() => {
-          navigate('/');
-        }, 2000);
-      }
+      token!.setToken(data.data.token);
+      setAlert(<Alert
+        className='mt-3 rounded-pill text-center'
+        variant='success'>{data.data.msg}</Alert>);
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
     }
   });
 

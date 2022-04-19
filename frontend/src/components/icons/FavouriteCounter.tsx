@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from 'react';
 
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LinkContainer } from 'react-router-bootstrap';
 
@@ -25,10 +25,13 @@ const FavouriteCounter: FC = () => {
   }, []);
 
   return (
-		<LinkContainer to='/favourites'>
-			<CenteredItems role={'button'} >
-				<FontAwesomeIcon size='lg' className='py-2' icon={faHeart} color='black'/>
-				<span className='text-black ps-2 pe-2'>{counter}</span>
+		<LinkContainer className='me-3' to='/favourites'>
+			<CenteredItems role={'button'} flexColumn>
+        <div>
+          <FontAwesomeIcon size='lg' className='' icon={faHeart} color='black'/>
+          <span className='text-black ps-2 pe-2'>{counter}</span>
+        </div>
+        <span className='text-center'>Favourites</span>
 			</CenteredItems>
 		</LinkContainer>
   );

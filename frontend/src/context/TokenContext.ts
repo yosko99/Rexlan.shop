@@ -1,3 +1,8 @@
-import { createContext } from 'react';
+import React, { createContext } from 'react';
 
-export const TokenContext = createContext(null);
+interface TokenType {
+	token: string | null;
+	setToken: (token: string | null) => void;
+}
+
+export const TokenContext = createContext<TokenType | null>(null);
