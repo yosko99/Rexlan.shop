@@ -4,6 +4,7 @@ import { Navbar, Container, Nav, NavDropdown, Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import logo from '../../assets/header/logo192.png';
+import CartIcon from '../icons/CartIcon';
 import FavouriteCounter from '../icons/FavouriteCounter';
 import LoginIcon from '../icons/LoginIcon';
 import ProfileIcon from '../icons/ProfileIcon';
@@ -55,10 +56,13 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 							</LinkContainer>
 						</Nav.Link>
 					</Nav>
-					<Nav className='d-flex flex-row justify-content-center'>
-						<LoginIcon />
-						<ProfileIcon />
-						<FavouriteCounter />
+					<Nav className='d-flex justify-content-center'>
+						<div className='d-flex justify-content-center'>
+							<LoginIcon />
+							<ProfileIcon />
+							<FavouriteCounter />
+							<CartIcon />
+						</div>
 						<SearchBar />
 					</Nav>
 				</Navbar.Collapse>

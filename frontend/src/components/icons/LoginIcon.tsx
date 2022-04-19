@@ -18,7 +18,9 @@ const LoginIcon = () => {
 		<LinkContainer onClick={() => handleClick()} to={token!.token !== null ? '/' : '/login'}>
 			<CenteredItems role="button" className='me-3 text-nowrap'>
 				<FontAwesomeIcon className='me-2' icon={token!.token !== null ? faSignOut : faSignIn }/>
-				{token!.token !== null ? 'Sign out' : 'Login'}
+				<small>
+					{token!.token !== null ? 'Sign out' : 'Login'}
+				</small>
 			</CenteredItems>
 		</LinkContainer>
   );

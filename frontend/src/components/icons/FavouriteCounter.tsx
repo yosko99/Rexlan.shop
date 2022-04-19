@@ -31,7 +31,7 @@ const FavouriteCounter: FC = () => {
           <FontAwesomeIcon size='lg' className='' icon={faHeart} color='black'/>
           <span className='text-black ps-2 pe-2'>{counter}</span>
         </div>
-        <span className='text-center'>Favourites</span>
+        <small className='text-center'>Favourites</small>
 			</CenteredItems>
 		</LinkContainer>
   );

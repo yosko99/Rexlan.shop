@@ -13,10 +13,9 @@ const ProfileIcon = () => {
   return (
 		<LinkContainer className='me-3' role='button' to={token!.token !== null ? '/dashboard' : '/login'}>
 			<CenteredItems flexColumn>
-				<div>
-					<FontAwesomeIcon icon={faUser} className=''/>
+				<div><FontAwesomeIcon icon={faUser}/>
 				</div>
-				Profile
+				<small>Profile</small>
 			</CenteredItems>
 		</LinkContainer>
   );
