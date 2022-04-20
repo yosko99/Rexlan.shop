@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 import logo from '../../assets/header/logo192.png';
 import CartIcon from '../icons/CartIcon';
-import FavouriteCounter from '../icons/FavouriteCounter';
+import FavouriteIcon from '../icons/FavouriteIcon';
 import LoginIcon from '../icons/LoginIcon';
 import ProfileIcon from '../icons/ProfileIcon';
 import Loading from '../loading/Loading';
@@ -60,7 +60,7 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 						<div className='d-flex justify-content-center'>
 							<LoginIcon />
 							<ProfileIcon />
-							<FavouriteCounter />
+							<FavouriteIcon />
 							<CartIcon />
 						</div>
 						<SearchBar />

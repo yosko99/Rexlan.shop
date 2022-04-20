@@ -6,7 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 import CenteredItems from '../../styles/CenteredItems';
 
-const FavouriteCounter: FC = () => {
+const FavouriteIcon: FC = () => {
   const [counter, setCounter] = useState<number>();
 
   const setCounterNumber = () => {
@@ -37,4 +37,4 @@ const FavouriteCounter: FC = () => {
   );
 };
 
-export default FavouriteCounter;
+export default FavouriteIcon;

@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import FreeShippingBar from '../../components/partials/FreeShippingBar';
+import AddToCart from '../../components/product/AddToCart';
 import CustomRating from '../../components/product/CustomRating';
 import FavouriteBtn from '../../components/product/favouriteButton/FavouriteBtn';
 import { Product } from '../../types/productTypes';
@@ -52,9 +53,7 @@ const RenderPDP: FC<Props> = ({ product }) => {
 							<p className='text-muted mb-5'>
 								{product.description}
 							</p>
-								<span role='button' className='fs-4 text-uppercase bg-black text-white p-3'>
-									Add to cart
-								</span>
+								<AddToCart productID={product.id} />
 								<div>
 									<FavouriteBtn
 										size={2}

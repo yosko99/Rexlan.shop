@@ -17,6 +17,10 @@ const userSchema = Schema({
   address: {
     type: String,
     required: true
+  },
+  cartID: {
+    type: String,
+    required: true
   }
 }, {
   timestamps: true
