@@ -53,7 +53,7 @@ const RenderPDP: FC<Props> = ({ product }) => {
 							<p className='text-muted mb-5'>
 								{product.description}
 							</p>
-								<AddToCart productID={product.id} />
+								<AddToCart product={product} />
 								<div>
 									<FavouriteBtn
 										size={2}

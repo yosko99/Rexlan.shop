@@ -3,16 +3,19 @@ import React, { FC } from 'react';
 import axios from 'axios';
 import { useMutation } from 'react-query';
 
+import { Product } from '../../types/productTypes';
+import AddedToCartModal from '../modal/AddedToCartModal';
+
 interface MutateData {
 	productID: String;
 	cartID: String | null;
 }
 
 interface Props {
-	productID: String;
+	product: Product
 }
 
-const AddToCart: FC<Props> = ({ productID }) => {
+const AddToCart: FC<Props> = ({ product }) => {
   const mutation = useMutation((data) => {
     return axios.post('/api/carts', data);
   }, {
@@ -31,7 +34,7 @@ const AddToCart: FC<Props> = ({ productID }) => {
     }
 
     const mutateData: MutateData = {
-      productID,
+      productID: product.id,
       cartID
     };
 
@@ -39,9 +42,7 @@ const AddToCart: FC<Props> = ({ productID }) => {
   };
 
   return (
-		<span role='button' onClick={handleClick} className='fs-4 text-uppercase bg-black text-white p-3'>
-			Add to cart
-		</span>
+      <AddedToCartModal onClick={handleClick} product={product}/>
   );
 };
 
