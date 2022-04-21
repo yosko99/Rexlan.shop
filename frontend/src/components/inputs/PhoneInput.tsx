@@ -2,21 +2,21 @@ import React from 'react';
 
 import { Form } from 'react-bootstrap';
 
-const NameInput = () => {
+const PhoneInput = () => {
   return (
-		<Form.Group className="mb-3" controlId="name">
+		<Form.Group className="mb-3" controlId="phone">
 			<Form.Label>
-				Name
+				Your phone
 			</Form.Label>
 			<Form.Control
-				name='name'
+				name='phone'
 				className='rounded-pill'
-				pattern='[a-zA-Zа-яА-Я\s]+'
+				pattern='\+\d{12}'
 				required type="text"
-				placeholder="Steven Wilson"
+				placeholder="+359123456789"
 			/>
 		</Form.Group>
   );
 };
 
-export default NameInput;
+export default PhoneInput;

@@ -18,6 +18,10 @@ const userSchema = Schema({
     type: String,
     required: true
   },
+  phone: {
+    type: String,
+    required: true
+  },
   cartID: {
     type: String
   }

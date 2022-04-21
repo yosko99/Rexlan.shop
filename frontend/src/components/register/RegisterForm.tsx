@@ -6,6 +6,7 @@ import AddressInput from '../inputs/AddressInput';
 import EmailInput from '../inputs/EmailInput';
 import NameInput from '../inputs/NameInput';
 import PasswordInput from '../inputs/PasswordInput';
+import PhoneInput from '../inputs/PhoneInput';
 import FormTemplate from '../partials/FormTemplate';
 
 interface Props {
@@ -17,6 +18,7 @@ interface RegisterData {
   name: string;
   password: string;
   address: string;
+  phone: string;
 }
 
 const RegisterForm: FC<Props> = ({ className }) => {
@@ -24,7 +26,8 @@ const RegisterForm: FC<Props> = ({ className }) => {
     email: '',
     name: '',
     password: '',
-    address: ''
+    address: '',
+    phone: ''
   });
 
   return (
@@ -38,6 +41,7 @@ const RegisterForm: FC<Props> = ({ className }) => {
             <EmailInput />
             <NameInput />
             <AddressInput />
+            <PhoneInput />
             <PasswordInput />
             <Button variant="outline-primary rounded-pill" className='w-100 mt-3' type="submit">
               Register

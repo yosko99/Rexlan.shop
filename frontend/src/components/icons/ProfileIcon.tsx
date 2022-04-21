@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { faUser } from '@fortawesome/free-regular-svg-icons';
+import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LinkContainer } from 'react-router-bootstrap';
 
@@ -13,8 +13,7 @@ const ProfileIcon = () => {
   return (
 		<LinkContainer className='me-3' role='button' to={token!.token !== null ? '/dashboard' : '/login'}>
 			<CenteredItems flexColumn>
-				<div><FontAwesomeIcon icon={faUser}/>
-				</div>
+				<div><FontAwesomeIcon icon={faCircleUser}/></div>
 				<small>Profile</small>
 			</CenteredItems>
 		</LinkContainer>

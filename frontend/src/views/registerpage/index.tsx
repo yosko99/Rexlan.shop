@@ -18,6 +18,7 @@ const RegisterPage = () => {
 								Please enter your details
 							</p>
 							<RegisterForm className='w-100'/>
+							<small className='text-muted mt-2'>Provided data will be used for a faster checkout.</small>
 						</Col>
 					<Col lg={7}>
 						<Image className='rounded' width={'100%'} height={'100%'} fluid src={registerImg} />

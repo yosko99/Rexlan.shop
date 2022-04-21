@@ -11,7 +11,7 @@ const EmailInput = () => {
 				className='rounded-pill'
 				pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
 				required type="email"
-				placeholder="Enter email"
+				placeholder="steven@gmail.com"
 			/>
 			<Form.Text className="text-muted">
 				We'll never share your email with anyone else.

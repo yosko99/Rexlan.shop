@@ -12,7 +12,7 @@ exports.getUsers = async (req, res) => {
 };
 
 exports.addUser = async (req, res) => {
-  const { email, name, password, address, cartID } = req.body;
+  const { email, name, password, address, phone, cartID } = req.body;
 
   const checkRegistered = await User.findOne({ email });
 
@@ -31,7 +31,8 @@ exports.addUser = async (req, res) => {
       email,
       password: hash,
       name,
-      address
+      address,
+      phone
     });
     newUser.save(async (err) => {
       if (err) {

@@ -13,7 +13,7 @@ const AddressInput = () => {
 				className='rounded-pill'
 				pattern='[a-zA-Z0-9a-zA-Zа-яА-Я\s]+'
 				required type="text"
-				placeholder="Enter your address"
+				placeholder="Main Street 119"
 			/>
 		</Form.Group>
   );

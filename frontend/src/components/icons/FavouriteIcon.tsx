@@ -25,8 +25,8 @@ const FavouriteIcon: FC = () => {
   }, []);
 
   return (
-		<LinkContainer className='me-3' to='/favourites'>
-			<CenteredItems role={'button'} flexColumn>
+		<LinkContainer role={'button'} className='me-3' to='/favourites'>
+			<CenteredItems flexColumn>
         <div>
           <FontAwesomeIcon size='lg' className='' icon={faHeart} color='black'/>
           <span className='text-black ps-2 pe-2'>{counter}</span>
