@@ -11,7 +11,10 @@ const LoginIcon = () => {
   const token = useContext(TokenContext);
 
   const handleClick = () => {
-		token!.setToken(null);
+    if (token!.token !== null) {
+			token!.setToken(null);
+			localStorage.removeItem('cart');
+    }
   };
 
   return (

@@ -6,7 +6,10 @@ exports.addCart = async (req, res) => {
 
   const checkCart = (cartID !== null) ? await Cart.findOne({ _id: cartID }) : null;
 
-  // Check if cart id exists
+  // Check if cart with provdided id exists
+  // If exists check if the prodcuts exists in the cart
+  // Otherwsie create new cart and assign the new prodcut
+
   if (checkCart !== null) {
     // Check if item is already in cart
     let savedCart;
@@ -40,6 +43,7 @@ exports.addCart = async (req, res) => {
       });
 
       const savedCart = await newCart.save();
+
       return res.status(200).json({
         cartID: savedCart._id
       });

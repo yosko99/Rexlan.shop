@@ -1,7 +1,7 @@
 import React, { useState, FC, useContext } from 'react';
 
 import axios from 'axios';
-import { Form, Alert } from 'react-bootstrap';
+import { Form, Alert, Spinner } from 'react-bootstrap';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,7 +26,7 @@ interface ErrorResponse {
 
 const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs }) => {
   const [alert, setAlert] = useState<React.ReactNode>();
-  const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState<boolean>(false);
   const token = useContext(TokenContext);
   const navigate = useNavigate();
 
@@ -41,21 +41,35 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs }
         variant='danger'>{errorMsg}</Alert>);
     },
     onSuccess: (data) => {
+      // Set token and cartID to local storage
       token!.setToken(data.data.token);
+      localStorage.setItem('cart', data.data.cartID);
+
+      // Login successfull
       setAlert(<Alert
         className='mt-3 rounded-pill text-center'
-        variant='success'>{data.data.msg}</Alert>);
+        variant='success'>
+          {data.data.msg}
+          <Spinner animation='border' size='sm' className='ms-2' />
+        </Alert>);
       setTimeout(() => {
         navigate('/');
-      }, 2000);
+      }, 1000);
     }
   });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const form = event.currentTarget;
+    const localStorageCart = localStorage.getItem('cart');
+    let cartID: String | null = null;
+
+    if (localStorageCart !== null) {
+      cartID = localStorageCart;
+    }
+
     event.preventDefault();
     if (form.checkValidity()) {
-      mutation.mutate(data as any);
+      mutation.mutate({ ...data, cartID } as any);
     }
     setValidated(true);
   };
