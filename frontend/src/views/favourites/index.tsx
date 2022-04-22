@@ -19,7 +19,7 @@ const FavouritesPage = () => {
   const parsedLiked = JSON.parse(liked);
   const fetchArr = parsedLiked.map((likedID: string) => {
     return {
-      queryKey: likedID,
+      queryKey: `product-${likedID}`,
       link: `/api/products/${likedID}`
     };
   });

@@ -1,4 +1,5 @@
 const Cart = require('../models/cartModel');
+const User = require('../models/userModel');
 
 exports.addCart = async (req, res) => {
   const productID = req.body.productID;
@@ -52,5 +53,47 @@ exports.addCart = async (req, res) => {
         msg: error.message
       });
     }
+  }
+};
+
+exports.getCart = async (req, res) => {
+  const { cartID } = req.params;
+
+  // No cart id provided
+  if (cartID === 'null') {
+    return res.status(200).json({
+      err: 'No items in cart'
+    });
+  }
+
+  const cart = await Cart.findOne({ _id: cartID });
+
+  // Cart id provided but not products in cart
+  if (cart.products.length === 0) {
+    return res.status(200).json({
+      err: 'No items in cart'
+    });
+  }
+
+  // Cart is not linked to user (cart is anonymous)
+  if (!cart.isLinked) {
+    return res.status(200).json({
+      products: cart.products,
+      defaultValues: null
+    });
+  } else { // Cart is linked to user
+    const userID = cart.userID;
+    const user = await User.findOne({ _id: userID });
+    const { phone, address, name } = user;
+
+    // Send user details and cart items
+    return res.status(200).json({
+      products: cart.products,
+      defaultValues: {
+        phone,
+        address,
+        name
+      }
+    });
   }
 };

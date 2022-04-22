@@ -8,6 +8,7 @@ import CompanyLogos from './components/partials/CompanyLogos';
 import { TokenContext } from './context/TokenContext';
 import useToken from './hooks/useToken';
 import GlobalCSS from './styles/global.css';
+import CartPage from './views/cart';
 import CategoryProductsPage from './views/categories';
 import FavouritesPage from './views/favourites';
 import LoginPage from './views/loginpage';
@@ -31,6 +32,7 @@ function App () {
             <Route path='/:category/product/:id' element={<PDPPage />} />
             <Route path='/favourites' element={<FavouritesPage />} />
             <Route path='/login' element={<LoginPage />} />
+            <Route path='/cart' element={<CartPage />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/*' element={<Page404 />} />
           </Routes>

@@ -9,4 +9,9 @@ const cartController = require('../controllers/cartController');
 // @access Public
 router.post('/', asyncHandler(cartController.addCart));
 
+// @desc Fetch the products of cart if there are any
+// @route GET /api/carts/:cartID
+// @access Public
+router.get('/:cartID', asyncHandler(cartController.getCart));
+
 module.exports = router;
