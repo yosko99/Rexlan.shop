@@ -8,7 +8,7 @@ const EmailInput = () => {
 			<Form.Label>Email address</Form.Label>
 			<Form.Control
 				name='email'
-				className='rounded-pill'
+				className='shadow-sm'
 				pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
 				required type="email"
 				placeholder="steven@gmail.com"

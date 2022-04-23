@@ -7,7 +7,7 @@ const PasswordInput = () => {
 		<Form.Group className="mb-3" controlId="password">
 			<Form.Label>Password <span className='text-muted'>(min 8 chars)</span></Form.Label>
 			<Form.Control
-				className='rounded-pill'
+				className='shadow-sm'
 				required
 				type="password"
 				name='password'

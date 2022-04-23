@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import axios from 'axios';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 
 import { Product } from '../../types/productTypes';
 import AddedToCartModal from '../modal/AddedToCartModal';
@@ -16,16 +16,12 @@ interface Props {
 }
 
 const AddToCart: FC<Props> = ({ product }) => {
-  const queryClient = useQueryClient();
   const mutation = useMutation((data) => {
     return axios.post('/api/carts', data);
   }, {
     onSuccess: (data) => {
       const cartID = data.data.cartID;
       localStorage.setItem('cart', cartID);
-
-      queryClient.invalidateQueries('cart');
-      queryClient.refetchQueries('cart');
     }
   });
 

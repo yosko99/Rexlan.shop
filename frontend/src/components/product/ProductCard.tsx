@@ -16,24 +16,20 @@ interface Props {
 const ProductCardImg = styled.img`
 	width: 200px;
 	height: 200px;
-	transition: 0.5s ease-in-out;
 	object-fit: contain;
-	:hover {
-		width: 250px;
-	}
 `;
 
 const ProductCardBody = styled.div`
 	transition: 0.5s ease-in-out;
 	:hover {
-		box-shadow: 5px 5px lightgray;
+		box-shadow: 5px 5px 5px lightgray;
 	}
 `;
 
 const ProductCard: FC<Props> = ({ product }) => {
   return (
 		<ProductCardBody>
-			<Card>
+			<Card style={{ border: 'none' }}>
 				<CenteredItems>
 					<LinkContainer to={`/${product.category}/product/${product.id}`} role='button'>
 						<ProductCardImg src={product.image} />

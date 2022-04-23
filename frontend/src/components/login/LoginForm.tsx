@@ -40,9 +40,6 @@ const LoginForm: FC<Props> = ({ className }) => {
 								<p role='button'><u>Forgot your password?</u></p>
 							</LinkContainer>
 						</div>
-						<Button variant="outline-primary rounded-pill" className='w-100' type="submit">
-							Login
-						</Button>
 					</>
 				}
 			/>

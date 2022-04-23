@@ -1,7 +1,7 @@
 import React, { useState, FC, useContext } from 'react';
 
 import axios from 'axios';
-import { Form, Alert, Spinner } from 'react-bootstrap';
+import { Form, Alert, Spinner, Button } from 'react-bootstrap';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,7 +13,6 @@ interface Props {
 	setData: React.Dispatch<any>;
 	mutateURL: string;
 	inputs: React.ReactChild;
-  login?: boolean;
 }
 
 interface ErrorResponse {
@@ -93,6 +92,9 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs }
 			<>
 				{inputs}
 			</>
+      <Button variant="outline-primary" className='w-100 mt-3' type="submit">
+							Submit
+      </Button>
 
       {(mutation.isError || mutation.isSuccess) && <>{ alert }</>
       }

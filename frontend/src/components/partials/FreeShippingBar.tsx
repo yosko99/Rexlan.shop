@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const FreeShippingBar = () => {
   return (
 		<p className='text-center bg-black text-white shadow-sm p-2 text-uppercase'>
-			Free shipping just now
+			Free shipping with order over $99 just now
 			<FontAwesomeIcon className='ms-2' fade icon={faTruck} />
 		</p>
   );

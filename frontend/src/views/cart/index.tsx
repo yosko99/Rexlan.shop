@@ -1,30 +1,60 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+import axios from 'axios';
+
+import EmptyCart from '../../components/cart/EmptyCart';
 import Loading from '../../components/loading/Loading';
-import EmptyCart from '../../components/partials/EmptyCart';
-import useFetch from '../../hooks/useFetch';
+import { DefaultValues } from '../../types/orderTypes';
+import { CartProductType } from '../../types/productTypes';
 import RenderCartPage from './RenderCartPage';
+
+interface ResponseData {
+  err: String;
+  cartProducts: CartProductType[];
+  defaultValues: DefaultValues | null;
+}
 
 const CartPage = () => {
   const localStorageCart = localStorage.getItem('cart');
   const cartID = localStorageCart === null ? 'null' : localStorageCart;
+  const [loading, setLoading] = useState(true);
+  const [cartData, setCartData] = useState<ResponseData>({
+    err: '',
+    cartProducts: [],
+    defaultValues: {
+      phone: '',
+      address: '',
+      name: ''
+    }
+  });
 
-  const { isLoading, data } = useFetch('cart', `/api/carts/${cartID}`);
+  // Fetch cart items with provided cart if there is any
+  useEffect(() => {
+    axios.get(`/api/carts/${cartID}`).then((data) => {
+      const { err, products: cartProducts, defaultValues } = data.data;
+      setCartData({
+        err,
+        cartProducts,
+        defaultValues
+      });
+      setLoading(false);
+    });
+  }, []);
 
-  if (isLoading) {
+  if (loading) {
     return <Loading />;
   }
 
   // No items in cart
-  if (data.err !== undefined) {
+  if (cartData.err !== undefined) {
     return <EmptyCart />;
   }
 
   return (
     <>
       <RenderCartPage
-        products={data.products}
-        defaultValues={data.defaultValues}
+        cartProducts={cartData.cartProducts}
+        defaultValues={cartData.defaultValues}
       />
     </>
   );

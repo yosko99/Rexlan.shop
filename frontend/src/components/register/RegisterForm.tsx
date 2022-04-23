@@ -43,9 +43,6 @@ const RegisterForm: FC<Props> = ({ className }) => {
             <AddressInput />
             <PhoneInput />
             <PasswordInput />
-            <Button variant="outline-primary rounded-pill" className='w-100 mt-3' type="submit">
-              Register
-            </Button>
           </>
         }
       />

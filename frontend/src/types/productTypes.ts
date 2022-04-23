@@ -13,5 +13,5 @@ export interface Product {
 
 export interface CartProductType {
   productID: string;
-  productQuantity: Number;
+  productQuantity: number;
 }
