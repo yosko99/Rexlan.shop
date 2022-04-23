@@ -1,7 +1,7 @@
 const Cart = require('../models/cartModel');
 const User = require('../models/userModel');
 
-exports.addCart = async (req, res) => {
+exports.addProductToCart = async (req, res) => {
   const productID = req.body.productID;
   const cartID = req.body.cartID;
 
@@ -15,13 +15,13 @@ exports.addCart = async (req, res) => {
     // Check if item is already in cart
     let savedCart;
 
-    const incrementQuantity = checkCart.products.find((product) => (
+    const product = checkCart.products.find((product) => (
       product.productID === productID
     ));
 
     // Already in cart (increment quantity)
-    if (incrementQuantity !== undefined) {
-      incrementQuantity.productQuantity++;
+    if (product !== undefined) {
+      product.productQuantity++;
       savedCart = await checkCart.save();
     } else { // Add new item to cart
       checkCart.products.push({

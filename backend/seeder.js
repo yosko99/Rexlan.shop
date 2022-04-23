@@ -1,8 +1,10 @@
+const deliveries = require('./data/deliveries.json');
 const categories = require('./data/categories.json');
 const products = require('./data/products.json');
 
 const Category = require('./models/categoryModel');
 const Product = require('./models/productModel');
+const Delivery = require('./models/deliveryModel');
 
 const connectDB = require('./config/db');
 require('dotenv').config();
@@ -13,9 +15,11 @@ const importData = async () => {
   try {
     await Product.deleteMany();
     await Category.deleteMany();
+    await Delivery.deleteMany();
 
     await Product.insertMany(products);
     await Category.insertMany(categories);
+    await Delivery.insertMany(deliveries);
 
     console.log('Data imported');
     process.exit();
@@ -29,6 +33,7 @@ const destroyData = async () => {
   try {
     await Product.deleteMany();
     await Category.deleteMany();
+    await Delivery.deleteMany();
 
     console.log('Data destroyed');
     process.exit();
