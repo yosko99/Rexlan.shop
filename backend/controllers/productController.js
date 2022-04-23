@@ -3,10 +3,7 @@ const Product = require('../models/productModel');
 exports.getProducts = async (req, res) => {
   let products;
   if (req.query.qty !== undefined) {
-    products = await Product.aggregate([
-      {
-        $sample: { size: Number(req.query.qty) }
-      }]);
+    products = await Product.find({}).limit(req.query.qty);
   } else {
     products = await Product.find({});
   }

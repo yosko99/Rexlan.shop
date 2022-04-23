@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import { Product, CartProductType } from '../../types/productTypes';
 import DeliveryPrice from './DeliveryPrice';
+import RemoveProduct from './RemoveProduct';
 
 interface Props {
 	products: Product[];
@@ -52,7 +53,7 @@ const CartOrder: FC<Props> = ({ products, cartProducts }) => {
 							<p>{product.title}</p>
 							<p>${product.price} x {cartProducts[index].productQuantity}</p>
 							<div className='d-flex justify-content-end'>
-								<small role='button' className='text-muted text-right'>Remove item</small>
+							<RemoveProduct productID={product.id} />
 							</div>
 						</Col>
 						<hr className='my-2'/>

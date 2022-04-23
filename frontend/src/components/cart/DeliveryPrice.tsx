@@ -15,7 +15,8 @@ const DeliveryPrice: FC<Props> = ({ totalPrice, className }) => {
 					<del className='text-muted me-2'>$20</del>
 					FREE
 				</p>
-				  : { totalPrice }}
+				  : totalPrice
+				}
 			</div>
 		</div>
   );

@@ -97,3 +97,35 @@ exports.getCart = async (req, res) => {
     });
   }
 };
+
+exports.deleteProductFromCart = async (req, res) => {
+  const { cartID, productID } = req.body;
+  const cart = await Cart.findOne({ _id: cartID });
+
+  if (cart === null) {
+    return res.status(404).json({
+      msg: 'Cant find cart with provided ID'
+    });
+  }
+
+  const filteredProducts = [];
+
+  cart.products.forEach((product) => {
+    if (product.productID === productID) {
+      // Decrement quantity
+      if (product.productQuantity > 1) {
+        product.productQuantity--;
+        filteredProducts.push(product);
+      }
+    } else {
+      filteredProducts.push(product);
+    }
+  });
+
+  cart.products = filteredProducts;
+  await cart.save();
+
+  return res.status(200).json({
+    msg: 'Product removed'
+  });
+};

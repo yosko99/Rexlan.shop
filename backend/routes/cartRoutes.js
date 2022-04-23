@@ -14,4 +14,9 @@ router.post('/', asyncHandler(cartController.addCart));
 // @access Public
 router.get('/:cartID', asyncHandler(cartController.getCart));
 
+// @desc Delete/decrement product from cart
+// @route DELETE /api/carts/product
+// @access Public
+router.delete('/product', asyncHandler(cartController.deleteProductFromCart));
+
 module.exports = router;

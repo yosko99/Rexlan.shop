@@ -9,7 +9,7 @@ interface ReturnTypes {
 	data: any;
 }
 
-const useFetch = (queryKey: string, url: string): ReturnTypes => {
+const useFetch = (queryKey: string | string[], url: string): ReturnTypes => {
   const getData = async () => {
     return await axios.get(url)
       .then((response) => response.data);
