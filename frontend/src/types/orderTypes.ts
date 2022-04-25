@@ -1,7 +1,10 @@
 export interface OrderData {
-  phone: String;
-  address: String;
-  name: String;
+  phone: string;
+  address: string;
+  name: string;
+	city: string;
+	zipcode: number;
+	delivery: string;
 }
 
 export interface DefaultValues {

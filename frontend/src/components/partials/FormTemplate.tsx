@@ -53,7 +53,7 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs }
         </Alert>);
       setTimeout(() => {
         navigate('/');
-      }, 1000);
+      }, 500);
     }
   });
 

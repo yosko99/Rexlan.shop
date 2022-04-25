@@ -72,7 +72,6 @@ const RenderPDP: FC<Props> = ({ product }) => {
 				<p className='text-center mt-3'>
 					Lorem ipsum dolor sit Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab voluptatibus nostrum, quia adipisci minus aut nemo temporibus eveniet quaerat iusto voluptatem dolorem corrupti illum, dolor doloremque? Quae nemo culpa reiciendis. consectetur adipisicing elit. Dolor est ea sint commodi, dolorem quia sunt, accusamus iste vel quos tempora, dolorum velit neque incidunt odio quo suscipit eum sapiente!
 				</p>
-
 			</Container>
 		</>
   );

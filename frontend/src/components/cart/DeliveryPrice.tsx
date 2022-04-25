@@ -1,21 +1,24 @@
 import React, { FC } from 'react';
 
 interface Props {
-	totalPrice: number;
+	deliveryPrice: number;
 	className?: string;
+	totalPriceFromProducts: number;
 }
 
-const DeliveryPrice: FC<Props> = ({ totalPrice, className }) => {
+const DeliveryPrice: FC<Props> = ({ totalPriceFromProducts, deliveryPrice = 0, className }) => {
+  const freeDeliverAtPrice = 99;
+
   return (
 		<div className={`d-flex justify-content-between ${className}`}>
 			<p>Delivery</p>
 			<div className='d-flex'>
-				{totalPrice > 99
+				{totalPriceFromProducts > freeDeliverAtPrice
 				  ? <p>
-					<del className='text-muted me-2'>$20</del>
+					<del className='text-muted me-2'>${deliveryPrice}</del>
 					FREE
 				</p>
-				  : totalPrice
+				  : <>${deliveryPrice}</>
 				}
 			</div>
 		</div>

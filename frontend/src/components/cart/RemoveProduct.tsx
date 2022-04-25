@@ -9,6 +9,7 @@ interface Props {
 
 const RemoveProduct: FC<Props> = ({ productID }) => {
   const queryClient = useQueryClient();
+
   const handleRemove = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const productID = e.currentTarget.id;
 
@@ -21,6 +22,7 @@ const RemoveProduct: FC<Props> = ({ productID }) => {
       queryClient.refetchQueries('cart');
     });
   };
+
   return (
 		<small
 			role='button'

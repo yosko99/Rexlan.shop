@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { Navigate, useParams } from 'react-router-dom';
 
@@ -8,10 +8,6 @@ import RenderPDP from './RenderPDP';
 
 const PDPPage = () => {
   const { id } = useParams();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   const {
     isLoading,

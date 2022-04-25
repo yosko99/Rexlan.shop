@@ -1,6 +1,6 @@
 import React, { useState, FC } from 'react';
 
-import { Form, Button } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import EmailInput from '../inputs/EmailInput';

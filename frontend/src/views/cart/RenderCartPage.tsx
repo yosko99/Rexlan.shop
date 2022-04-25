@@ -3,9 +3,10 @@ import React, { FC, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Navigate } from 'react-router-dom';
 
-import CartOrder from '../../components/cart/CartOrder';
+import CartOrderBox from '../../components/cart/CartOrderBox';
 import AddressInput from '../../components/inputs/AddressInput';
 import CityInput from '../../components/inputs/CityInput';
+import DeliveryInput from '../../components/inputs/DeliveryInput';
 import NameInput from '../../components/inputs/NameInput';
 import PhoneInput from '../../components/inputs/PhoneInput';
 import ZipInput from '../../components/inputs/ZipInput';
@@ -14,6 +15,7 @@ import FormTemplate from '../../components/partials/FormTemplate';
 import useMultipleFetch from '../../hooks/useMultipleFetch';
 import { DefaultValues, OrderData } from '../../types/orderTypes';
 import { CartProductType } from '../../types/productTypes';
+import calculateTotalPrice from './calculateTotalPrice';
 
 interface Props {
   cartProducts: CartProductType[] ;
@@ -26,11 +28,17 @@ interface QueryAttributes {
 }
 
 const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
+  const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
+
   const [formData, setFormData] = useState<OrderData>({
     phone: '',
     address: '',
-    name: ''
+    name: '',
+    zipcode: 0,
+    city: '',
+    delivery: ''
   });
+
   const queries: QueryAttributes[] = cartProducts.map((product) => {
     return {
       queryKey: `product-${product.productID}`,
@@ -39,7 +47,7 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
   });
 
   // Fetch product information for cart items
-  const { data: productsData, isLoading, error } = useMultipleFetch(queries);
+  const { data: products, isLoading, error } = useMultipleFetch(queries);
 
   if (isLoading) {
     return <Loading />;
@@ -59,6 +67,7 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
                 mutateURL='/api/orders/'
                 inputs={
                   <>
+                    <DeliveryInput setDeliveryPrice={setDeliveryPrice} />
                     <NameInput defaultValue={defaultValues !== null ? defaultValues.name : ''} />
                     <AddressInput defaultValue={defaultValues !== null ? defaultValues.address : ''} />
                     <CityInput />
@@ -71,9 +80,11 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
               />
             </Col>
             <Col lg={4} md={4} sm={12}>
-              <CartOrder
-                products={productsData}
+              <CartOrderBox
+                deliveryPrice={deliveryPrice}
+                products={products}
                 cartProducts={cartProducts}
+                totalPrice={calculateTotalPrice(products, cartProducts, deliveryPrice)}
               />
             </Col>
           </Row>

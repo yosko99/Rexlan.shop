@@ -1,16 +1,19 @@
-import React, { useEffect, FC, useMemo } from 'react';
+import React, { FC } from 'react';
 
 import { Col, Row, Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 
 import { Product, CartProductType } from '../../types/productTypes';
+import calculateTotalPrice from '../../views/cart/calculateTotalPrice';
 import DeliveryPrice from './DeliveryPrice';
 import RemoveProduct from './RemoveProduct';
 
 interface Props {
 	products: Product[];
 	cartProducts: CartProductType[];
+	totalPrice: number;
+	deliveryPrice: number;
 }
 
 const ProductHolder = styled.div`
@@ -21,22 +24,7 @@ const ProductHolder = styled.div`
 	overflow-x: hidden;
 `;
 
-const calculateTotalPrice = (products:Product[], cartProducts: CartProductType[]): number => {
-  let price = 0;
-
-  products.forEach((product: Product, index: number) => {
-    price += product.price * cartProducts[index].productQuantity;
-  });
-
-  return Number(price.toFixed(2));
-};
-
-const CartOrder: FC<Props> = ({ products, cartProducts }) => {
-  const totalPrice = useMemo(() => calculateTotalPrice(products, cartProducts), [products, cartProducts]);
-
-  useEffect(() => {
-
-  }, [cartProducts]);
+const CartOrderBox: FC<Props> = ({ products, cartProducts, totalPrice, deliveryPrice }) => {
   return (
 		<div className='mt-2'>
 			<p className='fs-5'>Your order</p>
@@ -60,7 +48,12 @@ const CartOrder: FC<Props> = ({ products, cartProducts }) => {
 					</Row>
 				))}
 			</ProductHolder>
-			<DeliveryPrice totalPrice={totalPrice} className='mt-3' />
+
+			<DeliveryPrice
+				deliveryPrice={deliveryPrice}
+				totalPriceFromProducts={calculateTotalPrice(products, cartProducts, 0)} className='mt-3'
+			/>
+
 			<div className='d-flex justify-content-between'>
 				<p>Discount</p>
 				<p>-$10</p>
@@ -74,4 +67,4 @@ const CartOrder: FC<Props> = ({ products, cartProducts }) => {
   );
 };
 
-export default CartOrder;
+export default CartOrderBox;

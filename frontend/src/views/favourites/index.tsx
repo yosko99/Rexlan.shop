@@ -12,9 +12,11 @@ const FavouritesPage = () => {
   const liked = localStorage.getItem('liked');
 
   if (liked === null || liked === '[]') {
-    return <div className='text-center'>
-							<Image src={noFavouritesImg} fluid alt='no favourites'/>
-					</div>;
+    return (
+    <div className='text-center'>
+      <Image src={noFavouritesImg} fluid alt='no favourites'/>
+    </div>
+    );
   }
   const parsedLiked = JSON.parse(liked);
   const fetchArr = parsedLiked.map((likedID: string) => {
