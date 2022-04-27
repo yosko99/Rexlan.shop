@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
@@ -8,6 +8,7 @@ import AddedToCartModal from '../modal/AddedToCartModal';
 
 interface MutateData {
 	productID: String;
+  productQuantity: number;
 	cartID: String | null;
 }
 
@@ -16,7 +17,9 @@ interface Props {
 }
 
 const AddToCart: FC<Props> = ({ product }) => {
+  const [productQuantity, setProductQuantity] = useState<number>(1);
   const queryClient = useQueryClient();
+
   const mutation = useMutation((data) => {
     return axios.post('/api/carts', data);
   }, {
@@ -32,12 +35,14 @@ const AddToCart: FC<Props> = ({ product }) => {
     const localStorageCart = localStorage.getItem('cart');
 
     let cartID: String | null = null;
+
     if (localStorageCart !== null) {
       cartID = localStorageCart;
     }
 
     const mutateData: MutateData = {
       productID: product.id,
+      productQuantity,
       cartID
     };
 
@@ -45,7 +50,20 @@ const AddToCart: FC<Props> = ({ product }) => {
   };
 
   return (
-      <AddedToCartModal onClick={handleClick} product={product}/>
+    <div className='d-flex'>
+      <AddedToCartModal
+        onClick={handleClick}
+        productQuantity={productQuantity}
+        product={product}
+      />
+      <input
+        className='ms-3 input-group-text'
+        style={{ width: '75px' }}
+        value={productQuantity}
+        type='number'
+        onChange={(e) => setProductQuantity(Number(e.target.value))}
+      />
+    </div>
   );
 };
 

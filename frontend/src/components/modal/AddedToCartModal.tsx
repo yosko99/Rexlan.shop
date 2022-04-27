@@ -10,9 +10,10 @@ import { Product } from '../../types/productTypes';
 interface Props {
 	onClick?: () => void;
   product: Product;
+  productQuantity: number;
 }
 
-const AddedToCartModal: FC<Props> = ({ onClick, product }) => {
+const AddedToCartModal: FC<Props> = ({ onClick, product, productQuantity }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -45,6 +46,7 @@ const AddedToCartModal: FC<Props> = ({ onClick, product }) => {
               <p className='text-uppercase text-muted mt-2'>{product.category}</p>
               <p>{product.title}</p>
               <p>Product ID: {product.id}</p>
+              <p>Added quantity: {productQuantity}</p>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod officia voluptatibus ad molestias cum commodi voluptates dolore.</p>
             </Col>
           </Row>
