@@ -3,7 +3,7 @@ const getQueryQty = (queryQty) => {
 
   const quantity = queryQuantity !== undefined ? queryQuantity : 0;
 
-  return quantity;
+  return Number(quantity);
 };
 
 module.exports = getQueryQty;

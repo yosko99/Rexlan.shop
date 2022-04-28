@@ -1,21 +1,27 @@
 const Cart = require('../models/cartModel');
 const User = require('../models/userModel');
 
+const mongoose = require('mongoose');
+
 exports.addProductToCart = async (req, res) => {
   const { productID, cartID, productQuantity: bodyProductQuantity } = req.body;
 
-  const productQuantity = bodyProductQuantity !== undefined ? bodyProductQuantity : 1;
+  const productQuantity = bodyProductQuantity !== undefined ? Number(bodyProductQuantity) : 1;
 
   const checkCart = (cartID !== null) ? await Cart.findOne({ _id: cartID }) : null;
+
+  if (productID === undefined) {
+    return res.status(404).send('No product ID provided');
+  }
 
   // Check if cart with provdided id exists
   // If a cart exists check if the product exists in the cart
   // Otherwsie create new cart and assign the new prodcut
 
   if (checkCart !== null) {
-    // Check if item is already in cart
-    let savedCart;
+    let updatedCart;
 
+    // Check if item is already in cart
     const product = checkCart.products.find((product) => (
       product.productID === productID
     ));
@@ -23,16 +29,16 @@ exports.addProductToCart = async (req, res) => {
     // Already in cart (increment quantity)
     if (product !== undefined) {
       product.productQuantity += productQuantity;
-      savedCart = await checkCart.save();
+      updatedCart = await checkCart.save();
     } else { // Add new item to cart
       checkCart.products.push({
         productID,
         productQuantity
       });
-      savedCart = await checkCart.save();
+      updatedCart = await checkCart.save();
     }
     return res.status(200).send({
-      cartID: savedCart._id
+      cartID: updatedCart._id
     });
   } else {
     try {
@@ -40,7 +46,7 @@ exports.addProductToCart = async (req, res) => {
         isLinked: false,
         products: [{
           productID,
-          productQuantity: 1
+          productQuantity
         }]
       });
 
@@ -50,9 +56,7 @@ exports.addProductToCart = async (req, res) => {
         cartID: savedCart._id
       });
     } catch (error) {
-      return res.status(404).json({
-        msg: error.message
-      });
+      return res.status(404).send(error.message);
     }
   }
 };
@@ -60,16 +64,15 @@ exports.addProductToCart = async (req, res) => {
 exports.getCart = async (req, res) => {
   const { cartID } = req.params;
 
-  // No cart id provided
-  if (cartID === 'null') {
+  if (!mongoose.Types.ObjectId.isValid(cartID)) {
     return res.status(200).json({
-      err: 'No items in cart'
+      err: 'Invalid cart ID'
     });
-  }
+  };
 
   const cart = await Cart.findOne({ _id: cartID });
 
-  // Cart id provided but not products in cart
+  // Check if there are products in cart
   if (cart.products.length === 0) {
     return res.status(200).json({
       err: 'No items in cart'
@@ -104,9 +107,7 @@ exports.deleteProductFromCart = async (req, res) => {
   const cart = await Cart.findOne({ _id: cartID });
 
   if (cart === null) {
-    return res.status(404).json({
-      msg: 'Cant find cart with provided ID'
-    });
+    return res.status(404).send('Invalid cart ID');
   }
 
   const filteredProducts = [];
