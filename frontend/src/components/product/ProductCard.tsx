@@ -38,7 +38,7 @@ const ProductCard: FC<Props> = ({ product }) => {
 					</LinkContainer>
 				</CenteredItems>
 				<Card.Body>
-					<div className='d-flex justify-content-between'>
+					<div className='d-flex justify-content-between mb-2'>
 						<small>
 							{product.category}
 						</small>
