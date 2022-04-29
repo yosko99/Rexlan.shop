@@ -25,13 +25,13 @@ exports.addUser = async (req, res) => {
     });
   }
   // Hash the password
-  bcrypt.hash(password, Number(process.env.SALT_ROUNDS), function (err, hash) {
+  bcrypt.hash(password, Number(process.env.SALT_ROUNDS), function (err, hashedPassword) {
     if (err) {
       return res.status(404).send(err);
     }
     const newUser = User({
       email,
-      password: hash,
+      password: hashedPassword,
       name,
       address,
       phone
@@ -76,6 +76,7 @@ exports.loginUser = async (req, res) => {
       const checkedCartID = await checkExistingCart(email, cartID);
 
       const token = jwt.sign({ user }, process.env.JWT_SECRET_KEY);
+
       return res.status(200).json({
         msg: 'You Have Successfully Logged in.',
         token,
