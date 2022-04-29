@@ -1,45 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Container, Image } from 'react-bootstrap';
-import { Navigate } from 'react-router-dom';
+import { Image } from 'react-bootstrap';
 
 import noFavouritesImg from '../../assets/favouritespage/no-favourites.png';
-import FreeShippingBar from '../../components/partials/FreeShippingBar';
-import MultipleProductCards from '../../components/product/MultipleProductCards';
-import useMultipleFetch from '../../hooks/useMultipleFetch';
+import RenderFavouritesPage from './RenderFavouritesPage';
 
 const FavouritesPage = () => {
-  const liked = localStorage.getItem('liked');
+  const [likedProductsLocalStorage, setLikedProductsLocalStorage] = useState<string | null>(localStorage.getItem('liked'));
 
-  if (liked === null || liked === '[]') {
+  // Listen when favourite button is clicked
+  // That way the page can update
+  useEffect(() => {
+    window.addEventListener('storage', () => {
+      setLikedProductsLocalStorage(localStorage.getItem('liked'));
+    });
+  }, []);
+
+  // No liked products
+  if (likedProductsLocalStorage === null || likedProductsLocalStorage === '[]') {
     return (
     <div className='text-center'>
       <Image src={noFavouritesImg} fluid alt='no favourites'/>
     </div>
     );
   }
-  const parsedLiked = JSON.parse(liked);
-  const fetchArr = parsedLiked.map((likedID: string) => {
-    return {
-      queryKey: `product-${likedID}`,
-      link: `/api/products/${likedID}`
-    };
-  });
-
-  // TODO: Fix conditional hook
-  const { isLoading, error, data } = useMultipleFetch(fetchArr);
 
   return (
-		<>
-		<FreeShippingBar />
-		{ error !== undefined
-			  ? <Navigate to="/404" state={{ error: error.message }} />
-			  : <Container>
-						<h2 className='text-center my-3'>My Favourites</h2>
-						<MultipleProductCards products={data} isLoading={isLoading} />
-					</Container>
-		}
-		</>
+      <RenderFavouritesPage likedProductsLocalStorage={likedProductsLocalStorage}/>
   );
 };
 

@@ -10,7 +10,7 @@ interface ReturnTypes {
 }
 
 interface QueryAttributes {
-		queryKey: string;
+		queryKey: string | string[];
 		link: string;
 }
 
