@@ -1,10 +1,12 @@
 const request = require('supertest');
+const mongoose = require('mongoose');
+
 const app = require('../app');
 
 describe('Testing product API', () => {
   let productStructure;
 
-  beforeEach(() => {
+  beforeAll(() => {
     productStructure = {
       id: expect.any(String),
       title: expect.any(String),
@@ -17,6 +19,10 @@ describe('Testing product API', () => {
         count: expect.any(Number)
       })
     };
+  });
+
+  afterAll(async () => {
+    mongoose.disconnect();
   });
 
   test('get all products', () => {

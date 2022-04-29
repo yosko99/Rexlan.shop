@@ -1,4 +1,5 @@
 const request = require('supertest');
+const mongoose = require('mongoose');
 
 const initializeDummyData = require('./config/initializeDummyData');
 const deleteDummyData = require('./config/deleteDummyData');
@@ -19,6 +20,7 @@ describe('Testing cart API', () => {
 
   afterAll(async () => {
     await deleteDummyData(dummyData);
+    mongoose.disconnect();
   });
 
   test('add product to already created cart with provided valid productID, cartID and product quantity', () => {
@@ -145,6 +147,34 @@ describe('Testing cart API', () => {
             ])
           })
         );
+      });
+  });
+
+  test('delete product from cart with provided valid product ID and cart ID', () => {
+    return request(app)
+      .delete('/api/carts/product')
+      .send({
+        cartID: dummyData.linkedCart._id,
+        productID: '7'
+      })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.msg).toBe('Product removed');
+      });
+  });
+
+  test('delete product from cart with provided valid product ID and unvalid cart ID', () => {
+    return request(app)
+      .delete('/api/carts/product')
+      .send({
+        cartID: 'blabla',
+        productID: '7'
+      })
+      .expect('Content-Type', /html/)
+      .expect(404)
+      .then((response) => {
+        expect(response.text).toBe('Invalid cart ID');
       });
   });
 });

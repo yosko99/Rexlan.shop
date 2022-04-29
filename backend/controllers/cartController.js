@@ -104,6 +104,11 @@ exports.getCart = async (req, res) => {
 
 exports.deleteProductFromCart = async (req, res) => {
   const { cartID, productID } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(cartID)) {
+    return res.status(404).send('Invalid cart ID');
+  }
+
   const cart = await Cart.findOne({ _id: cartID });
 
   if (cart === null) {

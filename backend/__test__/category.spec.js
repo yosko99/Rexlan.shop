@@ -1,13 +1,19 @@
 const request = require('supertest');
+const mongoose = require('mongoose');
+
 const app = require('../app');
 
 describe('Testing category API', () => {
   let categoryStrucutre;
 
-  beforeEach(() => {
+  beforeAll(() => {
     categoryStrucutre = {
       name: expect.any(String)
     };
+  });
+
+  afterAll(() => {
+    mongoose.disconnect();
   });
 
   test('get all categories', () => {

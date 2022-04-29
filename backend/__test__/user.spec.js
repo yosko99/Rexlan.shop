@@ -2,6 +2,7 @@ const initializeDummyData = require('./config/initializeDummyData');
 const deleteDummyData = require('./config/deleteDummyData');
 const User = require('../models/userModel');
 
+const mongoose = require('mongoose');
 const request = require('supertest');
 
 const app = require('../app');
@@ -28,6 +29,10 @@ describe('Testing user API', () => {
   afterEach(async () => {
     await deleteDummyData(dummyData);
     await User.deleteOne({ email: mockUserInfo.email });
+  });
+
+  afterAll(async () => {
+    mongoose.disconnect();
   });
 
   test('get all users', () => {
@@ -144,7 +149,7 @@ describe('Testing user API', () => {
       });
   });
 
-  test('login with not registered email', () => {
+  test('login with email that is not registered', () => {
     return request(app)
       .post('/api/users/login')
       .send({
