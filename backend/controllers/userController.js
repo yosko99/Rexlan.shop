@@ -62,6 +62,7 @@ exports.loginUser = async (req, res) => {
 
   const user = await User.findOne({ email });
 
+  // Provided not registered email
   if (user === null) {
     return res.status(403).send({
       msg: 'User with this email does not exist.'
@@ -84,6 +85,7 @@ exports.loginUser = async (req, res) => {
       });
     }
 
+    // Password mismatch
     res.status(403).json({
       msg: 'Password does not match registered email.'
     });

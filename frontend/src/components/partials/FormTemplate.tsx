@@ -12,6 +12,7 @@ interface Props {
 	data: object,
 	setData: React.Dispatch<any>;
 	mutateURL: string;
+  redirectOnSuccess?: boolean;
 	inputs: React.ReactChild;
 }
 
@@ -23,7 +24,7 @@ interface ErrorResponse {
   }
 }
 
-const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs }) => {
+const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, redirectOnSuccess = true }) => {
   const [alert, setAlert] = useState<React.ReactNode>();
   const [validated, setValidated] = useState<boolean>(false);
   const token = useContext(TokenContext);
@@ -40,20 +41,24 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs }
         variant='danger'>{errorMsg}</Alert>);
     },
     onSuccess: (data) => {
-      // Set token and cartID to local storage
-      token!.setToken(data.data.token);
-      localStorage.setItem('cart', data.data.cartID);
+      if (data.data.token !== undefined) {
+        // Set token and cartID to local storage
+        token!.setToken(data.data.token);
+        localStorage.setItem('cart', data.data.cartID);
+      }
 
-      // Login successfull
+      // Post request successfull
       setAlert(<Alert
         className='mt-3 rounded-pill text-center'
         variant='success'>
           {data.data.msg}
           <Spinner animation='border' size='sm' className='ms-2' />
         </Alert>);
-      setTimeout(() => {
-        navigate('/');
-      }, 500);
+      if (redirectOnSuccess) {
+        setTimeout(() => {
+          navigate('/');
+        }, 500);
+      }
     }
   });
 

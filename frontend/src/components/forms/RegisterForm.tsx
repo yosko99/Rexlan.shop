@@ -1,7 +1,5 @@
 import React, { useState, FC } from 'react';
 
-import { Button } from 'react-bootstrap';
-
 import AddressInput from '../inputs/AddressInput';
 import EmailInput from '../inputs/EmailInput';
 import NameInput from '../inputs/NameInput';

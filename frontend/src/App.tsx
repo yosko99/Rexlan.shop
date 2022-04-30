@@ -15,6 +15,7 @@ import FavouritesPage from './views/favourites';
 import LoginPage from './views/loginpage';
 import MainPage from './views/mainpage';
 import Page404 from './views/page404';
+import PasswordResetPage from './views/passwordResetPage';
 import PDPPage from './views/pdp';
 import RegisterPage from './views/registerpage';
 
@@ -35,6 +36,7 @@ function App () {
             <Route path='/favourites' element={<FavouritesPage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/cart' element={<CartPage />} />
+            <Route path='/password-reset' element={<PasswordResetPage />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/*' element={<Page404 />} />
           </Routes>
