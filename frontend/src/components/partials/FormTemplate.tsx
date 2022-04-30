@@ -18,9 +18,7 @@ interface Props {
 
 interface ErrorResponse {
   response: {
-    data: {
-      msg: string;
-    }
+    data: string;
   }
 }
 
@@ -34,7 +32,7 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, 
     return axios.post(mutateURL, data);
   }, {
     onError: (err: ErrorResponse) => {
-      const errorMsg = err.response.data.msg;
+      const errorMsg = err.response.data;
 
       setAlert(<Alert
         className='mt-3 rounded-pill text-center'

@@ -102,10 +102,10 @@ describe('Testing user API', () => {
       .send({
         email: dummyData.userLinkedWithCart.email
       })
-      .expect('Content-Type', /json/)
+      .expect('Content-Type', /html/)
       .expect(403)
       .then((response) => {
-        expect(response.body.msg).toBe('User with this email already exists.');
+        expect(response.text).toBe('User with this email already exists.');
       });
   });
 
@@ -142,10 +142,10 @@ describe('Testing user API', () => {
         email: dummyData.userNotLinkedWithCart.email,
         password: 'blabla'
       })
-      .expect('Content-Type', /json/)
+      .expect('Content-Type', /html/)
       .expect(403)
       .then((response) => {
-        expect(response.body.msg).toBe('Password does not match registered email.');
+        expect(response.text).toBe('Password does not match registered email.');
       });
   });
 
@@ -155,10 +155,10 @@ describe('Testing user API', () => {
       .send({
         email: 'blabla@abv.bg'
       })
-      .expect('Content-Type', /json/)
+      .expect('Content-Type', /html/)
       .expect(403)
       .then((response) => {
-        expect(response.body.msg).toBe('User with this email does not exist.');
+        expect(response.text).toBe('User with this email does not exist.');
       });
   });
 });

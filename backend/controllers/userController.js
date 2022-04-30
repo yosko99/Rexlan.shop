@@ -20,9 +20,7 @@ exports.addUser = async (req, res) => {
 
   // Email is already registered
   if (checkRegistered !== null) {
-    return res.status(403).json({
-      msg: 'User with this email already exists.'
-    });
+    return res.status(403).send('User with this email already exists.');
   }
   // Hash the password
   bcrypt.hash(password, Number(process.env.SALT_ROUNDS), function (err, hashedPassword) {
@@ -64,9 +62,7 @@ exports.loginUser = async (req, res) => {
 
   // Provided not registered email
   if (user === null) {
-    return res.status(403).send({
-      msg: 'User with this email does not exist.'
-    });
+    return res.status(403).send('User with this email does not exist.');
   }
   bcrypt.compare(password, user.password, async function (err, result) {
     if (err) {
@@ -86,8 +82,6 @@ exports.loginUser = async (req, res) => {
     }
 
     // Password mismatch
-    res.status(403).json({
-      msg: 'Password does not match registered email.'
-    });
+    res.status(403).send('Password does not match registered email.');
   });
 };
