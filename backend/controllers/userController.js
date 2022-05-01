@@ -1,4 +1,7 @@
 const checkExistingCart = require('./functions/checkExistingCart');
+const createEmailMessage = require('../config/createEmailMessage');
+const createTransporter = require('../config/createTransporter');
+const generateChars = require('./functions/generateChars');
 const User = require('../models/userModel');
 
 const jwt = require('jsonwebtoken');
@@ -83,5 +86,42 @@ exports.loginUser = async (req, res) => {
 
     // Password mismatch
     res.status(403).send('Password does not match registered email.');
+  });
+};
+
+exports.resetPassword = async (req, res) => {
+  // Optimistic update when no sender email is set up
+  if (process.env.SENDER_EMAIL === undefined) {
+    return res.status(200).json({
+      msg: 'You can check your email for a new password.'
+    });
+  }
+
+  const { email: recieverEmail } = req.body;
+  const user = await User.findOne({ email: recieverEmail });
+
+  // This email is not used in registration or email is missing
+  if (recieverEmail === undefined || user === null) {
+    return res.status(404).send('We could not find your email.');
+  }
+
+  const temporaryPassword = generateChars(10);
+  const hashedPassword = bcrypt.hashSync(temporaryPassword, Number(process.env.SALT_ROUNDS));
+
+  await User.updateOne({ email: recieverEmail }, {
+    password: hashedPassword
+  });
+
+  const transporter = createTransporter();
+  const emailMessage = createEmailMessage(recieverEmail, temporaryPassword);
+
+  transporter.sendMail(emailMessage, (err, info) => {
+    if (err) {
+      return res.status(404).send(err);
+    }
+
+    return res.status(200).json({
+      msg: 'You can check your email for a new password.'
+    });
   });
 };

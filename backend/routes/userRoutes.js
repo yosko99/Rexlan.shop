@@ -19,4 +19,9 @@ router.post('/', asyncHandler(userController.addUser));
 // @access Public
 router.post('/login', asyncHandler(userController.loginUser));
 
+// @desc Password reset
+// @route POST /api/users/password-reset
+// @access Public
+router.post('/password-reset', asyncHandler(userController.resetPassword));
+
 module.exports = router;
