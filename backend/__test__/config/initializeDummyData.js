@@ -21,7 +21,7 @@ const initializeDummyData = async (dummyData) => {
   }).save();
 
   dummyData.userLinkedWithCart = await User({
-    email: 'test@test@bg',
+    email: 'test@test.gmail',
     password: 'testing',
     name: 'test',
     address: 'test',

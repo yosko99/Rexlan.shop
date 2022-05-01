@@ -161,4 +161,40 @@ describe('Testing user API', () => {
         expect(response.text).toBe('User with this email does not exist.');
       });
   });
+
+  test('reset password with provided registered email', () => {
+    return request(app)
+      .post('/api/users/password-reset')
+      .send({
+        email: dummyData.userLinkedWithCart.email
+      })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.msg).toBe('You can check your email for a new password.');
+      });
+  });
+
+  test('reset password with non registred email', () => {
+    return request(app)
+      .post('/api/users/password-reset')
+      .send({
+        email: 'blabla@abv.bg'
+      })
+      .expect('Content-Type', /html/)
+      .expect(404)
+      .then((response) => {
+        expect(response.text).toBe('We could not find your email.');
+      });
+  });
+
+  test('reset password without providing email', () => {
+    return request(app)
+      .post('/api/users/password-reset')
+      .expect('Content-Type', /html/)
+      .expect(404)
+      .then((response) => {
+        expect(response.text).toBe('We could not find your email.');
+      });
+  });
 });
