@@ -21,7 +21,8 @@ const PasswordResetForm: FC<Props> = ({ className }) => {
 			<FormTemplate
 				data={formData}
 				setData={setFormData}
-				mutateURL={'/api/password-reset'}
+				mutateURL={'/api/users/password-reset'}
+				redirectOnSuccess={false}
 				inputs={
 					<>
 						<EmailInput />

@@ -5,8 +5,11 @@ import { LinkContainer } from 'react-router-bootstrap';
 import loginImg from '../../assets/loginpage/login-img.webp';
 import LoginForm from '../../components/forms/LoginForm';
 import SignUpDesignTemplate from '../../components/partials/SignUpDesignTemplate';
+import useAuth from '../../hooks/useAuth';
 
 const LoginPage = () => {
+  useAuth();
+
   return (
 		<SignUpDesignTemplate
 		body={

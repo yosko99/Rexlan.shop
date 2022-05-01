@@ -3,7 +3,6 @@ import React, { useState, FC, useContext } from 'react';
 import axios from 'axios';
 import { Form, Alert, Spinner, Button } from 'react-bootstrap';
 import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
 import { TokenContext } from '../../context/TokenContext';
 
@@ -23,10 +22,9 @@ interface ErrorResponse {
 }
 
 const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, redirectOnSuccess = true }) => {
+  const [formValidated, setFormValidated] = useState<boolean>(false);
   const [alert, setAlert] = useState<React.ReactNode>();
-  const [validated, setValidated] = useState<boolean>(false);
   const token = useContext(TokenContext);
-  const navigate = useNavigate();
 
   const mutation = useMutation(data => {
     return axios.post(mutateURL, data);
@@ -39,22 +37,20 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, 
         variant='danger'>{errorMsg}</Alert>);
     },
     onSuccess: (data) => {
-      if (data.data.token !== undefined) {
-        // Set token and cartID to local storage
-        token!.setToken(data.data.token);
-        localStorage.setItem('cart', data.data.cartID);
-      }
-
       // Post request successfull
       setAlert(<Alert
         className='mt-3 rounded-pill text-center'
         variant='success'>
           {data.data.msg}
-          <Spinner animation='border' size='sm' className='ms-2' />
+          {redirectOnSuccess && <Spinner animation='border' size='sm' className='ms-2' />}
         </Alert>);
       if (redirectOnSuccess) {
         setTimeout(() => {
-          navigate('/');
+          if (data.data.token !== undefined) {
+          // Set token and cartID to local storage
+          token!.setToken(data.data.token);
+          localStorage.setItem('cart', data.data.cartID);
+          }
         }, 500);
       }
     }
@@ -73,7 +69,7 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, 
     if (form.checkValidity()) {
       mutation.mutate({ ...data, cartID } as any);
     }
-    setValidated(true);
+    setFormValidated(true);
   };
 
   const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
@@ -88,7 +84,7 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, 
 		<Form
       className={className}
       noValidate
-      validated={validated}
+      validated={formValidated}
       onChange={(e) => handleChange(e)}
       onSubmit={(e) => handleSubmit(e)}>
 

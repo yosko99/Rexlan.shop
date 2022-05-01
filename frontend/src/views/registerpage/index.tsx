@@ -3,8 +3,11 @@ import React from 'react';
 import registerImg from '../../assets/registerpage/register-img.webp';
 import RegisterForm from '../../components/forms/RegisterForm';
 import SignUpDesignTemplate from '../../components/partials/SignUpDesignTemplate';
+import useAuth from '../../hooks/useAuth';
 
 const RegisterPage = () => {
+  useAuth();
+
   return (
 		<SignUpDesignTemplate
 		body={
