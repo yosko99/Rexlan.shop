@@ -5,6 +5,9 @@ Purpose of this project is to exercise with mongoose and React 🧾.
 
 # Instructions
 
+> Note that you need to have yarn installed 😁.
+<br/>
+
 After cloning the repository go to the main directory and run the following command to install the necessary npm packages.
 
 ```
@@ -35,10 +38,19 @@ Follow .env.example variables as an example and fill them with your own data. <b
 ``MONGO_URI = XXXXX`` - is your database connection key <br/>
 ``JWT_SECRET_KEY = XXXX`` - key for generating JWT token <br/>
 ``SALT_ROUNDS = X`` - salt round for encrypting password (number) <br/>
+``SENDER_EMAIL = XXXX`` - gmail email used for nodemailer <br/>
+``SENDER_EMAIL_PASSWORD`` - gmail password used for nodemailer <br/><br/>
 
 ### .env File in the frontend directory
 
-``SKIP_PREFLIGHT_CHECK = true`` - there was some version conflict and this fixes it 🤞
+``SKIP_PREFLIGHT_CHECK = true`` - there was some version conflict and this fixes it 🤞.
+
+## Setting up nodemailer
+
+As you can see there are two environment variables that require some gmail and password, usually they are used for sending an email for password reset. But dont worry they are not required and the project will not crash without them (hopefully) 😄. <br/>
+
+But if you wanna try this feature you are gonna set up your gmail with the following requirements. <br/>
+You need to activate ``Forwarding and POP/IMAP`` and ``Less secure app to use your gmail account``. <br/>
 
 ## Importing data to database
 
