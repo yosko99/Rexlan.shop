@@ -1,6 +1,7 @@
 const [notFound, errorHandler] = require('./middleware/errorMiddleware');
 const connectDb = require('./config/db');
 
+const openWeatherRoutes = require('./routes/openWeatherRoutes');
 const productRoutes = require('./routes/productRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const deliveryRoutes = require('./routes/deliveryRoutes');
@@ -26,6 +27,7 @@ app.use('/api/carts', cartRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/deliveries', deliveryRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/openweather', openWeatherRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
