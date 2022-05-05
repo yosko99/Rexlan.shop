@@ -27,10 +27,16 @@ This command will concurrently install the necessary npm packages for both backe
 This projects uses MongoDB as database, so to run it you will need to use local MongoDB database or MongoDB atlas. <br/>
 After setting up your database and receiving your MONGO_URI you can continue to the next section ⬇. 
 
+## Openweather API
+
+If you want your 'cart' tab to detect your current location you can go and get yourself an ``API`` key from https://openweathermap.org/ . <br/>
+But dont worry it is not required for running the app 😄.
+
 ## Environment variables instructions
 
 You will need to create .env file in the main directory and in the frontend directory. <br/>
 Follow .env.example variables as an example and fill them with your own data. <br/>
+
 
 ### .env File in the main directory 
 
@@ -38,8 +44,11 @@ Follow .env.example variables as an example and fill them with your own data. <b
 ``MONGO_URI = XXXXX`` - is your database connection key <br/>
 ``JWT_SECRET_KEY = XXXX`` - key for generating JWT token <br/>
 ``SALT_ROUNDS = X`` - salt round for encrypting password (number) <br/>
-``SENDER_EMAIL = XXXX`` - gmail email used for nodemailer <br/>
-``SENDER_EMAIL_PASSWORD`` - gmail password used for nodemailer <br/><br/>
+<br/>
+``SENDER_EMAIL = XXXX`` - gmail email used for nodemailer (not required) <br/>
+``SENDER_EMAIL_PASSWORD`` - gmail password used for nodemailer (not required) <br/>
+``OPENWEATHER_API_KEY = XXXX`` - openweather API key (not required) <br/><br/>
+
 
 ### .env File in the frontend directory
 
