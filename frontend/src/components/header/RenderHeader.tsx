@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 
 import { Navbar, Container, Nav, NavDropdown, Image } from 'react-bootstrap';
+import { useNavigate } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import logo from '../../assets/header/logo192.png';
@@ -21,8 +22,21 @@ interface Props {
 }
 
 const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    setIsExpanded((expanded) => {
+      return !expanded;
+    });
+  };
+
+  useEffect(() => {
+    setIsExpanded(false);
+  }, [navigate]);
+
   return (
-		<Navbar collapseOnSelect expand="lg" bg="white" className='shadow-sm p-2' variant="light">
+		<Navbar expanded={isExpanded} expand="lg" bg="white" className='shadow-sm p-2' variant="light">
 			<Container>
 				<LinkContainer to={'/'}>
 					<Navbar.Brand href="#home">
@@ -30,7 +44,7 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 							Rexlan
 					</Navbar.Brand>
 				</LinkContainer>
-				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
+				<Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={handleClick}/>
 				<Navbar.Collapse id="responsive-navbar-nav">
 					<Nav className="me-auto">
 						<Nav.Link>
@@ -50,11 +64,11 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 							  ))
 							}
 						</NavDropdown>
-						<Nav.Link>
-							<LinkContainer to="/contacts">
-								<p className='m-0'>Contacts</p>
-							</LinkContainer>
-						</Nav.Link>
+							<Nav.Link >
+								<LinkContainer to="/contacts">
+									<p className='m-0'>Contacts</p>
+								</LinkContainer>
+							</Nav.Link>
 					</Nav>
 					<Nav className='d-flex justify-content-center'>
 						<div className='d-flex justify-content-center'>

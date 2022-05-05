@@ -64,7 +64,7 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
             <Col lg={8} md={8} sm={12}>
               <FormTemplate
                 className='pe-lg-5'
-                mutateURL='/api/orders/'
+                mutateURL=''
                 inputs={
                   <>
                     <DeliveryInput setDeliveryPrice={setDeliveryPrice} />

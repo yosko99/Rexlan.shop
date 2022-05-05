@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { FormControl, Image } from 'react-bootstrap';
 import { Navigate } from 'react-router-dom';
@@ -11,24 +11,32 @@ import MultipleProductCards from '../product/MultipleProductCards';
 
 const SearchBar: FC = () => {
   const defaultSearchWord = 'Shirt';
-  const [searchValue, setSearchValue] = useState<string>(defaultSearchWord);
+  // Input value
+  const [searchTerm, setSearchTerm] = useState<string>(defaultSearchWord);
+  // Value for request link (with delayed update)
+  const [searchQuery, setSearchQuery] = useState<string>(defaultSearchWord);
 
   const {
     isLoading,
     error,
     data
   } = useFetch(
-    ['searchProducts', searchValue],
-    `/api/products/regex/${(searchValue === '') ? defaultSearchWord : searchValue}`
+    ['searchProducts', searchQuery],
+    `/api/products/regex/${(searchQuery === '') ? defaultSearchWord : searchQuery}`
   );
 
   const handleChange = (e: React.ChangeEvent) => {
     const { value } = (e.target as HTMLInputElement);
-
-    setTimeout(() => {
-      setSearchValue(value);
-    }, 1000);
+    setSearchTerm(value);
   };
+
+  useEffect(() => {
+    const delayedSearch = setTimeout(() => {
+      setSearchQuery(searchTerm);
+    }, 1000);
+
+    return () => clearTimeout(delayedSearch);
+  }, [searchTerm]);
 
   return (
     <>
@@ -42,7 +50,7 @@ const SearchBar: FC = () => {
                   type="search"
                   placeholder="Search"
                   className="me-2"
-                  defaultValue={searchValue}
+                  defaultValue={searchTerm}
                   aria-label="Search"
                   onChange={(e) => handleChange(e)}
                 />
@@ -51,7 +59,7 @@ const SearchBar: FC = () => {
                   : data.products.length === 0
                     ? <div className='d-flex flex-column justify-content-center'>
                       <Image className='mt-2 text-center' src={noResultsImg} fluid/>
-                      <p className='text-center fs-4'>Sorry we couldn't find any matches for <i>{searchValue}</i></p>
+                      <p className='text-center fs-4'>Sorry we couldn't find any matches for <i>{searchTerm}</i></p>
                     </div>
                     : <MultipleProductCards
                       isLoading={isLoading}

@@ -34,7 +34,7 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, 
 
       setAlert(<Alert
         className='mt-3 rounded-pill text-center'
-        variant='danger'>{errorMsg}</Alert>);
+        variant='danger'>{typeof errorMsg !== 'string' ? 'Error occurred' : errorMsg}</Alert>);
     },
     onSuccess: (data) => {
       // Post request successfull
