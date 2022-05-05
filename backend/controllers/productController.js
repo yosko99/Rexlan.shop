@@ -53,3 +53,20 @@ exports.getProductsSortedBy = async (req, res) => {
 
   res.status(200).json(products);
 };
+
+exports.getProductsByQueryString = async (req, res) => {
+  const { pattern } = req.params;
+
+  const products = await Product
+    .find({
+      title: {
+        $regex: pattern,
+        $options: 'si'
+      }
+    })
+    .limit(4);
+
+  res.status(200).json({
+    products
+  });
+};

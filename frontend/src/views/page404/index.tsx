@@ -17,7 +17,7 @@ const Page404 :FC = () => {
 
   return (
 		<CenteredItems flexColumn>
-			<Image src={error404} />
+			<Image src={error404} fluid />
 			{state !== null ? state.error : ''}
 		</CenteredItems>
   );

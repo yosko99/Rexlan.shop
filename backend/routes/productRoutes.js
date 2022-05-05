@@ -24,4 +24,9 @@ router.get('/category/:category', asyncHandler(productController.getProductsByCa
 // @access Public
 router.get('/sort/:attribute', asyncHandler(productController.getProductsSortedBy));
 
+// @desc Fetch 4 products with provided query string
+// @route GET /api/products/regex/:pattern
+// @access Public
+router.get('/regex/:pattern', asyncHandler(productController.getProductsByQueryString));
+
 module.exports = router;

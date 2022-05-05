@@ -9,7 +9,7 @@ import FavouriteIcon from '../icons/FavouriteIcon';
 import LoginIcon from '../icons/LoginIcon';
 import ProfileIcon from '../icons/ProfileIcon';
 import Loading from '../loading/Loading';
-import SearchBar from '../partials/SearchBar';
+import SearchBar from '../searchbar/SearchBar';
 
 interface CategoryData {
 	name: string;
