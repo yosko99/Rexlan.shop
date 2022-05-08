@@ -59,7 +59,7 @@ const SearchBar: FC = () => {
                   : data.products.length === 0
                     ? <div className='d-flex flex-column justify-content-center'>
                       <Image className='mt-2 text-center' src={noResultsImg} fluid/>
-                      <p className='text-center fs-4'>Sorry we couldn't find any matches for <i>{searchTerm}</i></p>
+                      <p className='text-center fs-4'>Sorry we couldn't find any matches for <i>{searchQuery}</i></p>
                     </div>
                     : <MultipleProductCards
                       isLoading={isLoading}

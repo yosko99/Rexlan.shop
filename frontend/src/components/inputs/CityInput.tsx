@@ -9,12 +9,8 @@ const CityInput = () => {
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((success) => {
       const { latitude: lat, longitude: lon } = success.coords;
-      axios.post('/api/openweather/city', {
-        lon,
-        lat
-      }).then((response) => {
+      axios.get(`/api/openweather/city?lon=${lon}&lat=${lat}`).then((response) => {
         const { city } = response.data;
-
         setCurrentCity(city);
       }).catch((err) => {
         console.log(err.response.data);

@@ -4,10 +4,9 @@ const router = express.Router();
 
 const openWeatherController = require('../controllers/openWeatherController');
 
-// @desc Provides the name of current city
-// @route POST /api/openweather/city
+// @desc Provides the name of current city with provided lon and lat
+// @route GET /api/openweather/city?lon=123&lat=123
 // @access Public
-// @accepts { lon, lat }
-router.post('/city', asyncHandler(openWeatherController.getCurrentCity));
+router.get('/city', asyncHandler(openWeatherController.getCurrentCity));
 
 module.exports = router;

@@ -6,7 +6,7 @@ exports.getCurrentCity = (req, res) => {
     return res.status(404).send('Api key not provided');
   }
 
-  const { lon, lat } = req.body;
+  const { lon, lat } = req.query;
 
   if (lon === undefined || lat === undefined) {
     return res.status(404).send('Coordinates not provided');
