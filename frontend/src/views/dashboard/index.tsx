@@ -18,7 +18,7 @@ const Dashboard = () => {
     phone: '',
     address: '',
     updatedAt: new Date(),
-    zip: ''
+    zipcode: ''
   });
   const navigate = useNavigate();
 
@@ -31,9 +31,9 @@ const Dashboard = () => {
           authorization: 'Bearer ' + token!.token
         }
       }).then((response) => {
-        const { email, name, phone, updatedAt, createdAt, address, zip } = response.data.user;
+        const { email, name, phone, updatedAt, createdAt, address, zipcode } = response.data.user;
         setUserInfo({
-          email, name, phone, updatedAt, createdAt, address, zip
+          email, name, phone, updatedAt, createdAt, address, zipcode
         });
         setLoading(false);
       }).catch((_err) => {

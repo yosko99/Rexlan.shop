@@ -27,7 +27,11 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, 
   const token = useContext(TokenContext);
 
   const mutation = useMutation(data => {
-    return axios.post(mutateURL, data);
+    return axios.post(mutateURL, data, {
+      headers: {
+        authorization: 'Bearer ' + token!.token
+      }
+    });
   }, {
     onError: (err: ErrorResponse) => {
       const errorMsg = err.response.data;

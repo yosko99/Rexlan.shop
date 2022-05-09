@@ -15,13 +15,13 @@ interface Props {
 
 const DetailsUpdateForm: FC<Props> = ({ className, user }) => {
   const [formData, setFormData] = useState<User>({
-    email: '',
-    address: '',
-    createdAt: new Date(),
-    name: '',
-    phone: '',
-    updatedAt: new Date(),
-    zip: ''
+    email: user.email,
+    address: user.address,
+    createdAt: user.createdAt,
+    name: user.name,
+    phone: user.phone,
+    updatedAt: user.updatedAt,
+    zipcode: user.zipcode
   });
 
   return (
@@ -29,15 +29,17 @@ const DetailsUpdateForm: FC<Props> = ({ className, user }) => {
 			<FormTemplate
 				data={formData}
 				setData={setFormData}
-				mutateURL={'/api/users/active'}
+				mutateURL={'/api/users/current'}
+				redirectOnSuccess={false}
 				inputs={
 					<>
-						<EmailInput defaultValue={user.email} />
+						<EmailInput defaultValue={user.email} readOnly />
 						<NameInput defaultValue={user.name} />
 						<AddressInput defaultValue={user.address} />
 						<PhoneInput defaultValue={user.phone} />
-						<ZipInput defaultValue={user.zip}/>
+						<ZipInput defaultValue={user.zipcode}/>
 					</>
+
 				}
 			/>
 		</div>

@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Form } from 'react-bootstrap';
 
-const PasswordInput = () => {
+interface Props {
+	className?: string;
+	customInputName?: string;
+}
+
+const PasswordInput: FC<Props> = ({ className, customInputName = 'password' }) => {
   return (
-		<Form.Group className="mb-3" controlId="password">
+		<Form.Group className="mb-3" controlId={customInputName}>
 			<Form.Label>Password <span className='text-muted'>(min 8 chars)</span></Form.Label>
 			<Form.Control
 				className='shadow-sm'
 				required
 				type="password"
-				name='password'
+				name={customInputName}
 				placeholder="Password"
 				pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,}$"
 			/>
