@@ -10,11 +10,7 @@ describe('Testing openweather API', () => {
 
   test('get current city with provided valid coordinates', () => {
     return request(app)
-      .post('/api/openweather/city')
-      .send({
-        lat: '43.8626',
-        lon: '25.9648'
-      })
+      .get('/api/openweather/city?lon=25.9648&lat=43.8626')
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -28,7 +24,7 @@ describe('Testing openweather API', () => {
 
   test('get current city without providing coordinates', () => {
     return request(app)
-      .post('/api/openweather/city')
+      .get('/api/openweather/city')
       .expect('Content-Type', /html/)
       .expect(404)
       .then((response) => {
@@ -38,11 +34,7 @@ describe('Testing openweather API', () => {
 
   test('get current city with wrong coordinates', () => {
     return request(app)
-      .post('/api/openweather/city')
-      .send({
-        lat: 'blabla1231',
-        lon: '25.9648'
-      })
+      .get('/api/openweather/city?lon=asdads213&lat=12')
       .expect('Content-Type', /html/)
       .expect(400)
       .then((response) => {

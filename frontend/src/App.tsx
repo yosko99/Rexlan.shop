@@ -39,7 +39,7 @@ function App () {
             <Route path='/cart' element={<CartPage />} />
             <Route path='/password-reset' element={<PasswordResetPage />} />
             <Route path='/register' element={<RegisterPage />} />
-            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/dashboard/:option' element={<Dashboard />} />
             <Route path='/*' element={<Page404 />} />
           </Routes>
         </main>

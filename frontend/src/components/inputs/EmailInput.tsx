@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Form } from 'react-bootstrap';
 
-const EmailInput = () => {
+interface Props {
+	defaultValue?: string;
+}
+
+const EmailInput: FC<Props> = ({ defaultValue = '' }) => {
   return (
 		<Form.Group className="mb-3" controlId="email">
 			<Form.Label>Email address</Form.Label>
 			<Form.Control
 				name='email'
 				className='shadow-sm'
+				defaultValue={defaultValue}
 				pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
 				required type="email"
 				placeholder="steven@gmail.com"

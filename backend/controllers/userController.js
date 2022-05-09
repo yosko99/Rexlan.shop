@@ -16,6 +16,14 @@ exports.getUsers = async (req, res) => {
   res.status(200).json(users);
 };
 
+exports.getCurrentUser = async (req, res) => {
+  const user = await User
+    .findOne({ email: req.user.email })
+    .select('-password');
+
+  res.status(200).json({ user });
+};
+
 exports.addUser = async (req, res) => {
   const { email, name, password, address, phone, cartID } = req.body;
 
@@ -41,10 +49,7 @@ exports.addUser = async (req, res) => {
       if (err) {
         return res.status(404).send(err);
       } else {
-        const token = jwt.sign({
-          email,
-          password
-        }, process.env.JWT_SECRET_KEY);
+        const token = jwt.sign({ email }, process.env.JWT_SECRET_KEY);
 
         const checkedCartID = await checkExistingCart(email, cartID);
 
@@ -75,7 +80,7 @@ exports.loginUser = async (req, res) => {
     if (result) {
       const checkedCartID = await checkExistingCart(email, cartID);
 
-      const token = jwt.sign({ user }, process.env.JWT_SECRET_KEY);
+      const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET_KEY);
 
       return res.status(200).json({
         msg: 'You Have Successfully Logged in.',

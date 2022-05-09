@@ -11,7 +11,7 @@ const ProfileIcon = () => {
   const token = useContext(TokenContext);
 
   return (
-		<LinkContainer className='me-3' role='button' to={token!.token !== null ? '/dashboard' : '/login'}>
+		<LinkContainer className='me-3' role='button' to={token!.token !== null ? '/dashboard/details' : '/login'}>
 			<CenteredItems flexColumn>
 				<div><FontAwesomeIcon icon={faCircleUser}/></div>
 				<small>Profile</small>

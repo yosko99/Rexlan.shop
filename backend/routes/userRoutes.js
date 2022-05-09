@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const userController = require('../controllers/userController');
+const verifyJWT = require('../middleware/verifyJWT');
 
 // Question marks in front of 'accept' variables means that they are not required
 
@@ -10,6 +11,12 @@ const userController = require('../controllers/userController');
 // @route GET /api/users/
 // @access Public
 router.get('/', asyncHandler(userController.getUsers));
+
+// @desc Get current user data
+// @route GET /api/users/
+// @access Public
+// @requires [Authorization] header
+router.get('/current', verifyJWT, asyncHandler(userController.getCurrentUser));
 
 // @desc Add a new user
 // @route POST /api/users/

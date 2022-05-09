@@ -16,7 +16,7 @@ const CityInput = () => {
         console.log(err.response.data);
       });
     });
-  });
+  }, []);
 
   return (
 		<Form.Group className="mb-3" controlId="city">
