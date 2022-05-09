@@ -24,6 +24,9 @@ const userSchema = Schema({
   },
   cartID: {
     type: String
+  },
+  zipcode: {
+    type: String
   }
 }, {
   timestamps: true

@@ -24,6 +24,26 @@ exports.getCurrentUser = async (req, res) => {
   res.status(200).json({ user });
 };
 
+exports.updateCurrentUser = async (req, res) => {
+  const { name, address, phone, zipcode } = req.body;
+
+  try {
+    await User
+      .updateOne({ email: req.user.email }, {
+        name,
+        phone,
+        address,
+        zipcode
+      });
+
+    return res.status(200).json({
+      msg: 'Data updated successfully'
+    });
+  } catch (error) {
+    return res.status(404).send(error);
+  }
+};
+
 exports.addUser = async (req, res) => {
   const { email, name, password, address, phone, cartID } = req.body;
 

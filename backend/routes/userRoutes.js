@@ -13,10 +13,17 @@ const verifyJWT = require('../middleware/verifyJWT');
 router.get('/', asyncHandler(userController.getUsers));
 
 // @desc Get current user data
-// @route GET /api/users/
+// @route GET /api/users/current
 // @access Public
-// @requires [Authorization] header
+// @requires [authorization] header with JWT token
 router.get('/current', verifyJWT, asyncHandler(userController.getCurrentUser));
+
+// @desc Update current user data
+// @route POST /api/users/current
+// @access Public
+// @requires [authorization] header with JWT token
+// @accepts { email, name, address, phone, zip }
+router.post('/current', verifyJWT, asyncHandler(userController.updateCurrentUser));
 
 // @desc Add a new user
 // @route POST /api/users/
