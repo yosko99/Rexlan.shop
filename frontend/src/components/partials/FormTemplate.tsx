@@ -11,6 +11,7 @@ interface Props {
 	data: object,
 	setData: React.Dispatch<any>;
 	mutateURL: string;
+  onSuccessFn?: () => void;
   redirectOnSuccess?: boolean;
 	inputs: React.ReactChild;
 }
@@ -21,7 +22,7 @@ interface ErrorResponse {
   }
 }
 
-const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, redirectOnSuccess = true }) => {
+const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, redirectOnSuccess = true, onSuccessFn }) => {
   const [formValidated, setFormValidated] = useState<boolean>(false);
   const [alert, setAlert] = useState<React.ReactNode>();
   const token = useContext(TokenContext);
@@ -41,6 +42,7 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, 
         variant='danger'>{typeof errorMsg !== 'string' ? 'Error occurred' : errorMsg}</Alert>);
     },
     onSuccess: (data) => {
+      onSuccessFn && onSuccessFn();
       // Post request successfull
       setAlert(<Alert
         className='mt-3 rounded-pill text-center'

@@ -3,7 +3,7 @@ export interface OrderData {
   address: string;
   name: string;
 	city: string;
-	zipcode: number;
+	zipcode: string;
 	delivery: string;
 }
 
@@ -11,4 +11,5 @@ export interface DefaultValues {
 	phone: string;
 	address: string;
 	name: string;
+	zipcode: string;
 }

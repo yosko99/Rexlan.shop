@@ -34,7 +34,7 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
     phone: '',
     address: '',
     name: '',
-    zipcode: 0,
+    zipcode: '',
     city: '',
     delivery: ''
   });
@@ -71,7 +71,7 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
                     <NameInput defaultValue={defaultValues !== null ? defaultValues.name : ''} />
                     <AddressInput defaultValue={defaultValues !== null ? defaultValues.address : ''} />
                     <CityInput />
-                    <ZipInput />
+                    <ZipInput defaultValue={defaultValues !== null ? defaultValues.zipcode : ''}/>
                     <PhoneInput defaultValue={defaultValues !== null ? defaultValues.phone : ''} />
                   </>
                 }

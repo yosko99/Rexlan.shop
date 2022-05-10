@@ -88,7 +88,7 @@ exports.getCart = async (req, res) => {
   } else { // Cart is linked to user
     const userID = cart.userID;
     const user = await User.findOne({ _id: userID });
-    const { phone, address, name } = user;
+    const { phone, address, name, zipcode } = user;
 
     // Send user details and cart items
     return res.status(200).json({
@@ -96,7 +96,8 @@ exports.getCart = async (req, res) => {
       defaultValues: {
         phone,
         address,
-        name
+        name,
+        zipcode
       }
     });
   }

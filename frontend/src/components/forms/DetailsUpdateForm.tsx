@@ -1,5 +1,7 @@
 import React, { useState, FC } from 'react';
 
+import { useQueryClient } from 'react-query';
+
 import { User } from '../../types/userTypes';
 import AddressInput from '../inputs/AddressInput';
 import EmailInput from '../inputs/EmailInput';
@@ -14,6 +16,8 @@ interface Props {
 }
 
 const DetailsUpdateForm: FC<Props> = ({ className, user }) => {
+  const queryClient = useQueryClient();
+
   const [formData, setFormData] = useState<User>({
     email: user.email,
     address: user.address,
@@ -31,6 +35,7 @@ const DetailsUpdateForm: FC<Props> = ({ className, user }) => {
 				setData={setFormData}
 				mutateURL={'/api/users/current'}
 				redirectOnSuccess={false}
+				onSuccessFn={() => { queryClient.refetchQueries('cart'); }}
 				inputs={
 					<>
 						<EmailInput defaultValue={user.email} readOnly />
