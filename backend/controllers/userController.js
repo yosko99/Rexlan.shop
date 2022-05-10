@@ -44,6 +44,32 @@ exports.updateCurrentUser = async (req, res) => {
   }
 };
 
+exports.changePassword = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+
+  const user = await User.findOne({ email: req.user.email });
+
+  bcrypt.compare(oldPassword, user.password, async function (err, result) {
+    if (err) {
+      return res.status(404).send(err);
+    }
+    // Password match
+    if (result) {
+      bcrypt.hash(newPassword, Number(process.env.SALT_ROUNDS), async function (_err, hashedPassword) {
+        user.password = hashedPassword;
+
+        await user.save();
+        return res.status(200).json({
+          msg: 'Password updated successfully'
+        });
+      });
+    } else {
+      // Password mismatch
+      return res.status(403).send('Password does not match registered email.');
+    }
+  });
+};
+
 exports.addUser = async (req, res) => {
   const { email, name, password, address, phone, cartID } = req.body;
 
@@ -97,6 +123,7 @@ exports.loginUser = async (req, res) => {
       return res.status(404).send(err);
     }
 
+    // Password match
     if (result) {
       const checkedCartID = await checkExistingCart(email, cartID);
 
