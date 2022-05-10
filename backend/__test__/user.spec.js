@@ -12,14 +12,30 @@ describe('Testing user API', () => {
     notLinkedCart: null,
     linkedCart: null,
     userLinkedWithCart: null,
-    userNotLinkedWithCart: null
+    userNotLinkedWithCart: null,
+    userNotLinkedWithCartPassword: 'testing'
   };
+
   const mockUserInfo = {
     email: 'tempData',
     password: 'tempData',
     name: 'tempData',
     address: 'tempData',
     phone: 'tempData'
+  };
+
+  const userStructure = {
+    _id: expect.any(String),
+    email: expect.any(String),
+    name: expect.any(String),
+    address: expect.any(String),
+    phone: expect.any(String),
+    createdAt: expect.any(String),
+    updatedAt: expect.any(String),
+    cartID: expect.any(String),
+    zipcode: expect.any(String),
+    __v: expect.any(Number),
+    isAdmin: expect.any(Boolean)
   };
 
   beforeEach(async () => {
@@ -43,17 +59,7 @@ describe('Testing user API', () => {
       .then((response) => {
         expect(response.body).toEqual(
           expect.arrayContaining([
-            expect.objectContaining({
-              _id: expect.any(String),
-              email: expect.any(String),
-              name: expect.any(String),
-              address: expect.any(String),
-              phone: expect.any(String),
-              createdAt: expect.any(String),
-              updatedAt: expect.any(String),
-              cartID: expect.any(String),
-              __v: expect.any(Number)
-            })
+            expect.objectContaining(userStructure)
           ])
         );
       });
@@ -195,6 +201,144 @@ describe('Testing user API', () => {
       .expect(404)
       .then((response) => {
         expect(response.text).toBe('We could not find your email.');
+      });
+  });
+
+  test('get current user with provided valid JWT token', () => {
+    return request(app)
+      .post('/api/users/login')
+      .send({
+        email: dummyData.userNotLinkedWithCart.email,
+        password: dummyData.userNotLinkedWithCartPassword
+      })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        const { token } = response.body;
+
+        return request(app)
+          .get('/api/users/current')
+          .expect('Content-Type', /json/)
+          .set('authorization', 'Bearer ' + token)
+          .expect(200)
+          .then((response) => {
+            expect(response.body.user).toEqual(
+              expect.objectContaining(userStructure)
+            );
+          });
+      });
+  });
+
+  test('get current user without providing JWT token', () => {
+    return request(app)
+      .get('/api/users/current')
+      .expect('Content-Type', /json/)
+      .expect(403)
+      .then((response) => {
+        expect(response.body.message).toBe('jwt must be provided');
+      });
+  });
+
+  test('update current user with provided valid data and valid JWT token', () => {
+    return request(app)
+      .post('/api/users/login')
+      .send({
+        email: dummyData.userNotLinkedWithCart.email,
+        password: dummyData.userNotLinkedWithCartPassword
+      })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        const { token } = response.body;
+
+        return request(app)
+          .post('/api/users/current')
+          .expect('Content-Type', /json/)
+          .set('authorization', 'Bearer ' + token)
+          .send({
+            name: 'newName',
+            phone: 'newPhone',
+            address: 'newAddress',
+            zip: 1234
+          })
+          .expect(200)
+          .then((response) => {
+            expect(response.body.msg).toBe('Data updated successfully');
+          });
+      });
+  });
+
+  test('update current user without providing JWT token', () => {
+    return request(app)
+      .post('/api/users/current')
+      .expect('Content-Type', /json/)
+      .expect(403)
+      .then((response) => {
+        expect(response.body.message).toBe('jwt must be provided');
+      });
+  });
+
+  test('change password with valid old password and JWT token', () => {
+    return request(app)
+      .post('/api/users/login')
+      .send({
+        email: dummyData.userNotLinkedWithCart.email,
+        password: dummyData.userNotLinkedWithCartPassword
+      })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        const { token } = response.body;
+
+        return request(app)
+          .post('/api/users/change-password')
+          .expect('Content-Type', /json/)
+          .set('authorization', 'Bearer ' + token)
+          .send({
+            oldPassword: dummyData.userNotLinkedWithCartPassword,
+            newPassword: 'newPassword'
+          })
+          .expect(200)
+          .then((response) => {
+            expect(response.body.msg).toBe('Password updated successfully');
+          });
+      });
+  });
+
+  test('change password with provided JWT token but invalid old password', () => {
+    return request(app)
+      .post('/api/users/login')
+      .send({
+        email: dummyData.userNotLinkedWithCart.email,
+        password: dummyData.userNotLinkedWithCartPassword
+      })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        const { token } = response.body;
+
+        return request(app)
+          .post('/api/users/change-password')
+          .expect('Content-Type', /html/)
+          .set('authorization', 'Bearer ' + token)
+          .send({
+            oldPassword: 'invalid :D',
+            newPassword: 'newPassword'
+          })
+          .expect(403)
+          .then((response) => {
+            expect(response.text).toBe('Password does not match registered email.');
+          });
+      });
+  });
+
+  test('change current user password without providing JWT token', () => {
+    return request(app)
+      .post('/api/users/change-password')
+      .expect('Content-Type', /json/)
+      .expect(403)
+      .then((response) => {
+        expect(response.body.message).toBe('jwt must be provided');
       });
   });
 });

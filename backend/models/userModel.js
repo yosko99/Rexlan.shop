@@ -26,7 +26,12 @@ const userSchema = Schema({
     type: String
   },
   zipcode: {
-    type: String
+    type: String,
+    default: ''
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true

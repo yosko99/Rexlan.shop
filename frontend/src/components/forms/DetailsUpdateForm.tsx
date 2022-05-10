@@ -25,8 +25,14 @@ const DetailsUpdateForm: FC<Props> = ({ className, user }) => {
     name: user.name,
     phone: user.phone,
     updatedAt: user.updatedAt,
-    zipcode: user.zipcode
+    zipcode: user.zipcode,
+    isAdmin: user.isAdmin
   });
+
+  const onSuccessFn = () => {
+    queryClient.refetchQueries('cart');
+    queryClient.refetchQueries('profile');
+  };
 
   return (
     <div className={className}>
@@ -35,7 +41,7 @@ const DetailsUpdateForm: FC<Props> = ({ className, user }) => {
 				setData={setFormData}
 				mutateURL={'/api/users/current'}
 				redirectOnSuccess={false}
-				onSuccessFn={() => { queryClient.refetchQueries('cart'); }}
+				onSuccessFn={onSuccessFn}
 				inputs={
 					<>
 						<EmailInput defaultValue={user.email} readOnly />
@@ -44,7 +50,6 @@ const DetailsUpdateForm: FC<Props> = ({ className, user }) => {
 						<PhoneInput defaultValue={user.phone} />
 						<ZipInput defaultValue={user.zipcode}/>
 					</>
-
 				}
 			/>
 		</div>

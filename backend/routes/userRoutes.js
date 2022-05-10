@@ -22,7 +22,7 @@ router.get('/current', verifyJWT, asyncHandler(userController.getCurrentUser));
 // @route POST /api/users/current
 // @access Public
 // @requires [authorization] header with JWT token
-// @accepts { email, name, address, phone, zip }
+// @accepts { name, address, phone, zip }
 router.post('/current', verifyJWT, asyncHandler(userController.updateCurrentUser));
 
 // @desc Change user password
