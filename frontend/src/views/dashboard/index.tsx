@@ -1,56 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import Loading from '../../components/loading/Loading';
 import { TokenContext } from '../../context/TokenContext';
-import { User } from '../../types/userTypes';
+import useAuth from '../../hooks/useAuth';
+import useFetch from '../../hooks/useFetch';
 import RenderDashboard from './RenderDashboard';
 
 const Dashboard = () => {
-  const token = useContext(TokenContext);
-  const [loading, setLoading] = useState(true);
-  const [userInfo, setUserInfo] = useState<User>({
-    createdAt: new Date(),
-    email: '',
-    name: '',
-    phone: '',
-    address: '',
-    updatedAt: new Date(),
-    zipcode: ''
-  });
-  const navigate = useNavigate();
+  // Redirect if no token is set
+  useAuth(false);
 
-  useEffect(() => {
-    if (token!.token === null) {
-      navigate('/');
-    } else {
-      axios.get('/api/users/current', {
-        headers: {
-          authorization: 'Bearer ' + token!.token
-        }
-      }).then((response) => {
-        const { email, name, phone, updatedAt, createdAt, address, zipcode } = response.data.user;
-        setUserInfo({
-          email, name, phone, updatedAt, createdAt, address, zipcode
-        });
-        setLoading(false);
-      }).catch((_err) => {
-        console.log(_err);
-        // token!.setToken(null);
-      });
-    }
-  }, []);
+  const token = useContext(TokenContext);
+
+  const { data, isLoading, error } = useFetch('profile', '/api/users/current', {
+    headers: { authorization: 'Bearer ' + token!.token }
+  });
+
+  if (isLoading) {
+    return <Loading height='90vh'/>;
+  }
+  if (error !== undefined) {
+    return <Navigate to="/404" state={{ error: error.message }} />;
+  }
 
   return (
-    <>
-    {
-      loading
-        ? <Loading />
-        : <RenderDashboard user={userInfo} />
-    }
-    </>
+    <RenderDashboard user={data.user} />
   );
 };
 

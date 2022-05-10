@@ -8,7 +8,7 @@ import SignUpDesignTemplate from '../../components/partials/SignUpDesignTemplate
 import useAuth from '../../hooks/useAuth';
 
 const LoginPage = () => {
-  useAuth();
+  useAuth(true);
 
   return (
 		<SignUpDesignTemplate

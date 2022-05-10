@@ -9,9 +9,9 @@ interface ReturnTypes {
 	data: any;
 }
 
-const useFetch = (queryKey: string | string[], url: string): ReturnTypes => {
+const useFetch = (queryKey: string | string[], url: string, headers?: Object): ReturnTypes => {
   const getData = async () => {
-    return await axios.get(url)
+    return await axios.get(url, headers)
       .then((response) => response.data);
   };
 

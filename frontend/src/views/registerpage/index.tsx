@@ -6,7 +6,7 @@ import SignUpDesignTemplate from '../../components/partials/SignUpDesignTemplate
 import useAuth from '../../hooks/useAuth';
 
 const RegisterPage = () => {
-  useAuth();
+  useAuth(true);
 
   return (
 		<SignUpDesignTemplate

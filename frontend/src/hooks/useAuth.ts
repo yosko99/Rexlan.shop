@@ -5,13 +5,19 @@ import { useNavigate } from 'react-router-dom';
 import { TokenContext } from '../context/TokenContext';
 
 // Check if token is set and redirects to mainpage otherwise
-const useAuth = () => {
+const useAuth = (redirectOnExistingToken: boolean) => {
   const token = useContext(TokenContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (token!.token !== null) {
-      navigate('/');
+    if (redirectOnExistingToken) {
+      if (token!.token !== null) {
+        navigate('/');
+      }
+    } else {
+      if (token!.token === null) {
+        navigate('/');
+      }
     }
   });
 };
