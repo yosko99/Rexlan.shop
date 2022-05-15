@@ -23,9 +23,13 @@ interface Props {
 }
 
 const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, menClothing, womenClothing, bestSellers }) => {
+  const carouselItems = Array(4).fill(0).map((value: any, index: number) => (
+    <Image key={index} src={require(`../../assets/carousel/carousel${index + 1}.webp`)}/>
+  ));
+
   return (
 		<Container>
-			<CustomCarousel/>
+			<CustomCarousel carouselItems={carouselItems}/>
 
 			<InfoBar textAreas={textAreas}/>
 

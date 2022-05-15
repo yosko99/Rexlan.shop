@@ -59,6 +59,7 @@ const AddToCart: FC<Props> = ({ product }) => {
       <input
         className='ms-3 input-group-text'
         style={{ width: '75px' }}
+        min={1}
         value={productQuantity}
         type='number'
         onChange={(e) => setProductQuantity(Number(e.target.value))}
