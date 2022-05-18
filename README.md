@@ -3,7 +3,32 @@
 This project is using MERN stack (Mongoose react, Express, React, Node).<br/>
 Purpose of this project is to exercise with mongoose and React 🧾.
 
-# Instructions
+# Instructions (with docker 🐋)
+
+After cloning the repository first make sure your docker is running.<br/>
+Go to ``/frontend/`` folder and open ``package.json``, make sure the proxy is set to
+
+```
+"proxy": "http://server:5000"
+```
+
+Next you can run the following command in the main directory:
+
+```
+docker-compose up
+```
+
+This command will build the application without 2 functionalities that are not mandatory for running the application. <br/>
+If you want the full experience you need to set the following environment variables in the main directory
+
+``SENDER_EMAIL = XXXX``
+``SENDER_EMAIL_PASSWORD``
+``OPENWEATHER_API_KEY = XXXX``
+<br/>
+
+For instructions on what they are used for scroll down to 'Environment variables instructions'
+
+# Instructions (without docker)
 
 > Note that you need to have yarn installed 😁.
 <br/>
@@ -22,15 +47,23 @@ npm run installPackages
 
 This command will concurrently install the necessary npm packages for both backend and frontend 😍.
 
-## Database instructions
+## Proxy instructions
 
-This projects uses MongoDB as database, so to run it you will need to use local MongoDB database or MongoDB atlas. <br/>
-After setting up your database and receiving your MONGO_URI you can continue to the next section ⬇. 
+Go to ``/frontend/`` folder and open ``package.json``, make sure the proxy is set to
+
+```
+"proxy": "http://localhost:5000"
+```
 
 ## Openweather API
 
 If you want your 'cart' tab to detect your current location you can go and get yourself an ``API`` key from https://openweathermap.org/ . <br/>
 But dont worry it is not required for running the app 😄.
+
+## Database instructions
+
+This projects uses MongoDB as database, so to run it you will need to use local MongoDB database or MongoDB atlas. <br/>
+After setting up your database and receiving your MONGO_URI you can continue to the next section ⬇. 
 
 ## Environment variables instructions
 
