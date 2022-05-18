@@ -1,0 +1,52 @@
+version: "3.9"
+services:
+  
+  client:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - mern-network
+    volumes:
+      - ./client/src:/app/client/src
+      - ./client/public:/app/client/public
+    depends_on:
+      - server
+    environment:
+      - SKIP_PREFLIGHT_CHECK=true
+    command: npm start
+    stdin_open: true
+    tty: true
+  
+  server:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    networks:
+      - mern-network
+    volumes:
+      - ./server/src:/usr/app/src
+    depends_on:
+      - db
+    command: sh -c "npm run data:import && npm run start"
+
+  db:
+    image: mongo:3.6.19-xenial
+    ports:
+      - 27017:27017
+    networks:
+      - mern-network
+    volumes:
+      - mongo-data:/data/db
+
+networks:
+  mern-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
