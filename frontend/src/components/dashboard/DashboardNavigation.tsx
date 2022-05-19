@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useParams } from 'react-router-dom';
 
-const DashboardNavigation = () => {
+interface Props {
+  isAdmin: boolean;
+}
+
+const DashboardNavigation: FC<Props> = ({ isAdmin }) => {
   const { option } = useParams();
 
   const buttons = [
@@ -34,6 +38,16 @@ const DashboardNavigation = () => {
 					</Button>
 				</LinkContainer>
 			))}
+      {!isAdmin &&
+        <LinkContainer to='/dashboard/admin-panel'>
+          <Button
+						variant={`${option === 'admin-panel' ? 'primary' : 'outline-primary'}`}
+						className='mb-3 mt-3'
+          >
+            Admin panel
+          </Button>
+        </LinkContainer>
+      }
 		</div>
   );
 };

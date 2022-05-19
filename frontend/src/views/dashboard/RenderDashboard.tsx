@@ -5,6 +5,7 @@ import { Navigate, useParams } from 'react-router-dom';
 
 import DashboardNavigation from '../../components/dashboard/DashboardNavigation';
 import { User } from '../../types/userTypes';
+import AdminPanelPage from './subpages/AdminPanelPage';
 import MyDetailsPage from './subpages/MyDetailsPage';
 import MyOrdersPage from './subpages/MyOrdersPage';
 import PasswordChangePage from './subpages/PasswordChangePage';
@@ -32,6 +33,10 @@ const RenderDashboard: FC<Props> = ({ user }) => {
     {
       urlParam: 'orders',
       page: <MyOrdersPage />
+    },
+    {
+      urlParam: 'admin-panel',
+      page: <AdminPanelPage />
     }
   ];
   const [subpage, setSubpage] = useState<Subpage | undefined>(subpages.find((subpage) => subpage.urlParam === option));
@@ -49,7 +54,7 @@ const RenderDashboard: FC<Props> = ({ user }) => {
         <p className='fs-2 my-4'>My account</p>
         <Row>
           <Col lg={2}>
-            <DashboardNavigation />
+            <DashboardNavigation isAdmin={user.isAdmin}/>
           </Col>
           <Col lg={10} className='shadow-sm'>
             <div className='mx-3 mb-3 p-3'>
