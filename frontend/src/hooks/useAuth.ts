@@ -19,7 +19,7 @@ const useAuth = (redirectOnExistingToken: boolean) => {
         navigate('/');
       }
     }
-  });
+  }, []);
 };
 
 export default useAuth;

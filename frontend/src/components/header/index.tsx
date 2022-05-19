@@ -1,7 +1,5 @@
 import React, { FC } from 'react';
 
-import { Navigate } from 'react-router-dom';
-
 import useFetch from '../../hooks/useFetch';
 import RenderHeader from './RenderHeader';
 
@@ -13,13 +11,11 @@ const Header: FC = () => {
   } = useFetch('categories', '/api/categories/');
 
   if (error !== undefined) {
-    return <Navigate to="/404" state={{ error: error.message }} />;
+    window.location.href = '/404';
   }
 
   return (
-		<>
-			<RenderHeader isLoading={isLoading} categories={categories}/>
-		</>
+    <RenderHeader isLoading={isLoading} categories={categories}/>
   );
 };
 

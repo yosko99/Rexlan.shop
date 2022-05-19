@@ -32,6 +32,11 @@ services:
       - ./server/src:/usr/app/src
     depends_on:
       - db
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://db:27017/mern
+      - JWT_SECRET_KEY=p0tpY8rIzugOu7pV5qBW
+      - SALT_ROUNDS=10
     command: sh -c "npm run data:import && npm run start"
 
   db:
