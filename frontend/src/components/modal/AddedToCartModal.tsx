@@ -1,11 +1,12 @@
-import React, { useState, FC } from 'react';
+import React, { FC } from 'react';
 
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Modal, Row, Col, Image } from 'react-bootstrap';
+import { Button, Row, Col, Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { Product } from '../../types/productTypes';
+import CustomModal from './CustomModal';
 
 interface Props {
 	onClick?: () => void;
@@ -14,30 +15,19 @@ interface Props {
 }
 
 const AddedToCartModal: FC<Props> = ({ onClick, product, productQuantity }) => {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const handleClick = () => {
-    handleShow();
-    onClick && onClick();
-  };
-
   return (
     <>
-      <Button className='fs-4 text-uppercase bg-black text-white' onClick={handleClick}>
-        Add to cart
-      </Button>
-
-      <Modal centered animation show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title className='text-center'>
-						<FontAwesomeIcon icon={faCheck} className='me-2' color='green'/>
-						Product added to cart
-					</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+      <CustomModal
+        activateButtonText='Add to cart'
+        activateButtonClassName='fs-4 text-uppercase bg-black text-white'
+        activateButtonOnClick={onClick}
+        modalHeader={
+          <>
+            <FontAwesomeIcon icon={faCheck} className='me-2' color='green'/>
+            Product added to cart
+          </>
+          }
+        modalBody={
           <Row>
             <Col className='d-flex justify-content-center align-items-center'>
               <Image fluid src={product.image} />
@@ -50,20 +40,22 @@ const AddedToCartModal: FC<Props> = ({ onClick, product, productQuantity }) => {
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod officia voluptatibus ad molestias cum commodi voluptates dolore.</p>
             </Col>
           </Row>
-        </Modal.Body>
-        <Modal.Footer className='d-flex justify-content-between'>
-          <div>
-            <Button variant="outline-secondary" onClick={handleClose}>
-              Continue shopping
-            </Button>
-          </div>
-          <LinkContainer to='/cart'>
-            <Button variant="primary" onClick={handleClose}>
-              Finish the purchase
-            </Button>
-          </LinkContainer>
-        </Modal.Footer>
-      </Modal>
+          }
+        modalFooter={
+          <>
+            <div>
+              <Button variant="outline-secondary" >
+                Continue shopping
+              </Button>
+            </div>
+            <LinkContainer to='/cart'>
+              <Button variant="primary" >
+                Finish the purchase
+              </Button>
+            </LinkContainer>
+          </>
+        }
+      />
     </>
   );
 };
