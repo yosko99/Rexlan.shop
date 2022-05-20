@@ -4,7 +4,7 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import CenteredItems from '../../styles/CenteredItems';
+import CenteredItems from '../../../styles/CenteredItems';
 
 const FavouriteIcon: FC = () => {
   const [counter, setCounter] = useState<number>();

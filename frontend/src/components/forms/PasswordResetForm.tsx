@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 
 import EmailInput from '../inputs/EmailInput';
-import FormTemplate from '../partials/FormTemplate';
+import FormTemplate from '../templates/FormTemplate';
 
 interface Props {
 	className?: string;

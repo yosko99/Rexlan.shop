@@ -4,42 +4,18 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { Navigate, useParams } from 'react-router-dom';
 
 import DashboardNavigation from '../../components/dashboard/DashboardNavigation';
+import { getSubpages, SubpageType } from '../../data/dashboardSubpages';
 import { User } from '../../types/userTypes';
-import AdminPanelPage from './subpages/AdminPanelPage';
-import MyDetailsPage from './subpages/MyDetailsPage';
-import MyOrdersPage from './subpages/MyOrdersPage';
-import PasswordChangePage from './subpages/PasswordChangePage';
 
 interface Props {
   user: User;
 }
 
-interface Subpage {
-  urlParam: string;
-  page: React.ReactChild;
-}
-
 const RenderDashboard: FC<Props> = ({ user }) => {
   const { option } = useParams();
-  const subpages: Subpage[] = [
-    {
-      urlParam: 'details',
-      page: <MyDetailsPage user={user} />
-    },
-    {
-      urlParam: 'password-change',
-      page: <PasswordChangePage />
-    },
-    {
-      urlParam: 'orders',
-      page: <MyOrdersPage />
-    },
-    {
-      urlParam: 'admin-panel',
-      page: <AdminPanelPage />
-    }
-  ];
-  const [subpage, setSubpage] = useState<Subpage | undefined>(subpages.find((subpage) => subpage.urlParam === option));
+  const subpages = getSubpages(user);
+  const [subpage, setSubpage] = useState<SubpageType | undefined>(
+    subpages.find((subpage) => subpage.urlParam === option));
 
   useEffect(() => {
     setSubpage(subpages.find(

@@ -4,11 +4,10 @@ import { Row, Col, Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 
-import adminPanelImg from '../../../assets/dashboard/admin-panel/admin-panel-option-menu.png';
+import adminPanelImg from '../../../../assets/dashboard/admin-panel/admin-panel-option-menu.png';
 
 const AdminPanelOptionDiv = styled.div`
-	background-color: black;
-	color: white;
+	border: 1px solid green;
 	display: flex;
 	justify-content: center;
 	align-items: center;

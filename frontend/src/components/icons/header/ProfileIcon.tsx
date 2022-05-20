@@ -4,8 +4,8 @@ import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { TokenContext } from '../../context/TokenContext';
-import CenteredItems from '../../styles/CenteredItems';
+import { TokenContext } from '../../../context/TokenContext';
+import CenteredItems from '../../../styles/CenteredItems';
 
 const ProfileIcon = () => {
   const token = useContext(TokenContext);

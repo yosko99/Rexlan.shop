@@ -4,7 +4,7 @@ import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import CenteredItems from '../../styles/CenteredItems';
+import CenteredItems from '../../../styles/CenteredItems';
 
 const CartIcon = () => {
   return (

@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 import EmailInput from '../inputs/EmailInput';
 import PasswordInput from '../inputs/PasswordInput';
-import FormTemplate from '../partials/FormTemplate';
+import FormTemplate from '../templates/FormTemplate';
 
 interface Props {
 	className?: string;

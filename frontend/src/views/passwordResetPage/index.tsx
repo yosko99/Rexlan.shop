@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 import passwordResetImg from '../../assets/passwordResetPage/password-reset.png';
 import PasswordResetForm from '../../components/forms/PasswordResetForm';
-import SignUpDesignTemplate from '../../components/partials/SignUpDesignTemplate';
+import SignUpDesignTemplate from '../../components/templates/SignUpDesignTemplate';
 
 const RegisterPage = () => {
   return (

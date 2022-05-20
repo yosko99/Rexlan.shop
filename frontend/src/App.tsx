@@ -40,6 +40,7 @@ function App () {
             <Route path='/password-reset' element={<PasswordResetPage />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/dashboard/:option' element={<Dashboard />} />
+            <Route path='/dashboard/admin-panel/:option' element={<Dashboard />} />
             <Route path='/*' element={<Page404 />} />
           </Routes>
         </main>

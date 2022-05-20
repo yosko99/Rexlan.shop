@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import logo from '../../assets/header/logo192.png';
-import CartIcon from '../icons/CartIcon';
-import FavouriteIcon from '../icons/FavouriteIcon';
-import LoginIcon from '../icons/LoginIcon';
-import ProfileIcon from '../icons/ProfileIcon';
+import CartIcon from '../icons/header/CartIcon';
+import FavouriteIcon from '../icons/header/FavouriteIcon';
+import LoginIcon from '../icons/header/LoginIcon';
+import ProfileIcon from '../icons/header/ProfileIcon';
 import Loading from '../loading/Loading';
 import SearchBar from '../searchbar/SearchBar';
 

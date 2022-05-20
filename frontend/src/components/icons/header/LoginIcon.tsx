@@ -4,8 +4,8 @@ import { faSignIn, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { TokenContext } from '../../context/TokenContext';
-import CenteredItems from '../../styles/CenteredItems';
+import { TokenContext } from '../../../context/TokenContext';
+import CenteredItems from '../../../styles/CenteredItems';
 
 const LoginIcon = () => {
   const token = useContext(TokenContext);

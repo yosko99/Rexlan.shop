@@ -8,7 +8,7 @@ import EmailInput from '../inputs/EmailInput';
 import NameInput from '../inputs/NameInput';
 import PhoneInput from '../inputs/PhoneInput';
 import ZipInput from '../inputs/ZipInput';
-import FormTemplate from '../partials/FormTemplate';
+import FormTemplate from '../templates/FormTemplate';
 
 interface Props {
 	className?: string;

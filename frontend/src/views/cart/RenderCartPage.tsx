@@ -11,7 +11,7 @@ import NameInput from '../../components/inputs/NameInput';
 import PhoneInput from '../../components/inputs/PhoneInput';
 import ZipInput from '../../components/inputs/ZipInput';
 import Loading from '../../components/loading/Loading';
-import FormTemplate from '../../components/partials/FormTemplate';
+import FormTemplate from '../../components/templates/FormTemplate';
 import useMultipleFetch from '../../hooks/useMultipleFetch';
 import { DefaultValues, OrderData } from '../../types/orderTypes';
 import { CartProductType } from '../../types/productTypes';
