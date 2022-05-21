@@ -22,7 +22,8 @@ const SearchBar: FC = () => {
     data
   } = useFetch(
     ['searchProducts', searchQuery],
-    `/api/products/regex/${(searchQuery === '') ? defaultSearchWord : searchQuery}`
+    `/api/products/regex/${(searchQuery === '') ? defaultSearchWord : searchQuery}`,
+    true
   );
 
   const handleChange = (e: React.ChangeEvent) => {

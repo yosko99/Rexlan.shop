@@ -10,7 +10,7 @@ const CartPage = () => {
   const cartID = localStorageCart === null ? 'null' : localStorageCart;
 
   // Fetch cart items with provided cart if there is any
-  const { data, isLoading } = useFetch(['cart', cartID], `/api/carts/${cartID}`);
+  const { data, isLoading } = useFetch(['cart', cartID], `/api/carts/${cartID}`, true);
 
   if (isLoading) {
     return <Loading />;

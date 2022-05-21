@@ -25,7 +25,7 @@ const DeliveryInput: FC<Props> = ({ setDeliveryPrice }) => {
     isLoading,
     data: deliveries,
     error
-  } = useFetch('deliveries', '/api/deliveries/');
+  } = useFetch('deliveries', '/api/deliveries/', true);
 
   if (isLoading) {
     return <Loading />;

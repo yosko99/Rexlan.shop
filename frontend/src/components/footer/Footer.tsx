@@ -10,7 +10,7 @@ const Footer = () => {
     isLoading,
     error,
     data: categories
-  } = useFetch('categories', '/api/categories/');
+  } = useFetch('categories', '/api/categories/', true);
 
   return (
 		<>

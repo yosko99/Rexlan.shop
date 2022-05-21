@@ -7,9 +7,10 @@ interface ReturnTypes {
 	error: Error | undefined;
 	isLoading: boolean;
 	data: any;
+  refetch: () => void;
 }
 
-const useFetch = (queryKey: string | string[], url: string, headers?: Object): ReturnTypes => {
+const useFetch = (queryKey: string | string[], url: string, fetchOnLoad: boolean, headers?: Object): ReturnTypes => {
   const getData = async () => {
     return await axios.get(url, headers)
       .then((response) => response.data);
@@ -19,13 +20,17 @@ const useFetch = (queryKey: string | string[], url: string, headers?: Object): R
     isLoading,
     error,
     isError,
-    data
-  } = useQuery(queryKey, () => getData());
+    data,
+    refetch
+  } = useQuery(queryKey, () => getData(), {
+    enabled: fetchOnLoad
+  });
 
   return {
     isLoading,
     error: isError ? error as Error : undefined,
-    data
+    data,
+    refetch
   };
 };
 

@@ -8,7 +8,7 @@ const Header: FC = () => {
     isLoading,
     error,
     data: categories
-  } = useFetch('categories', '/api/categories/');
+  } = useFetch('categories', '/api/categories/', true);
 
   if (error !== undefined) {
     window.location.href = '/404';

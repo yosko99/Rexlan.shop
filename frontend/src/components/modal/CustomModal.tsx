@@ -4,7 +4,7 @@ import { Button, Modal } from 'react-bootstrap';
 
 interface Props {
 	activateButtonText: string;
-	activateButtonClassName: string;
+	activateButtonClassName?: string;
 	activateButtonOnClick?: () => void;
 	modalHeader: React.ReactChild;
 	modalBody: React.ReactChild;

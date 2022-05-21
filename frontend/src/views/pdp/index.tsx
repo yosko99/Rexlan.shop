@@ -13,7 +13,7 @@ const PDPPage = () => {
     isLoading,
     error,
     data: product
-  } = useFetch(`product-${id!}`, `/api/products/${id}`);
+  } = useFetch(`product-${id!}`, `/api/products/${id}`, true);
 
   if (isLoading) {
     return <Loading height='90vh'/>;

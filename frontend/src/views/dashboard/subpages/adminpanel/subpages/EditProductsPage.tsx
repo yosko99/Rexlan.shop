@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Image } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import { Navigate } from 'react-router-dom';
 
 import EditDataTable from '../../../../../components/dashboard/EditDataTable';
@@ -15,7 +16,7 @@ const EditProductsPage = () => {
     isLoading,
     data: products,
     error
-  } = useFetch('allProducts', '/api/products');
+  } = useFetch('allProducts', '/api/products', true);
 
   if (error !== undefined) {
     return <Navigate to="/404" state={{ error: error.message }} />;
@@ -39,11 +40,17 @@ const EditProductsPage = () => {
 							{products.map((product: Product, index: number) => (
 								<tr key={index}>
 									<td>
-										<Image src={product.image} width={50} />
+										<LinkContainer role='button' to={`/${product.category}/product/${product.id}`}>
+											<Image src={product.image} width={50} />
+										</LinkContainer>
 									</td>
 									<td>{product.title}</td>
 									<td>
-										<EditDataIcon />
+										<EditDataIcon
+											queryKey={`product-${product.id}`}
+											dataID={product.id}
+											getDataURL={'/api/products/'}
+										/>
 									</td>
 									<td>
 										<DeleteDataIcon />
