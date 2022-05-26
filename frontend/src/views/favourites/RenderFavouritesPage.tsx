@@ -26,12 +26,12 @@ const RenderFavouritesPage: FC<Props> = ({ likedProductsLocalStorage }) => {
   return (
 		<>
 			<FreeShippingBar />
-			{ error !== undefined
+			{error !== undefined
 			  ? <Navigate to="/404" state={{ error: error.message }} />
 			  : <Container>
-						<h2 className='text-center my-3'>My Favourites</h2>
-						<MultipleProductCards products={data} isLoading={isLoading} />
-					</Container>
+					<h2 className='text-center my-3'>My Favourites</h2>
+					<MultipleProductCards products={data} isLoading={isLoading} />
+				</Container>
 			}
 		</>
   );

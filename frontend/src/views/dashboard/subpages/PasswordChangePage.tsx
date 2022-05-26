@@ -6,10 +6,10 @@ import PasswordChangeForm from '../../../components/forms/PasswordChangeForm';
 
 const PasswordChangePage = () => {
   return (
-		<div>
+    <div>
       <p className='fs-3 my-3'>Password change</p>
       <p>Here you can change your password</p>
-      <hr/>
+      <hr />
       <Row>
         <Col lg={4}>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae repellendus, mollitia reprehenderit excepturi deserunt odit nemo illo incidunt!</p>

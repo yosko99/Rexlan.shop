@@ -19,14 +19,14 @@ const FavouritesPage = () => {
   // No liked products
   if (likedProductsLocalStorage === null || likedProductsLocalStorage === '[]') {
     return (
-    <div className='text-center'>
-      <Image src={noFavouritesImg} fluid alt='no favourites'/>
-    </div>
+      <div className='text-center'>
+        <Image src={noFavouritesImg} fluid alt='no favourites' />
+      </div>
     );
   }
 
   return (
-      <RenderFavouritesPage likedProductsLocalStorage={likedProductsLocalStorage}/>
+    <RenderFavouritesPage likedProductsLocalStorage={likedProductsLocalStorage} />
   );
 };
 

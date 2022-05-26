@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 
+import { Button } from 'react-bootstrap';
 import { Navigate } from 'react-router-dom';
 
 import useFetch from '../../../hooks/useFetch';
@@ -40,13 +41,12 @@ const EditDataIcon: FC<Props> = ({ dataID, getDataURL, queryKey }) => {
               {
                 Object.keys(data).map((property: any, index: number) => (
                   typeof data[property] !== 'object' && <input defaultValue={data[property]}/>
-                  // <p key={index}>{property} -{typeof data[property] !== 'object' && data[property]}</p>
                 ))
               }
             </>
 				}
-				modalHeader={<h1>Edit product</h1>}
-				modalFooter={<h1>asdasd</h1>}
+				modalHeader={<p className='mb-0'>Edit data</p>}
+				modalFooter={<Button variant="primary">Close</Button>}
 			/>
 		</>
   );

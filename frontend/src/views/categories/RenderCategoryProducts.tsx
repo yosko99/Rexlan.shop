@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { Container, Image } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
-import MultipleProductCars from '../../components/product/MultipleProductCards';
+import MultipleProductCards from '../../components/product/MultipleProductCards';
 import { Product } from '../../types/productTypes';
 
 interface Props {
@@ -24,7 +24,7 @@ const RenderCategoryProducts: FC<Props> = ({ isLoading, categoryProducts }) => {
 					src={require(`../../assets/categories/${category}.webp`)}
 				/>
 			</div>
- 			<MultipleProductCars
+			<MultipleProductCards
 				products={categoryProducts}
 				isLoading={isLoading}
 			/>

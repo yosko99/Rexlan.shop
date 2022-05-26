@@ -8,7 +8,7 @@ import CenteredItems from '../../../styles/CenteredItems';
 const MyOrdersPage = () => {
   return (
     <CenteredItems flexColumn>
-      <Image src={pageUnderConstructionImg} fluid/>
+      <Image src={pageUnderConstructionImg} fluid />
       <p className='fs-3'>This page is under construction</p>
       <p className='fs-5 text-muted'>We are working on it!</p>
     </CenteredItems>

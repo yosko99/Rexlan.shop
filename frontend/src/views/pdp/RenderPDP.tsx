@@ -30,7 +30,7 @@ const RenderPDP: FC<Props> = ({ product }) => {
 			<Container>
 				<Row>
 					<Col lg={7} className='d-flex align-items-center justify-content-center'>
-						<ProductImage src={product.image} alt={product.title}/>
+						<ProductImage src={product.image} alt={product.title} />
 					</Col>
 					<Col lg={5} className='d-flex align-items-center mt-4'>
 						<div className='text-left'>
@@ -53,14 +53,14 @@ const RenderPDP: FC<Props> = ({ product }) => {
 							<p className='text-muted mb-5'>
 								{product.description}
 							</p>
-								<AddToCart product={product} />
-								<div>
-									<FavouriteBtn
-										size={2}
-										className='mt-4'
-										productID={product.id}
-									/>
-								</div>
+							<AddToCart product={product} />
+							<div>
+								<FavouriteBtn
+									size={2}
+									className='mt-4'
+									productID={product.id}
+								/>
+							</div>
 							<small>
 								<p className='mt-4 text-muted'>
 									In stock- pickup and free shipping avaliable

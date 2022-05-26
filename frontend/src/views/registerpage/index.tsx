@@ -10,17 +10,17 @@ const RegisterPage = () => {
 
   return (
 		<SignUpDesignTemplate
-		body={
-			<>
-				<h2>Register</h2>
-				<p className='text-muted'>
-					Please enter your details
-				</p>
-				<RegisterForm className='w-100'/>
-				<small className='text-muted mt-2'>Provided data will be used for a faster checkout.</small>
-			</>
-		}
-		imgURL={registerImg}
+			body={
+				<>
+					<h2>Register</h2>
+					<p className='text-muted'>
+						Please enter your details
+					</p>
+					<RegisterForm className='w-100' />
+					<small className='text-muted mt-2'>Provided data will be used for a faster checkout.</small>
+				</>
+			}
+			imgURL={registerImg}
 		/>
   );
 };

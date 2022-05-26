@@ -24,9 +24,9 @@ const EditProductsPage = () => {
 
   return (
 		<div>
-      <p className='fs-3 my-3'>Edit products</p>
-      <p>Here you can edit product properties</p>
-      <hr/>
+			<p className='fs-3 my-3'>Edit products</p>
+			<p>Here you can edit product properties</p>
+			<hr />
 			{isLoading
 			  ? <Loading />
 			  : <EditDataTable

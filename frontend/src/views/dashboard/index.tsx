@@ -19,7 +19,7 @@ const Dashboard = () => {
   });
 
   if (isLoading) {
-    return <Loading height='90vh'/>;
+    return <Loading height='90vh' />;
   }
   if (error !== undefined) {
     return <Navigate to="/404" state={{ error: error.message }} />;

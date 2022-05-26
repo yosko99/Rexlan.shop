@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useQueryClient } from 'react-query';
 
 interface Props {
-	productID: string;
+  productID: string;
 }
 
 const RemoveProduct: FC<Props> = ({ productID }) => {
@@ -24,14 +24,14 @@ const RemoveProduct: FC<Props> = ({ productID }) => {
   };
 
   return (
-		<small
-			role='button'
-			id={productID}
-			className='text-muted text-right'
-			onClick={(e) => handleRemove(e)}
-		>
-			Remove item
-		</small>
+    <small
+      role='button'
+      id={productID}
+      className='text-muted text-right'
+      onClick={(e) => handleRemove(e)}
+    >
+      Remove item
+    </small>
   );
 };
 

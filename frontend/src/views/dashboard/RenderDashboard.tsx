@@ -4,7 +4,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { Navigate, useParams } from 'react-router-dom';
 
 import DashboardNavigation from '../../components/dashboard/DashboardNavigation';
-import { getSubpages, SubpageType } from '../../data/dashboardSubpages';
+import { dashboardSubpages, SubpageType } from '../../data/dashboardSubpages';
 import { User } from '../../types/userTypes';
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 
 const RenderDashboard: FC<Props> = ({ user }) => {
   const { option } = useParams();
-  const subpages = getSubpages(user);
+  const subpages = dashboardSubpages(user);
   const [subpage, setSubpage] = useState<SubpageType | undefined>(
     subpages.find((subpage) => subpage.urlParam === option));
 

@@ -12,7 +12,7 @@ export interface SubpageType {
   page: React.ReactChild;
 }
 
-export const getSubpages = (user: User): SubpageType[] => {
+export const dashboardSubpages = (user: User): SubpageType[] => {
   return [
     {
       urlParam: 'details',

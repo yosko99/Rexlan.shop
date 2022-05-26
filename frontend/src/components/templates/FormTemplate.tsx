@@ -25,7 +25,7 @@ interface ErrorResponse {
 
 const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, redirectOnSuccess = true, onSuccessFn }) => {
   const [formValidated, setFormValidated] = useState<boolean>(false);
-  const [alert, setAlert] = useState<React.ReactNode>();
+  const [onMutateAlert, setOnMutateAlert] = useState<React.ReactNode>();
   const token = useContext(TokenContext);
   const navigate = useNavigate();
 
@@ -39,14 +39,14 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, 
     onError: (err: ErrorResponse) => {
       const errorMsg = err.response.data;
 
-      setAlert(<Alert
+      setOnMutateAlert(<Alert
         className='mt-3 rounded-pill text-center'
         variant='danger'>{typeof errorMsg !== 'string' ? 'Error occurred' : errorMsg}</Alert>);
     },
     onSuccess: (data) => {
       onSuccessFn && onSuccessFn();
       // Post request successfull
-      setAlert(<Alert
+      setOnMutateAlert(<Alert
         className='mt-3 rounded-pill text-center'
         variant='success'>
           {data.data.msg}
@@ -103,7 +103,7 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, 
 							Submit
       </Button>
 
-      {(mutation.isError || mutation.isSuccess) && <>{ alert }</>
+      {(mutation.isError || mutation.isSuccess) && <>{ onMutateAlert }</>
       }
 		</Form>
   );

@@ -49,30 +49,30 @@ const AdminPanelPage = () => {
 
   return (
 		<div>
-      <p className='fs-3 my-3'>Admin panel</p>
+			<p className='fs-3 my-3'>Admin panel</p>
 			<p>Select which data you want to edit</p>
-      <hr/>
+			<hr />
 			<Row>
-        <Col lg={5}>
-					<Image src={adminPanelImg} fluid/>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				<Col lg={5}>
+					<Image src={adminPanelImg} fluid />
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
 						Repudiandae repellendus, mollitia reprehenderit excepturi deserunt odit nemo illo incidunt!
 					</p>
-        </Col>
-        <Col lg={7}>
-				<Row>
-				{adminOptions.map((option: AdminOptionButton, index: number) => (
-					<LinkContainer key={index} to={option.urlParam}>
-						<Col lg={12}>
-							<AdminPanelOptionDiv role='button'>
-								<p>{option.btnText}</p>
-							</AdminPanelOptionDiv>
-						</Col>
-					</LinkContainer>
-				))}
-			</Row>
-        </Col>
-      </Row>
+				</Col>
+				<Col lg={7}>
+					<Row>
+						{adminOptions.map((option: AdminOptionButton, index: number) => (
+							<LinkContainer key={index} to={option.urlParam}>
+								<Col lg={12}>
+									<AdminPanelOptionDiv role='button'>
+										<p>{option.btnText}</p>
+									</AdminPanelOptionDiv>
+								</Col>
+							</LinkContainer>
+						))}
+					</Row>
+				</Col>
+				</Row>
 		</div>
   );
 };

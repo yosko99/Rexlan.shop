@@ -28,7 +28,7 @@ const CartOrderBox: FC<Props> = ({ products, cartProducts, totalPrice, deliveryP
   return (
 		<div className='mt-2'>
 			<p className='fs-5'>Your order</p>
-			<hr/>
+			<hr />
 			<ProductHolder>
 				{products.map((product: Product, index: number) => (
 					<Row key={index}>
@@ -41,10 +41,10 @@ const CartOrderBox: FC<Props> = ({ products, cartProducts, totalPrice, deliveryP
 							<p>{product.title}</p>
 							<p>${product.price} x {cartProducts[index].productQuantity}</p>
 							<div className='d-flex justify-content-end'>
-							<RemoveProduct productID={product.id} />
+								<RemoveProduct productID={product.id} />
 							</div>
 						</Col>
-						<hr className='my-2'/>
+						<hr className='my-2' />
 					</Row>
 				))}
 			</ProductHolder>
@@ -58,7 +58,7 @@ const CartOrderBox: FC<Props> = ({ products, cartProducts, totalPrice, deliveryP
 				<p>Discount</p>
 				<p>-$10</p>
 			</div>
-			<hr className='m-0 mb-2'/>
+			<hr className='m-0 mb-2' />
 			<div className='d-flex justify-content-between'>
 				<p className='fs-3'> Total</p>
 				<p className='fs-3'> ${totalPrice}</p>
