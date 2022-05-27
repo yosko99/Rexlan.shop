@@ -49,7 +49,7 @@ const EditProductsPage = () => {
 										<EditDataIcon
 											queryKey={`product-${product.id}`}
 											dataID={product.id}
-											getDataURL={'/api/products/'}
+											apiRoute={'/api/products'}
 										/>
 									</td>
 									<td>

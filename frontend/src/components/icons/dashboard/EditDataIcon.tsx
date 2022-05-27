@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import { Button } from 'react-bootstrap';
+import { useQueryClient } from 'react-query';
 import { Navigate } from 'react-router-dom';
 
 import useFetch from '../../../hooks/useFetch';
@@ -11,17 +12,18 @@ import FormTemplate from '../../templates/FormTemplate';
 
 interface Props {
   dataID: string;
-  getDataURL: string;
+  apiRoute: string;
   queryKey: string;
 }
 
-const EditDataIcon: FC<Props> = ({ dataID, getDataURL, queryKey }) => {
+const EditDataIcon: FC<Props> = ({ dataID, apiRoute, queryKey }) => {
+  const queryClient = useQueryClient();
   const {
     isLoading,
     data: fetchedData,
     error,
     refetch
-  } = useFetch(queryKey, getDataURL + '/' + dataID, false);
+  } = useFetch(queryKey, apiRoute + '/' + dataID, false);
 
   if (error !== undefined) {
     return <Navigate to="/404" state={{ error: error.message }} />;
@@ -57,8 +59,10 @@ const EditDataIcon: FC<Props> = ({ dataID, getDataURL, queryKey }) => {
                       }
                     </>
                   }
-                  mutateURL={'asda'}
+                  mutateURL={apiRoute + '/' + dataID}
                   updateRequest
+                  redirectOnSuccess={false}
+                  onSuccessFn={() => queryClient.refetchQueries()}
                 />
               }
             </>

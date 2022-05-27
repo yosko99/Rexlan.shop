@@ -26,7 +26,7 @@ exports.getProduct = async (req, res) => {
 exports.updateProduct = async (req, res) => {
   const { id: productID } = req.params;
 
-  const product = await Product.findOne(({ id: productID }));
+  const product = await Product.findOne({ id: productID });
 
   if (product === null) {
     return res.status(404).send('Cannot find product with provided id.');
@@ -34,15 +34,19 @@ exports.updateProduct = async (req, res) => {
 
   const { title, price, description, category, image } = req.body;
 
-  product.title = title;
-  product.price = price;
-  product.description = description;
-  product.category = category;
-  product.image = image;
+  await Product.updateOne({ id: productID }, {
+    title,
+    price,
+    description,
+    category,
+    image
+  });
 
   await product.save();
 
-  res.status(200).send('Data updated.');
+  res.status(200).json({
+    msg: 'Data updated'
+  });
 };
 
 exports.getProductsByCategory = async (req, res) => {

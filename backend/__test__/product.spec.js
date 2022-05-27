@@ -166,10 +166,10 @@ describe('Testing product API', () => {
             category: oldProduct.category,
             image: oldProduct.image
           })
-          .expect('Content-Type', /html/)
+          .expect('Content-Type', /json/)
           .expect(200)
           .then(async (response) => {
-            expect(response.text).toBe('Data updated.');
+            expect(response.body.msg).toBe('Data updated');
 
             // Reset product name after test
             await Product.updateOne({ id: '1' }, {

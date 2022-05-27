@@ -68,7 +68,9 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
     },
     onSuccess: (data) => {
       onSuccessFn && onSuccessFn();
+
       // Post request successfull
+
       setOnMutateAlert(<Alert
         className='mt-3 rounded-pill text-center'
         variant='success'>
