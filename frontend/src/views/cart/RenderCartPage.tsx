@@ -13,7 +13,7 @@ import ZipInput from '../../components/inputs/ZipInput';
 import Loading from '../../components/loading/Loading';
 import FormTemplate from '../../components/templates/FormTemplate';
 import useMultipleFetch from '../../hooks/useMultipleFetch';
-import { DefaultValues, OrderData } from '../../types/orderTypes';
+import { DefaultValues } from '../../types/orderTypes';
 import { CartProductType } from '../../types/productTypes';
 import calculateTotalPrice from './calculateTotalPrice';
 
@@ -29,15 +29,6 @@ interface QueryAttributes {
 
 const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
-
-  const [formData, setFormData] = useState<OrderData>({
-    phone: '',
-    address: '',
-    name: '',
-    zipcode: '',
-    city: '',
-    delivery: ''
-  });
 
   const queries: QueryAttributes[] = cartProducts.map((product) => {
     return {
@@ -75,8 +66,6 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
                     <PhoneInput defaultValue={defaultValues !== null ? defaultValues.phone : ''} />
                   </>
                 }
-                setData={setFormData}
-                data={formData}
               />
             </Col>
             <Col lg={4} md={4} sm={12}>

@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react';
+import React, { FC } from 'react';
 
 import { Form } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -11,22 +11,10 @@ interface Props {
 	className?: string;
 }
 
-interface LoginData {
-  email: string;
-  password: string;
-}
-
 const LoginForm: FC<Props> = ({ className }) => {
-  const [formData, setFormData] = useState<LoginData>({
-    email: '',
-    password: ''
-  });
-
   return (
-    <div className={className}>
+		<div className={className}>
 			<FormTemplate
-				data={formData}
-				setData={setFormData}
 				mutateURL={'/api/users/login'}
 				inputs={
 					<>

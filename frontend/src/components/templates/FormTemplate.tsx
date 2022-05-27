@@ -1,4 +1,4 @@
-import React, { useState, FC, useContext } from 'react';
+import React, { useState, FC, useContext, useRef, useEffect } from 'react';
 
 import axios from 'axios';
 import { Form, Alert, Spinner, Button } from 'react-bootstrap';
@@ -9,12 +9,11 @@ import { TokenContext } from '../../context/TokenContext';
 
 interface Props {
   className?: string;
-  data: object,
-  setData: React.Dispatch<any>;
   mutateURL: string;
   onSuccessFn?: () => void;
   redirectOnSuccess?: boolean;
   inputs: React.ReactChild;
+  updateRequest?: boolean;
 }
 
 interface ErrorResponse {
@@ -23,18 +22,42 @@ interface ErrorResponse {
   }
 }
 
-const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, redirectOnSuccess = true, onSuccessFn }) => {
+const getFormInputs = (formRef: React.RefObject<HTMLFormElement>) => {
+  const inputs = formRef.current!.elements;
+  const tempObj = {};
+
+  for (let i = 0; i < inputs.length; i++) {
+    if (inputs[i].nodeName === 'INPUT') {
+      Object.defineProperty(
+        tempObj,
+        inputs[i].getAttribute('name') as string,
+        { value: inputs[i].getAttribute('value') });
+    }
+  }
+
+  return tempObj;
+};
+
+const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSuccess = true, onSuccessFn, updateRequest }) => {
+  const [data, setData] = useState({});
+  const formRef = useRef<HTMLFormElement>(null);
   const [formValidated, setFormValidated] = useState<boolean>(false);
   const [onMutateAlert, setOnMutateAlert] = useState<React.ReactNode>();
   const token = useContext(TokenContext);
   const navigate = useNavigate();
 
   const mutation = useMutation(data => {
-    return axios.post(mutateURL, data, {
-      headers: {
-        authorization: 'Bearer ' + token!.token
-      }
-    });
+    return !updateRequest
+      ? axios.post(mutateURL, data, {
+        headers: {
+          authorization: 'Bearer ' + token!.token
+        }
+      })
+      : axios.put(mutateURL, data, {
+        headers: {
+          authorization: 'Bearer ' + token!.token
+        }
+      });
   }, {
     onError: (err: ErrorResponse) => {
       const errorMsg = err.response.data;
@@ -88,17 +111,22 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, 
     });
   };
 
+  // Depending on passed inputs assign data
+  useEffect(() => {
+    setData(getFormInputs(formRef));
+  }, []);
+
   return (
     <Form
+      ref={formRef}
       className={className}
       noValidate
       validated={formValidated}
       onChange={(e) => handleChange(e)}
       onSubmit={(e) => handleSubmit(e)}>
 
-      <>
-        {inputs}
-      </>
+      <>{inputs}</>
+
       <Button variant="outline-primary" className='w-100 mt-3' type="submit">
         Submit
       </Button>

@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react';
+import React, { FC } from 'react';
 
 import { useQueryClient } from 'react-query';
 
@@ -18,17 +18,6 @@ interface Props {
 const DetailsUpdateForm: FC<Props> = ({ className, user }) => {
   const queryClient = useQueryClient();
 
-  const [formData, setFormData] = useState<User>({
-    email: user.email,
-    address: user.address,
-    createdAt: user.createdAt,
-    name: user.name,
-    phone: user.phone,
-    updatedAt: user.updatedAt,
-    zipcode: user.zipcode,
-    isAdmin: user.isAdmin
-  });
-
   const onSuccessFn = () => {
     queryClient.refetchQueries('cart');
     queryClient.refetchQueries('profile');
@@ -37,8 +26,6 @@ const DetailsUpdateForm: FC<Props> = ({ className, user }) => {
   return (
     <div className={className}>
 			<FormTemplate
-				data={formData}
-				setData={setFormData}
 				mutateURL={'/api/users/current'}
 				redirectOnSuccess={false}
 				onSuccessFn={onSuccessFn}

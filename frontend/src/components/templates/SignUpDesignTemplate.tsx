@@ -14,11 +14,11 @@ const LoginPage: FC<Props> = ({ body, imgURL }) => {
 		<Fade>
 			<Container className='shadow-lg p-0 mt-3'>
 				<Row>
-						<Col lg={5} className='d-flex p-5 flex-column justify-content-center'>
-							<>
-								{body}
-							</>
-						</Col>
+					<Col lg={5} className='d-flex p-5 flex-column justify-content-center'>
+						<>
+							{body}
+						</>
+					</Col>
 					<Col lg={7}>
 						<Image className='rounded' width={'100%'} src={imgURL} />
 					</Col>

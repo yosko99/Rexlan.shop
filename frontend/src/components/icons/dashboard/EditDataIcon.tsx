@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 
 import { Button } from 'react-bootstrap';
 import { Navigate } from 'react-router-dom';
@@ -16,8 +16,6 @@ interface Props {
 }
 
 const EditDataIcon: FC<Props> = ({ dataID, getDataURL, queryKey }) => {
-  const [data, setData] = useState({});
-
   const {
     isLoading,
     data: fetchedData,
@@ -44,8 +42,6 @@ const EditDataIcon: FC<Props> = ({ dataID, getDataURL, queryKey }) => {
             : <>
               {
                 <FormTemplate
-                  data={data}
-                  setData={setData}
                   inputs={
                     <>
                       {
@@ -62,6 +58,7 @@ const EditDataIcon: FC<Props> = ({ dataID, getDataURL, queryKey }) => {
                     </>
                   }
                   mutateURL={'asda'}
+                  updateRequest
                 />
               }
             </>
