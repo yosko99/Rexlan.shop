@@ -72,7 +72,7 @@ const AdminPanelPage = () => {
 						))}
 					</Row>
 				</Col>
-				</Row>
+			</Row>
 		</div>
   );
 };

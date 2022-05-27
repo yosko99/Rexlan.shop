@@ -8,13 +8,13 @@ import { useNavigate } from 'react-router-dom';
 import { TokenContext } from '../../context/TokenContext';
 
 interface Props {
-	className?: string;
-	data: object,
-	setData: React.Dispatch<any>;
-	mutateURL: string;
+  className?: string;
+  data: object,
+  setData: React.Dispatch<any>;
+  mutateURL: string;
   onSuccessFn?: () => void;
   redirectOnSuccess?: boolean;
-	inputs: React.ReactChild;
+  inputs: React.ReactChild;
 }
 
 interface ErrorResponse {
@@ -49,15 +49,15 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, 
       setOnMutateAlert(<Alert
         className='mt-3 rounded-pill text-center'
         variant='success'>
-          {data.data.msg}
-          {redirectOnSuccess && <Spinner animation='border' size='sm' className='ms-2' />}
-        </Alert>);
+        {data.data.msg}
+        {redirectOnSuccess && <Spinner animation='border' size='sm' className='ms-2' />}
+      </Alert>);
       if (redirectOnSuccess) {
         setTimeout(() => {
           if (data.data.token !== undefined) {
-          token!.setToken(data.data.token);
-          localStorage.setItem('cart', data.data.cartID);
-          navigate('/');
+            token!.setToken(data.data.token);
+            localStorage.setItem('cart', data.data.cartID);
+            navigate('/');
           }
         }, 500);
       }
@@ -89,23 +89,23 @@ const FormTemplate: FC<Props> = ({ className, data, setData, mutateURL, inputs, 
   };
 
   return (
-		<Form
+    <Form
       className={className}
       noValidate
       validated={formValidated}
       onChange={(e) => handleChange(e)}
       onSubmit={(e) => handleSubmit(e)}>
 
-			<>
-				{inputs}
-			</>
+      <>
+        {inputs}
+      </>
       <Button variant="outline-primary" className='w-100 mt-3' type="submit">
-							Submit
+        Submit
       </Button>
 
-      {(mutation.isError || mutation.isSuccess) && <>{ onMutateAlert }</>
+      {(mutation.isError || mutation.isSuccess) && <>{onMutateAlert}</>
       }
-		</Form>
+    </Form>
   );
 };
 
