@@ -1,7 +1,8 @@
+const Product = require('../models/productModel');
+const app = require('../app');
+
 const request = require('supertest');
 const mongoose = require('mongoose');
-
-const app = require('../app');
 
 describe('Testing product API', () => {
   let productStructure;
@@ -145,6 +146,46 @@ describe('Testing product API', () => {
           expect.arrayContaining([
             expect.objectContaining(productStructure)
           ]));
+      });
+  });
+
+  test('update product with provided valid ID', () => {
+    return request(app)
+      .get('/api/products/1')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        const oldProduct = response.body;
+
+        return request(app)
+          .put('/api/products/1')
+          .send({
+            title: 'New title',
+            price: oldProduct.price,
+            description: oldProduct.description,
+            category: oldProduct.category,
+            image: oldProduct.image
+          })
+          .expect('Content-Type', /html/)
+          .expect(200)
+          .then(async (response) => {
+            expect(response.text).toBe('Data updated.');
+
+            // Reset product name after test
+            await Product.updateOne({ id: '1' }, {
+              title: oldProduct.title
+            });
+          });
+      });
+  });
+
+  test('update product with invalid ID', () => {
+    return request(app)
+      .put('/api/products/blabla')
+      .expect('Content-Type', /html/)
+      .expect(404)
+      .then((response) => {
+        expect(response.text).toBe('Cannot find product with provided id.');
       });
   });
 });

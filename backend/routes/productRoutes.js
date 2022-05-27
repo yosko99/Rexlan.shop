@@ -9,6 +9,12 @@ const productController = require('../controllers/productController');
 // @access Public
 router.get('/', asyncHandler(productController.getProducts));
 
+// @desc Update product
+// @route PUT /api/products/:id
+// @access Public
+// @accepts { title, price, description, category, image }
+router.put('/:id', asyncHandler(productController.updateProduct));
+
 // @desc Fetch single product
 // @route GET /api/products/:id
 // @access Public

@@ -14,13 +14,35 @@ exports.getProducts = async (req, res) => {
 exports.getProduct = async (req, res) => {
   const product = await Product.findOne({
     id: req.params.id
-  });
+  }).select('-__v -_id');
 
   if (product === null) {
     return res.status(404).send('Could not find data with provided ID');
   }
 
   res.status(200).json(product);
+};
+
+exports.updateProduct = async (req, res) => {
+  const { id: productID } = req.params;
+
+  const product = await Product.findOne(({ id: productID }));
+
+  if (product === null) {
+    return res.status(404).send('Cannot find product with provided id.');
+  }
+
+  const { title, price, description, category, image } = req.body;
+
+  product.title = title;
+  product.price = price;
+  product.description = description;
+  product.category = category;
+  product.image = image;
+
+  await product.save();
+
+  res.status(200).send('Data updated.');
 };
 
 exports.getProductsByCategory = async (req, res) => {
