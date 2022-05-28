@@ -8,7 +8,8 @@ describe('Testing category API', () => {
 
   beforeAll(() => {
     categoryStrucutre = {
-      name: expect.any(String)
+      name: expect.any(String),
+      bannerImage: expect.any(String)
     };
   });
 

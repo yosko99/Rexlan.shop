@@ -5,6 +5,9 @@ const categorySchema = Schema({
   name: {
     type: String,
     required: true
+  },
+  bannerImage: {
+    type: String
   }
 });
 

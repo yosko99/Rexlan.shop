@@ -1,6 +1,8 @@
 const deleteProductFromAllCarts = require('./functions/deleteProductFromAllCarts');
 const getQueryQty = require('./functions/getQueryQty');
 const Product = require('../models/productModel');
+const createNewCategory = require('./functions/createNewCategory');
+const deleteEmptyCategory = require('./functions/deleteEmptyCategory');
 
 exports.getProducts = async (req, res) => {
   const productQuantity = getQueryQty(req.query.qty);
@@ -40,6 +42,9 @@ exports.updateProduct = async (req, res) => {
 
   const { title, price, description, category, image } = req.body;
 
+  const { category: oldCategory } = await Product.findOne({ id: productID });
+  await deleteEmptyCategory(oldCategory);
+
   await Product.updateOne({ id: productID }, {
     title,
     price,
@@ -47,6 +52,8 @@ exports.updateProduct = async (req, res) => {
     category,
     image
   });
+
+  await createNewCategory(category);
 
   res.status(200).json({
     msg: 'Data updated'

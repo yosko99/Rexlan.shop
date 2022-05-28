@@ -1,14 +1,18 @@
 [
 	{
-		"name": "electronics"
+		"name": "electronics",
+		"bannerImage": "/public/assets/categories/electronics.webp"
 	},
 	{
-		"name": "jewelery"
+		"name": "jewelery",
+		"bannerImage": "/public/assets/categories/jewelery.webp"
 	},
 	{
-		"name": "men's clothing"
+		"name": "men's clothing",
+		"bannerImage": "/public/assets/categories/men's clothing.webp"
 	},
 	{
-		"name": "women's clothing"
+		"name": "women's clothing",
+		"bannerImage": "/public/assets/categories/women's clothing.webp"
 	}
 ]

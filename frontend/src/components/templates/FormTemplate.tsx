@@ -24,18 +24,18 @@ interface ErrorResponse {
 
 const getFormInputs = (formRef: React.RefObject<HTMLFormElement>) => {
   const inputs = formRef.current!.elements;
-  const tempObj = {};
+  const inputsObject = {};
 
   for (let i = 0; i < inputs.length; i++) {
     if (inputs[i].nodeName === 'INPUT') {
       Object.defineProperty(
-        tempObj,
+        inputsObject,
         inputs[i].getAttribute('name') as string,
         { value: inputs[i].getAttribute('value') });
     }
   }
 
-  return tempObj;
+  return inputsObject;
 };
 
 const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSuccess = true, onSuccessFn, updateRequest }) => {
