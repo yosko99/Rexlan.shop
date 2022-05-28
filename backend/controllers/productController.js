@@ -1,5 +1,6 @@
-const Product = require('../models/productModel');
+const deleteProductFromAllCarts = require('./functions/deleteProductFromAllCarts');
 const getQueryQty = require('./functions/getQueryQty');
+const Product = require('../models/productModel');
 
 exports.getProducts = async (req, res) => {
   const productQuantity = getQueryQty(req.query.qty);
@@ -23,14 +24,19 @@ exports.getProduct = async (req, res) => {
   res.status(200).json(product);
 };
 
-exports.updateProduct = async (req, res) => {
+exports.deleteProduct = async (req, res) => {
   const { id: productID } = req.params;
 
-  const product = await Product.findOne({ id: productID });
+  await Product.deleteOne({ id: productID });
+  await deleteProductFromAllCarts(productID);
 
-  if (product === null) {
-    return res.status(404).send('Cannot find product with provided id.');
-  }
+  res.status(200).json({
+    msg: 'Data successfully deleted.'
+  });
+};
+
+exports.updateProduct = async (req, res) => {
+  const { id: productID } = req.params;
 
   const { title, price, description, category, image } = req.body;
 
@@ -41,8 +47,6 @@ exports.updateProduct = async (req, res) => {
     category,
     image
   });
-
-  await product.save();
 
   res.status(200).json({
     msg: 'Data updated'

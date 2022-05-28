@@ -53,7 +53,7 @@ const EditProductsPage = () => {
 										/>
 									</td>
 									<td>
-										<DeleteDataIcon />
+										<DeleteDataIcon apiRoute={'api/products/' + product.id}/>
 									</td>
 								</tr>
 							))}

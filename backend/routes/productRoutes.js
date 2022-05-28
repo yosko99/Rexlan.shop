@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const productController = require('../controllers/productController');
+const checkValidProductID = require('../middleware/checkValidProductID');
 
 // @desc Fetch all products with optional quantity value
 // @route GET /api/products?qty=2
@@ -13,7 +14,12 @@ router.get('/', asyncHandler(productController.getProducts));
 // @route PUT /api/products/:id
 // @access Public
 // @accepts { title, price, description, category, image }
-router.put('/:id', asyncHandler(productController.updateProduct));
+router.put('/:id', checkValidProductID, asyncHandler(productController.updateProduct));
+
+// @desc Deletes a product with provided product ID
+// @route DELETE /api/products/:id
+// @access Public
+router.delete('/:id', checkValidProductID, asyncHandler(productController.deleteProduct));
 
 // @desc Fetch single product
 // @route GET /api/products/:id

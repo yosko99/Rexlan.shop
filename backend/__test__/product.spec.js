@@ -188,4 +188,35 @@ describe('Testing product API', () => {
         expect(response.text).toBe('Cannot find product with provided id.');
       });
   });
+
+  test('delete product with valid product ID', () => {
+    return request(app)
+      .get('/api/products/1')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        const product = response.body;
+
+        return request(app)
+          .del('/api/products/1')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .then(async (response) => {
+            expect(response.body.msg).toBe('Data successfully deleted.');
+
+            // Return the deleted product after test
+            await Product.create(product);
+          });
+      });
+  });
+
+  test('delete product wih invalid product ID', () => {
+    return request(app)
+      .del('/api/products/blabla')
+      .expect('Content-Type', /html/)
+      .expect(404)
+      .then((response) => {
+        expect(response.text).toBe('Cannot find product with provided id.');
+      });
+  });
 });
