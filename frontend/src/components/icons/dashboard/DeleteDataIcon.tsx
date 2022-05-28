@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
@@ -11,21 +11,36 @@ interface Props {
 }
 
 const DeleteDataIcon: FC<Props> = ({ apiRoute }) => {
-  const queryClinet = useQueryClient();
+  const queryClient = useQueryClient();
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const mutation = useMutation(data => {
     return axios.delete(apiRoute);
+  }, {
+    onSuccess: () => {
+      queryClient.refetchQueries();
+      localStorage.removeItem('liked');
+      window.dispatchEvent(new Event('storage'));
+      setDeleteLoading(false);
+    },
+    onMutate: () => {
+      setDeleteLoading(true);
+    }
   });
 
   const handleClick = () => {
     if (confirm('Are you sure you want to delete this?')) {
-
+      mutation.mutate();
     }
   };
 
   return (
 		<Button onClick={handleClick} variant='danger'>
-			<FontAwesomeIcon icon={faTrash} />
+      {
+        deleteLoading
+          ? <FontAwesomeIcon icon={faSpinner} spin />
+          : <FontAwesomeIcon icon={faTrash} />
+      }
 		</Button>
   );
 };
