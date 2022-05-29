@@ -28,11 +28,11 @@ const productSchema = Schema({
   rating: {
     rate: {
       type: Number,
-      required: true
+      default: 0
     },
     count: {
       type: Number,
-      required: true
+      default: 0
     }
   }
 });

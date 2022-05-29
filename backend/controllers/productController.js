@@ -60,6 +60,31 @@ exports.updateProduct = async (req, res) => {
   });
 };
 
+exports.createProduct = async (req, res) => {
+  const { title, price, description, category, image } = req.body;
+
+  const allProductIDs = await Product
+    .find({})
+    .select('id -_id');
+
+  const { id: maxID } = allProductIDs.sort((a, b) => Number(b.id) - Number(a.id))[0];
+
+  await Product.create({
+    title,
+    price,
+    description,
+    category,
+    image,
+    id: Number(maxID) + 1
+  });
+
+  await createNewCategory(category);
+
+  res.status(200).json({
+    msg: 'Product created.'
+  });
+};
+
 exports.getProductsByCategory = async (req, res) => {
   const category = req.params.category;
   const productQuantity = getQueryQty(req.query.qty);

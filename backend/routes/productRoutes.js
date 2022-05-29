@@ -21,6 +21,12 @@ router.put('/:id', checkValidProductID, asyncHandler(productController.updatePro
 // @access Public
 router.delete('/:id', checkValidProductID, asyncHandler(productController.deleteProduct));
 
+// @desc Creates a product
+// @route POST /api/products/
+// @access Public
+// @accepts { title, price, description, category, image }
+router.post('/', asyncHandler(productController.createProduct));
+
 // @desc Fetch single product
 // @route GET /api/products/:id
 // @access Public

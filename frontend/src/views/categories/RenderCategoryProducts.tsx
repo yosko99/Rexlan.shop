@@ -42,7 +42,7 @@ const RenderCategoryProducts: FC<Props> = ({ isLoading, categoryProducts }) => {
 								imgNotFoundImg}
 						/>
 				}
-			<hr className='my-5'/>
+				<hr className='my-5' />
 			</div>
 			<MultipleProductCards
 				products={categoryProducts}

@@ -219,4 +219,39 @@ describe('Testing product API', () => {
         expect(response.text).toBe('Cannot find product with provided id.');
       });
   });
+
+  test('created a product with valid data', () => {
+    return request(app)
+      .post('/api/products')
+      .send({
+        title: 'test',
+        price: 1,
+        description: 'test',
+        category: 'test',
+        image: 'test'
+      })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then(async (response) => {
+        expect(response.body.msg).toBe('Product created.');
+
+        await Product.deleteOne({ title: 'test' });
+      });
+  });
+
+  test('create product with missing title', () => {
+    return request(app)
+      .post('/api/products/')
+      .send({
+        price: 1,
+        description: 'test',
+        category: 'test',
+        image: 'test'
+      })
+      .expect('Content-Type', /json/)
+      .expect(500)
+      .then((response) => {
+        expect(response.body.msg).toBe('Product validation failed: title: Path `title` is required.');
+      });
+  });
 });
