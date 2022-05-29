@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 
-import { Button } from 'react-bootstrap';
 import { useQueryClient } from 'react-query';
 import { Navigate } from 'react-router-dom';
 
@@ -23,7 +22,7 @@ const EditDataIcon: FC<Props> = ({ dataID, apiRoute, queryKey }) => {
     data: fetchedData,
     error,
     refetch
-  } = useFetch(queryKey, apiRoute + '/' + dataID, false);
+  } = useFetch(queryKey, apiRoute + dataID, false);
 
   if (error !== undefined) {
     return <Navigate to="/404" state={{ error: error.message }} />;
@@ -54,12 +53,13 @@ const EditDataIcon: FC<Props> = ({ dataID, apiRoute, queryKey }) => {
                             defaultValue={fetchedData[property]}
                             inputLabel={property}
                             inputName={property}
+                            isNumber={typeof fetchedData[property] === 'number'}
                           />
                         ))
                       }
                     </>
                   }
-                  mutateURL={apiRoute + '/' + dataID}
+                  mutateURL={apiRoute + dataID}
                   updateRequest
                   redirectOnSuccess={false}
                   onSuccessFn={() => queryClient.refetchQueries()}
@@ -68,7 +68,6 @@ const EditDataIcon: FC<Props> = ({ dataID, apiRoute, queryKey }) => {
             </>
         }
         modalHeader={<p className='mb-0'>Edit data</p>}
-        modalFooter={<Button variant="primary">Close</Button>}
       />
     </>
   );

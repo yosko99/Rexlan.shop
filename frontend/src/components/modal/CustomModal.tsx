@@ -8,7 +8,7 @@ interface Props {
 	activateButtonOnClick?: () => void;
 	modalHeader: React.ReactChild;
 	modalBody: React.ReactChild;
-	modalFooter: React.ReactChild;
+	modalFooter?: React.ReactChild;
 }
 
 const CustomModal: FC<Props> = ({
@@ -16,8 +16,8 @@ const CustomModal: FC<Props> = ({
   activateButtonClassName,
   activateButtonOnClick,
   modalHeader,
-  modalBody,
-  modalFooter
+  modalFooter,
+  modalBody
 }) => {
   const [show, setShow] = useState(false);
 
@@ -45,7 +45,9 @@ const CustomModal: FC<Props> = ({
 					<>{modalBody}</>
 				</Modal.Body>
         <Modal.Footer onClick={handleClose}>
-					<>{modalFooter}</>
+          <>
+            {modalFooter || <Button variant="primary">Close</Button>}
+          </>
         </Modal.Footer>
       </Modal>
     </>

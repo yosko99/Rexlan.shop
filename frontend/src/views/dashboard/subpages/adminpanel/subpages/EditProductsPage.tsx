@@ -8,10 +8,12 @@ import EditDataTable from '../../../../../components/dashboard/EditDataTable';
 import DeleteDataIcon from '../../../../../components/icons/dashboard/DeleteDataIcon';
 import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon';
 import Loading from '../../../../../components/loading/Loading';
+import { productStructure } from '../../../../../data/dataStructure/productStructure';
 import useFetch from '../../../../../hooks/useFetch';
 import { Product } from '../../../../../types/productTypes';
 
 const EditProductsPage = () => {
+  const apiRoute = '/api/products/';
   const {
     isLoading,
     data: products,
@@ -30,6 +32,8 @@ const EditProductsPage = () => {
 			{isLoading
 			  ? <Loading />
 			  : <EditDataTable
+					createDataRoute={apiRoute}
+					dataStructure={productStructure}
 					tableHeaderCells={
 						<>
 							<th>Image</th>
@@ -49,11 +53,11 @@ const EditProductsPage = () => {
 										<EditDataIcon
 											queryKey={`product-${product.id}`}
 											dataID={product.id}
-											apiRoute={'/api/products'}
+											apiRoute={apiRoute}
 										/>
 									</td>
 									<td>
-										<DeleteDataIcon apiRoute={'/api/products/' + product.id}/>
+										<DeleteDataIcon apiRoute={apiRoute + product.id} />
 									</td>
 								</tr>
 							))}

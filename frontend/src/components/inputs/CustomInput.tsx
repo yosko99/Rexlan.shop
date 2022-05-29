@@ -6,9 +6,10 @@ interface Props {
     defaultValue?: string | number | readonly string[] | undefined;
     inputLabel: string;
     inputName: string;
+    isNumber?: boolean;
 }
 
-const CustomInput: FC<Props> = ({ defaultValue, inputLabel, inputName }) => {
+const CustomInput: FC<Props> = ({ defaultValue, inputLabel, inputName, isNumber }) => {
   return (
         <Form.Group className="mb-3" controlId={inputName}>
             <Form.Label>
@@ -18,7 +19,7 @@ const CustomInput: FC<Props> = ({ defaultValue, inputLabel, inputName }) => {
                 name={inputName}
                 className='shadow-sm'
                 required
-                type="text"
+                type={isNumber ? 'number' : 'text'}
                 defaultValue={defaultValue}
             />
         </Form.Group>

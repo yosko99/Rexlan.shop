@@ -71,7 +71,7 @@ exports.createProduct = async (req, res) => {
 
   await Product.create({
     title,
-    price,
+    price: price === undefined ? 0 : price,
     description,
     category,
     image,
