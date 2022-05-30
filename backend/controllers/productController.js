@@ -98,7 +98,10 @@ exports.getProductsByCategory = async (req, res) => {
     .limit(productQuantity);
 
   if (products === null || products.length === 0) {
-    return res.status(404).send('Could not find data with provided category');
+    return res.status(206).json({
+      products: [],
+      msg: 'Could not find data with provided category'
+    });
   }
 
   res.status(200).json(products);

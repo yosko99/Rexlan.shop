@@ -9,4 +9,10 @@ const categoryController = require('../controllers/categoryController');
 // @access Public
 router.get('/', asyncHandler(categoryController.getCategories));
 
+// @desc Create new category
+// @route POST /api/categories/
+// @access Public
+// @accepts { name, category }
+router.post('/', asyncHandler(categoryController.createCategory));
+
 module.exports = router;

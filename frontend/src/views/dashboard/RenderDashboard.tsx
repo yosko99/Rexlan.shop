@@ -25,21 +25,21 @@ const RenderDashboard: FC<Props> = ({ user }) => {
   return (
     <>
       {subpage === undefined
-        ? <Navigate to={'/'}/>
+        ? <Navigate to={'/'} />
         : <Container>
-        <p className='fs-2 my-4'>My account</p>
-        <Row>
-          <Col lg={2}>
-            <DashboardNavigation isAdmin={user.isAdmin}/>
-          </Col>
-          <Col lg={10} className='shadow-sm'>
-            <div className='mx-3 mb-3 p-3'>
-              {subpage.page}
-            </div>
-          </Col>
-        </Row>
-      </Container>
-    }
+          <p className='fs-2 my-4'>My account</p>
+          <Row>
+            <Col lg={2}>
+              <DashboardNavigation isAdmin={user.isAdmin} />
+            </Col>
+            <Col lg={10} className='shadow-sm'>
+              <div className='mx-3 mb-3 p-3'>
+                {subpage.page}
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      }
     </>
   );
 };

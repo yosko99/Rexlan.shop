@@ -100,13 +100,19 @@ describe('Testing product API', () => {
       });
   });
 
-  test('get product with invalid category', async () => {
-    const response = await request(app)
+  test('get product with invalid category', () => {
+    return request(app)
       .get('/api/products/category/test')
-      .expect('Content-Type', /html/);
-
-    expect(response.statusCode).toBe(404);
-    expect(response.text).toBe('Could not find data with provided category');
+      .expect('Content-Type', /json/)
+      .expect(206)
+      .then((response) => {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            msg: 'Could not find data with provided category',
+            products: []
+          })
+        );
+      });
   });
 
   test('get products sorted with valid attribute', () => {

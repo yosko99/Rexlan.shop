@@ -2,6 +2,7 @@ import React from 'react';
 
 import { User } from '../types/userTypes';
 import AdminPanelPage from '../views/dashboard/subpages/adminpanel';
+import EditCategoriesPage from '../views/dashboard/subpages/adminpanel/subpages/EditCategoriesPage';
 import EditProductsPage from '../views/dashboard/subpages/adminpanel/subpages/EditProductsPage';
 import MyDetailsPage from '../views/dashboard/subpages/MyDetailsPage';
 import MyOrdersPage from '../views/dashboard/subpages/MyOrdersPage';
@@ -33,6 +34,10 @@ export const dashboardSubpages = (user: User): SubpageType[] => {
     {
       urlParam: 'products',
       page: <EditProductsPage />
+    },
+    {
+      urlParam: 'categories',
+      page: <EditCategoriesPage />
     }
   ];
 };
