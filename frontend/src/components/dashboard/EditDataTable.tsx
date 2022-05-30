@@ -19,6 +19,7 @@ const EditDataTable: FC<Props> = ({ tableHeaderCells, tableRowCells, dataStructu
 
   return (
 		<>
+			{/* Add data */}
 			<CustomModal
 				activateButtonText='Add data'
 				modalHeader={'Add data'}
@@ -44,6 +45,7 @@ const EditDataTable: FC<Props> = ({ tableHeaderCells, tableRowCells, dataStructu
 					/>}
 				activateButtonClassName="w-100 mb-3 btn-info"
 			/>
+			{/* Add data */}
 			<Table striped bordered hover>
 				<thead>
 					<tr className='text-center'>

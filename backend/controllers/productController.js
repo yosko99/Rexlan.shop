@@ -29,8 +29,11 @@ exports.getProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
   const { id: productID } = req.params;
 
-  await Product.deleteOne({ id: productID });
+  const { category } = await Product.findOne({ id: productID });
+
+  await deleteEmptyCategory(category);
   await deleteProductFromAllCarts(productID);
+  await Product.deleteOne({ id: productID });
 
   res.status(200).json({
     msg: 'Data successfully deleted.'

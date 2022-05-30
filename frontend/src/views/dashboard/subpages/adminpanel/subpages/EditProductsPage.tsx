@@ -14,11 +14,12 @@ import { Product } from '../../../../../types/productTypes';
 
 const EditProductsPage = () => {
   const apiRoute = '/api/products/';
+
   const {
     isLoading,
     data: products,
     error
-  } = useFetch('allProducts', '/api/products', true);
+  } = useFetch('allProducts', '/api/products/', true);
 
   if (error !== undefined) {
     return <Navigate to="/404" state={{ error: error.message }} />;

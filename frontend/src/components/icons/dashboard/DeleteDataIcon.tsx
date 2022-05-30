@@ -7,7 +7,7 @@ import { Button } from 'react-bootstrap';
 import { useQueryClient, useMutation } from 'react-query';
 
 interface Props {
-	apiRoute: string;
+  apiRoute: string;
 }
 
 const DeleteDataIcon: FC<Props> = ({ apiRoute }) => {
@@ -18,7 +18,7 @@ const DeleteDataIcon: FC<Props> = ({ apiRoute }) => {
     return axios.delete(apiRoute);
   }, {
     onSuccess: () => {
-      queryClient.refetchQueries();
+      queryClient.invalidateQueries();
       localStorage.removeItem('liked');
       window.dispatchEvent(new Event('storage'));
       setDeleteLoading(false);
@@ -35,13 +35,13 @@ const DeleteDataIcon: FC<Props> = ({ apiRoute }) => {
   };
 
   return (
-		<Button onClick={handleClick} variant='danger'>
+    <Button onClick={handleClick} variant='danger'>
       {
         deleteLoading
           ? <FontAwesomeIcon icon={faSpinner} spin />
           : <FontAwesomeIcon icon={faTrash} />
       }
-		</Button>
+    </Button>
   );
 };
 

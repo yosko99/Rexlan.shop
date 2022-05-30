@@ -30,6 +30,7 @@ const EditDataIcon: FC<Props> = ({ dataID, apiRoute, queryKey }) => {
 
   const handleClick = () => {
     refetch();
+    queryClient.invalidateQueries();
   };
 
   return (
@@ -62,7 +63,7 @@ const EditDataIcon: FC<Props> = ({ dataID, apiRoute, queryKey }) => {
                   mutateURL={apiRoute + dataID}
                   updateRequest
                   redirectOnSuccess={false}
-                  onSuccessFn={() => queryClient.refetchQueries()}
+                  onSuccessFn={() => refetch()}
                 />
               }
             </>

@@ -2,7 +2,7 @@ import React, { useState, FC, useContext, useRef, useEffect } from 'react';
 
 import axios from 'axios';
 import { Form, Alert, Spinner, Button } from 'react-bootstrap';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { TokenContext } from '../../context/TokenContext';
@@ -39,6 +39,7 @@ const getFormInputs = (formRef: React.RefObject<HTMLFormElement>) => {
 };
 
 const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSuccess = true, onSuccessFn, updateRequest }) => {
+  const queryClient = useQueryClient();
   const [data, setData] = useState({});
   const formRef = useRef<HTMLFormElement>(null);
   const [formValidated, setFormValidated] = useState<boolean>(false);
@@ -67,16 +68,16 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
         variant='danger'>{typeof errorMsg !== 'string' ? 'Error occurred' : errorMsg}</Alert>);
     },
     onSuccess: (data) => {
+      queryClient.invalidateQueries();
       onSuccessFn && onSuccessFn();
 
-      // Post request successfull
-
-      setOnMutateAlert(<Alert
-        className='mt-3 rounded-pill text-center'
-        variant='success'>
-        {data.data.msg}
-        {redirectOnSuccess && <Spinner animation='border' size='sm' className='ms-2' />}
-      </Alert>);
+      setOnMutateAlert(
+        <Alert
+          className='mt-3 rounded-pill text-center'
+          variant='success'>
+          {data.data.msg}
+          {redirectOnSuccess && <Spinner animation='border' size='sm' className='ms-2' />}
+        </Alert>);
       if (redirectOnSuccess) {
         setTimeout(() => {
           if (data.data.token !== undefined) {
