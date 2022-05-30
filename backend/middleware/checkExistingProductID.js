@@ -1,6 +1,6 @@
 const Product = require('../models/productModel');
 
-const checkValidProductID = async (req, res, next) => {
+const checkExistingProductID = async (req, res, next) => {
   const { id: productID } = req.params;
   const product = await Product.findOne({ id: productID });
 
@@ -11,4 +11,4 @@ const checkValidProductID = async (req, res, next) => {
   next();
 };
 
-module.exports = checkValidProductID;
+module.exports = checkExistingProductID;

@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const categoryController = require('../controllers/categoryController');
+const checkExstingCategoryName = require('../middleware/checkExistingCategoryName');
 
 // @desc Fetch all categories
 // @route GET /api/categories/
@@ -16,9 +17,14 @@ router.get('/', asyncHandler(categoryController.getCategories));
 router.post('/', asyncHandler(categoryController.createCategory));
 
 // @desc Update a category
-// @route PUT /api/categories/
+// @route PUT /api/categories/:name
 // @access Public
 // @accepts { name, bannerImage }
-router.put('/:name', asyncHandler(categoryController.updateCategory));
+router.put('/:name', checkExstingCategoryName, asyncHandler(categoryController.updateCategory));
+
+// @desc Delete a category and all related products
+// @route DELETE /api/categories/:name
+// @access Public
+router.delete('/:name', checkExstingCategoryName, asyncHandler(categoryController.deleteCategory));
 
 module.exports = router;
