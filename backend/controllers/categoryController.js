@@ -8,6 +8,15 @@ exports.getCategories = async (req, res) => {
   res.status(200).json(categories);
 };
 
+exports.getCategory = async (req, res) => {
+  const { _id } = req.params;
+
+  const category = await Category.findOne({ _id })
+    .select('-__v');
+
+  res.status(200).json(category);
+};
+
 exports.createCategory = async (req, res) => {
   const { name, bannerImage } = req.body;
 
@@ -28,11 +37,11 @@ exports.createCategory = async (req, res) => {
 };
 
 exports.updateCategory = async (req, res) => {
-  const { name: oldName } = req.params;
-  const { name: newName, bannerImage } = req.body;
+  const { _id } = req.params;
+  const { name, bannerImage } = req.body;
 
-  await Category.updateOne({ oldName }, {
-    name: newName,
+  await Category.updateOne({ _id }, {
+    name,
     bannerImage
   });
 
@@ -42,9 +51,10 @@ exports.updateCategory = async (req, res) => {
 };
 
 exports.deleteCategory = async (req, res) => {
-  const { name } = req.params;
+  const { _id } = req.params;
 
-  const productsInProvidedCategory = await Product.find({ category: name });
+  const { name: categoryName } = await Category.findOne({ _id });
+  const productsInProvidedCategory = await Product.find({ category: categoryName });
 
   if (productsInProvidedCategory !== null) {
     productsInProvidedCategory.forEach(async (product) => {
@@ -52,8 +62,8 @@ exports.deleteCategory = async (req, res) => {
     });
   }
 
-  await Product.deleteMany({ category: name });
-  await Category.deleteOne({ name });
+  await Product.deleteMany({ category: categoryName });
+  await Category.deleteOne({ _id });
 
   res.status(200).json({
     msg: 'Category deleted.'

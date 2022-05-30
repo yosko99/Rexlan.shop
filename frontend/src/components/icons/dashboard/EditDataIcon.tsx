@@ -48,7 +48,7 @@ const EditDataIcon: FC<Props> = ({ dataID, apiRoute, queryKey }) => {
                     <>
                       {
                         Object.keys(fetchedData).map((property: any, index: number) => (
-                          typeof fetchedData[property] !== 'object' &&
+                          typeof fetchedData[property] !== 'object' && property !== '_id' &&
                           <CustomInput
                             key={index}
                             defaultValue={fetchedData[property]}

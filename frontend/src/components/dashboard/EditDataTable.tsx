@@ -29,6 +29,7 @@ const EditDataTable: FC<Props> = ({ tableHeaderCells, tableRowCells, dataStructu
 							<>
 								{
 									Object.keys(dataStructure).map((property: any, index: number) => (
+									  property !== '_id' &&
 										<CustomInput
 											key={index}
 											defaultValue={dataStructure[property]}
@@ -46,7 +47,7 @@ const EditDataTable: FC<Props> = ({ tableHeaderCells, tableRowCells, dataStructu
 				activateButtonClassName="w-100 mb-3 btn-info"
 			/>
 			{/* Add data */}
-			<Table striped bordered hover>
+			<Table striped bordered hover className='text-center'>
 				<thead>
 					<tr className='text-center'>
 						{tableHeaderCells}

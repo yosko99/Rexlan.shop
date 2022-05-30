@@ -56,9 +56,11 @@ describe('Testing category API', () => {
       })
       .expect('Content-Type', /json/)
       .expect(200)
-      .then((response) => {
+      .then(async (response) => {
+        const { _id: createdCategoryID } = await Category.findOne({ name: 'test' });
+
         return request(app)
-          .put('/api/categories/test')
+          .put('/api/categories/' + createdCategoryID)
           .send({
             name: 'new name',
             bannerImage: 'test'
@@ -68,14 +70,14 @@ describe('Testing category API', () => {
           .then(async (response) => {
             expect(response.body.msg).toBe('Category updated.');
 
-            await Category.deleteOne({ name: 'new name' });
+            await Category.deleteOne({ _id: createdCategoryID });
           });
       });
   });
 
   test('update non existing category', () => {
     return request(app)
-      .put('/api/categories/asd')
+      .put('/api/categories/12char12char')
       .expect('Content-Type', /html/)
       .expect(404)
       .then((reponse) => {
@@ -83,7 +85,7 @@ describe('Testing category API', () => {
       });
   });
 
-  test('delete a existing categry', () => {
+  test('delete a existing category', () => {
     return request(app)
       .post('/api/categories/')
       .send({
@@ -92,9 +94,11 @@ describe('Testing category API', () => {
       })
       .expect('Content-Type', /json/)
       .expect(200)
-      .then(() => {
+      .then(async () => {
+        const { _id: createdCategoryID } = await Category.findOne({ name: 'test' });
+
         return request(app)
-          .del('/api/categories/test')
+          .del('/api/categories/' + createdCategoryID)
           .expect('Content-Type', /json/)
           .expect(200)
           .then((response) => {
@@ -105,7 +109,7 @@ describe('Testing category API', () => {
 
   test('delete non existing category', () => {
     return request(app)
-      .del('/api/categories/asd')
+      .del('/api/categories/12char12char')
       .expect('Content-Type', /html/)
       .expect(404)
       .then((reponse) => {
