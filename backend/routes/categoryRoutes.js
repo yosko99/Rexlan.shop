@@ -12,7 +12,13 @@ router.get('/', asyncHandler(categoryController.getCategories));
 // @desc Create new category
 // @route POST /api/categories/
 // @access Public
-// @accepts { name, category }
+// @accepts { name, bannerImage }
 router.post('/', asyncHandler(categoryController.createCategory));
+
+// @desc Update a category
+// @route PUT /api/categories/
+// @access Public
+// @accepts { name, bannerImage }
+router.put('/:name', asyncHandler(categoryController.updateCategory));
 
 module.exports = router;

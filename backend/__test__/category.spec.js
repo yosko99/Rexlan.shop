@@ -46,4 +46,40 @@ describe('Testing category API', () => {
         await Category.deleteOne({ name: 'test' });
       });
   });
+
+  test('update a existing category', () => {
+    return request(app)
+      .post('/api/categories/')
+      .send({
+        name: 'test',
+        bannerImage: 'test'
+      })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        return request(app)
+          .put('/api/categories/test')
+          .send({
+            name: 'new name',
+            bannerImage: 'test'
+          })
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .then(async (response) => {
+            expect(response.body.msg).toBe('Category updated.');
+
+            await Category.deleteOne({ name: 'new name' });
+          });
+      });
+  });
+
+  test('update non existing category', () => {
+    return request(app)
+      .put('/api/categories/asd')
+      .expect('Content-Type', /html/)
+      .expect(404)
+      .then((reponse) => {
+        expect(reponse.text).toBe('Category with provided name does not exists.');
+      });
+  });
 });

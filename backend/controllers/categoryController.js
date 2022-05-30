@@ -24,3 +24,23 @@ exports.createCategory = async (req, res) => {
     msg: 'Category created.'
   });
 };
+
+exports.updateCategory = async (req, res) => {
+  const { name } = req.params;
+  const { name: newName, bannerImage } = req.body;
+
+  const checkIfCategoryExists = await Category.findOne({ name });
+
+  if (checkIfCategoryExists === null) {
+    return res.status(404).send('Category with provided name does not exists.');
+  }
+
+  await Category.updateOne({ name }, {
+    name: newName,
+    bannerImage
+  });
+
+  res.status(200).json({
+    msg: 'Category updated.'
+  });
+};
