@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Navigate } from 'react-router-dom';
 
 import EditDataTable from '../../../../../components/dashboard/EditDataTable';
 import DeleteDataIcon from '../../../../../components/icons/dashboard/DeleteDataIcon';
@@ -17,13 +16,8 @@ const EditProductsPage = () => {
 
   const {
     isLoading,
-    data: products,
-    error
+    data: products
   } = useFetch('allProducts', '/api/products/', true);
-
-  if (error !== undefined) {
-    return <Navigate to="/404" state={{ error: error.message }} />;
-  }
 
   return (
 		<div>
@@ -58,7 +52,10 @@ const EditProductsPage = () => {
 										/>
 									</td>
 									<td>
-										<DeleteDataIcon apiRoute={apiRoute + product.id} />
+										<DeleteDataIcon
+											apiRoute={apiRoute + product.id}
+											queryKey={'product-' + product.id}
+										/>
 									</td>
 								</tr>
 							))}

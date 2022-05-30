@@ -4,7 +4,6 @@ import { faWarning } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Navigate } from 'react-router-dom';
 
 import imgNotFoundImg from '../../../../../assets/global/image-not-found.png';
 import EditDataTable from '../../../../../components/dashboard/EditDataTable';
@@ -19,13 +18,8 @@ const EditCategoriesPage = () => {
 
   const {
     isLoading,
-    data: categories,
-    error
-  } = useFetch('allCategories', apiRoute, true);
-
-  if (error !== undefined) {
-    return <Navigate to="/404" state={{ error: error.message }} />;
-  }
+    data: categories
+  } = useFetch('categories', apiRoute, true);
 
   return (
     <div>
@@ -58,13 +52,16 @@ const EditCategoriesPage = () => {
                   <td>{category.name}</td>
                   <td>
                     <EditDataIcon
-                      queryKey={category.name}
+                      queryKey={'category-' + category._id}
                       dataID={category._id}
                       apiRoute={apiRoute}
                     />
                   </td>
                   <td>
-                    <DeleteDataIcon apiRoute={apiRoute + category._id} />
+                    <DeleteDataIcon
+                      queryKey={'category-' + category._id}
+                      apiRoute={apiRoute + category._id}
+                    />
                   </td>
                 </tr>
               ))}

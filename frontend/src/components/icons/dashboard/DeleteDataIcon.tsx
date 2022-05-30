@@ -8,9 +8,10 @@ import { useQueryClient, useMutation } from 'react-query';
 
 interface Props {
   apiRoute: string;
+  queryKey: string;
 }
 
-const DeleteDataIcon: FC<Props> = ({ apiRoute }) => {
+const DeleteDataIcon: FC<Props> = ({ apiRoute, queryKey }) => {
   const queryClient = useQueryClient();
   const [deleteLoading, setDeleteLoading] = useState(false);
 
@@ -18,6 +19,7 @@ const DeleteDataIcon: FC<Props> = ({ apiRoute }) => {
     return axios.delete(apiRoute);
   }, {
     onSuccess: () => {
+      queryClient.removeQueries(queryKey);
       queryClient.invalidateQueries();
       localStorage.removeItem('liked');
       window.dispatchEvent(new Event('storage'));

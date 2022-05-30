@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 
-import { useQueryClient } from 'react-query';
 import { Navigate } from 'react-router-dom';
 
 import useFetch from '../../../hooks/useFetch';
@@ -16,7 +15,6 @@ interface Props {
 }
 
 const EditDataIcon: FC<Props> = ({ dataID, apiRoute, queryKey }) => {
-  const queryClient = useQueryClient();
   const {
     isLoading,
     data: fetchedData,
@@ -30,7 +28,6 @@ const EditDataIcon: FC<Props> = ({ dataID, apiRoute, queryKey }) => {
 
   const handleClick = () => {
     refetch();
-    queryClient.invalidateQueries();
   };
 
   return (

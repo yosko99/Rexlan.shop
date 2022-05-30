@@ -14,7 +14,7 @@ const Dashboard = () => {
 
   const token = useContext(TokenContext);
 
-  const { data, isLoading, error } = useFetch('profile', '/api/users/current', true, {
+  const { data, isLoading, error } = useFetch(['profile', token!.token as string], '/api/users/current', true, {
     headers: { authorization: 'Bearer ' + token!.token }
   });
 
