@@ -6,6 +6,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { TokenContext } from '../../context/TokenContext';
+import getFormInputsAsObject from '../../functions/getFormInputsAsObject';
+import Loading from '../loading/Loading';
 
 interface Props {
   className?: string;
@@ -22,22 +24,6 @@ interface ErrorResponse {
   }
 }
 
-const getFormInputs = (formRef: React.RefObject<HTMLFormElement>) => {
-  const inputs = formRef.current!.elements;
-  const inputsObject = {};
-
-  for (let i = 0; i < inputs.length; i++) {
-    if (inputs[i].nodeName === 'INPUT') {
-      Object.defineProperty(
-        inputsObject,
-        inputs[i].getAttribute('name') as string,
-        { value: inputs[i].getAttribute('value') });
-    }
-  }
-
-  return inputsObject;
-};
-
 const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSuccess = true, onSuccessFn, updateRequest }) => {
   const queryClient = useQueryClient();
   const [data, setData] = useState({});
@@ -45,6 +31,7 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
   const [formValidated, setFormValidated] = useState<boolean>(false);
   const [onMutateAlert, setOnMutateAlert] = useState<React.ReactNode>();
   const token = useContext(TokenContext);
+  const [isFetchingData, setIsFetchingData] = useState(false);
   const navigate = useNavigate();
 
   const mutation = useMutation(data => {
@@ -66,6 +53,7 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
       setOnMutateAlert(<Alert
         className='mt-3 rounded-pill text-center'
         variant='danger'>{typeof errorMsg !== 'string' ? 'Error occurred' : errorMsg}</Alert>);
+      setIsFetchingData(false);
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries();
@@ -78,6 +66,7 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
           {data.data.msg}
           {redirectOnSuccess && <Spinner animation='border' size='sm' className='ms-2' />}
         </Alert>);
+      setIsFetchingData(false);
       if (redirectOnSuccess) {
         setTimeout(() => {
           if (data.data.token !== undefined) {
@@ -87,6 +76,9 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
           }
         }, 500);
       }
+    },
+    onMutate: (): void => {
+      setIsFetchingData(true);
     }
   });
 
@@ -116,7 +108,7 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
 
   // Depending on passed inputs assign data
   useEffect(() => {
-    setData(getFormInputs(formRef));
+    setData(getFormInputsAsObject(formRef));
   }, []);
 
   return (
@@ -131,7 +123,10 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
       <>{inputs}</>
 
       <Button variant="outline-primary" className='w-100 mt-3' type="submit">
-        Submit
+        {isFetchingData
+          ? <Loading height='10'/>
+          : <>Submit</>
+        }
       </Button>
 
       {(mutation.isError || mutation.isSuccess) && <>{onMutateAlert}</>

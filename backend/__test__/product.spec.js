@@ -197,21 +197,25 @@ describe('Testing product API', () => {
 
   test('delete product with valid product ID', () => {
     return request(app)
-      .get('/api/products/1')
+      .post('/api/products/')
+      .send({
+        title: 'test',
+        price: 1,
+        description: 'test',
+        category: 'test',
+        image: 'test'
+      })
       .expect('Content-Type', /json/)
       .expect(200)
-      .then((response) => {
-        const product = response.body;
+      .then(async (response) => {
+        const createdProduct = await Product.findOne({ title: 'test' });
 
         return request(app)
-          .del('/api/products/1')
+          .del('/api/products/' + createdProduct.id)
           .expect('Content-Type', /json/)
           .expect(200)
           .then(async (response) => {
             expect(response.body.msg).toBe('Data successfully deleted.');
-
-            // Return the deleted product after test
-            await Product.create(product);
           });
       });
   });
@@ -226,7 +230,7 @@ describe('Testing product API', () => {
       });
   });
 
-  test('created a product with valid data', () => {
+  test('create a product with valid data', () => {
     return request(app)
       .post('/api/products')
       .send({
@@ -241,7 +245,10 @@ describe('Testing product API', () => {
       .then(async (response) => {
         expect(response.body.msg).toBe('Product created.');
 
-        await Product.deleteOne({ title: 'test' });
+        const createdProduct = await Product.findOne({ title: 'test' });
+
+        return request(app)
+          .del('/api/products/' + createdProduct.id);
       });
   });
 

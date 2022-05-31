@@ -1,7 +1,7 @@
-const checkExistingCart = require('./functions/checkExistingCart');
+const checkExistingCart = require('./functions/cart/checkExistingCart');
 const createEmailMessage = require('../config/createEmailMessage');
 const createTransporter = require('../config/createTransporter');
-const generateChars = require('./functions/generateChars');
+const generateChars = require('./functions/utils/generateChars');
 const User = require('../models/userModel');
 
 const jwt = require('jsonwebtoken');

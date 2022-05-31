@@ -40,11 +40,11 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 			<Container>
 				<LinkContainer to={'/'}>
 					<Navbar.Brand href="#home">
-						<Image src={logo} width={40} className='me-2' fluid/>
-							Rexlan
+						<Image src={logo} width={40} className='me-2' fluid />
+						Rexlan
 					</Navbar.Brand>
 				</LinkContainer>
-				<Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={handleClick}/>
+				<Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={handleClick} />
 				<Navbar.Collapse id="responsive-navbar-nav">
 					<Nav className="me-auto">
 						<Nav.Link>
@@ -55,20 +55,24 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 						<NavDropdown title="Categories" id="collasible-nav-dropdown">
 							{isLoading
 							  ? <Loading />
-							  : categories.map((category: CategoryData, index: number) => (
-								<LinkContainer key={index} to={`/category/${category.name}`}>
-									<NavDropdown.Item>
-										{category.name}
-									</NavDropdown.Item>
-								</LinkContainer>
-							  ))
+							  : categories.length !== 0
+							    ? categories.map((category: CategoryData, index: number) => (
+										<LinkContainer key={index} to={`/category/${category.name}`}>
+											<NavDropdown.Item>
+												{category.name}
+											</NavDropdown.Item>
+										</LinkContainer>
+							    ))
+							    : <NavDropdown.Item className='disabled'>
+										No categories available
+								</NavDropdown.Item>
 							}
 						</NavDropdown>
-							<Nav.Link >
-								<LinkContainer to="/contacts">
-									<p className='m-0'>Contacts</p>
-								</LinkContainer>
-							</Nav.Link>
+						<Nav.Link >
+							<LinkContainer to="/contacts">
+								<p className='m-0'>Contacts</p>
+							</LinkContainer>
+						</Nav.Link>
 					</Nav>
 					<Nav className='d-flex justify-content-center'>
 						<div className='d-flex justify-content-center'>

@@ -14,9 +14,12 @@ const Dashboard = () => {
 
   const token = useContext(TokenContext);
 
-  const { data, isLoading, error } = useFetch(['profile', token!.token as string], '/api/users/current', true, {
-    headers: { authorization: 'Bearer ' + token!.token }
-  });
+  const { data, isLoading, error } = useFetch(
+    ['profile', token!.token as string],
+    '/api/users/current', true,
+    {
+      headers: { authorization: 'Bearer ' + token!.token }
+    });
 
   if (isLoading) {
     return <Loading height='90vh' />;

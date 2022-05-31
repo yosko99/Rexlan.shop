@@ -1,4 +1,4 @@
-const Cart = require('../../models/cartModel');
+const Cart = require('../../../models/cartModel');
 
 const deleteProductFromAllCarts = async (productID) => {
   const allCarts = await Cart.find({});

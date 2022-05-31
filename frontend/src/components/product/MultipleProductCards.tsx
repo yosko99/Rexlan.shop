@@ -27,7 +27,7 @@ const MultipleProductCards: FC<Props> = ({ isLoading, products }) => {
 							</Col>
 				    ))
 				    : <div className='text-center'>
-							<Image src={noProductsFoundImg} fluid alt="No products under this category" />
+							<Image src={noProductsFoundImg} fluid alt="No products" />
 							<p className='fs-4'>No products found</p>
 						</div>
 				}

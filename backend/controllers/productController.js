@@ -1,8 +1,9 @@
-const deleteProductFromAllCarts = require('./functions/deleteProductFromAllCarts');
-const getQueryQty = require('./functions/getQueryQty');
+const deleteProductFromAllCarts = require('./functions/cart/deleteProductFromAllCarts');
+const getQueryQty = require('./functions/utils/getQueryQty');
 const Product = require('../models/productModel');
-const createNewCategory = require('./functions/createNewCategory');
-const deleteEmptyCategory = require('./functions/deleteEmptyCategory');
+const createNewCategory = require('./functions/category/createNewCategory');
+const deleteEmptyCategory = require('./functions/category/deleteEmptyCategory');
+const getMaxProductID = require('./functions/product/getMaxProductID');
 
 exports.getProducts = async (req, res) => {
   const productQuantity = getQueryQty(req.query.qty);
@@ -66,11 +67,7 @@ exports.updateProduct = async (req, res) => {
 exports.createProduct = async (req, res) => {
   const { title, price, description, category, image } = req.body;
 
-  const allProductIDs = await Product
-    .find({})
-    .select('id -_id');
-
-  const { id: maxID } = allProductIDs.sort((a, b) => Number(b.id) - Number(a.id))[0];
+  const maxID = await getMaxProductID();
 
   await Product.create({
     title,
@@ -78,7 +75,7 @@ exports.createProduct = async (req, res) => {
     description,
     category,
     image,
-    id: Number(maxID) + 1
+    id: maxID
   });
 
   await createNewCategory(category);
@@ -116,7 +113,10 @@ exports.getProductsSortedBy = async (req, res) => {
     .limit(productQuantity);
 
   if (products === null || products.length === 0) {
-    return res.status(404).send('Could not find data');
+    return res.status(206).json({
+      products: [],
+      msg: 'Could not find data'
+    });
   }
 
   res.status(200).json(products);

@@ -1,7 +1,5 @@
 import React, { FC } from 'react';
 
-import { faWaveSquare } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container } from 'react-bootstrap';
 
 import CenteredItems from '../../styles/CenteredItems';

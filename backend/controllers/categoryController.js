@@ -1,6 +1,6 @@
 const Category = require('../models/categoryModel');
 const Product = require('../models/productModel');
-const deleteProductFromAllCarts = require('./functions/deleteProductFromAllCarts');
+const deleteProductFromAllCarts = require('./functions/cart/deleteProductFromAllCarts');
 
 exports.getCategories = async (req, res) => {
   const categories = await Category.find({});

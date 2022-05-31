@@ -32,27 +32,27 @@ const MainPage = () => {
   ]);
 
   if (isLoading) {
-    return <Loading height='90vh'/>;
+    return <Loading height='90vh' />;
   }
   if (error !== undefined) {
     return <Navigate to="/404" state={{ error: error.message }} />;
   }
 
-  const [menClothing] = data[0];
-  const [womenClothing] = data[1];
-  const featuredProducts: Product[] = data[2];
-  const bestSellers: Product[] = data[3];
+  const [menClothing] = data[0].msg !== undefined ? [] : data[0];
+  const [womenClothing] = data[1].msg !== undefined ? [] : data[1];
+  const featuredProducts: Product[] = data[2] || [];
+  const bestSellers: Product[] = data[3] || [];
 
   return (
-		<>
-    	<RenderMainPage
+    <>
+      <RenderMainPage
         isLoading={isLoading}
         featuredProducts={featuredProducts}
         menClothing={menClothing}
         womenClothing={womenClothing}
         bestSellers={bestSellers}
       />
-		</>
+    </>
   );
 };
 
