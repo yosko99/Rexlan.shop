@@ -377,13 +377,14 @@ describe('Testing user API', () => {
       });
   });
 
-  test('get user with provided registered email', () => {
+  test('get user with provided registered user ID', async () => {
+    const { _id } = await User.findOne({ email: dummyData.userLinkedWithCart.email });
+
     return request(app)
-      .get('/api/users/user/' + dummyData.userLinkedWithCart.email)
+      .get('/api/users/user/' + _id)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
-        console.log(response.text);
         expect(response.body).toEqual(
           expect.objectContaining({
             email: dummyData.userLinkedWithCart.email,
@@ -397,9 +398,37 @@ describe('Testing user API', () => {
       });
   });
 
-  test('get user with provided unregistered email', () => {
+  test('get user with provided non registered user ID', () => {
     return request(app)
-      .get('/api/users/user/blabla')
+      .get('/api/users/user/12char12char')
+      .expect('Content-Type', /html/)
+      .expect(404)
+      .then((response) => {
+        expect(response.text).toBe('Could not find user with provided email');
+      });
+  });
+
+  test('update user name with provided registered ID', async () => {
+    const { _id } = await User.findOne({ email: dummyData.userLinkedWithCart.email });
+
+    return request(app)
+      .put('/api/users/user/' + _id)
+      .send({
+        name: 'new name'
+      })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.msg).toBe('Data updated successfully');
+      });
+  });
+
+  test('update user name with provided non registered ID', () => {
+    return request(app)
+      .put('/api/users/user/12char12char')
+      .send({
+        name: 'new name'
+      })
       .expect('Content-Type', /html/)
       .expect(404)
       .then((response) => {

@@ -2,6 +2,7 @@ const checkExistingCart = require('./functions/cart/checkExistingCart');
 const createEmailMessage = require('../config/createEmailMessage');
 const createTransporter = require('../config/createTransporter');
 const generateChars = require('./functions/utils/generateChars');
+const updateUser = require('./functions/user/updateUser');
 const User = require('../models/userModel');
 
 const jwt = require('jsonwebtoken');
@@ -17,15 +18,7 @@ exports.getUsers = async (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
-  const { email } = req.params;
-
-  const user = await User.findOne({ email }).select('-createdAt -updatedAt -__v -cartID -password');
-
-  if (user === null) {
-    return res.status(404).send('Could not find user with provided email');
-  }
-
-  res.status(200).json(user);
+  res.status(200).json(req.user);
 };
 
 exports.getCurrentUser = async (req, res) => {
@@ -36,24 +29,12 @@ exports.getCurrentUser = async (req, res) => {
   res.status(200).json({ user });
 };
 
+exports.updateUser = async (req, res) => {
+  updateUser(req, res);
+};
+
 exports.updateCurrentUser = async (req, res) => {
-  const { name, address, phone, zipcode } = req.body;
-
-  try {
-    await User
-      .updateOne({ email: req.user.email }, {
-        name,
-        phone,
-        address,
-        zipcode
-      });
-
-    return res.status(200).json({
-      msg: 'Data updated successfully'
-    });
-  } catch (error) {
-    return res.status(404).send(error);
-  }
+  updateUser(req, res);
 };
 
 exports.changePassword = async (req, res) => {

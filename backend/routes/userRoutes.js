@@ -4,8 +4,10 @@ const router = express.Router();
 
 const userController = require('../controllers/userController');
 const verifyJWT = require('../middleware/verifyJWT');
+const checkExistingUser = require('../middleware/checkExistingUser');
 
 // Question marks in front of 'accept' variables means that they are not required
+// Difference between 'current user' and 'user' is that one requires JWT for access and the other uses _id
 
 // @desc Fetch all user data
 // @route GET /api/users/
@@ -13,15 +15,21 @@ const verifyJWT = require('../middleware/verifyJWT');
 router.get('/', asyncHandler(userController.getUsers));
 
 // @desc Get user data
-// @route GET /api/users/user/:email
+// @route GET /api/users/user/:_id
 // @access Public
-router.get('/user/:email', asyncHandler(userController.getUser));
+router.get('/user/:_id', checkExistingUser, asyncHandler(userController.getUser));
 
 // @desc Get current user data
 // @route GET /api/users/current
 // @access Public
 // @requires [ authorization ] header with JWT token
 router.get('/current', verifyJWT, asyncHandler(userController.getCurrentUser));
+
+// @desc Update user data
+// @route PUT /api/users/user/:_id
+// @access Public
+// @accepts { email, name, address, phone, zip }
+router.put('/user/:_id', checkExistingUser, asyncHandler(userController.updateUser));
 
 // @desc Update current user data
 // @route POST /api/users/current
