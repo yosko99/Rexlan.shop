@@ -71,7 +71,15 @@ exports.changePassword = async (req, res) => {
 };
 
 exports.addUser = async (req, res) => {
-  const { email, name, password, address, phone, cartID } = req.body;
+  const {
+    email,
+    name,
+    password,
+    address,
+    phone,
+    cartID,
+    isAdmin
+  } = req.body;
 
   const checkRegistered = await User.findOne({ email });
 
@@ -80,31 +88,34 @@ exports.addUser = async (req, res) => {
     return res.status(403).send('User with this email already exists.');
   }
   // Hash the password
-  bcrypt.hash(password, Number(process.env.SALT_ROUNDS), function (err, hashedPassword) {
+  bcrypt.hash(password, Number(process.env.SALT_ROUNDS), async function (err, hashedPassword) {
     if (err) {
       return res.status(404).send(err);
     }
-    const newUser = User({
+
+    await User.create({
       email,
       password: hashedPassword,
       name,
       address,
-      phone
+      phone,
+      isAdmin
     });
-    newUser.save(async (err) => {
-      if (err) {
-        return res.status(404).send(err);
-      } else {
-        const token = jwt.sign({ email }, process.env.JWT_SECRET_KEY);
 
-        const checkedCartID = await checkExistingCart(email, cartID);
+    if (req.headers.sendtokenback === 'true') {
+      const token = jwt.sign({ email }, process.env.JWT_SECRET_KEY);
 
-        return res.status(200).json({
-          msg: 'Your account has been successfully created.',
-          token,
-          cartID: checkedCartID
-        });
-      }
+      const checkedCartID = await checkExistingCart(email, cartID);
+
+      return res.status(200).json({
+        msg: 'Your account has been successfully created.',
+        token,
+        cartID: checkedCartID
+      });
+    }
+
+    res.status(200).json({
+      msg: 'Account created.'
     });
   });
 };

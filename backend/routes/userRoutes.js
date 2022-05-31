@@ -35,6 +35,7 @@ router.post('/change-password', verifyJWT, asyncHandler(userController.changePas
 // @desc Add a new user
 // @route POST /api/users/
 // @access Public
+// @optional [ sendtokenback ] header
 // @accepts { email, name, password, address, phone, cartID? }
 router.post('/', asyncHandler(userController.addUser));
 

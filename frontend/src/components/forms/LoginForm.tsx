@@ -16,6 +16,7 @@ const LoginForm: FC<Props> = ({ className }) => {
 		<div className={className}>
 			<FormTemplate
 				mutateURL={'/api/users/login'}
+				sendTokenBack
 				inputs={
 					<>
 						<EmailInput />

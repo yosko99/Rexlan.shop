@@ -16,6 +16,7 @@ const RegisterForm: FC<Props> = ({ className }) => {
     <div className={className}>
       <FormTemplate
         mutateURL={'/api/users/'}
+        sendTokenBack
         inputs={
           <>
             <EmailInput />

@@ -16,6 +16,7 @@ interface Props {
   redirectOnSuccess?: boolean;
   inputs: React.ReactChild;
   updateRequest?: boolean;
+  sendTokenBack?: boolean;
 }
 
 interface ErrorResponse {
@@ -24,7 +25,7 @@ interface ErrorResponse {
   }
 }
 
-const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSuccess = true, onSuccessFn, updateRequest }) => {
+const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSuccess = true, onSuccessFn, updateRequest, sendTokenBack }) => {
   const queryClient = useQueryClient();
   const [data, setData] = useState({});
   const formRef = useRef<HTMLFormElement>(null);
@@ -34,17 +35,18 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
   const [isFetchingData, setIsFetchingData] = useState(false);
   const navigate = useNavigate();
 
+  const requestHeaders = {
+    authorization: 'Bearer ' + token!.token,
+    sendTokenBack: sendTokenBack === undefined ? false : sendTokenBack
+  };
+
   const mutation = useMutation(data => {
     return !updateRequest
       ? axios.post(mutateURL, data, {
-        headers: {
-          authorization: 'Bearer ' + token!.token
-        }
+        headers: requestHeaders
       })
       : axios.put(mutateURL, data, {
-        headers: {
-          authorization: 'Bearer ' + token!.token
-        }
+        headers: requestHeaders
       });
   }, {
     onError: (err: ErrorResponse) => {

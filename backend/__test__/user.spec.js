@@ -65,13 +65,14 @@ describe('Testing user API', () => {
       });
   });
 
-  test('create new user with provided cartID', () => {
+  test('create new user with provided cartID and sendtokenback flag', () => {
     return request(app)
       .post('/api/users/')
       .send({
         ...mockUserInfo,
         cartID: dummyData.notLinkedCart._id
       })
+      .set('sendtokenback', true)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -84,7 +85,43 @@ describe('Testing user API', () => {
       });
   });
 
-  test('create new user without providing cartID', () => {
+  test('create new user with provided cartID without sendtokenback flag', () => {
+    return request(app)
+      .post('/api/users/')
+      .send({
+        ...mockUserInfo,
+        cartID: dummyData.notLinkedCart._id
+      })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            msg: 'Account created.'
+          }));
+      });
+  });
+
+  test('create new user without providing cartID and sendtokenback flag', () => {
+    return request(app)
+      .post('/api/users/')
+      .send({
+        ...mockUserInfo
+      })
+      .set('sendtokenback', true)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            msg: 'Your account has been successfully created.',
+            token: expect.any(String),
+            cartID: expect.any(String)
+          }));
+      });
+  });
+
+  test('create new user without providing cartID and without sendtokenback flag', () => {
     return request(app)
       .post('/api/users/')
       .send({
@@ -95,9 +132,7 @@ describe('Testing user API', () => {
       .then((response) => {
         expect(response.body).toEqual(
           expect.objectContaining({
-            msg: 'Your account has been successfully created.',
-            token: expect.any(String),
-            cartID: expect.any(String)
+            msg: 'Account created.'
           }));
       });
   });
