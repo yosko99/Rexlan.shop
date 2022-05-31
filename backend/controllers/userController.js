@@ -4,6 +4,7 @@ const createTransporter = require('../config/createTransporter');
 const generateChars = require('./functions/utils/generateChars');
 const updateUser = require('./functions/user/updateUser');
 const User = require('../models/userModel');
+const Cart = require('../models/cartModel');
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -35,6 +36,15 @@ exports.updateUser = async (req, res) => {
 
 exports.updateCurrentUser = async (req, res) => {
   updateUser(req, res);
+};
+
+exports.deleteUser = async (req, res) => {
+  await Cart.deleteOne({ userID: req.user._id });
+  await User.deleteOne({ _id: req.user._id });
+
+  res.status(200).json({
+    msg: 'User successfully deleted.'
+  });
 };
 
 exports.changePassword = async (req, res) => {

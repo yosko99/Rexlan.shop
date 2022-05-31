@@ -29,6 +29,7 @@ const DetailsUpdateForm: FC<Props> = ({ className, user }) => {
 				mutateURL={'/api/users/current'}
 				redirectOnSuccess={false}
 				onSuccessFn={onSuccessFn}
+				updateRequest
 				inputs={
 					<>
 						<EmailInput defaultValue={user.email} readOnly />

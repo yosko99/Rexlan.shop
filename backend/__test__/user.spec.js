@@ -287,7 +287,7 @@ describe('Testing user API', () => {
         const { token } = response.body;
 
         return request(app)
-          .post('/api/users/current')
+          .put('/api/users/current')
           .expect('Content-Type', /json/)
           .set('authorization', 'Bearer ' + token)
           .send({
@@ -305,7 +305,7 @@ describe('Testing user API', () => {
 
   test('update current user without providing JWT token', () => {
     return request(app)
-      .post('/api/users/current')
+      .put('/api/users/current')
       .expect('Content-Type', /json/)
       .expect(403)
       .then((response) => {
@@ -429,6 +429,37 @@ describe('Testing user API', () => {
       .send({
         name: 'new name'
       })
+      .expect('Content-Type', /html/)
+      .expect(404)
+      .then((response) => {
+        expect(response.text).toBe('Could not find user with provided email');
+      });
+  });
+
+  test('delete a registered user', () => {
+    return request(app)
+      .post('/api/users/')
+      .send(mockUserInfo)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then(async (response) => {
+        const createdUser = await User.findOne({ name: mockUserInfo.name });
+
+        return request(app)
+          .del('/api/users/user/' + createdUser._id)
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .then(async (response) => {
+            expect(response.body.msg).toBe('User successfully deleted.');
+
+            await User.deleteOne({ _id: createdUser._id });
+          });
+      });
+  });
+
+  test('delete user with provided non registered ID', () => {
+    return request(app)
+      .del('/api/users/user/12char12char')
       .expect('Content-Type', /html/)
       .expect(404)
       .then((response) => {

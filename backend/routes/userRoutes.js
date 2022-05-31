@@ -14,16 +14,17 @@ const checkExistingUser = require('../middleware/checkExistingUser');
 // @access Public
 router.get('/', asyncHandler(userController.getUsers));
 
+// @desc Add a new user
+// @route POST /api/users/
+// @access Public
+// @optional [ sendtokenback ] header
+// @accepts { email, name, password, address, phone, cartID? }
+router.post('/', asyncHandler(userController.addUser));
+
 // @desc Get user data
 // @route GET /api/users/user/:_id
 // @access Public
 router.get('/user/:_id', checkExistingUser, asyncHandler(userController.getUser));
-
-// @desc Get current user data
-// @route GET /api/users/current
-// @access Public
-// @requires [ authorization ] header with JWT token
-router.get('/current', verifyJWT, asyncHandler(userController.getCurrentUser));
 
 // @desc Update user data
 // @route PUT /api/users/user/:_id
@@ -31,12 +32,23 @@ router.get('/current', verifyJWT, asyncHandler(userController.getCurrentUser));
 // @accepts { email, name, address, phone, zip }
 router.put('/user/:_id', checkExistingUser, asyncHandler(userController.updateUser));
 
+// @desc Delete user
+// @route DELETE /api/users/user/:_id
+// @access Public
+router.delete('/user/:_id', checkExistingUser, asyncHandler(userController.deleteUser));
+
+// @desc Get current user data
+// @route GET /api/users/current
+// @access Public
+// @requires [ authorization ] header with JWT token
+router.get('/current', verifyJWT, asyncHandler(userController.getCurrentUser));
+
 // @desc Update current user data
-// @route POST /api/users/current
+// @route PUT /api/users/current
 // @access Public
 // @requires [ authorization ] header with JWT token
 // @accepts { name, address, phone, zip }
-router.post('/current', verifyJWT, asyncHandler(userController.updateCurrentUser));
+router.put('/current', verifyJWT, asyncHandler(userController.updateCurrentUser));
 
 // @desc Change user password
 // @route POST /api/users/change-password
@@ -44,13 +56,6 @@ router.post('/current', verifyJWT, asyncHandler(userController.updateCurrentUser
 // @requires [ authorization ] header with JWT token
 // @accepts { oldPassword, newPassword }
 router.post('/change-password', verifyJWT, asyncHandler(userController.changePassword));
-
-// @desc Add a new user
-// @route POST /api/users/
-// @access Public
-// @optional [ sendtokenback ] header
-// @accepts { email, name, password, address, phone, cartID? }
-router.post('/', asyncHandler(userController.addUser));
 
 // @desc Login a user
 // @route POST /api/users/login
