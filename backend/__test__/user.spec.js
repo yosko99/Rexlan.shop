@@ -376,4 +376,34 @@ describe('Testing user API', () => {
         expect(response.body.message).toBe('jwt must be provided');
       });
   });
+
+  test('get user with provided registered email', () => {
+    return request(app)
+      .get('/api/users/user/' + dummyData.userLinkedWithCart.email)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        console.log(response.text);
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            email: dummyData.userLinkedWithCart.email,
+            _id: expect.any(String),
+            name: dummyData.userLinkedWithCart.name,
+            address: dummyData.userLinkedWithCart.address,
+            phone: dummyData.userLinkedWithCart.phone,
+            isAdmin: expect.any(Boolean)
+          })
+        );
+      });
+  });
+
+  test('get user with provided unregistered email', () => {
+    return request(app)
+      .get('/api/users/user/blabla')
+      .expect('Content-Type', /html/)
+      .expect(404)
+      .then((response) => {
+        expect(response.text).toBe('Could not find user with provided email');
+      });
+  });
 });

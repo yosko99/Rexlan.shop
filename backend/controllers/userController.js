@@ -16,6 +16,18 @@ exports.getUsers = async (req, res) => {
   res.status(200).json(users);
 };
 
+exports.getUser = async (req, res) => {
+  const { email } = req.params;
+
+  const user = await User.findOne({ email }).select('-createdAt -updatedAt -__v -cartID -password');
+
+  if (user === null) {
+    return res.status(404).send('Could not find user with provided email');
+  }
+
+  res.status(200).json(user);
+};
+
 exports.getCurrentUser = async (req, res) => {
   const user = await User
     .findOne({ email: req.user.email })

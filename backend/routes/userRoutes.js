@@ -12,23 +12,28 @@ const verifyJWT = require('../middleware/verifyJWT');
 // @access Public
 router.get('/', asyncHandler(userController.getUsers));
 
+// @desc Get user data
+// @route GET /api/users/user/:email
+// @access Public
+router.get('/user/:email', asyncHandler(userController.getUser));
+
 // @desc Get current user data
 // @route GET /api/users/current
 // @access Public
-// @requires [authorization] header with JWT token
+// @requires [ authorization ] header with JWT token
 router.get('/current', verifyJWT, asyncHandler(userController.getCurrentUser));
 
 // @desc Update current user data
 // @route POST /api/users/current
 // @access Public
-// @requires [authorization] header with JWT token
+// @requires [ authorization ] header with JWT token
 // @accepts { name, address, phone, zip }
 router.post('/current', verifyJWT, asyncHandler(userController.updateCurrentUser));
 
 // @desc Change user password
 // @route POST /api/users/change-password
 // @access Public
-// @requires [authorization] header with JWT token
+// @requires [ authorization ] header with JWT token
 // @accepts { oldPassword, newPassword }
 router.post('/change-password', verifyJWT, asyncHandler(userController.changePassword));
 
