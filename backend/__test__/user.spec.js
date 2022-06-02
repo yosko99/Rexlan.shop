@@ -1,6 +1,7 @@
 const initializeDummyData = require('./config/initializeDummyData');
 const deleteDummyData = require('./config/deleteDummyData');
 const User = require('../models/userModel');
+const Cart = require('../models/cartModel');
 
 const mongoose = require('mongoose');
 const request = require('supertest');
@@ -13,7 +14,7 @@ describe('Testing user API', () => {
     linkedCart: null,
     userLinkedWithCart: null,
     userNotLinkedWithCart: null,
-    userNotLinkedWithCartPassword: 'testing'
+    userPassword: 'testing'
   };
 
   const mockUserInfo = {
@@ -111,13 +112,17 @@ describe('Testing user API', () => {
       .set('sendtokenback', true)
       .expect('Content-Type', /json/)
       .expect(200)
-      .then((response) => {
+      .then(async (response) => {
+        const cartID = response.body.cartID;
+
         expect(response.body).toEqual(
           expect.objectContaining({
             msg: 'Your account has been successfully created.',
             token: expect.any(String),
             cartID: expect.any(String)
           }));
+
+        await Cart.deleteOne({ _id: cartID });
       });
   });
 
@@ -129,11 +134,15 @@ describe('Testing user API', () => {
       })
       .expect('Content-Type', /json/)
       .expect(200)
-      .then((response) => {
+      .then(async (response) => {
+        const createdUser = await User.findOne({ email: mockUserInfo.email });
+
         expect(response.body).toEqual(
           expect.objectContaining({
             msg: 'Account created.'
           }));
+
+        await Cart.deleteOne({ _id: createdUser.cartID });
       });
   });
 
@@ -161,8 +170,8 @@ describe('Testing user API', () => {
     return request(app)
       .post('/api/users/login')
       .send({
-        email: dummyData.userNotLinkedWithCart.email,
-        password: 'testing'
+        email: dummyData.userLinkedWithCart.email,
+        password: dummyData.userPassword
       })
       .expect('Content-Type', /json/)
       .expect(200)
@@ -243,8 +252,8 @@ describe('Testing user API', () => {
     return request(app)
       .post('/api/users/login')
       .send({
-        email: dummyData.userNotLinkedWithCart.email,
-        password: dummyData.userNotLinkedWithCartPassword
+        email: dummyData.userLinkedWithCart.email,
+        password: dummyData.userPassword
       })
       .expect('Content-Type', /json/)
       .expect(200)
@@ -256,7 +265,7 @@ describe('Testing user API', () => {
           .expect('Content-Type', /json/)
           .set('authorization', 'Bearer ' + token)
           .expect(200)
-          .then((response) => {
+          .then(async (response) => {
             expect(response.body.user).toEqual(
               expect.objectContaining(userStructure)
             );
@@ -278,8 +287,8 @@ describe('Testing user API', () => {
     return request(app)
       .post('/api/users/login')
       .send({
-        email: dummyData.userNotLinkedWithCart.email,
-        password: dummyData.userNotLinkedWithCartPassword
+        email: dummyData.userLinkedWithCart.email,
+        password: dummyData.userPassword
       })
       .expect('Content-Type', /json/)
       .expect(200)
@@ -317,8 +326,8 @@ describe('Testing user API', () => {
     return request(app)
       .post('/api/users/login')
       .send({
-        email: dummyData.userNotLinkedWithCart.email,
-        password: dummyData.userNotLinkedWithCartPassword
+        email: dummyData.userLinkedWithCart.email,
+        password: dummyData.userPassword
       })
       .expect('Content-Type', /json/)
       .expect(200)
@@ -330,7 +339,7 @@ describe('Testing user API', () => {
           .expect('Content-Type', /json/)
           .set('authorization', 'Bearer ' + token)
           .send({
-            oldPassword: dummyData.userNotLinkedWithCartPassword,
+            oldPassword: dummyData.userPassword,
             newPassword: 'newPassword'
           })
           .expect(200)
@@ -344,8 +353,8 @@ describe('Testing user API', () => {
     return request(app)
       .post('/api/users/login')
       .send({
-        email: dummyData.userNotLinkedWithCart.email,
-        password: dummyData.userNotLinkedWithCartPassword
+        email: dummyData.userLinkedWithCart.email,
+        password: dummyData.userPassword
       })
       .expect('Content-Type', /json/)
       .expect(200)

@@ -20,15 +20,15 @@ const initializeDummyData = async (dummyData) => {
     products: [exampleProducts]
   }).save();
 
+  const hashedPassword = bcrypt.hashSync('testing', 1);
+
   dummyData.userLinkedWithCart = await User({
     email: 'test@test.gmail',
-    password: 'testing',
+    password: hashedPassword,
     name: 'test',
     address: 'test',
     phone: 'test'
   }).save();
-
-  const hashedPassword = bcrypt.hashSync('testing', 1);
 
   dummyData.userNotLinkedWithCart = await User({
     email: 'test2@test.bg',

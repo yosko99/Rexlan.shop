@@ -5,22 +5,18 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 
 describe('Testing product API', () => {
-  let productStructure;
-
-  beforeAll(() => {
-    productStructure = {
-      id: expect.any(String),
-      title: expect.any(String),
-      price: expect.any(Number),
-      description: expect.any(String),
-      category: expect.any(String),
-      image: expect.any(String),
-      rating: expect.objectContaining({
-        rate: expect.any(Number),
-        count: expect.any(Number)
-      })
-    };
-  });
+  const productStructure = {
+    id: expect.any(String),
+    title: expect.any(String),
+    price: expect.any(Number),
+    description: expect.any(String),
+    category: expect.any(String),
+    image: expect.any(String),
+    rating: expect.objectContaining({
+      rate: expect.any(Number),
+      count: expect.any(Number)
+    })
+  };
 
   afterAll(async () => {
     mongoose.disconnect();
@@ -248,7 +244,8 @@ describe('Testing product API', () => {
         const createdProduct = await Product.findOne({ title: 'test' });
 
         return request(app)
-          .del('/api/products/' + createdProduct.id);
+          .del('/api/products/' + createdProduct.id)
+          .expect(200);
       });
   });
 

@@ -2,7 +2,7 @@ const User = require('../models/userModel');
 
 const mongoose = require('mongoose');
 
-const checkExistingUser = async (req, res, next) => {
+const checkExistingUserMiddleware = async (req, res, next) => {
   const { _id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(_id)) {
@@ -20,4 +20,4 @@ const checkExistingUser = async (req, res, next) => {
   next();
 };
 
-module.exports = checkExistingUser;
+module.exports = checkExistingUserMiddleware;

@@ -3,7 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 const productController = require('../controllers/productController');
-const checkExistingProductID = require('../middleware/checkExistingProductID');
+
+const checkExistingProductMiddleware = require('../middleware/checkExistingProductMiddleware');
 
 // @desc Fetch all products with optional quantity value
 // @route GET /api/products?qty=2
@@ -14,12 +15,12 @@ router.get('/', asyncHandler(productController.getProducts));
 // @route PUT /api/products/:id
 // @access Public
 // @accepts { title, price, description, category, image }
-router.put('/:id', checkExistingProductID, asyncHandler(productController.updateProduct));
+router.put('/:id', checkExistingProductMiddleware, asyncHandler(productController.updateProduct));
 
 // @desc Deletes a product with provided product ID
 // @route DELETE /api/products/:id
 // @access Public
-router.delete('/:id', checkExistingProductID, asyncHandler(productController.deleteProduct));
+router.delete('/:id', checkExistingProductMiddleware, asyncHandler(productController.deleteProduct));
 
 // @desc Creates a product
 // @route POST /api/products/

@@ -3,8 +3,9 @@ const express = require('express');
 const router = express.Router();
 
 const userController = require('../controllers/userController');
-const verifyJWT = require('../middleware/verifyJWT');
-const checkExistingUser = require('../middleware/checkExistingUser');
+
+const checkExistingUserMiddleware = require('../middleware/checkExistingUserMiddleware');
+const verifyJWT = require('../middleware/verifyJWTMiddleware');
 
 // Question marks in front of 'accept' variables means that they are not required
 // Difference between 'current user' and 'user' is that one requires JWT for access and the other uses _id
@@ -24,18 +25,18 @@ router.post('/', asyncHandler(userController.addUser));
 // @desc Get user data
 // @route GET /api/users/user/:_id
 // @access Public
-router.get('/user/:_id', checkExistingUser, asyncHandler(userController.getUser));
+router.get('/user/:_id', checkExistingUserMiddleware, asyncHandler(userController.getUser));
 
 // @desc Update user data
 // @route PUT /api/users/user/:_id
 // @access Public
 // @accepts { email, name, address, phone, zip }
-router.put('/user/:_id', checkExistingUser, asyncHandler(userController.updateUser));
+router.put('/user/:_id', checkExistingUserMiddleware, asyncHandler(userController.updateUser));
 
 // @desc Delete user
 // @route DELETE /api/users/user/:_id
 // @access Public
-router.delete('/user/:_id', checkExistingUser, asyncHandler(userController.deleteUser));
+router.delete('/user/:_id', checkExistingUserMiddleware, asyncHandler(userController.deleteUser));
 
 // @desc Get current user data
 // @route GET /api/users/current

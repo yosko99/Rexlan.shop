@@ -1,7 +1,7 @@
 const Category = require('../models/categoryModel');
 const mongoose = require('mongoose');
 
-const checkExstingCategory = async (req, res, next) => {
+const checkExstingCategoryMiddleware = async (req, res, next) => {
   const { _id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(_id)) {
@@ -17,4 +17,4 @@ const checkExstingCategory = async (req, res, next) => {
   next();
 };
 
-module.exports = checkExstingCategory;
+module.exports = checkExstingCategoryMiddleware;

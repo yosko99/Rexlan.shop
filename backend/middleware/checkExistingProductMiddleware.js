@@ -1,7 +1,13 @@
 const Product = require('../models/productModel');
+const mongoose = require('mongoose');
 
-const checkExistingProductID = async (req, res, next) => {
+const checkExistingProductMiddleware = async (req, res, next) => {
   const { id: productID } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(productID)) {
+    return res.status(404).send('Invalid id format.');
+  }
+
   const product = await Product.findOne({ id: productID });
 
   if (product === null) {
@@ -11,4 +17,4 @@ const checkExistingProductID = async (req, res, next) => {
   next();
 };
 
-module.exports = checkExistingProductID;
+module.exports = checkExistingProductMiddleware;

@@ -5,6 +5,7 @@ const initializeDummyData = require('./config/initializeDummyData');
 const deleteDummyData = require('./config/deleteDummyData');
 
 const app = require('../app');
+const Cart = require('../models/cartModel');
 
 describe('Testing cart API', () => {
   let dummyData = {
@@ -81,12 +82,14 @@ describe('Testing cart API', () => {
       })
       .expect('Content-Type', /json/)
       .expect(200)
-      .then((response) => {
+      .then(async (response) => {
         expect(response.body).toEqual(
           expect.objectContaining({
             cartID: expect.any(String)
           })
+
         );
+        await Cart.deleteOne({ _id: response.body.cartID });
       });
   });
 
