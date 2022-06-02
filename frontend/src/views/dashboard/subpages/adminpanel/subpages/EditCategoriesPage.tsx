@@ -23,8 +23,8 @@ const EditCategoriesPage = () => {
 
   return (
     <div>
-      <p className='fs-3 my-3'>Edit products</p>
-      <p>Here you can edit product properties</p>
+      <p className='fs-3 my-3'>Edit categories</p>
+      <p>Here you can edit category properties</p>
       <p className='text-danger'>
         <FontAwesomeIcon icon={faWarning} className='me-2' beat />
         Deleting a category will remove all products related to it.

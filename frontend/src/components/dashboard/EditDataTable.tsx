@@ -1,11 +1,8 @@
 import React, { FC } from 'react';
 
 import { Table } from 'react-bootstrap';
-import { useQueryClient } from 'react-query';
 
-import CustomInput from '../inputs/CustomInput';
-import CustomModal from '../modal/CustomModal';
-import FormTemplate from '../templates/FormTemplate';
+import TableAddDataButton from './TableAddDataButton';
 
 interface Props {
 	tableHeaderCells: React.ReactChild;
@@ -15,38 +12,16 @@ interface Props {
 }
 
 const EditDataTable: FC<Props> = ({ tableHeaderCells, tableRowCells, dataStructure, createDataRoute }) => {
-  const queryClient = useQueryClient();
-
   return (
 		<>
 			{/* Add data */}
-			<CustomModal
-				activateButtonText='Add data'
-				modalHeader={'Add data'}
-				modalBody={
-					<FormTemplate
-						inputs={
-							<>
-								{
-									Object.keys(dataStructure).map((property: any, index: number) => (
-									  property !== '_id' &&
-										<CustomInput
-											key={index}
-											defaultValue={dataStructure[property]}
-											inputLabel={property}
-											inputName={property}
-											isNumber={typeof dataStructure[property] === 'number'}
-										/>
-									))
-								}
-							</>}
-						mutateURL={createDataRoute}
-						redirectOnSuccess={false}
-						onSuccessFn={() => queryClient.refetchQueries()}
-					/>}
-				activateButtonClassName="w-100 mb-3 btn-info"
+			<TableAddDataButton
+				dataStructure={dataStructure}
+				createDataRoute={createDataRoute}
 			/>
 			{/* Add data */}
+
+			{/* Table wtih data */}
 			<Table striped bordered hover className='text-center'>
 				<thead>
 					<tr className='text-center'>
@@ -59,6 +34,7 @@ const EditDataTable: FC<Props> = ({ tableHeaderCells, tableRowCells, dataStructu
 					{tableRowCells}
 				</tbody>
 			</Table>
+			{/* Table wtih data */}
 		</>
   );
 };

@@ -17,7 +17,7 @@ const EditProductsPage = () => {
   const {
     isLoading,
     data: products
-  } = useFetch('allProducts', '/api/products/', true);
+  } = useFetch('allProducts', apiRoute, true);
 
   return (
 		<div>

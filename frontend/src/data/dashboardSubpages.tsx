@@ -4,6 +4,7 @@ import { User } from '../types/userTypes';
 import AdminPanelPage from '../views/dashboard/subpages/adminpanel';
 import EditCategoriesPage from '../views/dashboard/subpages/adminpanel/subpages/EditCategoriesPage';
 import EditProductsPage from '../views/dashboard/subpages/adminpanel/subpages/EditProductsPage';
+import EditUsersPage from '../views/dashboard/subpages/adminpanel/subpages/EditUsersPage';
 import MyDetailsPage from '../views/dashboard/subpages/MyDetailsPage';
 import MyOrdersPage from '../views/dashboard/subpages/MyOrdersPage';
 import PasswordChangePage from '../views/dashboard/subpages/PasswordChangePage';
@@ -38,6 +39,10 @@ export const dashboardSubpages = (user: User): SubpageType[] => {
     {
       urlParam: 'categories',
       page: <EditCategoriesPage />
+    },
+    {
+      urlParam: 'users',
+      page: <EditUsersPage />
     }
   ];
 };

@@ -1,7 +1,7 @@
 const User = require('../../../models/userModel');
 
 const updateUser = async (req, res) => {
-  const { email, name, address, phone, zipcode } = req.body;
+  const { email, name, address, phone, zipcode, isAdmin } = req.body;
 
   let findUserQuery = {};
 
@@ -20,7 +20,8 @@ const updateUser = async (req, res) => {
         name,
         phone,
         address,
-        zipcode
+        zipcode,
+        isAdmin
       });
 
     return res.status(200).json({
