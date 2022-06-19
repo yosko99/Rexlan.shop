@@ -9,6 +9,8 @@ const checkExistingProductMiddleware = async (req, res, next) => {
     return res.status(404).send('Cannot find product with provided id.');
   }
 
+  req.product = product;
+
   next();
 };
 

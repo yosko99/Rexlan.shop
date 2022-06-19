@@ -30,9 +30,7 @@ exports.getProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
   const { id: productID } = req.params;
 
-  const { category } = await Product.findOne({ id: productID });
-
-  await deleteEmptyCategory(category);
+  await deleteEmptyCategory(req.product.category);
   await deleteProductFromAllCarts(productID);
   await Product.deleteOne({ id: productID });
 
@@ -46,8 +44,7 @@ exports.updateProduct = async (req, res) => {
 
   const { title, price, description, category, image } = req.body;
 
-  const { category: oldCategory } = await Product.findOne({ id: productID });
-  await deleteEmptyCategory(oldCategory);
+  await deleteEmptyCategory(req.product.category);
 
   await Product.updateOne({ id: productID }, {
     title,
