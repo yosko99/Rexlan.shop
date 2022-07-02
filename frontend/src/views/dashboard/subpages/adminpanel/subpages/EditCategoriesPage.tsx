@@ -10,7 +10,7 @@ import EditDataTable from '../../../../../components/dashboard/EditDataTable';
 import DeleteDataIcon from '../../../../../components/icons/dashboard/DeleteDataIcon';
 import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon';
 import Loading from '../../../../../components/loading/Loading';
-import { categoryStructure, CategoryStructure } from '../../../../../data/dataStructure/categoryStrucutre';
+import { categoryStructure, CategoryStructure } from '../../../../../data/dataStructure/categoryStructure';
 import useFetch from '../../../../../hooks/useFetch';
 
 const EditCategoriesPage = () => {
@@ -34,7 +34,7 @@ const EditCategoriesPage = () => {
         ? <Loading />
         : <EditDataTable
           createDataRoute={apiRoute}
-          dataStructure={categoryStructure}
+          inputStructure={categoryStructure}
           tableHeaderCells={
             <>
               <th>Banner image</th>

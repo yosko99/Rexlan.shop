@@ -7,16 +7,16 @@ import TableAddDataButton from './TableAddDataButton';
 interface Props {
 	tableHeaderCells: React.ReactChild;
 	tableRowCells: React.ReactChild;
-	dataStructure: any;
+	inputStructure: any;
 	createDataRoute: string;
 }
 
-const EditDataTable: FC<Props> = ({ tableHeaderCells, tableRowCells, dataStructure, createDataRoute }) => {
+const EditDataTable: FC<Props> = ({ tableHeaderCells, tableRowCells, inputStructure, createDataRoute }) => {
   return (
 		<>
 			{/* Add data */}
 			<TableAddDataButton
-				dataStructure={dataStructure}
+				inputStructure={inputStructure}
 				createDataRoute={createDataRoute}
 			/>
 			{/* Add data */}

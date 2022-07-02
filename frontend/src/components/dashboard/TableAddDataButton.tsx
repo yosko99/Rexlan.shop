@@ -7,11 +7,11 @@ import CustomModal from '../modal/CustomModal';
 import FormTemplate from '../templates/FormTemplate';
 
 interface Props {
-    dataStructure: any;
+    inputStructure: any;
     createDataRoute: string;
 }
 
-const TableAddDataButton: FC<Props> = ({ createDataRoute, dataStructure }) => {
+const TableAddDataButton: FC<Props> = ({ createDataRoute, inputStructure }) => {
   const queryClient = useQueryClient();
 
   return (
@@ -23,14 +23,13 @@ const TableAddDataButton: FC<Props> = ({ createDataRoute, dataStructure }) => {
                     inputs={
                         <>
                             {
-                                Object.keys(dataStructure).map((property: any, index: number) => (
-                                  property !== '_id' &&
+                                inputStructure.inputs.map((input: any, index: number) => (
                                     <CustomInput
                                         key={index}
-                                        defaultValue={dataStructure[property]}
-                                        inputLabel={property}
-                                        inputName={property}
-                                        isNumber={typeof dataStructure[property] === 'number'}
+                                        inputLabel={input.title}
+                                        inputName={input.name}
+                                        isNumber={input.isNumber || false}
+                                        pattern={input.pattern}
                                     />
                                 ))
                             }

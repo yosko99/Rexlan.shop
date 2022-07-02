@@ -33,7 +33,7 @@ const EditUsersPage = () => {
               ? <Loading />
               : <EditDataTable
                     createDataRoute={apiRoute}
-                    dataStructure={userStructure}
+                    inputStructure={userStructure}
                     tableHeaderCells={
                         <>
                             <th>Email</th>
