@@ -36,7 +36,7 @@ For instructions on what they are used for scroll down to 'Environment variables
 After cloning the repository go to the main directory and run the following command to install the necessary npm packages.
 
 ```
-yarn install
+npm install
 ```
 
 Next run the following command 
@@ -79,7 +79,7 @@ Follow .env.example variables as an example and fill them with your own data. <b
 ``SALT_ROUNDS = X`` - salt round for encrypting password (number) <br/>
 <br/>
 ``SENDER_EMAIL = XXXX`` - gmail email used for nodemailer (not required) <br/>
-``SENDER_EMAIL_PASSWORD`` - gmail password used for nodemailer (not required) <br/>
+``SENDER_EMAIL_PASSWORD`` - gmail app password used for nodemailer (not required) <br/>
 ``OPENWEATHER_API_KEY = XXXX`` - openweather API key (not required) <br/><br/>
 
 
@@ -92,7 +92,7 @@ Follow .env.example variables as an example and fill them with your own data. <b
 As you can see there are two environment variables that require some gmail and password, usually they are used for sending an email for password reset. But dont worry they are not required and the project will not crash without them (hopefully) 😄. <br/>
 
 But if you wanna try this feature you are gonna set up your gmail with the following requirements. <br/>
-You need to activate ``Forwarding and POP/IMAP`` and ``Less secure app to use your gmail account``. <br/>
+You need to activate ``Forwarding and POP/IMAP`` and get yourself gmail application password [app password instructions](https://support.google.com/accounts/answer/185833?hl=en). <br/>
 
 ## Importing data to database
 
