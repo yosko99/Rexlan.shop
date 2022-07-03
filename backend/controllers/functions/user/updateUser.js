@@ -3,6 +3,12 @@ const User = require('../../../models/userModel');
 const updateUser = async (req, res) => {
   const { email, name, address, phone, zipcode, isAdmin } = req.body;
 
+  const checkExistingEmail = await User.findOne({ email });
+
+  if (checkExistingEmail !== null) {
+    return res.status(403).send('User with this email is already registered.');
+  }
+
   let findUserQuery = {};
 
   if (req.user._id !== undefined) {
