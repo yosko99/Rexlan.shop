@@ -1,6 +1,7 @@
 const Category = require('../models/categoryModel');
 const Product = require('../models/productModel');
 const deleteProductFromAllCarts = require('./functions/cart/deleteProductFromAllCarts');
+const updateProductCategory = require('./functions/category/updateProductCategory');
 
 exports.getCategories = async (req, res) => {
   const categories = await Category.find({});
@@ -33,10 +34,12 @@ exports.createCategory = async (req, res) => {
 
 exports.updateCategory = async (req, res) => {
   const { _id } = req.params;
-  const { name, bannerImage } = req.body;
+  const { name: newCategoryName, bannerImage } = req.body;
+
+  await updateProductCategory(_id, newCategoryName);
 
   await Category.updateOne({ _id }, {
-    name,
+    name: newCategoryName,
     bannerImage
   });
 
