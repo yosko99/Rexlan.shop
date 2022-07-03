@@ -30,7 +30,7 @@ router.get('/user/:_id', checkExistingUserMiddleware, asyncHandler(userControlle
 // @desc Update user data
 // @route PUT /api/users/user/:_id
 // @access Public
-// @accepts { email, name, address, phone, zip }
+// @accepts { email, name, address, phone, zip, isAdmin? }
 router.put('/user/:_id', checkExistingUserMiddleware, asyncHandler(userController.updateUser));
 
 // @desc Delete user

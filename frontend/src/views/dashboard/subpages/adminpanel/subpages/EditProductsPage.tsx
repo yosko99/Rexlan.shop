@@ -28,7 +28,7 @@ const EditProductsPage = () => {
 			  ? <Loading />
 			  : <EditDataTable
 					createDataRoute={apiRoute}
-					inputStructure={productStructure}
+					inputStructure={productStructure.inputs}
 					tableHeaderCells={
 						<>
 							<th>Image</th>
@@ -49,6 +49,7 @@ const EditProductsPage = () => {
 											queryKey={`product-${product.id}`}
 											dataID={product.id}
 											apiRoute={apiRoute}
+											inputStructure={productStructure.inputs}
 										/>
 									</td>
 									<td>

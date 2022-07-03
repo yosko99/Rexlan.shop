@@ -12,6 +12,12 @@ export interface UserStructure {
     inputs: inputStructure[];
 }
 
+export const passwordInputForUserStructure = {
+  title: 'Password',
+  name: 'password',
+  pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,}$'
+};
+
 export const userStructure: UserStructure = {
   _id: '',
   email: '',
@@ -32,11 +38,6 @@ export const userStructure: UserStructure = {
       name: 'name'
     },
     {
-      title: 'Password',
-      name: 'password',
-      pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,}$'
-    },
-    {
       title: 'Address',
       name: 'address'
     },
@@ -44,11 +45,6 @@ export const userStructure: UserStructure = {
       title: 'Phone',
       name: 'phone',
       pattern: '\\+\\d{12}'
-    },
-    {
-      title: 'Zip Code',
-      name: 'zipcode',
-      pattern: '\\d{4,}'
     },
     {
       title: 'Is admin (true / false)',

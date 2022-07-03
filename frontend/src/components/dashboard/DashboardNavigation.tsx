@@ -38,7 +38,7 @@ const DashboardNavigation: FC<Props> = ({ isAdmin }) => {
 					</Button>
 				</LinkContainer>
 			))}
-      {!isAdmin &&
+      {isAdmin &&
         <LinkContainer to='/dashboard/admin-panel'>
           <Button
 						variant={`${option === 'admin-panel' ? 'primary' : 'outline-primary'}`}

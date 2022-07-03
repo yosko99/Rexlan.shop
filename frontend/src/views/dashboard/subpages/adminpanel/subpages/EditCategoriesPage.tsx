@@ -34,7 +34,7 @@ const EditCategoriesPage = () => {
         ? <Loading />
         : <EditDataTable
           createDataRoute={apiRoute}
-          inputStructure={categoryStructure}
+          inputStructure={categoryStructure.inputs}
           tableHeaderCells={
             <>
               <th>Banner image</th>
@@ -55,6 +55,7 @@ const EditCategoriesPage = () => {
                       queryKey={'category-' + category._id}
                       dataID={category._id}
                       apiRoute={apiRoute}
+                      inputStructure={categoryStructure.inputs}
                     />
                   </td>
                   <td>

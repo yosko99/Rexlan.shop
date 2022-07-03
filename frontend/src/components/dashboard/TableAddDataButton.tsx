@@ -23,7 +23,7 @@ const TableAddDataButton: FC<Props> = ({ createDataRoute, inputStructure }) => {
                     inputs={
                         <>
                             {
-                                inputStructure.inputs.map((input: any, index: number) => (
+                                inputStructure.map((input: any, index: number) => (
                                     <CustomInput
                                         key={index}
                                         inputLabel={input.title}

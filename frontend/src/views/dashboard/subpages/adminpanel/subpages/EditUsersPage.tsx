@@ -7,7 +7,7 @@ import DeleteDataIcon from '../../../../../components/icons/dashboard/DeleteData
 import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon';
 import Loading from '../../../../../components/loading/Loading';
 import { TokenContext } from '../../../../../context/TokenContext';
-import { UserStructure, userStructure } from '../../../../../data/dataStructure/userStructure';
+import { UserStructure, userStructure, passwordInputForUserStructure } from '../../../../../data/dataStructure/userStructure';
 import useFetch from '../../../../../hooks/useFetch';
 
 const EditUsersPage = () => {
@@ -33,7 +33,7 @@ const EditUsersPage = () => {
               ? <Loading />
               : <EditDataTable
                     createDataRoute={apiRoute}
-                    inputStructure={userStructure}
+                    inputStructure={[passwordInputForUserStructure, ...userStructure.inputs]}
                     tableHeaderCells={
                         <>
                             <th>Email</th>
@@ -51,6 +51,7 @@ const EditUsersPage = () => {
                                             queryKey={`user-${user._id}`}
                                             dataID={user._id}
                                             apiRoute={apiRoute + '/user/'}
+                                            inputStructure={userStructure.inputs}
                                         />
                                     </td>
                                     <td>

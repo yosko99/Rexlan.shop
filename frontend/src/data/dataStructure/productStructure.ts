@@ -22,7 +22,7 @@ export const productStructure: ProductStructure = {
     },
     {
       title: 'Price',
-      name: 'title',
+      name: 'price',
       isNumber: true
     },
     {

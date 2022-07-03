@@ -12,9 +12,10 @@ interface Props {
   dataID: string;
   apiRoute: string;
   queryKey: string;
+  inputStructure: any;
 }
 
-const EditDataIcon: FC<Props> = ({ dataID, apiRoute, queryKey }) => {
+const EditDataIcon: FC<Props> = ({ dataID, apiRoute, queryKey, inputStructure }) => {
   const {
     isLoading,
     data: fetchedData,
@@ -44,14 +45,14 @@ const EditDataIcon: FC<Props> = ({ dataID, apiRoute, queryKey }) => {
                   inputs={
                     <>
                       {
-                        Object.keys(fetchedData).map((property: any, index: number) => (
-                          typeof fetchedData[property] !== 'object' && property !== '_id' &&
+                        inputStructure.map((input: any, index: number) => (
                           <CustomInput
-                            key={index}
-                            defaultValue={fetchedData[property]}
-                            inputLabel={property}
-                            inputName={property}
-                            isNumber={typeof fetchedData[property] === 'number'}
+                              key={index}
+                              inputLabel={input.title}
+                              inputName={input.name}
+                              defaultValue={fetchedData[input.name]}
+                              isNumber={input.isNumber || false}
+                              pattern={input.pattern}
                           />
                         ))
                       }
