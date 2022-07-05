@@ -11,6 +11,7 @@ import useToken from './hooks/useToken';
 import GlobalCSS from './styles/global.css';
 import CartPage from './views/cart';
 import CategoryProductsPage from './views/categories';
+import ContactPage from './views/contactpage';
 import Dashboard from './views/dashboard';
 import FavouritesPage from './views/favourites';
 import LoginPage from './views/loginpage';
@@ -41,6 +42,7 @@ function App () {
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/dashboard/:option' element={<Dashboard />} />
             <Route path='/dashboard/admin-panel/:option' element={<Dashboard />} />
+            <Route path='/contacts' element={<ContactPage />} />
             <Route path='/*' element={<Page404 />} />
           </Routes>
         </main>
