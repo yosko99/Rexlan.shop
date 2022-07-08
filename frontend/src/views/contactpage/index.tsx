@@ -4,8 +4,6 @@ import { faPhone, faMessage, faMailForward } from '@fortawesome/free-solid-svg-i
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, Container, Image, Row } from 'react-bootstrap';
 // @ts-ignore
-import Fade from 'react-reveal/Fade';
-// @ts-ignore
 import Zoom from 'react-reveal/Zoom';
 
 import contactUsImg from '../../assets/contactpage/contact-us.svg';
@@ -15,10 +13,10 @@ const ContactPage = () => {
         <Container>
             <Row className='d-flex mt-5'>
                 <Col lg={4} className='d-flex justify-content-center flex-column'>
-                    <Fade left>
+                    <Zoom>
                         <p className='fs-3'>Contact us</p>
                         <p className='fs-1'>We are here to help</p>
-                    </Fade>
+                    </Zoom>
                 </Col>
                 <Col lg={8}>
                     <Zoom>

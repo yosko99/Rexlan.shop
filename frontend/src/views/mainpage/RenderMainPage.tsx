@@ -1,13 +1,12 @@
 import React, { FC } from 'react';
 
-import { Container, Row, Col, Image } from 'react-bootstrap';
+import { Container, Row, Col, Image, Button } from 'react-bootstrap';
+// @ts-ignore
+import Fade from 'react-reveal/Fade';
 
-import imageNotFoundImg from '../../assets/global/image-not-found.png';
-import clothingBannerImg from '../../assets/mainpage/clothing-banner.webp';
-import forHerImg from '../../assets/mainpage/for-her.png';
-import forHimImg from '../../assets/mainpage/for-him.png';
+import homegrownImg from '../../assets/mainpage/homegrown.webp';
+import womenShoesImg from '../../assets/mainpage/women-shoes.webp';
 import CustomCarousel from '../../components/carousel/CustomCarousel';
-import Loading from '../../components/loading/Loading';
 import HeadingBar from '../../components/partials/HeadingBar';
 import InfoBar from '../../components/partials/InfoBar';
 import MultipleProductCards from '../../components/product/MultipleProductCards';
@@ -18,12 +17,10 @@ import { Product } from '../../types/productTypes';
 interface Props {
 	isLoading: boolean;
 	featuredProducts: Product[];
-	menClothing: Product;
-	womenClothing: Product;
 	bestSellers: Product[];
 }
 
-const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, menClothing, womenClothing, bestSellers }) => {
+const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, bestSellers }) => {
   const carouselItems = Array(4).fill(0).map((value: any, index: number) => (
 		<Image key={index} src={require(`../../assets/carousel/carousel${index + 1}.webp`)} />
   ));
@@ -65,43 +62,34 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, menClothing, w
 				title={'Summer Collection'}
 				description={'Amazing products added recently in our catalog'}
 			/>
-			{isLoading
-			  ? <Loading />
-			  : <Row>
-					<Col lg={6} md={12}>
-						<Image width={'100%'} alt='clothing' height={'100%'} style={{ objectFit: 'contain' }} src={clothingBannerImg} />
-					</Col>
-					<Col lg={6} md={12} className='d-flex flex-column justify-content-between'>
-						<CenteredItems className='m-3'>
-							<div>
-								<Image width={'90%'} alt='for him' src={forHimImg} />
-							</div>
-							<div>
-								<Image
-									width={'90%'}
-									height={300}
-									style={{ objectFit: 'contain' }}
-									src={menClothing === undefined ? imageNotFoundImg : menClothing.image}
-								/>
-							</div>
-						</CenteredItems>
-						<CenteredItems className='m-3'>
-							<div>
-								<Image width={'90%'} alt='for her' src={forHerImg} />
-							</div>
-							<div>
-								<Image
-									width={'90%'}
-									height={300}
-									style={{ objectFit: 'contain' }}
-									src={womenClothing === undefined ? imageNotFoundImg : womenClothing.image}
-								/>
-							</div>
-						</CenteredItems>
-					</Col>
-				</Row>
-			}
+
+			<Image src={womenShoesImg} alt='Women shoes' fluid className='rounded mb-4' />
 			{/* Summer collection */}
+
+			{/* Homegrown section */}
+			<Row className='mb-4'>
+				<Col lg={6} className='d-flex justify-content-center align-items-center text-center p-5'>
+					<CenteredItems flexColumn>
+						<Fade up>
+							<p className='font-weight-bold fs-2'>
+								Homegrown
+							</p>
+							<p className='text-muted fs-5'>
+								We love all of our beautiful brands here at Rexlan but there is a special place in our heart for the Bulgarian brands.
+								We have made it easy for you to find a little about each of these amazing brands.
+								Head over to our Homegrown page where we give you a little insight into what makes each of these brands so special.
+							</p>
+							<Button variant='primary fs-5 mt-2'>Find out more</Button>
+						</Fade>
+					</CenteredItems>
+				</Col>
+				<Col lg={6}>
+					<Fade>
+						<Image src={homegrownImg} alt='women posing' fluid className='rounded' />
+					</Fade>
+				</Col>
+			</Row>
+			{/* Homegrown section */}
 
 			{/* Best seller */}
 			<HeadingBar
@@ -113,7 +101,7 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, menClothing, w
 				products={bestSellers}
 			/>
 			{/* Best seller */}
-		</Container>
+		</Container >
   );
 };
 
