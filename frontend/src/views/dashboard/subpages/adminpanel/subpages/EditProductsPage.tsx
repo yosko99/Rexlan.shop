@@ -7,7 +7,7 @@ import EditDataTable from '../../../../../components/dashboard/EditDataTable';
 import DeleteDataIcon from '../../../../../components/icons/dashboard/DeleteDataIcon';
 import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon';
 import Loading from '../../../../../components/loading/Loading';
-import { productStructure } from '../../../../../data/dataStructure/productStructure';
+import { productStructure } from '../../../../../data/inputStructure/productStructure';
 import useFetch from '../../../../../hooks/useFetch';
 import { Product } from '../../../../../types/productTypes';
 

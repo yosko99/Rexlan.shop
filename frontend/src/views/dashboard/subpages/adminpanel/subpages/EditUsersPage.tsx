@@ -7,7 +7,7 @@ import DeleteDataIcon from '../../../../../components/icons/dashboard/DeleteData
 import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon';
 import Loading from '../../../../../components/loading/Loading';
 import { TokenContext } from '../../../../../context/TokenContext';
-import { UserStructure, userStructure, passwordInputForUserStructure } from '../../../../../data/dataStructure/userStructure';
+import { UserStructure, userStructure, passwordInputForUserStructure } from '../../../../../data/inputStructure/userStructure';
 import useFetch from '../../../../../hooks/useFetch';
 
 const EditUsersPage = () => {

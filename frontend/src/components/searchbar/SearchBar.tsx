@@ -10,11 +10,10 @@ import CustomOffCanvas from '../offcanvas/CustomOffCanvas';
 import MultipleProductCards from '../product/MultipleProductCards';
 
 const SearchBar: FC = () => {
-  const defaultSearchWord = 'Shirt';
   // Input value
-  const [searchTerm, setSearchTerm] = useState<string>(defaultSearchWord);
+  const [searchTerm, setSearchTerm] = useState<string>('');
   // Value for request link (with delayed update)
-  const [searchQuery, setSearchQuery] = useState<string>(defaultSearchWord);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const {
     isLoading,
@@ -22,7 +21,7 @@ const SearchBar: FC = () => {
     data
   } = useFetch(
     ['searchProducts', searchQuery],
-    `/api/products/regex/${(searchQuery === '') ? defaultSearchWord : searchQuery}`,
+    `/api/products/regex/${(searchQuery === '') ? '.*' : searchQuery}`,
     true
   );
 

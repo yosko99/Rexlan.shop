@@ -63,7 +63,9 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, bestSellers })
 				description={'Amazing products added recently in our catalog'}
 			/>
 
-			<Image src={womenShoesImg} alt='Women shoes' fluid className='rounded mb-4' />
+			<Fade>
+				<Image src={womenShoesImg} alt='Women shoes' fluid className='rounded mb-4' />
+			</Fade>
 			{/* Summer collection */}
 
 			{/* Homegrown section */}

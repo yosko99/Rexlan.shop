@@ -10,7 +10,7 @@ import EditDataTable from '../../../../../components/dashboard/EditDataTable';
 import DeleteDataIcon from '../../../../../components/icons/dashboard/DeleteDataIcon';
 import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon';
 import Loading from '../../../../../components/loading/Loading';
-import { categoryStructure, CategoryStructure } from '../../../../../data/dataStructure/categoryStructure';
+import { categoryStructure, CategoryStructure } from '../../../../../data/inputStructure/categoryStructure';
 import useFetch from '../../../../../hooks/useFetch';
 
 const EditCategoriesPage = () => {
