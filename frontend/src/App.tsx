@@ -32,7 +32,7 @@ function App () {
       <ScrollToTop />
       <GlobalCSS />
       <TokenContext.Provider value={{ token, setToken }}>
-        <CurrentLanguageContext.Provider value={{ currentLanguage, setCurrentLanguage }}>
+        <CurrentLanguageContext.Provider value={{ lang: currentLanguage, setCurrentLanguage }}>
           <Header />
           <main style={{ minHeight: '70vh' }}>
             <Routes>

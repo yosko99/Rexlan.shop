@@ -20,13 +20,8 @@ const useCurrentLanguage = () => {
 
   const [currentLanguage, setCurrentLanguage] = useState(getCurrentLanguage());
 
-  const saveCurrentLanguage = (language: string | null) => {
-    if (language === null) {
-      localStorage.removeItem('language');
-    } else {
-      localStorage.setItem('language', language);
-      setCurrentLanguage(getCurrentLanguage());
-    }
+  const saveCurrentLanguage = (language: string) => {
+    localStorage.setItem('language', language);
     setCurrentLanguage(getCurrentLanguage());
   };
 

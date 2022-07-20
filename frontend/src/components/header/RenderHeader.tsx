@@ -12,6 +12,7 @@ import LoginIcon from '../icons/header/LoginIcon';
 import ProfileIcon from '../icons/header/ProfileIcon';
 import Loading from '../loading/Loading';
 import SearchBar from '../searchbar/SearchBar';
+import LanguageSwticher from './LanguageSwticher';
 
 interface CategoryData {
 	name: string;
@@ -23,8 +24,8 @@ interface Props {
 }
 
 const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
-  const currentLanguageContext = useContext(CurrentLanguageContext);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const { lang } = useContext(CurrentLanguageContext);
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -51,10 +52,10 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 					<Nav className="me-auto">
 						<Nav.Link>
 							<LinkContainer to="/">
-								<p className='m-0'>Home</p>
+								<p className='m-0'>{lang.header.homeButton}</p>
 							</LinkContainer>
 						</Nav.Link>
-						<NavDropdown title="Categories" id="collasible-nav-dropdown">
+						<NavDropdown title={lang.header.categoriesButton} id="collasible-nav-dropdown">
 							{isLoading
 							  ? <Loading />
 							  : categories.length !== 0
@@ -72,19 +73,10 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 						</NavDropdown>
 						<Nav.Link >
 							<LinkContainer to="/contacts">
-								<p className='m-0'>Contacts</p>
+								<p className='m-0'>{lang.header.contactsButton}</p>
 							</LinkContainer>
 						</Nav.Link>
-						<NavDropdown title="Language" onSelect={(e) => {
-						  console.log(currentLanguageContext!.setCurrentLanguage(e));
-						}}>
-							<NavDropdown.Item eventKey={'bg'}>
-								Български
-							</NavDropdown.Item>
-							<NavDropdown.Item eventKey={'en'}>
-								English
-							</NavDropdown.Item>
-						</NavDropdown>
+						<LanguageSwticher />
 					</Nav>
 					<Nav className='d-flex justify-content-center'>
 						<div className='d-flex justify-content-center'>

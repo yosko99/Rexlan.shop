@@ -1,8 +1,22 @@
 import { createContext } from 'react';
 
+import HTMLFields from '../types/htmlFields';
+
 interface CurrentLanguageContextType {
-    currentLanguage: string | null;
-    setCurrentLanguage: (token: string | null) => void;
+    lang: HTMLFields;
+    setCurrentLanguage: (language: string) => void;
 }
 
-export const CurrentLanguageContext = createContext<CurrentLanguageContextType | null>(null);
+export const CurrentLanguageContext = createContext<CurrentLanguageContextType>({
+  lang: {
+    header: {
+      languageSwitcherButton: 'Language',
+      homeButton: 'Home',
+      categoriesButton: 'Categories',
+      contactsButton: 'Contacts'
+    }
+  },
+  setCurrentLanguage (language) {
+
+  }
+});
