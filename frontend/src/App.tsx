@@ -6,7 +6,9 @@ import Footer from './components/footer/Footer';
 import Header from './components/header';
 import CompanyLogos from './components/partials/CompanyLogos';
 import ScrollToTop from './components/partials/ScrollToTop';
+import { CurrentLanguageContext } from './context/CurrentLanguageContext';
 import { TokenContext } from './context/TokenContext';
+import useCurrentLanguage from './hooks/useCurrentLanguage';
 import useToken from './hooks/useToken';
 import GlobalCSS from './styles/global.css';
 import CartPage from './views/cart';
@@ -23,31 +25,34 @@ import RegisterPage from './views/registerpage';
 
 function App () {
   const { token, setToken } = useToken();
+  const { currentLanguage, setCurrentLanguage } = useCurrentLanguage();
 
   return (
     <Router>
       <ScrollToTop />
-      <GlobalCSS/>
+      <GlobalCSS />
       <TokenContext.Provider value={{ token, setToken }}>
-        <Header />
-        <main style={{ minHeight: '70vh' }}>
-          <Routes>
-            <Route path='/' element={<MainPage />} />
-            <Route path='/category/:category' element={<CategoryProductsPage />} />
-            <Route path='/:category/product/:id' element={<PDPPage />} />
-            <Route path='/favourites' element={<FavouritesPage />} />
-            <Route path='/login' element={<LoginPage />} />
-            <Route path='/cart' element={<CartPage />} />
-            <Route path='/password-reset' element={<PasswordResetPage />} />
-            <Route path='/register' element={<RegisterPage />} />
-            <Route path='/dashboard/:option' element={<Dashboard />} />
-            <Route path='/dashboard/admin-panel/:option' element={<Dashboard />} />
-            <Route path='/contacts' element={<ContactPage />} />
-            <Route path='/*' element={<Page404 />} />
-          </Routes>
-        </main>
-        <CompanyLogos />
-        <Footer />
+        <CurrentLanguageContext.Provider value={{ currentLanguage, setCurrentLanguage }}>
+          <Header />
+          <main style={{ minHeight: '70vh' }}>
+            <Routes>
+              <Route path='/' element={<MainPage />} />
+              <Route path='/category/:category' element={<CategoryProductsPage />} />
+              <Route path='/:category/product/:id' element={<PDPPage />} />
+              <Route path='/favourites' element={<FavouritesPage />} />
+              <Route path='/login' element={<LoginPage />} />
+              <Route path='/cart' element={<CartPage />} />
+              <Route path='/password-reset' element={<PasswordResetPage />} />
+              <Route path='/register' element={<RegisterPage />} />
+              <Route path='/dashboard/:option' element={<Dashboard />} />
+              <Route path='/dashboard/admin-panel/:option' element={<Dashboard />} />
+              <Route path='/contacts' element={<ContactPage />} />
+              <Route path='/*' element={<Page404 />} />
+            </Routes>
+          </main>
+          <CompanyLogos />
+          <Footer />
+        </CurrentLanguageContext.Provider>
       </TokenContext.Provider>
     </Router>
   );

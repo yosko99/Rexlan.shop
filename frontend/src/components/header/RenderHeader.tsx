@@ -1,10 +1,11 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useContext } from 'react';
 
 import { Navbar, Container, Nav, NavDropdown, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import logo from '../../assets/header/logo192.png';
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import CartIcon from '../icons/header/CartIcon';
 import FavouriteIcon from '../icons/header/FavouriteIcon';
 import LoginIcon from '../icons/header/LoginIcon';
@@ -22,6 +23,7 @@ interface Props {
 }
 
 const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
+  const currentLanguageContext = useContext(CurrentLanguageContext);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -65,7 +67,7 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 							    ))
 							    : <NavDropdown.Item className='disabled'>
 										No categories available
-								</NavDropdown.Item>
+									</NavDropdown.Item>
 							}
 						</NavDropdown>
 						<Nav.Link >
@@ -73,6 +75,16 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 								<p className='m-0'>Contacts</p>
 							</LinkContainer>
 						</Nav.Link>
+						<NavDropdown title="Language" onSelect={(e) => {
+						  console.log(currentLanguageContext!.setCurrentLanguage(e));
+						}}>
+							<NavDropdown.Item eventKey={'bg'}>
+								Български
+							</NavDropdown.Item>
+							<NavDropdown.Item eventKey={'en'}>
+								English
+							</NavDropdown.Item>
+						</NavDropdown>
 					</Nav>
 					<Nav className='d-flex justify-content-center'>
 						<div className='d-flex justify-content-center'>
