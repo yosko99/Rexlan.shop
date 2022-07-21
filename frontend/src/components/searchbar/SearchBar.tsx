@@ -1,15 +1,17 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useContext } from 'react';
 
 import { FormControl, Image } from 'react-bootstrap';
 import { Navigate } from 'react-router-dom';
 
 import noResultsImg from '../../assets/searchbar/no-results.png';
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import useFetch from '../../hooks/useFetch';
 import Loading from '../loading/Loading';
 import CustomOffCanvas from '../offcanvas/CustomOffCanvas';
 import MultipleProductCards from '../product/MultipleProductCards';
 
 const SearchBar: FC = () => {
+  const { lang } = useContext(CurrentLanguageContext);
   // Input value
   const [searchTerm, setSearchTerm] = useState<string>('');
   // Value for request link (with delayed update)
@@ -43,12 +45,12 @@ const SearchBar: FC = () => {
       {error !== undefined
 		  ? <Navigate to="/404" state={{ error: error.message }} />
         : <CustomOffCanvas
-            title='Search products'
+            title={lang.searchBar.titleText}
             body={
               <>
                 <FormControl
                   type="search"
-                  placeholder="Search"
+                  placeholder={lang.searchBar.inputfieldPlaceholder}
                   className="me-2"
                   defaultValue={searchTerm}
                   aria-label="Search"
@@ -59,7 +61,7 @@ const SearchBar: FC = () => {
                   : data.products.length === 0
                     ? <div className='d-flex flex-column justify-content-center'>
                       <Image className='mt-2 text-center' src={noResultsImg} fluid/>
-                      <p className='text-center fs-4'>Sorry we couldn't find any matches for <i>{searchQuery}</i></p>
+                      <p className='text-center fs-4'>{lang.searchBar.productNotFound} <i>{searchQuery}</i></p>
                     </div>
                     : <MultipleProductCards
                       isLoading={isLoading}
@@ -69,7 +71,7 @@ const SearchBar: FC = () => {
               </>
             }
             buttonVariant='outline-success'
-            buttonText='Search products'
+            buttonText={lang.searchBar.buttonText}
           />
       }
     </>

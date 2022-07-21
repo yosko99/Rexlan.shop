@@ -1,12 +1,14 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useContext } from 'react';
 
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LinkContainer } from 'react-router-bootstrap';
 
+import { CurrentLanguageContext } from '../../../context/CurrentLanguageContext';
 import CenteredItems from '../../../styles/CenteredItems';
 
 const FavouriteIcon: FC = () => {
+  const { lang } = useContext(CurrentLanguageContext);
   const [counter, setCounter] = useState<number>();
 
   const setCounterNumber = () => {
@@ -31,7 +33,7 @@ const FavouriteIcon: FC = () => {
           <FontAwesomeIcon size='lg' className='' icon={faHeart} color='black'/>
           <span className='text-black ps-2 pe-2'>{counter}</span>
         </div>
-        <small className='text-center'>Favourites</small>
+        <small className='text-center'>{lang.header.favouritesButton}</small>
 			</CenteredItems>
 		</LinkContainer>
   );

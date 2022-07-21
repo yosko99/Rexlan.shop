@@ -5,7 +5,18 @@ const lang: HTMLFields = {
     languageSwitcherButton: 'Език',
     homeButton: 'Начало',
     categoriesButton: 'Категории',
-    contactsButton: 'Контакти'
+    contactsButton: 'Контакти',
+    cartButton: 'Количка',
+    favouritesButton: 'Любими',
+    loginButton: 'Вход',
+    logoutButton: 'Изход',
+    profileButton: 'Профил'
+  },
+  searchBar: {
+    buttonText: 'Търси продукти',
+    inputfieldPlaceholder: 'Търсене',
+    titleText: 'Търси продукти',
+    productNotFound: 'Съжаляваме не можахме да намерим съвпадения за'
   }
 };
 
