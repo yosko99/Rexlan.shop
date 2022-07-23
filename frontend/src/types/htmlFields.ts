@@ -1,5 +1,10 @@
 import InfoBarData from './infotBarTypes';
 
+interface HeadingType {
+    title: string;
+    description: string;
+}
+
 interface HTMLFields {
     header: {
         homeButton: string;
@@ -18,7 +23,12 @@ interface HTMLFields {
         inputfieldPlaceholder: string;
         productNotFound: string;
     }
-    mainPageInfobar: InfoBarData[];
+    mainPage: {
+        infoBar: InfoBarData[];
+        featuredProductsHeading: HeadingType;
+        summerCollectionHeading: HeadingType;
+        bestSellersHeading: HeadingType;
+    }
 }
 
 export default HTMLFields;

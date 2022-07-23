@@ -30,7 +30,7 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, bestSellers })
 		<Container>
 			<CustomCarousel carouselItems={carouselItems} />
 
-			<InfoBar textAreas={lang.mainPageInfobar} />
+			<InfoBar textAreas={lang.mainPage.infoBar} />
 
 			{/* Women photos */}
 			<Row className='my-5'>
@@ -49,8 +49,8 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, bestSellers })
 
 			{/* Featured products */}
 			<HeadingBar
-				title={'Featured Products'}
-				description={'Amazing products added recently in our catalog'}
+				title={lang.mainPage.featuredProductsHeading.title}
+				description={lang.mainPage.featuredProductsHeading.description}
 			/>
 			<MultipleProductCards
 				isLoading={isLoading}
@@ -60,8 +60,8 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, bestSellers })
 
 			{/* Summer collection */}
 			<HeadingBar
-				title={'Summer Collection'}
-				description={'Amazing products added recently in our catalog'}
+				title={lang.mainPage.summerCollectionHeading.title}
+				description={lang.mainPage.summerCollectionHeading.description}
 			/>
 
 			<Fade>
@@ -96,8 +96,8 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, bestSellers })
 
 			{/* Best seller */}
 			<HeadingBar
-				title={'Best Seller Products'}
-				description={'Amazing products added recently in our catalog'}
+				title={lang.mainPage.bestSellersHeading.title}
+				description={lang.mainPage.bestSellersHeading.description}
 			/>
 			<MultipleProductCards
 				isLoading={isLoading}
