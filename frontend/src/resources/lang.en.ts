@@ -3,10 +3,18 @@ import { faCircleDollarToSlot, faClock, faLock, faTruck } from '@fortawesome/fre
 import HTMLFields from '../types/htmlFields';
 
 const lang: HTMLFields = {
+  global: {
+    findOutMore: 'Find out more',
+    categories: 'Categories',
+    contacts: 'Contacts',
+    help: 'Help',
+    orders: 'Orders',
+    pricing: 'Pricing',
+    settings: 'Settings'
+  },
   header: {
     languageSwitcherButton: 'Language',
     homeButton: 'Home',
-    categoriesButton: 'Categories',
     contactsButton: 'Contacts',
     cartButton: 'Cart',
     favouritesButton: 'Favourits',
@@ -54,7 +62,15 @@ const lang: HTMLFields = {
     summerCollectionHeading: {
       title: 'Summer Collection',
       description: 'Amazing products added recently in our catalog'
+    },
+    homegrownHeading: {
+      title: 'Homegrown',
+      description: 'We love all of our beautiful brands here at Rexlan but there is a special place in our heart for the Bulgarian brands. We have made it easy for you to find a little about each of these amazing brands. Head over to our Homegrown page where we give you a little insight into what makes each of these brands so special.'
     }
+  },
+  footer: {
+    getConnected: 'Get connected with us on social networks',
+    usefullLinks: 'Usefull links'
   }
 };
 

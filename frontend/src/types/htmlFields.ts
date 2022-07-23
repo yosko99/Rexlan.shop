@@ -6,9 +6,17 @@ interface HeadingType {
 }
 
 interface HTMLFields {
+    global: {
+        findOutMore: string;
+        categories: string;
+        contacts: string;
+        pricing: string;
+        settings: string;
+        orders: string;
+        help: string;
+    }
     header: {
         homeButton: string;
-        categoriesButton: string;
         languageSwitcherButton: string;
         contactsButton: string;
         loginButton: string;
@@ -28,6 +36,11 @@ interface HTMLFields {
         featuredProductsHeading: HeadingType;
         summerCollectionHeading: HeadingType;
         bestSellersHeading: HeadingType;
+        homegrownHeading: HeadingType;
+    }
+    footer: {
+        usefullLinks: string;
+        getConnected: string;
     }
 }
 

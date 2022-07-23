@@ -3,10 +3,18 @@ import { faCircleDollarToSlot, faClock, faLock, faTruck } from '@fortawesome/fre
 import HTMLFields from '../types/htmlFields';
 
 const lang: HTMLFields = {
+  global: {
+    findOutMore: 'Научете повече',
+    categories: 'Категории',
+    contacts: 'Контакти',
+    help: 'Помощ',
+    orders: 'Поръчки',
+    pricing: 'Цени',
+    settings: 'Настройки'
+  },
   header: {
     languageSwitcherButton: 'Език',
     homeButton: 'Начало',
-    categoriesButton: 'Категории',
     contactsButton: 'Контакти',
     cartButton: 'Количка',
     favouritesButton: 'Любими',
@@ -54,7 +62,15 @@ const lang: HTMLFields = {
     summerCollectionHeading: {
       title: 'Лятна колекция',
       description: 'Невероятни продукти, добавени наскоро в нашия каталог'
+    },
+    homegrownHeading: {
+      title: 'Homegrown',
+      description: 'Ние обичаме всички наши красиви марки тук в Rexlan, но има специално място в сърцето ни за Българските марки. Улеснихме ви да намерите малко за всяка от тези невероятни марки. Преминете към нашата страница Homegrown, където ви даваме кратка представа какво прави всяка от тези марки толкова специална.'
     }
+  },
+  footer: {
+    getConnected: 'Свържете се с нас в социалните мрежи',
+    usefullLinks: 'Полезни линкове'
   }
 };
 

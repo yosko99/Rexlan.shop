@@ -55,7 +55,7 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 								<p className='m-0'>{lang.header.homeButton}</p>
 							</LinkContainer>
 						</Nav.Link>
-						<NavDropdown title={lang.header.categoriesButton} id="collasible-nav-dropdown">
+						<NavDropdown title={lang.global.categories} id="collasible-nav-dropdown">
 							{isLoading
 							  ? <Loading />
 							  : categories.length !== 0
@@ -73,7 +73,7 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 						</NavDropdown>
 						<Nav.Link >
 							<LinkContainer to="/contacts">
-								<p className='m-0'>{lang.header.contactsButton}</p>
+								<p className='m-0'>{lang.global.contacts}</p>
 							</LinkContainer>
 						</Nav.Link>
 						<LanguageSwticher />
