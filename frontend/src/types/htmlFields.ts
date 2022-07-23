@@ -1,3 +1,5 @@
+import InfoBarData from './infotBarTypes';
+
 interface HTMLFields {
     header: {
         homeButton: string;
@@ -16,6 +18,7 @@ interface HTMLFields {
         inputfieldPlaceholder: string;
         productNotFound: string;
     }
+    mainPageInfobar: InfoBarData[];
 }
 
 export default HTMLFields;

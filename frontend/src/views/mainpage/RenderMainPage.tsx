@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
 import { Container, Row, Col, Image, Button } from 'react-bootstrap';
 // @ts-ignore
@@ -10,7 +10,7 @@ import CustomCarousel from '../../components/carousel/CustomCarousel';
 import HeadingBar from '../../components/partials/HeadingBar';
 import InfoBar from '../../components/partials/InfoBar';
 import MultipleProductCards from '../../components/product/MultipleProductCards';
-import { textAreas } from '../../data/infoBarData';
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import CenteredItems from '../../styles/CenteredItems';
 import { Product } from '../../types/productTypes';
 
@@ -21,6 +21,7 @@ interface Props {
 }
 
 const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, bestSellers }) => {
+  const { lang } = useContext(CurrentLanguageContext);
   const carouselItems = Array(4).fill(0).map((value: any, index: number) => (
 		<Image key={index} src={require(`../../assets/carousel/carousel${index + 1}.webp`)} />
   ));
@@ -29,7 +30,7 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, bestSellers })
 		<Container>
 			<CustomCarousel carouselItems={carouselItems} />
 
-			<InfoBar textAreas={textAreas} />
+			<InfoBar textAreas={lang.mainPageInfobar} />
 
 			{/* Women photos */}
 			<Row className='my-5'>
