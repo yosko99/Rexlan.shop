@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import axios from 'axios';
 import { Form } from 'react-bootstrap';
 
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
+
 const CityInput = () => {
+  const { lang } = useContext(CurrentLanguageContext);
   const [currentCity, setCurrentCity] = useState<string>('');
 
   useEffect(() => {
@@ -19,22 +22,18 @@ const CityInput = () => {
   }, []);
 
   return (
-		<Form.Group className="mb-3" controlId="city">
-			<Form.Label>
-				City
-			</Form.Label>
-			<Form.Control
-				name='city'
-				className='shadow-sm'
-				pattern='[\w\s]+'
-				required type="text"
-				defaultValue={currentCity}
-				placeholder="New York"
-			/>
-			<Form.Text className="text-muted">
-				By allowing 'current location' we will populate this value for you.
-			</Form.Text>
-		</Form.Group>
+        <Form.Group className="mb-3" controlId="city">
+            <Form.Label>{lang.inputs.city.label}</Form.Label>
+            <Form.Control
+                name='city'
+                className='shadow-sm'
+                pattern='[\w\s]+'
+                required type="text"
+                defaultValue={currentCity}
+                placeholder={lang.inputs.city.placeholder}
+            />
+            <Form.Text className="text-muted">{lang.inputs.city.inputText}</Form.Text>
+        </Form.Group>
   );
 };
 

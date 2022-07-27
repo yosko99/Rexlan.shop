@@ -5,6 +5,7 @@ import { Form, Alert, Spinner, Button } from 'react-bootstrap';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import { TokenContext } from '../../context/TokenContext';
 import getFormInputsAsObject from '../../functions/getFormInputsAsObject';
 import Loading from '../loading/Loading';
@@ -34,6 +35,8 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
   const token = useContext(TokenContext);
   const [isFetchingData, setIsFetchingData] = useState(false);
   const navigate = useNavigate();
+
+  const { lang } = useContext(CurrentLanguageContext);
 
   const requestHeaders = {
     authorization: 'Bearer ' + token!.token,
@@ -126,8 +129,8 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
 
       <Button variant="outline-primary" className='w-100 mt-3' type="submit">
         {isFetchingData
-          ? <Loading height='10'/>
-          : <>Submit</>
+          ? <Loading height='10' />
+          : <>{lang.global.submit}</>
         }
       </Button>
 

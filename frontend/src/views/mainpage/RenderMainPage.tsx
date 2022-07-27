@@ -50,7 +50,7 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, bestSellers })
 			{/* Featured products */}
 			<HeadingBar
 				title={lang.mainPage.featuredProductsHeading.title}
-				description={lang.mainPage.featuredProductsHeading.description}
+				description={lang.mainPage.featuredProductsHeading.subtitle}
 			/>
 			<MultipleProductCards
 				isLoading={isLoading}
@@ -61,7 +61,7 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, bestSellers })
 			{/* Summer collection */}
 			<HeadingBar
 				title={lang.mainPage.summerCollectionHeading.title}
-				description={lang.mainPage.summerCollectionHeading.description}
+				description={lang.mainPage.summerCollectionHeading.subtitle}
 			/>
 
 			<Fade>
@@ -75,7 +75,7 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, bestSellers })
 					<CenteredItems flexColumn>
 						<Fade up>
 							<p className='font-weight-bold fs-2'>{lang.mainPage.homegrownHeading.title}</p>
-							<p className='text-muted fs-5'>{lang.mainPage.homegrownHeading.description}</p>
+							<p className='text-muted fs-5'>{lang.mainPage.homegrownHeading.subtitle}</p>
 							<Button variant='primary fs-5 mt-2'>{lang.global.findOutMore}</Button>
 						</Fade>
 					</CenteredItems>
@@ -91,7 +91,7 @@ const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, bestSellers })
 			{/* Best seller */}
 			<HeadingBar
 				title={lang.mainPage.bestSellersHeading.title}
-				description={lang.mainPage.bestSellersHeading.description}
+				description={lang.mainPage.bestSellersHeading.subtitle}
 			/>
 			<MultipleProductCards
 				isLoading={isLoading}

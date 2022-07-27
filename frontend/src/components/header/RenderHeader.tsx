@@ -66,9 +66,7 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 											</NavDropdown.Item>
 										</LinkContainer>
 							    ))
-							    : <NavDropdown.Item className='disabled'>
-										No categories available
-									</NavDropdown.Item>
+							    : <NavDropdown.Item className='disabled'>{lang.header.noCategories}</NavDropdown.Item>
 							}
 						</NavDropdown>
 						<Nav.Link >

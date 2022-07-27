@@ -20,7 +20,7 @@ const LoginPage: FC<Props> = ({ body, imgURL }) => {
 						</>
 					</Col>
 					<Col lg={7}>
-						<Image className='rounded' width={'100%'} src={imgURL} />
+						<Image className='rounded' width={'100%'} height={'100%'} style={{ objectFit: 'cover' }} src={imgURL} />
 					</Col>
 				</Row>
 			</Container>

@@ -1,6 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
+import HTMLReactParser from 'html-react-parser';
 import { Form } from 'react-bootstrap';
+
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 
 interface Props {
 	className?: string;
@@ -8,27 +11,20 @@ interface Props {
 }
 
 const PasswordInput: FC<Props> = ({ className, customInputName = 'password' }) => {
+  const { lang } = useContext(CurrentLanguageContext);
+
   return (
 		<Form.Group className="mb-3" controlId={customInputName}>
-			<Form.Label>Password <span className='text-muted'>(min 8 chars)</span></Form.Label>
+			<Form.Label>{HTMLReactParser(lang.inputs.password.label)}</Form.Label>
 			<Form.Control
 				className='shadow-sm'
 				required
 				type="password"
 				name={customInputName}
-				placeholder="Password"
+				placeholder={lang.inputs.password.placeholder}
 				pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,}$"
 			/>
-			<Form.Control.Feedback type="invalid">
-				Please provide a password that includes
-				(At least 1 Uppercase,
-				At least 1 Lowercase,
-				At least 1 Number,
-				At least 1 Symbol symbols allowed !@#$%^&*_=+-)
-			</Form.Control.Feedback>
-			<Form.Control.Feedback>
-				Looks good!
-			</Form.Control.Feedback>
+			<Form.Control.Feedback type="invalid">{lang.inputs.password.inputAlert}</Form.Control.Feedback>
 		</Form.Group>
   );
 };

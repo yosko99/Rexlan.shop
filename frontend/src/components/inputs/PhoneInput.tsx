@@ -1,23 +1,25 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
 import { Form } from 'react-bootstrap';
+
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 
 interface Props {
 	defaultValue?: string;
 }
 
 const PhoneInput: FC<Props> = ({ defaultValue }) => {
+  const { lang } = useContext(CurrentLanguageContext);
+
   return (
 		<Form.Group className="mb-3" controlId="phone">
-			<Form.Label>
-				Your phone
-			</Form.Label>
+			<Form.Label>{lang.inputs.phone.label}</Form.Label>
 			<Form.Control
 				name='phone'
 				className='shadow-sm'
 				pattern='\+\d{12}'
 				required type="text"
-				placeholder="+359123456789"
+				placeholder={lang.inputs.phone.placeholder}
 				defaultValue={defaultValue}
 			/>
 		</Form.Group>

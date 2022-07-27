@@ -3,6 +3,7 @@ import { faCircleDollarToSlot, faClock, faLock, faTruck } from '@fortawesome/fre
 import HTMLFields from '../types/htmlFields';
 
 const lang: HTMLFields = {
+  current: 'en',
   global: {
     findOutMore: 'Find out more',
     categories: 'Categories',
@@ -10,17 +11,20 @@ const lang: HTMLFields = {
     help: 'Help',
     orders: 'Orders',
     pricing: 'Pricing',
-    settings: 'Settings'
+    settings: 'Settings',
+    products: 'Products',
+    submit: 'Изпрати'
   },
   header: {
     languageSwitcherButton: 'Language',
     homeButton: 'Home',
     contactsButton: 'Contacts',
     cartButton: 'Cart',
-    favouritesButton: 'Favourits',
+    favouritesButton: 'Favourites',
     loginButton: 'Login',
     logoutButton: 'Log out',
-    profileButton: 'Profile'
+    profileButton: 'Profile',
+    noCategories: 'No categories available'
   },
   searchBar: {
     buttonText: 'Search products',
@@ -53,24 +57,90 @@ const lang: HTMLFields = {
     ],
     bestSellersHeading: {
       title: 'Best Seller Products',
-      description: 'Amazing products added recently in our catalog'
+      subtitle: 'Amazing products added recently in our catalog'
     },
     featuredProductsHeading: {
       title: 'Featured Products',
-      description: 'Amazing products added recently in our catalog'
+      subtitle: 'Amazing products added recently in our catalog'
     },
     summerCollectionHeading: {
       title: 'Summer Collection',
-      description: 'Amazing products added recently in our catalog'
+      subtitle: 'Amazing products added recently in our catalog'
     },
     homegrownHeading: {
       title: 'Homegrown',
-      description: 'We love all of our beautiful brands here at Rexlan but there is a special place in our heart for the Bulgarian brands. We have made it easy for you to find a little about each of these amazing brands. Head over to our Homegrown page where we give you a little insight into what makes each of these brands so special.'
+      subtitle: 'We love all of our beautiful brands here at Rexlan but there is a special place in our heart for the Bulgarian brands. We have made it easy for you to find a little about each of these amazing brands. Head over to our Homegrown page where we give you a little insight into what makes each of these brands so special.'
     }
   },
   footer: {
     getConnected: 'Get connected with us on social networks',
     usefullLinks: 'Usefull links'
+  },
+  loginPage: {
+    heading: {
+      title: 'Welcome back !',
+      subtitle: 'Please enter your login details.'
+    },
+    dontHaveAccount: 'Don\'t have an account?',
+    signUpForFree: 'Sign up for free!',
+    rembemberMe: 'Remember me',
+    resetPassword: 'Forgot your password?'
+  },
+  registerPage: {
+    heading: {
+      title: 'Register now',
+      subtitle: 'Enter your credentials below.'
+    },
+    providedDataIsUsedFor: 'Provided data will be used for a faster checkout.'
+  },
+  resetPasswordPage: {
+    heading: {
+      title: 'Forgot password',
+      subtitle: 'We will send a temporary password to your email so you can login 😄.'
+    },
+    backToLogin: 'Back to login'
+  },
+  inputs: {
+    email: {
+      label: 'Email address',
+      placeholder: 'steven@gmail.com',
+      inputAlert: 'Please provide a valid email format.',
+      inputText: 'We\'ll never share your email with anyone else.'
+    },
+    password: {
+      label: 'Password <span className=\'text-muted\'>(min 8 chars)</span>',
+      placeholder: 'Password',
+      inputAlert: `Please provide a password that includes
+      (At least 1 Uppercase,
+      At least 1 Lowercase,
+      At least 1 Number,
+      At least 1 Symbol (allowed symbols !@#$%^&*_=+-))`
+    },
+    name: {
+      label: 'Name',
+      placeholder: 'Steven Willson'
+    },
+    address: {
+      label: 'Your address',
+      placeholder: 'Main Street 119'
+    },
+    phone: {
+      label: 'Your phone',
+      placeholder: '+12345678910'
+    },
+    city: {
+      label: 'City',
+      placeholder: 'Amsterdam',
+      inputText: 'By allowing \'current location\' we will populate this value for you.'
+    },
+    postalCode: {
+      label: 'Postal code',
+      placeholder: '1234'
+    },
+    delivery: {
+      label: 'Delivery option',
+      placeholder: 'Select a delivery'
+    }
   }
 };
 

@@ -1,17 +1,19 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
 import { Form } from 'react-bootstrap';
+
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 
 interface Props {
 	defaultValue?: string;
 }
 
 const ZipInput: FC<Props> = ({ defaultValue = '' }) => {
+  const { lang } = useContext(CurrentLanguageContext);
+
   return (
 		<Form.Group className="mb-3" controlId="zipcode">
-			<Form.Label>
-				Postal Code
-			</Form.Label>
+			<Form.Label>{lang.inputs.postalCode.label}</Form.Label>
 			<Form.Control
 				name='zipcode'
 				className='shadow-sm'
@@ -19,7 +21,7 @@ const ZipInput: FC<Props> = ({ defaultValue = '' }) => {
 				required
 				type="text"
 				defaultValue={defaultValue}
-				placeholder="1234"
+				placeholder={lang.inputs.postalCode.placeholder}
 			/>
 		</Form.Group>
   );

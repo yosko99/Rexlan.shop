@@ -2,10 +2,18 @@ import InfoBarData from './infotBarTypes';
 
 interface HeadingType {
     title: string;
-    description: string;
+    subtitle: string;
+}
+
+interface FormInputType {
+    label: string;
+    placeholder: string;
+    inputText?: string;
+    inputAlert?: string;
 }
 
 interface HTMLFields {
+    current: string;
     global: {
         findOutMore: string;
         categories: string;
@@ -14,6 +22,8 @@ interface HTMLFields {
         settings: string;
         orders: string;
         help: string;
+        products: string;
+        submit: string;
     }
     header: {
         homeButton: string;
@@ -24,6 +34,7 @@ interface HTMLFields {
         profileButton: string;
         favouritesButton: string;
         cartButton: string;
+        noCategories: string;
     },
     searchBar: {
         buttonText: string;
@@ -41,6 +52,31 @@ interface HTMLFields {
     footer: {
         usefullLinks: string;
         getConnected: string;
+    },
+    loginPage: {
+        heading: HeadingType;
+        dontHaveAccount: string;
+        signUpForFree: string;
+        rembemberMe: string;
+        resetPassword: string;
+    }
+    registerPage: {
+        heading : HeadingType;
+        providedDataIsUsedFor: string;
+    },
+    resetPasswordPage: {
+        heading: HeadingType;
+        backToLogin: string;
+    },
+    inputs: {
+        email: FormInputType;
+        password: FormInputType;
+        name: FormInputType;
+        address: FormInputType;
+        phone: FormInputType;
+        city: FormInputType;
+        postalCode: FormInputType;
+        delivery: FormInputType;
     }
 }
 
