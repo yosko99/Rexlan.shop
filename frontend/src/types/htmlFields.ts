@@ -24,6 +24,9 @@ interface HTMLFields {
         help: string;
         products: string;
         submit: string;
+        discount: string;
+        delivery: string;
+        free: string;
     }
     header: {
         homeButton: string;
@@ -52,6 +55,7 @@ interface HTMLFields {
     footer: {
         usefullLinks: string;
         getConnected: string;
+        copyright: string;
     },
     loginPage: {
         heading: HeadingType;
@@ -77,7 +81,27 @@ interface HTMLFields {
         city: FormInputType;
         postalCode: FormInputType;
         delivery: FormInputType;
+    },
+    cart: {
+        emptyCart: string;
+        addProductsToCart: string;
+        header: string;
+        orderBox: {
+            header: string;
+            total: string;
+            removeProduct: string;
+        },
+        deliveryBox: {
+            selectedCourier: string;
+            initialPriceOfDelivery: string;
+            deliveryToOffice: string;
+            deliverToAddress: string;
+        }
+    },
+    favouritesPage: {
+        header: string;
     }
+    freeShippingBarText: string
 }
 
 export default HTMLFields;

@@ -1,10 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
 import { Container } from 'react-bootstrap';
 import { Navigate } from 'react-router-dom';
 
 import FreeShippingBar from '../../components/partials/FreeShippingBar';
 import MultipleProductCards from '../../components/product/MultipleProductCards';
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import useMultipleFetch from '../../hooks/useMultipleFetch';
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 
 const RenderFavouritesPage: FC<Props> = ({ likedProductsLocalStorage }) => {
   const parsedLiked = JSON.parse(likedProductsLocalStorage);
+  const { lang } = useContext(CurrentLanguageContext);
 
   const fetchArr = parsedLiked.map((likedID: string) => {
     return {
@@ -29,7 +31,7 @@ const RenderFavouritesPage: FC<Props> = ({ likedProductsLocalStorage }) => {
 			{error !== undefined
 			  ? <Navigate to="/404" state={{ error: error.message }} />
 			  : <Container>
-					<h2 className='text-center my-3'>My Favourites</h2>
+					<h2 className='text-center my-3'>{lang.favouritesPage.header}</h2>
 					<MultipleProductCards products={data} isLoading={isLoading} />
 				</Container>
 			}

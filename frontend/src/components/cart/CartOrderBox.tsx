@@ -1,9 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
 import { Col, Row, Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import { Product, CartProductType } from '../../types/productTypes';
 import calculateTotalPrice from '../../views/cart/calculateTotalPrice';
 import DeliveryPrice from './DeliveryPrice';
@@ -25,9 +26,11 @@ const ProductHolder = styled.div`
 `;
 
 const CartOrderBox: FC<Props> = ({ products, cartProducts, totalPrice, deliveryPrice }) => {
+  const { lang } = useContext(CurrentLanguageContext);
+
   return (
 		<div className='mt-2'>
-			<p className='fs-5'>Your order</p>
+			<p className='fs-5'>{lang.cart.orderBox.header}</p>
 			<hr />
 			<ProductHolder>
 				{products.map((product: Product, index: number) => (
@@ -55,12 +58,12 @@ const CartOrderBox: FC<Props> = ({ products, cartProducts, totalPrice, deliveryP
 			/>
 
 			<div className='d-flex justify-content-between'>
-				<p>Discount</p>
+				<p>{lang.global.discount}</p>
 				<p>-$10</p>
 			</div>
 			<hr className='m-0 mb-2' />
 			<div className='d-flex justify-content-between'>
-				<p className='fs-3'> Total</p>
+				<p className='fs-3'>{lang.cart.orderBox.total}</p>
 				<p className='fs-3'> ${totalPrice}</p>
 			</div>
 		</div>

@@ -13,7 +13,10 @@ const lang: HTMLFields = {
     pricing: 'Pricing',
     settings: 'Settings',
     products: 'Products',
-    submit: 'Изпрати'
+    submit: 'Submit',
+    delivery: 'Delivery',
+    discount: 'Discount',
+    free: 'Free'
   },
   header: {
     languageSwitcherButton: 'Language',
@@ -74,7 +77,8 @@ const lang: HTMLFields = {
   },
   footer: {
     getConnected: 'Get connected with us on social networks',
-    usefullLinks: 'Usefull links'
+    usefullLinks: 'Usefull links',
+    copyright: 'Copyright'
   },
   loginPage: {
     heading: {
@@ -139,9 +143,29 @@ const lang: HTMLFields = {
     },
     delivery: {
       label: 'Delivery option',
-      placeholder: 'Select a delivery'
+      placeholder: 'Select a courier'
     }
-  }
+  },
+  cart: {
+    addProductsToCart: 'Add products to cart',
+    emptyCart: 'I\'m empty :(',
+    header: 'Shopping cart',
+    orderBox: {
+      total: 'Total',
+      header: 'Your order',
+      removeProduct: 'Remove product'
+    },
+    deliveryBox: {
+      initialPriceOfDelivery: 'Initial price of the delivery company',
+      selectedCourier: 'Selected courier',
+      deliverToAddress: 'Deliver to office',
+      deliveryToOffice: 'Deliver to address'
+    }
+  },
+  favouritesPage: {
+    header: 'Liked products'
+  },
+  freeShippingBarText: 'FREE SHIPPING WITH ORDER OVER $99 JUST NOW'
 };
 
 export default lang;

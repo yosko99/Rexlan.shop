@@ -1,13 +1,16 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
 import axios from 'axios';
 import { useQueryClient } from 'react-query';
+
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 
 interface Props {
   productID: string;
 }
 
 const RemoveProduct: FC<Props> = ({ productID }) => {
+  const { lang } = useContext(CurrentLanguageContext);
   const queryClient = useQueryClient();
 
   const handleRemove = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -27,10 +30,10 @@ const RemoveProduct: FC<Props> = ({ productID }) => {
     <small
       role='button'
       id={productID}
-      className='text-muted text-right'
+      className='text-danger text-right'
       onClick={(e) => handleRemove(e)}
     >
-      Remove item
+      {lang.cart.orderBox.removeProduct}
     </small>
   );
 };

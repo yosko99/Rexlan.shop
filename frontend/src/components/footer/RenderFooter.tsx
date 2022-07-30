@@ -113,8 +113,14 @@ const RenderFooter: FC<Props> = ({ isLoading, categories }) => {
 			</section>
 
 			<div className="text-center p-4">
-				© 2021 Copyright:
-				<a className="text-reset fw-bold" href="https://github.com/yosko99"> yosko99</a>
+				© 2021 {lang.footer.copyright}:
+				<a
+					className="text-reset fw-bold"
+					target='_blank'
+					href="https://github.com/yosko99"
+					rel="noreferrer">
+					yosko99
+				</a>
 			</div>
 		</footer>
   );

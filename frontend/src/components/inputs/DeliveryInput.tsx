@@ -82,21 +82,21 @@ const DeliveryInput: FC<Props> = ({ setDeliveryPrice }) => {
 									<Image src={chosenDelivery.image} fluid alt={chosenDelivery.title} />
 								</Col>
 								<Col lg={10} sm={12} md={6} className='d-flex flex-column justify-content-between ps-3'>
-									<p className='fs-5'>Selected delivery '{chosenDelivery.title}'</p>
-									<p>Initial price of the delivery company ${chosenDelivery.initialPrice}</p>
+									<p className='fs-5'>{lang.cart.deliveryBox.selectedCourier} '{chosenDelivery.title}'</p>
+									<p>{lang.cart.deliveryBox.initialPriceOfDelivery} ${chosenDelivery.initialPrice}</p>
 									<ButtonGroup>
 										<Button
 											variant={additionalPriceToDeliver === 0 ? 'primary' : 'outline-primary'}
 											className='me-2 ms-0'
 											onClick={(e) => handleAdditionalDeliverPrice(e)}
 											value={0}>
-											Deliver to office + $0
+											{lang.cart.deliveryBox.deliveryToOffice} + $0
 										</Button>
 										<Button
 											variant={additionalPriceToDeliver === chosenDelivery.priceToAddress ? 'primary' : 'outline-primary'}
 											onClick={(e) => handleAdditionalDeliverPrice(e)}
 											value={chosenDelivery.priceToAddress}>
-											Deliver to address + ${chosenDelivery.priceToAddress}
+											{lang.cart.deliveryBox.deliverToAddress} + ${chosenDelivery.priceToAddress}
 										</Button>
 									</ButtonGroup>
 								</Col>

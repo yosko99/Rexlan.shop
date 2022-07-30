@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import { Image } from 'react-bootstrap';
 
-import noFavouritesImg from '../../assets/favouritespage/no-favourites.png';
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import RenderFavouritesPage from './RenderFavouritesPage';
 
 const FavouritesPage = () => {
   const [likedProductsLocalStorage, setLikedProductsLocalStorage] = useState<string | null>(localStorage.getItem('liked'));
+  const { lang } = useContext(CurrentLanguageContext);
 
   // Listen when favourite button is clicked
   // That way the page can update
@@ -20,7 +21,7 @@ const FavouritesPage = () => {
   if (likedProductsLocalStorage === null || likedProductsLocalStorage === '[]') {
     return (
       <div className='text-center'>
-        <Image src={noFavouritesImg} fluid alt='no favourites' />
+        <Image src={require(`../../assets/favouritespage/no-favourites-${lang.current}.webp`)} fluid alt='no favourites' />
       </div>
     );
   }

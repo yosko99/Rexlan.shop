@@ -13,7 +13,10 @@ const lang: HTMLFields = {
     pricing: 'Цени',
     settings: 'Настройки',
     products: 'Продукти',
-    submit: 'Изпрати'
+    submit: 'Изпрати',
+    delivery: 'Доставка',
+    discount: 'Отстъпка',
+    free: 'Безплатно'
   },
   header: {
     languageSwitcherButton: 'Език',
@@ -74,7 +77,8 @@ const lang: HTMLFields = {
   },
   footer: {
     getConnected: 'Свържете се с нас в социалните мрежи',
-    usefullLinks: 'Полезни линкове'
+    usefullLinks: 'Полезни линкове',
+    copyright: 'Авторско право'
   },
   loginPage: {
     heading: {
@@ -139,9 +143,29 @@ const lang: HTMLFields = {
     },
     delivery: {
       label: 'Доставка',
-      placeholder: 'Изберете доставка'
+      placeholder: 'Изберете куриер'
     }
-  }
+  },
+  cart: {
+    addProductsToCart: 'Добави продукти в количката',
+    emptyCart: 'Няма нищо :(',
+    header: 'Количка',
+    orderBox: {
+      total: 'Обща сума',
+      header: 'Твоята поръчка',
+      removeProduct: 'Премахни продукта'
+    },
+    deliveryBox: {
+      initialPriceOfDelivery: 'Начална цена на фирмата за доставка ',
+      selectedCourier: 'Избран куриер',
+      deliverToAddress: 'Доставка до адрес',
+      deliveryToOffice: 'Доставка до офис'
+    }
+  },
+  favouritesPage: {
+    header: 'Харесани продукти'
+  },
+  freeShippingBarText: 'Безплатна доставка на поръчки над $99'
 };
 
 export default lang;

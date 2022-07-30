@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { faTruck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
+
 const FreeShippingBar = () => {
+  const { lang } = useContext(CurrentLanguageContext);
+
   return (
 		<p className='text-center bg-black text-white shadow-sm p-2 text-uppercase'>
-			Free shipping with order over $99 just now
+			{lang.freeShippingBarText}
 			<FontAwesomeIcon className='ms-2' fade icon={faTruck} />
 		</p>
   );
