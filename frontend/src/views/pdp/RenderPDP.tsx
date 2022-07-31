@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
 import { Container, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -9,6 +9,7 @@ import FreeShippingBar from '../../components/partials/FreeShippingBar';
 import AddToCart from '../../components/product/AddToCart';
 import CustomRating from '../../components/product/CustomRating';
 import FavouriteBtn from '../../components/product/favouriteButton/FavouriteBtn';
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import { Product } from '../../types/productTypes';
 
 interface Props {
@@ -22,6 +23,7 @@ const ProductImage = styled.img`
 `;
 
 const RenderPDP: FC<Props> = ({ product }) => {
+  const { lang } = useContext(CurrentLanguageContext);
   const { category } = useParams();
 
   return (
@@ -46,8 +48,9 @@ const RenderPDP: FC<Props> = ({ product }) => {
 								$ {product.price}
 							</p>
 							<CustomRating
-								initialValue={product.rating.rate}
-								size={30}
+								ratingRate={product.rating.rate}
+								ratingCount={product.rating.count}
+								starSize={30}
 								className='my-3'
 							/>
 							<p className='text-muted mb-5'>
@@ -63,7 +66,7 @@ const RenderPDP: FC<Props> = ({ product }) => {
 							</div>
 							<small>
 								<p className='mt-4 text-muted'>
-									In stock- pickup and free shipping avaliable
+									{lang.pdp.inStock}
 								</p>
 							</small>
 						</div>

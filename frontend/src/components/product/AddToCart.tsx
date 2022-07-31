@@ -31,6 +31,7 @@ const AddToCart: FC<Props> = ({ product }) => {
     }
   });
 
+  // Check if there is cart ID in local storage and update cart
   const handleClick = () => {
     const localStorageCart = localStorage.getItem('cart');
 

@@ -1,15 +1,19 @@
-import React, { useState, FC } from 'react';
+import React, { useState, FC, useContext } from 'react';
 
 import { Rating } from 'react-simple-star-rating';
 
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
+
 interface Props {
-	initialValue: number;
-	size?: number;
+	ratingRate: number;
+	ratingCount: number;
+	starSize?: number;
 	className?: string;
 }
 
-const CustomRating: FC<Props> = ({ initialValue, size, className }) => {
+const CustomRating: FC<Props> = ({ ratingRate, starSize, className, ratingCount }) => {
   const [rating, setRating] = useState(0); // initial rating value
+  const { lang } = useContext(CurrentLanguageContext);
 
   const handleRating = (rate: number) => {
     setRating(rate);
@@ -17,14 +21,17 @@ const CustomRating: FC<Props> = ({ initialValue, size, className }) => {
 
   return (
 		<>
-      <Rating
+			<Rating
 				onClick={handleRating}
 				ratingValue={rating}
-				initialValue={initialValue}
-				size={size}
+				initialValue={ratingRate}
+				size={starSize}
 				transition
 				className={className}
 			/>
+			<span className='text-muted ms-2'>
+				{ratingRate} {lang.global.outOf} {ratingCount}
+			</span>
 		</>
   );
 };

@@ -16,7 +16,19 @@ const lang: HTMLFields = {
     submit: 'Submit',
     delivery: 'Delivery',
     discount: 'Discount',
-    free: 'Free'
+    free: 'Free',
+    addToCart: 'Add to cart',
+    outOf: 'out of'
+  },
+  pdp: {
+    inStock: 'In stock - pickup or order via courier',
+    addToCartModal: {
+      addedQuantity: 'Added quantity',
+      header: 'Product added to cart',
+      productID: 'Product ID',
+      continueShopping: 'Continue shopping',
+      finishThePurchase: 'Finish the purchase'
+    }
   },
   header: {
     languageSwitcherButton: 'Language',

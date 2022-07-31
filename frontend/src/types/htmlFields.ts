@@ -27,7 +27,19 @@ interface HTMLFields {
         discount: string;
         delivery: string;
         free: string;
-    }
+        addToCart: string;
+        outOf: string;
+    },
+    pdp: {
+        inStock: string;
+        addToCartModal: {
+            header: string;
+            productID: string;
+            addedQuantity: string;
+            continueShopping: string;
+            finishThePurchase: string;
+        }
+    },
     header: {
         homeButton: string;
         languageSwitcherButton: string;
@@ -65,7 +77,7 @@ interface HTMLFields {
         resetPassword: string;
     }
     registerPage: {
-        heading : HeadingType;
+        heading: HeadingType;
         providedDataIsUsedFor: string;
     },
     resetPasswordPage: {

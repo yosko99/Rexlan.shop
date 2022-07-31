@@ -16,7 +16,19 @@ const lang: HTMLFields = {
     submit: 'Изпрати',
     delivery: 'Доставка',
     discount: 'Отстъпка',
-    free: 'Безплатно'
+    free: 'Безплатно',
+    addToCart: 'Добави в количката',
+    outOf: 'от'
+  },
+  pdp: {
+    inStock: 'В наличност - вземете от магазин или поръчайте чрез куриер',
+    addToCartModal: {
+      header: 'Продуктът е добавен в количката',
+      addedQuantity: 'Добавено количество',
+      productID: 'ИД на продукт',
+      continueShopping: 'Продължи с пазаруването',
+      finishThePurchase: 'Приключи поръчката'
+    }
   },
   header: {
     languageSwitcherButton: 'Език',

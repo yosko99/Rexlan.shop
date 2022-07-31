@@ -22,7 +22,6 @@ const ProductCardImg = styled.img`
 const ProductCardBody = styled.div`
 	transition: 0.5s ease-in-out;
 	:hover {
-		/* box-shadow: 5px 5px 5px lightgray; */
 		box-shadow: 0px 5px 5px 0px lightgray;
 		transform: translateY(-0.2em);
 	}
@@ -42,18 +41,19 @@ const ProductCard: FC<Props> = ({ product }) => {
 						<small>
 							{product.category}
 						</small>
-						<FavouriteBtn productID={product.id}/>
+						<FavouriteBtn productID={product.id} />
 					</div>
 					<Card.Title>
 						{product.title}
 					</Card.Title>
 					<CustomRating
-						initialValue={product.rating.rate}
-						size={20}
+						ratingRate={product.rating.rate}
+						ratingCount={product.rating.count}
+						starSize={20}
 						className='mb-2'
 					/>
 					<Card.Text>
-					{product.price.toFixed(2)} $
+						{product.price.toFixed(2)} $
 					</Card.Text>
 				</Card.Body>
 			</Card>
