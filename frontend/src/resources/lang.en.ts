@@ -177,7 +177,30 @@ const lang: HTMLFields = {
   favouritesPage: {
     header: 'Liked products'
   },
-  freeShippingBarText: 'FREE SHIPPING WITH ORDER OVER $99 JUST NOW'
+  freeShippingBarText: 'FREE SHIPPING WITH ORDER OVER $99 JUST NOW',
+  contactsPage: {
+    contactUs: 'Contact us',
+    hereToHelp: 'We are here to help',
+    askQuestion: {
+      title: 'Ask a question',
+      subtitle: 'Fill out our form and we will be back in 24 hours.',
+      secondSubtitle: 'Get started'
+    },
+    callUs: {
+      title: 'Call us directly at',
+      subtitle: 'We are available Sun 7:00pm EST - Friday 7:00pm EST.',
+      secondSubtitle: '+111 1 111 1111'
+    },
+    chatWithUs: {
+      title: 'Chat with our sales team',
+      subtitle: 'We are available Sun 7:00pm EST - Friday 7:00pm EST.',
+      secondSubtitle: 'Chat now'
+    },
+    lookingForSomeone: 'Looking for someone you know?',
+    tryOurStaffDirectory: 'Try our Staff directory',
+    forMediaQueries: 'For media queries, contact email@email.com or find your regional media contact',
+    regionalMediaContacts: 'Regional Media Contacts'
+  }
 };
 
 export default lang;

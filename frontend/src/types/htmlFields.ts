@@ -3,6 +3,7 @@ import InfoBarData from './infotBarTypes';
 interface HeadingType {
     title: string;
     subtitle: string;
+    secondSubtitle?: string;
 }
 
 interface FormInputType {
@@ -113,7 +114,18 @@ interface HTMLFields {
     favouritesPage: {
         header: string;
     }
-    freeShippingBarText: string
+    freeShippingBarText: string,
+    contactsPage: {
+        contactUs: string;
+        hereToHelp: string;
+        callUs: HeadingType;
+        chatWithUs: HeadingType;
+        askQuestion: HeadingType;
+        lookingForSomeone: string;
+        tryOurStaffDirectory: string;
+        forMediaQueries: string;
+        regionalMediaContacts: string;
+    }
 }
 
 export default HTMLFields;

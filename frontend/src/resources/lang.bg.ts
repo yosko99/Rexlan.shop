@@ -177,7 +177,30 @@ const lang: HTMLFields = {
   favouritesPage: {
     header: 'Харесани продукти'
   },
-  freeShippingBarText: 'Безплатна доставка на поръчки над $99'
+  freeShippingBarText: 'Безплатна доставка на поръчки над $99',
+  contactsPage: {
+    contactUs: 'Свържи се с нас',
+    hereToHelp: 'Ние сме тук да помогнем',
+    askQuestion: {
+      title: 'Задай въпрос',
+      subtitle: 'Попълнете нашия формуляр и ние ще ви отговорим до 24 часа.',
+      secondSubtitle: 'Започни'
+    },
+    callUs: {
+      title: 'Обадете ни се',
+      subtitle: 'Ние сме на линия от неделя 7:00 PM EST до петък 7:00 PM EST',
+      secondSubtitle: '+111 1 111 1111'
+    },
+    chatWithUs: {
+      title: 'Чат с нашия екип по продажбите',
+      subtitle: 'Ние сме на линия от неделя 7:00 PM EST до петък 7:00 PM EST',
+      secondSubtitle: 'Започнете чат'
+    },
+    lookingForSomeone: 'Търсиш някой който познаваш?',
+    tryOurStaffDirectory: 'Нашия указател на персонала',
+    forMediaQueries: 'За медийни запитвания се свържете с email@email.com или намерете своя регионален медиен контакт',
+    regionalMediaContacts: 'Контакти с регионални медии'
+  }
 };
 
 export default lang;
