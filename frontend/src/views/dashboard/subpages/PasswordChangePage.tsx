@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Row, Col } from 'react-bootstrap';
 
 import PasswordChangeForm from '../../../components/forms/PasswordChangeForm';
+import { CurrentLanguageContext } from '../../../context/CurrentLanguageContext';
 
 const PasswordChangePage = () => {
+  const { lang } = useContext(CurrentLanguageContext);
+
   return (
     <div>
-      <p className='fs-3 my-3'>Password change</p>
-      <p>Here you can change your password</p>
+      <p className='fs-3 my-3'>{lang.dashboard.tabs.passwordChange.header.title}</p>
+      <p>{lang.dashboard.tabs.passwordChange.header.subtitle}</p>
       <hr />
       <Row>
         <Col lg={4}>

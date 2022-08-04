@@ -1,5 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import PasswordInput from '../inputs/PasswordInput';
 import FormTemplate from '../templates/FormTemplate';
 
@@ -8,6 +9,8 @@ interface Props {
 }
 
 const PasswordChangeForm: FC<Props> = ({ className }) => {
+  const { lang } = useContext(CurrentLanguageContext);
+
   return (
 		<div className={className}>
 			<FormTemplate
@@ -15,9 +18,9 @@ const PasswordChangeForm: FC<Props> = ({ className }) => {
 				redirectOnSuccess={false}
 				inputs={
 					<>
-						<p>Enter old password</p>
+						<p>{lang.dashboard.tabs.passwordChange.enterOldPassword}</p>
 						<PasswordInput customInputName='oldPassword' />
-						<p>Enter new password</p>
+						<p>{lang.dashboard.tabs.passwordChange.enterNewPassword}</p>
 						<PasswordInput customInputName='newPassword' />
 					</>
 				}

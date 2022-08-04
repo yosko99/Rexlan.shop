@@ -1,8 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
 import { Col, Row } from 'react-bootstrap';
 
 import DetailsUpdateForm from '../../../components/forms/DetailsUpdateForm';
+import { CurrentLanguageContext } from '../../../context/CurrentLanguageContext';
 import { User } from '../../../types/userTypes';
 
 interface Props {
@@ -10,10 +11,12 @@ interface Props {
 }
 
 const MyDetailsPage: FC<Props> = ({ user }) => {
+  const { lang } = useContext(CurrentLanguageContext);
+
   return (
     <div>
-      <p className='fs-3 my-3'>My details</p>
-      <p>Personal information</p>
+      <p className='fs-3 my-3'>{lang.dashboard.tabs.myDetails.header.title}</p>
+      <p>{lang.dashboard.tabs.myDetails.header.subtitle}</p>
       <hr />
       <Row>
         <Col lg={4}>
@@ -24,7 +27,7 @@ const MyDetailsPage: FC<Props> = ({ user }) => {
         </Col>
       </Row>
       <div className='d-flex justify-content-end my-3'>
-        <p className='text-muted'>Last profile update: {user.updatedAt}</p>
+        <p className='text-muted'>{lang.dashboard.tabs.myDetails.lastProfileUpdate}: {user.updatedAt}</p>
       </div>
     </div>
   );

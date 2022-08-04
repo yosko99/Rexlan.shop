@@ -200,6 +200,36 @@ const lang: HTMLFields = {
     tryOurStaffDirectory: 'Try our Staff directory',
     forMediaQueries: 'For media queries, contact email@email.com or find your regional media contact',
     regionalMediaContacts: 'Regional Media Contacts'
+  },
+  dashboard: {
+    navigationButtons: {
+      myDetails: 'My details',
+      myOrders: 'My orders',
+      passwordChange: 'Password change'
+    },
+    tabs: {
+      myDetails: {
+        header: {
+          title: 'My details',
+          subtitle: 'Personal information'
+        },
+        lastProfileUpdate: 'Last profile update'
+      },
+      passwordChange: {
+        header: {
+          title: 'Password change',
+          subtitle: 'Here you can change your password'
+        },
+        enterOldPassword: 'Enter old password',
+        enterNewPassword: 'Enter new password'
+      },
+      myOrders: {
+        header: {
+          title: 'This page is under construction',
+          subtitle: 'We are working on it!'
+        }
+      }
+    }
   }
 };
 

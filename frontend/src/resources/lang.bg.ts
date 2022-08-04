@@ -200,6 +200,36 @@ const lang: HTMLFields = {
     tryOurStaffDirectory: 'Нашия указател на персонала',
     forMediaQueries: 'За медийни запитвания се свържете с email@email.com или намерете своя регионален медиен контакт',
     regionalMediaContacts: 'Контакти с регионални медии'
+  },
+  dashboard: {
+    navigationButtons: {
+      myDetails: 'Моите данни',
+      myOrders: 'Моите поръчки',
+      passwordChange: 'Смяна на парола'
+    },
+    tabs: {
+      myDetails: {
+        header: {
+          title: 'Моите данни',
+          subtitle: 'Лична информация'
+        },
+        lastProfileUpdate: 'Последна актуализация на профила'
+      },
+      passwordChange: {
+        header: {
+          title: 'Смяна на парола',
+          subtitle: 'Тук можете да промените вашата парола'
+        },
+        enterOldPassword: 'Въведете старата парола',
+        enterNewPassword: 'Въведете новата парола'
+      },
+      myOrders: {
+        header: {
+          title: 'Тази страница е в процес на разработка',
+          subtitle: 'Ние работим върху това!'
+        }
+      }
+    }
   }
 };
 

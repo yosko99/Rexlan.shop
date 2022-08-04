@@ -125,6 +125,27 @@ interface HTMLFields {
         tryOurStaffDirectory: string;
         forMediaQueries: string;
         regionalMediaContacts: string;
+    },
+    dashboard: {
+        navigationButtons: {
+            myDetails: string;
+            passwordChange: string;
+            myOrders: string;
+        }
+        tabs: {
+            myDetails: {
+                header: HeadingType;
+                lastProfileUpdate: string
+            },
+            passwordChange: {
+                header: HeadingType;
+                enterOldPassword: string;
+                enterNewPassword: string;
+            },
+            myOrders: {
+                header: HeadingType;
+            }
+        }
     }
 }
 
