@@ -18,7 +18,8 @@ const lang: HTMLFields = {
     discount: 'Discount',
     free: 'Free',
     addToCart: 'Add to cart',
-    outOf: 'out of'
+    outOf: 'out of',
+    users: 'Users'
   },
   pdp: {
     inStock: 'In stock - pickup or order via courier',
@@ -202,10 +203,12 @@ const lang: HTMLFields = {
     regionalMediaContacts: 'Regional Media Contacts'
   },
   dashboard: {
+    myAccount: 'My account',
     navigationButtons: {
       myDetails: 'My details',
       myOrders: 'My orders',
-      passwordChange: 'Password change'
+      passwordChange: 'Password change',
+      adminPanel: 'Admin panel'
     },
     tabs: {
       myDetails: {
@@ -227,6 +230,12 @@ const lang: HTMLFields = {
         header: {
           title: 'This page is under construction',
           subtitle: 'We are working on it!'
+        }
+      },
+      adminPanel: {
+        header: {
+          title: 'Admin panel',
+          subtitle: 'Select which data you want to edit'
         }
       }
     }

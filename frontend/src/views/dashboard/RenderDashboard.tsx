@@ -1,9 +1,10 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useContext } from 'react';
 
 import { Col, Container, Row } from 'react-bootstrap';
 import { Navigate, useParams } from 'react-router-dom';
 
 import DashboardNavigation from '../../components/dashboard/DashboardNavigation';
+import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import { dashboardSubpages, SubpageType } from '../../data/dashboardSubpages';
 import { User } from '../../types/userTypes';
 
@@ -12,22 +13,26 @@ interface Props {
 }
 
 const RenderDashboard: FC<Props> = ({ user }) => {
-  const { option } = useParams();
   const subpages = dashboardSubpages(user);
+  const { lang } = useContext(CurrentLanguageContext);
+  const { option: selectedDashboardTab } = useParams();
+
   const [subpage, setSubpage] = useState<SubpageType | undefined>(
-    subpages.find((subpage) => subpage.urlParam === option));
+    subpages.find((subpage) => subpage.urlParam === selectedDashboardTab
+    )
+  );
 
   useEffect(() => {
     setSubpage(subpages.find(
-      (subpage) => subpage.urlParam === option));
-  }, [option]);
+      (subpage) => subpage.urlParam === selectedDashboardTab));
+  }, [selectedDashboardTab]);
 
   return (
     <>
       {subpage === undefined
         ? <Navigate to={'/'} />
         : <Container>
-          <p className='fs-2 my-4'>My account</p>
+          <p className='fs-2 my-4'>{lang.dashboard.myAccount}</p>
           <Row>
             <Col lg={2}>
               <DashboardNavigation isAdmin={user.isAdmin} />

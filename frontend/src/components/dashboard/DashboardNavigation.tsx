@@ -47,7 +47,7 @@ const DashboardNavigation: FC<Props> = ({ isAdmin }) => {
             variant={`${option === 'admin-panel' ? 'primary' : 'outline-primary'}`}
             className='mb-3 mt-3'
           >
-            Admin panel
+            {lang.dashboard.navigationButtons.adminPanel}
           </Button>
         </LinkContainer>
       }

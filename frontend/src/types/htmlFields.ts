@@ -30,6 +30,7 @@ interface HTMLFields {
         free: string;
         addToCart: string;
         outOf: string;
+        users: string;
     },
     pdp: {
         inStock: string;
@@ -127,10 +128,12 @@ interface HTMLFields {
         regionalMediaContacts: string;
     },
     dashboard: {
+        myAccount: string;
         navigationButtons: {
             myDetails: string;
             passwordChange: string;
             myOrders: string;
+            adminPanel: string;
         }
         tabs: {
             myDetails: {
@@ -143,6 +146,9 @@ interface HTMLFields {
                 enterNewPassword: string;
             },
             myOrders: {
+                header: HeadingType;
+            },
+            adminPanel: {
                 header: HeadingType;
             }
         }

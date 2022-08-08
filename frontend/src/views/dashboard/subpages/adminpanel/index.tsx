@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Row, Col, Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 
 import adminPanelImg from '../../../../assets/dashboard/admin-panel/admin-panel-option-menu.png';
+import { CurrentLanguageContext } from '../../../../context/CurrentLanguageContext';
 
 const AdminPanelOptionDiv = styled.div`
 	border: 1px solid green;
@@ -32,25 +33,27 @@ interface AdminOptionButton {
 }
 
 const AdminPanelPage = () => {
+  const { lang } = useContext(CurrentLanguageContext);
+
   const adminOptions: AdminOptionButton[] = [
     {
-      btnText: 'Products',
+      btnText: lang.global.products,
       urlParam: 'products'
     },
     {
-      btnText: 'Categories',
+      btnText: lang.global.categories,
       urlParam: 'categories'
     },
     {
-      btnText: 'Users',
+      btnText: lang.global.users,
       urlParam: 'users'
     }
   ];
 
   return (
 		<div>
-			<p className='fs-3 my-3'>Admin panel</p>
-			<p>Select which data you want to edit</p>
+			<p className='fs-3 my-3'>{lang.dashboard.tabs.adminPanel.header.title}</p>
+			<p>{lang.dashboard.tabs.adminPanel.header.subtitle}</p>
 			<hr />
 			<Row>
 				<Col lg={5}>

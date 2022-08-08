@@ -77,7 +77,7 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 						<LanguageSwticher />
 					</Nav>
 					<Nav className='d-flex justify-content-center'>
-						<div className='d-flex justify-content-center'>
+						<div className='d-flex flex-wrap justify-content-center'>
 							<LoginIcon />
 							<ProfileIcon />
 							<FavouriteIcon />

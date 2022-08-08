@@ -105,6 +105,7 @@ exports.addUser = async (req, res) => {
       isAdmin
     });
 
+    // Create new user from register page
     if (req.headers.sendtokenback === 'true') {
       const token = jwt.sign({ email }, process.env.JWT_SECRET_KEY);
 
@@ -117,6 +118,7 @@ exports.addUser = async (req, res) => {
       });
     }
 
+    // Create new user from admin panel
     res.status(200).json({
       msg: 'Account created.'
     });

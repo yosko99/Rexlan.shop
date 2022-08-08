@@ -1,6 +1,7 @@
 const [notFound, errorHandler] = require('./middleware/errorMiddleware');
 const connectDb = require('./config/db');
 
+const setLanguageMiddleware = require('./middleware/setLanguageMiddleware');
 const openWeatherRoutes = require('./routes/openWeatherRoutes');
 const productRoutes = require('./routes/productRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
@@ -19,6 +20,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(setLanguageMiddleware);
 
 connectDb();
 

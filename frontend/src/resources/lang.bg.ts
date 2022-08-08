@@ -18,7 +18,8 @@ const lang: HTMLFields = {
     discount: 'Отстъпка',
     free: 'Безплатно',
     addToCart: 'Добави в количката',
-    outOf: 'от'
+    outOf: 'от',
+    users: 'Потребители'
   },
   pdp: {
     inStock: 'В наличност - вземете от магазин или поръчайте чрез куриер',
@@ -202,10 +203,12 @@ const lang: HTMLFields = {
     regionalMediaContacts: 'Контакти с регионални медии'
   },
   dashboard: {
+    myAccount: 'Моят профил',
     navigationButtons: {
       myDetails: 'Моите данни',
       myOrders: 'Моите поръчки',
-      passwordChange: 'Смяна на парола'
+      passwordChange: 'Смяна на парола',
+      adminPanel: 'Админ панел'
     },
     tabs: {
       myDetails: {
@@ -227,6 +230,12 @@ const lang: HTMLFields = {
         header: {
           title: 'Тази страница е в процес на разработка',
           subtitle: 'Ние работим върху това!'
+        }
+      },
+      adminPanel: {
+        header: {
+          title: 'Админ панел',
+          subtitle: 'Изберете кои данни искате да редактирате'
         }
       }
     }
