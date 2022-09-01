@@ -1,9 +1,13 @@
 const deleteProductFromAllCarts = require('./functions/cart/deleteProductFromAllCarts');
-const getQueryQty = require('./functions/utils/getQueryQty');
-const Product = require('../models/productModel');
-const createNewCategory = require('./functions/category/createNewCategory');
 const deleteEmptyCategory = require('./functions/category/deleteEmptyCategory');
+const createNewCategory = require('./functions/category/createNewCategory');
 const getMaxProductID = require('./functions/product/getMaxProductID');
+
+const getQueryQty = require('./functions/utils/getQueryQty');
+
+const Product = require('../models/productModel');
+
+const lang = require('../resources/lang');
 
 exports.getProducts = async (req, res) => {
   const productQuantity = getQueryQty(req.query.qty);
@@ -21,7 +25,7 @@ exports.getProduct = async (req, res) => {
   }).select('-__v -_id');
 
   if (product === null) {
-    return res.status(404).send('Could not find data with provided ID');
+    return res.status(404).send(lang[req.currentLang].global.noDataWithProvidedID);
   }
 
   res.status(200).json(product);
@@ -35,7 +39,7 @@ exports.deleteProduct = async (req, res) => {
   await Product.deleteOne({ id: productID });
 
   res.status(200).json({
-    msg: 'Data successfully deleted.'
+    msg: lang[req.currentLang].global.dataDeleted
   });
 };
 
@@ -57,7 +61,7 @@ exports.updateProduct = async (req, res) => {
   await createNewCategory(category);
 
   res.status(200).json({
-    msg: 'Data updated'
+    msg: `${lang[req.currentLang].global.data} ${lang[req.currentLang].global.updated.toLowerCase()}`
   });
 };
 
@@ -78,7 +82,7 @@ exports.createProduct = async (req, res) => {
   await createNewCategory(category);
 
   res.status(200).json({
-    msg: 'Product created.'
+    msg: `${lang[req.currentLang].global.product} ${lang[req.currentLang].global.created.toLowerCase()}.`
   });
 };
 
@@ -94,7 +98,7 @@ exports.getProductsByCategory = async (req, res) => {
   if (products === null || products.length === 0) {
     return res.status(206).json({
       products: [],
-      msg: 'Could not find data with provided category'
+      msg: lang[req.currentLang].global.noDataWithProvidedCategory
     });
   }
 
@@ -112,7 +116,7 @@ exports.getProductsSortedBy = async (req, res) => {
   if (products === null || products.length === 0) {
     return res.status(206).json({
       products: [],
-      msg: 'Could not find data'
+      msg: lang[req.currentLang].global.couldNotFindData
     });
   }
 

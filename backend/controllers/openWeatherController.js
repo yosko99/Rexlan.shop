@@ -1,15 +1,21 @@
 const axios = require('axios');
 require('dotenv').config();
 
+const lang = require('../resources/lang');
+
 exports.getCurrentCity = (req, res) => {
   if (process.env.OPENWEATHER_API_KEY === undefined) {
-    return res.status(404).send('Api key not provided');
+    return res.status(404).send(
+      lang[req.currentLang].global.apiKeyNotProvided
+    );
   }
 
   const { lon, lat } = req.query;
 
   if (lon === undefined || lat === undefined) {
-    return res.status(404).send('Coordinates not provided');
+    return res.status(404).send(
+      lang[req.currentLang].controllers.openWeather.coordinatesNotProvided
+    );
   }
 
   axios.get(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${process.env.OPENWEATHER_API_KEY}`)
@@ -19,6 +25,8 @@ exports.getCurrentCity = (req, res) => {
         city
       });
     }).catch((_err) => {
-      return res.status(400).send('Invalid coordinates');
+      return res.status(400).send(
+        lang[req.currentLang].controllers.openWeather.invalidCoordinates
+      );
     });
 };

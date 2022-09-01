@@ -1,14 +1,18 @@
 const checkExistingCart = require('./functions/cart/checkExistingCart');
-const createEmailMessage = require('../config/createEmailMessage');
-const createTransporter = require('../config/createTransporter');
 const generateChars = require('./functions/utils/generateChars');
 const updateUser = require('./functions/user/updateUser');
+
+const createEmailMessage = require('../config/createEmailMessage');
+const createTransporter = require('../config/createTransporter');
+
 const User = require('../models/userModel');
 const Cart = require('../models/cartModel');
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
+
+const lang = require('../resources/lang');
 
 exports.getUsers = async (req, res) => {
   const users = await User
@@ -43,7 +47,7 @@ exports.deleteUser = async (req, res) => {
   await User.deleteOne({ _id: req.user._id });
 
   res.status(200).json({
-    msg: 'User successfully deleted.'
+    msg: lang[req.currentLang].controllers.user.userDeleted
   });
 };
 
@@ -63,12 +67,14 @@ exports.changePassword = async (req, res) => {
 
         await user.save();
         return res.status(200).json({
-          msg: 'Password updated successfully'
+          msg: lang[req.currentLang].controllers.user.passwordUpdated
         });
       });
     } else {
       // Password mismatch
-      return res.status(403).send('Password does not match registered email.');
+      return res.status(403).send(
+        lang[req.currentLang].controllers.user.passwordMismatch
+      );
     }
   });
 };
@@ -88,7 +94,9 @@ exports.addUser = async (req, res) => {
 
   // Email is already registered
   if (checkRegistered !== null) {
-    return res.status(403).send('User with this email already exists.');
+    return res.status(403).send(
+      lang[req.currentLang].controllers.user.userWithEmailAlreadyExists
+    );
   }
   // Hash the password
   bcrypt.hash(password, Number(process.env.SALT_ROUNDS), async function (err, hashedPassword) {
@@ -112,7 +120,7 @@ exports.addUser = async (req, res) => {
       const checkedCartID = await checkExistingCart(email, cartID);
 
       return res.status(200).json({
-        msg: 'Your account has been successfully created.',
+        msg: lang[req.currentLang].controllers.user.accountCreated,
         token,
         cartID: checkedCartID
       });
@@ -120,7 +128,7 @@ exports.addUser = async (req, res) => {
 
     // Create new user from admin panel
     res.status(200).json({
-      msg: 'Account created.'
+      msg: `${lang[req.currentLang].global.account} ${lang[req.currentLang].global.created.toLowerCase()}.`
     });
   });
 };
@@ -132,7 +140,9 @@ exports.loginUser = async (req, res) => {
 
   // Provided not registered email
   if (user === null) {
-    return res.status(403).send('User with this email does not exist.');
+    return res.status(403).send(
+      lang[req.currentLang].controllers.user.userWithEmailDoesNotExist
+    );
   }
   bcrypt.compare(password, user.password, async function (err, result) {
     if (err) {
@@ -146,14 +156,16 @@ exports.loginUser = async (req, res) => {
       const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET_KEY);
 
       return res.status(200).json({
-        msg: 'You Have Successfully Logged in.',
+        msg: lang[req.currentLang].controllers.user.loggedIn,
         token,
         cartID: checkedCartID
       });
     }
 
     // Password mismatch
-    res.status(403).send('Password does not match registered email.');
+    res.status(403).send(
+      lang[req.currentLang].controllers.user.passwordMismatch
+    );
   });
 };
 
@@ -161,7 +173,7 @@ exports.resetPassword = async (req, res) => {
   // Optimistic update when no sender email is set up
   if (process.env.SENDER_EMAIL === undefined) {
     return res.status(200).json({
-      msg: 'You can check your email for a new password.'
+      msg: lang[req.currentLang].controllers.user.checkMailForPassword
     });
   }
 
@@ -170,7 +182,9 @@ exports.resetPassword = async (req, res) => {
 
   // This email is not used in registration or email is missing
   if (recieverEmail === undefined || user === null) {
-    return res.status(404).send('We could not find your email.');
+    return res.status(404).send(
+      lang[req.currentLang].controllers.user.couldNotFindEmail
+    );
   }
 
   const temporaryPassword = generateChars(10);
@@ -189,7 +203,7 @@ exports.resetPassword = async (req, res) => {
     }
 
     return res.status(200).json({
-      msg: 'You can check your email for a new password.'
+      msg: lang[req.currentLang].controllers.user.checkMailForPassword
     });
   });
 };

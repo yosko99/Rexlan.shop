@@ -1,6 +1,8 @@
 const Cart = require('../models/cartModel');
 const User = require('../models/userModel');
 
+const lang = require('../resources/lang');
+
 const mongoose = require('mongoose');
 
 exports.addProductToCart = async (req, res) => {
@@ -11,12 +13,12 @@ exports.addProductToCart = async (req, res) => {
   const checkCart = (cartID !== null) ? await Cart.findOne({ _id: cartID }) : null;
 
   if (productID === undefined) {
-    return res.status(404).send('No product ID provided');
+    return res.status(404).send(lang[req.currentLang].global.noProductID);
   }
 
   // Check if cart with provdided id exists
   // If a cart exists check if the product exists in the cart
-  // Otherwsie create new cart and assign the new prodcut
+  // Otherwise create new cart and assign the new prodcut
 
   if (checkCart !== null) {
     let updatedCart;
@@ -66,7 +68,7 @@ exports.getCart = async (req, res) => {
 
   if (!mongoose.Types.ObjectId.isValid(cartID)) {
     return res.status(200).json({
-      err: 'Invalid cart ID'
+      err: lang[req.currentLang].controllers.cart.invalidCartID
     });
   };
 
@@ -75,7 +77,7 @@ exports.getCart = async (req, res) => {
   // Check if there are products in cart
   if (cart.products.length === 0) {
     return res.status(200).json({
-      err: 'No items in cart'
+      err: lang[req.currentLang].controllers.cart.noItemsInCart
     });
   }
 
@@ -107,13 +109,17 @@ exports.deleteProductFromCart = async (req, res) => {
   const { cartID, productID } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(cartID)) {
-    return res.status(404).send('Invalid cart ID');
+    return res.status(404).send(
+      lang[req.currentLang].controllers.cart.invalidCartID
+    );
   }
 
   const cart = await Cart.findOne({ _id: cartID });
 
   if (cart === null) {
-    return res.status(404).send('Invalid cart ID');
+    return res.status(404).send(
+      lang[req.currentLang].controllers.cart.invalidCartID
+    );
   }
 
   const filteredProducts = [];
@@ -134,6 +140,6 @@ exports.deleteProductFromCart = async (req, res) => {
   await cart.save();
 
   return res.status(200).json({
-    msg: 'Product removed'
+    msg: `${lang[req.currentLang].global.product} ${lang[req.currentLang].global.removed.toLowerCase()}`
   });
 };

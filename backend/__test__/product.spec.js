@@ -216,7 +216,7 @@ describe('Testing product API', () => {
       });
   });
 
-  test('delete product wih invalid product ID', () => {
+  test('delete product with invalid product ID', () => {
     return request(app)
       .del('/api/products/blabla')
       .expect('Content-Type', /html/)

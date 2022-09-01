@@ -1,7 +1,10 @@
-const Category = require('../models/categoryModel');
-const Product = require('../models/productModel');
 const deleteProductFromAllCarts = require('./functions/cart/deleteProductFromAllCarts');
 const updateProductCategory = require('./functions/category/updateProductCategory');
+
+const Category = require('../models/categoryModel');
+const Product = require('../models/productModel');
+
+const lang = require('../resources/lang');
 
 exports.getCategories = async (req, res) => {
   const categories = await Category.find({});
@@ -19,7 +22,9 @@ exports.createCategory = async (req, res) => {
   const checkIfCategoryExists = await Category.findOne({ name });
 
   if (checkIfCategoryExists !== null) {
-    return res.status(500).send('Category with provided name already exists.');
+    return res.status(500).send(
+      lang[req.currentLang].controllers.category.nameAlreadyExists
+    );
   }
 
   await Category.create({
@@ -28,7 +33,7 @@ exports.createCategory = async (req, res) => {
   });
 
   res.status(200).json({
-    msg: 'Category created.'
+    msg: `${lang[req.currentLang].global.category} ${lang[req.currentLang].global.created.toLowerCase()}.`
   });
 };
 
@@ -44,7 +49,7 @@ exports.updateCategory = async (req, res) => {
   });
 
   res.status(200).json({
-    msg: 'Category updated.'
+    msg: `${lang[req.currentLang].global.category} ${lang[req.currentLang].global.updated.toLowerCase()}.`
   });
 };
 
@@ -63,6 +68,6 @@ exports.deleteCategory = async (req, res) => {
   await Category.deleteOne({ _id });
 
   res.status(200).json({
-    msg: 'Category deleted.'
+    msg: `${lang[req.currentLang].global.category} ${lang[req.currentLang].global.deleted.toLowerCase()}.`
   });
 };

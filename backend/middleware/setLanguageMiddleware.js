@@ -4,9 +4,9 @@ const setLanguageMiddleware = (req, res, next) => {
   const lang = req.query.lang !== undefined ? req.query.lang : 'en';
 
   if (supportedLang.includes(lang.toLowerCase())) {
-    req.lang = lang;
+    req.currentLang = lang;
   } else {
-    req.lang = 'en';
+    req.currentLang = 'en';
   }
 
   next();
