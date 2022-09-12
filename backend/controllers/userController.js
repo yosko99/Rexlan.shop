@@ -128,7 +128,7 @@ exports.addUser = async (req, res) => {
 
     // Create new user from admin panel
     res.status(200).json({
-      msg: `${lang[req.currentLang].global.account} ${lang[req.currentLang].global.created.toLowerCase()}.`
+      msg: lang[req.currentLang].controllers.user.userCreated
     });
   });
 };

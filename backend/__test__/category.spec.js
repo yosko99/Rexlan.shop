@@ -5,14 +5,10 @@ const app = require('../app');
 const Category = require('../models/categoryModel');
 
 describe('Testing category API', () => {
-  let categoryStrucutre;
-
-  beforeAll(() => {
-    categoryStrucutre = {
-      name: expect.any(String),
-      bannerImage: expect.any(String)
-    };
-  });
+  const categoryStrucutre = {
+    name: expect.any(String),
+    bannerImage: expect.any(String)
+  };
 
   afterAll(() => {
     mongoose.disconnect();
@@ -41,7 +37,7 @@ describe('Testing category API', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then(async (response) => {
-        expect(response.body.msg).toBe('Category created.');
+        expect(response.body.msg).toBe('The category was created');
 
         await Category.deleteOne({ name: 'test' });
       });
@@ -68,7 +64,7 @@ describe('Testing category API', () => {
           .expect('Content-Type', /json/)
           .expect(200)
           .then(async (response) => {
-            expect(response.body.msg).toBe('Category updated.');
+            expect(response.body.msg).toBe('The category was updated');
 
             await Category.deleteOne({ _id: createdCategoryID });
           });

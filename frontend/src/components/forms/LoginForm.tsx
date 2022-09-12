@@ -4,6 +4,7 @@ import { Form } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
+import { getUserLoginRoute } from '../../hooks/apiRoutes';
 import EmailInput from '../inputs/EmailInput';
 import PasswordInput from '../inputs/PasswordInput';
 import FormTemplate from '../templates/FormTemplate';
@@ -18,7 +19,7 @@ const LoginForm: FC<Props> = ({ className }) => {
   return (
 		<div className={className}>
 			<FormTemplate
-				mutateURL={'/api/users/login'}
+				mutateURL={getUserLoginRoute()}
 				sendTokenBack
 				inputs={
 					<>

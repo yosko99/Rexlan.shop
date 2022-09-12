@@ -17,7 +17,6 @@ const Page404 :FC = () => {
   const { state } = useLocation() as ErrState;
   const token = useContext(TokenContext);
 
-  // Something went wrong clear localStorage
   if (state !== null) {
 		token!.setToken(null);
 		localStorage.removeItem('cart');

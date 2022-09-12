@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 
 import { useQueryClient } from 'react-query';
 
+import { getCurrentUserRoute } from '../../hooks/apiRoutes';
 import { User } from '../../types/userTypes';
 import AddressInput from '../inputs/AddressInput';
 import EmailInput from '../inputs/EmailInput';
@@ -24,9 +25,9 @@ const DetailsUpdateForm: FC<Props> = ({ className, user }) => {
   };
 
   return (
-    <div className={className}>
+		<div className={className}>
 			<FormTemplate
-				mutateURL={'/api/users/current'}
+				mutateURL={getCurrentUserRoute()}
 				redirectOnSuccess={false}
 				onSuccessFn={onSuccessFn}
 				updateRequest
@@ -36,7 +37,7 @@ const DetailsUpdateForm: FC<Props> = ({ className, user }) => {
 						<NameInput defaultValue={user.name} />
 						<AddressInput defaultValue={user.address} />
 						<PhoneInput defaultValue={user.phone} />
-						<ZipInput defaultValue={user.zipcode}/>
+						<ZipInput defaultValue={user.zipcode} />
 					</>
 				}
 			/>

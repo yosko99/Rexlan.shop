@@ -14,7 +14,7 @@ const EmptyCart = () => {
   return (
     <Bounce>
       <div className='text-center'>
-        <Image fluid src={emptyCartImg} />
+        <Image fluid className='mt-4' src={emptyCartImg} />
         <p className='fs-3 text-muted'>{lang.cart.emptyCart}</p>
         <LinkContainer to='/'>
           <p role='button' className='text-underline text-success'><u>{lang.cart.addProductsToCart}</u></p>

@@ -3,17 +3,18 @@ import React, { FC, useState } from 'react';
 import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 
+import { getCartsRoute } from '../../hooks/apiRoutes';
 import { Product } from '../../types/productTypes';
 import AddedToCartModal from '../modal/AddedToCartModal';
 
 interface MutateData {
-	productID: String;
+  productID: String;
   productQuantity: number;
-	cartID: String | null;
+  cartID: String | null;
 }
 
 interface Props {
-	product: Product
+  product: Product
 }
 
 const AddToCart: FC<Props> = ({ product }) => {
@@ -21,7 +22,7 @@ const AddToCart: FC<Props> = ({ product }) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation((data) => {
-    return axios.post('/api/carts', data);
+    return axios.post(getCartsRoute(), data);
   }, {
     onSuccess: (data) => {
       const cartID = data.data.cartID;

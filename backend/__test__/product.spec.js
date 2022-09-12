@@ -171,7 +171,7 @@ describe('Testing product API', () => {
           .expect('Content-Type', /json/)
           .expect(200)
           .then(async (response) => {
-            expect(response.body.msg).toBe('Data updated');
+            expect(response.body.msg).toBe('The product was updated');
 
             // Reset product name after test
             await Product.updateOne({ id: '1' }, {
@@ -203,7 +203,7 @@ describe('Testing product API', () => {
       })
       .expect('Content-Type', /json/)
       .expect(200)
-      .then(async (response) => {
+      .then(async (_response) => {
         const createdProduct = await Product.findOne({ title: 'test' });
 
         return request(app)
@@ -239,7 +239,7 @@ describe('Testing product API', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then(async (response) => {
-        expect(response.body.msg).toBe('Product created.');
+        expect(response.body.msg).toBe('The product was created');
 
         const createdProduct = await Product.findOne({ title: 'test' });
 

@@ -11,15 +11,14 @@ import DeleteDataIcon from '../../../../../components/icons/dashboard/DeleteData
 import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon';
 import Loading from '../../../../../components/loading/Loading';
 import { categoryStructure, CategoryStructure } from '../../../../../data/inputStructure/categoryStructure';
+import { getCategoriesRoute, getCategoryRoute } from '../../../../../hooks/apiRoutes';
 import useFetch from '../../../../../hooks/useFetch';
 
 const EditCategoriesPage = () => {
-  const apiRoute = '/api/categories/';
-
   const {
     isLoading,
     data: categories
-  } = useFetch('categories', apiRoute, true);
+  } = useFetch('categories', getCategoriesRoute(), true);
 
   return (
     <div>
@@ -33,7 +32,7 @@ const EditCategoriesPage = () => {
       {isLoading
         ? <Loading />
         : <EditDataTable
-          createDataRoute={apiRoute}
+          createDataRoute={getCategoriesRoute()}
           inputStructure={categoryStructure.inputs}
           tableHeaderCells={
             <>
@@ -53,15 +52,14 @@ const EditCategoriesPage = () => {
                   <td>
                     <EditDataIcon
                       queryKey={'category-' + category._id}
-                      dataID={category._id}
-                      apiRoute={apiRoute}
+                      apiRoute={getCategoryRoute(category._id)}
                       inputStructure={categoryStructure.inputs}
                     />
                   </td>
                   <td>
                     <DeleteDataIcon
                       queryKey={'category-' + category._id}
-                      apiRoute={apiRoute + category._id}
+                      apiRoute={getCategoryRoute(category._id)}
                     />
                   </td>
                 </tr>

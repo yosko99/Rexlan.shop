@@ -4,7 +4,7 @@ const calculateTotalPrice = (
   products: Product[],
   cartProducts: CartProductType[],
   deliveryPrice: number): number => {
-  const freeDeliverAtPrice = 99;
+  const FREE_DELIVERY_PRICE = 99;
   let price = 0;
 
   products.forEach((product: Product, index: number) => {
@@ -12,7 +12,7 @@ const calculateTotalPrice = (
   });
 
   // If price is bigger than 99 dont add delivery to total price
-  if (price < freeDeliverAtPrice) {
+  if (price < FREE_DELIVERY_PRICE) {
     price += deliveryPrice;
   }
 

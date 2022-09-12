@@ -6,6 +6,7 @@ import { Navigate } from 'react-router-dom';
 import FreeShippingBar from '../../components/partials/FreeShippingBar';
 import MultipleProductCards from '../../components/product/MultipleProductCards';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
+import { getProductRoute } from '../../hooks/apiRoutes';
 import useMultipleFetch from '../../hooks/useMultipleFetch';
 
 interface Props {
@@ -19,7 +20,7 @@ const RenderFavouritesPage: FC<Props> = ({ likedProductsLocalStorage }) => {
   const fetchArr = parsedLiked.map((likedID: string) => {
     return {
       queryKey: `product-${likedID}`,
-      link: `/api/products/${likedID}`
+      link: getProductRoute(likedID)
     };
   });
 

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Navigate } from 'react-router-dom';
 
+import { getCategoriesRoute } from '../../hooks/apiRoutes';
 import useFetch from '../../hooks/useFetch';
 import RenderFooter from './RenderFooter';
 
@@ -10,7 +11,7 @@ const Footer = () => {
     isLoading,
     error,
     data: categories
-  } = useFetch('categories', '/api/categories/', true);
+  } = useFetch('categories', getCategoriesRoute(), true);
 
   return (
 		<>

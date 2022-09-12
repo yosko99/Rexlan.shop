@@ -3,6 +3,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 import Loading from '../../components/loading/Loading';
+import { getProductsRoute, getProductsSortedByRoute } from '../../hooks/apiRoutes';
 import useMultipleFetch from '../../hooks/useMultipleFetch';
 import { Product } from '../../types/productTypes';
 import RenderMainPage from './RenderMainPage';
@@ -15,11 +16,11 @@ const MainPage = () => {
   } = useMultipleFetch([
     {
       queryKey: 'featuredProducts',
-      link: '/api/products?qty=4'
+      link: getProductsRoute(4)
     },
     {
       queryKey: 'bestSellers',
-      link: '/api/products/sort/rating?qty=3'
+      link: getProductsSortedByRoute('price', 3)
     }
   ]);
 

@@ -2,6 +2,7 @@ import React from 'react';
 
 import EmptyCart from '../../components/cart/EmptyCart';
 import Loading from '../../components/loading/Loading';
+import { getCartRoute } from '../../hooks/apiRoutes';
 import useFetch from '../../hooks/useFetch';
 import RenderCartPage from './RenderCartPage';
 
@@ -10,7 +11,11 @@ const CartPage = () => {
   const cartID = localStorageCart === null ? 'null' : localStorageCart;
 
   // Fetch cart items with provided cart if there is any
-  const { data, isLoading } = useFetch(['cart', cartID], `/api/carts/${cartID}`, true);
+  const { data, isLoading } = useFetch(
+    ['cart', cartID],
+    getCartRoute(cartID),
+    true
+  );
 
   if (isLoading) {
     return <Loading />;

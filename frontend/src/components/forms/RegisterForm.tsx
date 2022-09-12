@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 
+import { getUsersRoute } from '../../hooks/apiRoutes';
 import AddressInput from '../inputs/AddressInput';
 import EmailInput from '../inputs/EmailInput';
 import NameInput from '../inputs/NameInput';
@@ -15,7 +16,7 @@ const RegisterForm: FC<Props> = ({ className }) => {
   return (
     <div className={className}>
       <FormTemplate
-        mutateURL={'/api/users/'}
+        mutateURL={getUsersRoute()}
         sendTokenBack
         inputs={
           <>

@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 
+import { getCategoriesRoute } from '../../hooks/apiRoutes';
 import useFetch from '../../hooks/useFetch';
 import RenderHeader from './RenderHeader';
 
@@ -8,7 +9,7 @@ const Header: FC = () => {
     isLoading,
     error,
     data: categories
-  } = useFetch('categories', '/api/categories/', true);
+  } = useFetch('categories', getCategoriesRoute(), true);
 
   if (error !== undefined) {
     window.location.href = '/404';

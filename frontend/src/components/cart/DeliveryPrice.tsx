@@ -10,13 +10,13 @@ interface Props {
 
 const DeliveryPrice: FC<Props> = ({ totalPriceFromProducts, deliveryPrice = 0, className }) => {
   const { lang } = useContext(CurrentLanguageContext);
-  const freeDeliverAtPrice = 99;
+  const FREE_DELIVERY_PRICE = 99;
 
   return (
 		<div className={`d-flex justify-content-between ${className}`}>
 			<p>{lang.global.delivery}</p>
 			<div className='d-flex'>
-				{totalPriceFromProducts > freeDeliverAtPrice
+				{totalPriceFromProducts > FREE_DELIVERY_PRICE
 				  ? <p>
 						<del className='text-muted me-2'>${deliveryPrice}</del>
 						{lang.global.free}

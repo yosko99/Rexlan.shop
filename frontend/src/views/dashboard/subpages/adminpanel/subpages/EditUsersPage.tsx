@@ -8,6 +8,7 @@ import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon
 import Loading from '../../../../../components/loading/Loading';
 import { TokenContext } from '../../../../../context/TokenContext';
 import { UserStructure, userStructure, passwordInputForUserStructure } from '../../../../../data/inputStructure/userStructure';
+import { getUserRoute, getUsersRoute } from '../../../../../hooks/apiRoutes';
 import useFetch from '../../../../../hooks/useFetch';
 
 const EditUsersPage = () => {
@@ -17,12 +18,10 @@ const EditUsersPage = () => {
   const { user } = queryClient.getQueryData(['profile', token!.token as string]) as any;
   const currentUser = user as UserStructure;
 
-  const apiRoute = '/api/users/';
-
   const {
     isLoading,
     data: users
-  } = useFetch('allUsers', apiRoute, true);
+  } = useFetch('allUsers', getUsersRoute(), true);
 
   return (
         <div>
@@ -32,7 +31,7 @@ const EditUsersPage = () => {
             {isLoading
               ? <Loading />
               : <EditDataTable
-                    createDataRoute={apiRoute}
+                    createDataRoute={getUsersRoute()}
                     inputStructure={[passwordInputForUserStructure, ...userStructure.inputs]}
                     tableHeaderCells={
                         <>
@@ -49,14 +48,13 @@ const EditUsersPage = () => {
                                     <td>
                                         <EditDataIcon
                                             queryKey={`user-${user._id}`}
-                                            dataID={user._id}
-                                            apiRoute={apiRoute + '/user/'}
+                                            apiRoute={getUserRoute(user._id)}
                                             inputStructure={userStructure.inputs}
                                         />
                                     </td>
                                     <td>
                                         <DeleteDataIcon
-                                            apiRoute={apiRoute + '/user/' + user._id}
+                                            apiRoute={getUserRoute(user._id)}
                                             queryKey={'user-' + user._id}
                                         />
                                     </td>

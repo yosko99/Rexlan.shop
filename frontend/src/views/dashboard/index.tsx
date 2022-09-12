@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 
 import Loading from '../../components/loading/Loading';
 import { TokenContext } from '../../context/TokenContext';
+import { getCurrentUserRoute } from '../../hooks/apiRoutes';
 import useAuth from '../../hooks/useAuth';
 import useFetch from '../../hooks/useFetch';
 import RenderDashboard from './RenderDashboard';
@@ -16,7 +17,7 @@ const Dashboard = () => {
 
   const { data, isLoading, error } = useFetch(
     ['profile', token!.token as string],
-    '/api/users/current', true,
+    getCurrentUserRoute(), true,
     {
       headers: { authorization: 'Bearer ' + token!.token }
     });

@@ -8,16 +8,15 @@ import DeleteDataIcon from '../../../../../components/icons/dashboard/DeleteData
 import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon';
 import Loading from '../../../../../components/loading/Loading';
 import { productStructure } from '../../../../../data/inputStructure/productStructure';
+import { getProductRoute, getProductsRoute } from '../../../../../hooks/apiRoutes';
 import useFetch from '../../../../../hooks/useFetch';
 import { Product } from '../../../../../types/productTypes';
 
 const EditProductsPage = () => {
-  const apiRoute = '/api/products/';
-
   const {
     isLoading,
     data: products
-  } = useFetch('allProducts', apiRoute, true);
+  } = useFetch('allProducts', getProductsRoute(), true);
 
   return (
 		<div>
@@ -27,7 +26,7 @@ const EditProductsPage = () => {
 			{isLoading
 			  ? <Loading />
 			  : <EditDataTable
-					createDataRoute={apiRoute}
+					createDataRoute={getProductsRoute()}
 					inputStructure={productStructure.inputs}
 					tableHeaderCells={
 						<>
@@ -47,14 +46,13 @@ const EditProductsPage = () => {
 									<td>
 										<EditDataIcon
 											queryKey={`product-${product.id}`}
-											dataID={product.id}
-											apiRoute={apiRoute}
+											apiRoute={getProductRoute(product.id)}
 											inputStructure={productStructure.inputs}
 										/>
 									</td>
 									<td>
 										<DeleteDataIcon
-											apiRoute={apiRoute + product.id}
+											apiRoute={getProductRoute(product.id)}
 											queryKey={'product-' + product.id}
 										/>
 									</td>

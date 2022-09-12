@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import imgNotFoundImg from '../../assets/global/image-not-found.png';
 import Loading from '../../components/loading/Loading';
 import MultipleProductCards from '../../components/product/MultipleProductCards';
+import { getCategoriesRoute } from '../../hooks/apiRoutes';
 import useFetch from '../../hooks/useFetch';
 import { Product } from '../../types/productTypes';
 
@@ -25,7 +26,7 @@ const RenderCategoryProducts: FC<Props> = ({ isLoading, categoryProducts }) => {
   const {
     isLoading: isLoadingCategories,
     data: categories
-  } = useFetch('categories', '/api/categories/', true);
+  } = useFetch('categories', getCategoriesRoute(), true);
 
   return (
 		<Container>

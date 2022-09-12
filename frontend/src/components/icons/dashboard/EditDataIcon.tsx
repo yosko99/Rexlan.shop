@@ -9,19 +9,18 @@ import CustomModal from '../../modal/CustomModal';
 import FormTemplate from '../../templates/FormTemplate';
 
 interface Props {
-  dataID: string;
   apiRoute: string;
   queryKey: string;
   inputStructure: any;
 }
 
-const EditDataIcon: FC<Props> = ({ dataID, apiRoute, queryKey, inputStructure }) => {
+const EditDataIcon: FC<Props> = ({ apiRoute, queryKey, inputStructure }) => {
   const {
     isLoading,
     data: fetchedData,
     error,
     refetch
-  } = useFetch(queryKey, apiRoute + dataID, false);
+  } = useFetch(queryKey, apiRoute, false);
 
   if (error !== undefined) {
     return <Navigate to="/404" state={{ error: error.message }} />;
@@ -47,18 +46,18 @@ const EditDataIcon: FC<Props> = ({ dataID, apiRoute, queryKey, inputStructure })
                       {
                         inputStructure.map((input: any, index: number) => (
                           <CustomInput
-                              key={index}
-                              inputLabel={input.title}
-                              inputName={input.name}
-                              defaultValue={fetchedData[input.name]}
-                              isNumber={input.isNumber || false}
-                              pattern={input.pattern}
+                            key={index}
+                            inputLabel={input.title}
+                            inputName={input.name}
+                            defaultValue={fetchedData[input.name]}
+                            isNumber={input.isNumber || false}
+                            pattern={input.pattern}
                           />
                         ))
                       }
                     </>
                   }
-                  mutateURL={apiRoute + dataID}
+                  mutateURL={apiRoute}
                   updateRequest
                   redirectOnSuccess={false}
                   onSuccessFn={() => refetch()}

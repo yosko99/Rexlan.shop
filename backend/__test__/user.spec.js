@@ -98,7 +98,7 @@ describe('Testing user API', () => {
       .then((response) => {
         expect(response.body).toEqual(
           expect.objectContaining({
-            msg: 'Account created.'
+            msg: 'The user was created'
           }));
       });
   });
@@ -139,7 +139,7 @@ describe('Testing user API', () => {
 
         expect(response.body).toEqual(
           expect.objectContaining({
-            msg: 'Account created.'
+            msg: 'The user was created'
           }));
 
         await Cart.deleteOne({ _id: createdUser.cartID });

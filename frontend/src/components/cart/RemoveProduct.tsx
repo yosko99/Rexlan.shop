@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useQueryClient } from 'react-query';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
+import { getCartsProductRoute } from '../../hooks/apiRoutes';
 
 interface Props {
   productID: string;
@@ -11,17 +12,18 @@ interface Props {
 
 const RemoveProduct: FC<Props> = ({ productID }) => {
   const { lang } = useContext(CurrentLanguageContext);
+
   const queryClient = useQueryClient();
 
   const handleRemove = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const productID = e.currentTarget.id;
 
-    axios.delete('/api/carts/product', {
+    axios.delete(getCartsProductRoute(), {
       data: {
         cartID: localStorage.getItem('cart'),
         productID
       }
-    }).then(() => {
+    }).then((_response) => {
       queryClient.refetchQueries('cart');
     });
   };

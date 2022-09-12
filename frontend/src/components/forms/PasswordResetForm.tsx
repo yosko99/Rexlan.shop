@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 
+import { getUserPasswordResetRoute } from '../../hooks/apiRoutes';
 import EmailInput from '../inputs/EmailInput';
 import FormTemplate from '../templates/FormTemplate';
 
@@ -11,7 +12,7 @@ const PasswordResetForm: FC<Props> = ({ className }) => {
   return (
 		<div className={className}>
 			<FormTemplate
-				mutateURL={'/api/users/password-reset'}
+				mutateURL={getUserPasswordResetRoute()}
 				redirectOnSuccess={false}
 				inputs={
 					<>

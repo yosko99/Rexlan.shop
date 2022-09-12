@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import { TokenContext } from '../../context/TokenContext';
-import getFormInputsAsObject from '../../functions/getFormInputsAsObject';
+import convertFormInputToObject from '../../functions/convertFormInputToObject';
 import Loading from '../loading/Loading';
 
 interface Props {
@@ -113,7 +113,7 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
 
   // Depending on passed inputs assign data
   useEffect(() => {
-    setData(getFormInputsAsObject(formRef));
+    setData(convertFormInputToObject(formRef));
   }, []);
 
   return (

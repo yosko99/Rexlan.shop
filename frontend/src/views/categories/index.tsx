@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 
 import Loading from '../../components/loading/Loading';
+import { getProductsByCategoryRoute } from '../../hooks/apiRoutes';
 import useFetch from '../../hooks/useFetch';
 import RenderCategoryProducts from './RenderCategoryProducts';
 
@@ -13,22 +14,22 @@ const CategoryProductsPage: FC = () => {
     isLoading,
     error,
     data: categoryProducts
-  } = useFetch(category!, `/api/products/category/${category}`, true);
+  } = useFetch(category!, getProductsByCategoryRoute(category!), true);
 
   if (isLoading) {
-    return <Loading height='90vh'/>;
+    return <Loading height='90vh' />;
   }
 
   return (
-		<>
-		{error !== undefined
-		  ? <Navigate to="/404" state={{ error: error.message }} />
-		  : <RenderCategoryProducts
-					categoryProducts={categoryProducts}
-					isLoading={isLoading}
-			/>
-		}
-		</>
+    <>
+      {error !== undefined
+        ? <Navigate to="/404" state={{ error: error.message }} />
+        : <RenderCategoryProducts
+          categoryProducts={categoryProducts}
+          isLoading={isLoading}
+        />
+      }
+    </>
   );
 };
 

@@ -15,6 +15,7 @@ const lang = {
       noDataWithProvidedID: 'Could not find data with provided ID',
       noDataWithProvidedCategory: 'Could not find data with provided category',
       dataDeleted: 'Data successfully deleted.',
+      dataUpdated: 'Data updated successfully',
       couldNotFindData: 'Could not find data'
     },
     controllers: {
@@ -23,7 +24,9 @@ const lang = {
         noItemsInCart: 'No items in cart'
       },
       category: {
-        nameAlreadyExists: 'Category with provided name already exists.'
+        nameAlreadyExists: 'Category with provided name already exists.',
+        categoryUpdated: 'The category was updated',
+        categoryCreated: 'The category was created'
       },
       openWeather: {
         coordinatesNotProvided: 'Coordinates not provided',
@@ -38,19 +41,25 @@ const lang = {
         loggedIn: 'You Have Successfully Logged in.',
         checkMailForPassword: 'You can check your email for a new password.',
         couldNotFindEmail: 'We could not find your email.',
-        userWithEmailDoesNotExist: 'User with this email does not exist.'
+        userWithEmailDoesNotExist: 'User with this email does not exist.',
+        userUpdated: 'The user was updated',
+        userCreated: 'The user was created'
+      },
+      product: {
+        productUpdated: 'The product was updated',
+        productCreated: 'The product was created'
       }
     }
   },
   bg: {
     global: {
       noProductID: 'Не е предоставен ID на продукта',
-      category: 'Категория',
+      category: 'Категорията',
       created: 'Създаден',
       removed: 'Премахнат',
       product: 'Продукт',
       deleted: 'Изтрит',
-      updated: 'Обновен',
+      updated: 'Обновена',
       noData: 'Няма данни',
       account: 'Акаунт',
       data: 'Данни',
@@ -58,6 +67,7 @@ const lang = {
       noDataWithProvidedID: 'Не можахме да намериме данни с предоставения ID',
       noDataWithProvidedCategory: 'Не можахме да намерим данни с предоставената категория',
       dataDeleted: 'Данните бяха успешно изтрити.',
+      dataUpdated: 'Данните бяха успешно обновени',
       couldNotFindData: 'Не можахме да намерим данни'
     },
     controllers: {
@@ -66,7 +76,9 @@ const lang = {
         noItemsInCart: 'Няма продукти в количката'
       },
       category: {
-        nameAlreadyExists: 'Категория с предоставеното име вече съществува.'
+        nameAlreadyExists: 'Категория с предоставеното име вече съществува.',
+        categoryUpdated: 'Категория е обновена',
+        categoryCreated: 'Категорията е създадена'
       },
       openWeather: {
         coordinatesNotProvided: 'Няма предоставени координати',
@@ -74,14 +86,20 @@ const lang = {
       },
       user: {
         userDeleted: 'Потребителят е успешно изтрит.',
-        passwordUpdated: 'Паролата е обновна успешно',
+        passwordUpdated: 'Паролата е обновена успешно',
         passwordMismatch: 'Паролата не съответства на регистрирания имейл.',
         userWithEmailAlreadyExists: 'Потребител с предоставения имейл вече съществува.',
         accountCreated: 'Вашият акаунт беше успешно създаден.',
         loggedIn: 'Вие успешно влязохте.',
         checkMailForPassword: 'Можете да проверите вашият имейл за нова парола.',
         couldNotFindEmail: 'Не можахме да намерим вашият имейл.',
-        userWithEmailDoesNotExist: 'Потребител с предоставения имейл не съществува.'
+        userWithEmailDoesNotExist: 'Потребител с предоставения имейл не съществува.',
+        userUpdated: 'Данните на потребителя са обновени',
+        userCreated: 'Потребителя е създаден'
+      },
+      product: {
+        productUpdated: 'Продуктът е обновен',
+        productCreated: 'Продуктът е създаден'
       }
     }
   }

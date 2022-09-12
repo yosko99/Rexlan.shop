@@ -9,8 +9,7 @@ import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import useAuth from '../../hooks/useAuth';
 
 const LoginPage = () => {
-  const { lang } = useContext(CurrentLanguageContext
-  );
+  const { lang } = useContext(CurrentLanguageContext);
   useAuth(true);
 
   return (

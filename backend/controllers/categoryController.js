@@ -33,7 +33,7 @@ exports.createCategory = async (req, res) => {
   });
 
   res.status(200).json({
-    msg: `${lang[req.currentLang].global.category} ${lang[req.currentLang].global.created.toLowerCase()}.`
+    msg: lang[req.currentLang].controllers.category.categoryCreated
   });
 };
 
@@ -49,7 +49,7 @@ exports.updateCategory = async (req, res) => {
   });
 
   res.status(200).json({
-    msg: `${lang[req.currentLang].global.category} ${lang[req.currentLang].global.updated.toLowerCase()}.`
+    msg: lang[req.currentLang].controllers.category.categoryUpdated
   });
 };
 

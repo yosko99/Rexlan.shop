@@ -4,6 +4,7 @@ import { Image, Form, ButtonGroup, Row, Col, Button } from 'react-bootstrap';
 import { Navigate } from 'react-router-dom';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
+import { getDeliveriesRoute } from '../../hooks/apiRoutes';
 import useFetch from '../../hooks/useFetch';
 import Loading from '../loading/Loading';
 
@@ -27,7 +28,7 @@ const DeliveryInput: FC<Props> = ({ setDeliveryPrice }) => {
     isLoading,
     data: deliveries,
     error
-  } = useFetch('deliveries', '/api/deliveries/', true);
+  } = useFetch('deliveries', getDeliveriesRoute(), true);
 
   if (isLoading) {
     return <Loading />;

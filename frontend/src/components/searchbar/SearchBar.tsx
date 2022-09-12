@@ -5,6 +5,7 @@ import { Navigate } from 'react-router-dom';
 
 import noResultsImg from '../../assets/searchbar/no-results.png';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
+import { getProductsPatternRoute } from '../../hooks/apiRoutes';
 import useFetch from '../../hooks/useFetch';
 import Loading from '../loading/Loading';
 import CustomOffCanvas from '../offcanvas/CustomOffCanvas';
@@ -23,7 +24,7 @@ const SearchBar: FC = () => {
     data
   } = useFetch(
     ['searchProducts', searchQuery],
-    `/api/products/regex/${(searchQuery === '') ? '.*' : searchQuery}`,
+    getProductsPatternRoute((searchQuery === '') ? '.*' : searchQuery),
     true
   );
 
@@ -43,36 +44,36 @@ const SearchBar: FC = () => {
   return (
     <>
       {error !== undefined
-		  ? <Navigate to="/404" state={{ error: error.message }} />
+        ? <Navigate to="/404" state={{ error: error.message }} />
         : <CustomOffCanvas
-            title={lang.searchBar.titleText}
-            body={
-              <>
-                <FormControl
-                  type="search"
-                  placeholder={lang.searchBar.inputfieldPlaceholder}
-                  className="me-2"
-                  defaultValue={searchTerm}
-                  aria-label="Search"
-                  onChange={(e) => handleChange(e)}
-                />
-                {isLoading
-                  ? <Loading />
-                  : data.products.length === 0
-                    ? <div className='d-flex flex-column justify-content-center'>
-                      <Image className='mt-2 text-center' src={noResultsImg} fluid/>
-                      <p className='text-center fs-4'>{lang.searchBar.productNotFound} '<i>{searchQuery}</i>'</p>
-                    </div>
-                    : <MultipleProductCards
-                      isLoading={isLoading}
-                      products={data.products}
-                    />
-                }
-              </>
-            }
-            buttonVariant='outline-success'
-            buttonText={lang.searchBar.buttonText}
-          />
+          title={lang.searchBar.titleText}
+          body={
+            <>
+              <FormControl
+                type="search"
+                placeholder={lang.searchBar.inputfieldPlaceholder}
+                className="me-2"
+                defaultValue={searchTerm}
+                aria-label="Search"
+                onChange={(e) => handleChange(e)}
+              />
+              {isLoading
+                ? <Loading />
+                : data.products.length === 0
+                  ? <div className='d-flex flex-column justify-content-center'>
+                    <Image className='mt-2 text-center' src={noResultsImg} fluid />
+                    <p className='text-center fs-4'>{lang.searchBar.productNotFound} '<i>{searchQuery}</i>'</p>
+                  </div>
+                  : <MultipleProductCards
+                    isLoading={isLoading}
+                    products={data.products}
+                  />
+              }
+            </>
+          }
+          buttonVariant='outline-success'
+          buttonText={lang.searchBar.buttonText}
+        />
       }
     </>
   );

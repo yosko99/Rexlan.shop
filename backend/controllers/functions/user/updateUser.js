@@ -1,12 +1,14 @@
 const User = require('../../../models/userModel');
 
+const lang = require('../../../resources/lang');
+
 const updateUser = async (req, res) => {
   const { email, name, address, phone, zipcode, isAdmin } = req.body;
 
   const checkExistingEmail = await User.findOne({ email });
 
   if (checkExistingEmail !== null) {
-    return res.status(403).send('User with this email is already registered.');
+    return res.status(403).send(lang[req.currentLang].controllers.user.userWithEmailAlreadyExists);
   }
 
   let findUserQuery = {};
@@ -31,7 +33,7 @@ const updateUser = async (req, res) => {
       });
 
     return res.status(200).json({
-      msg: 'Data updated successfully'
+      msg: lang[req.currentLang].global.dataUpdated
     });
   } catch (error) {
     return res.status(404).send(error);

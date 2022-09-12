@@ -61,7 +61,7 @@ exports.updateProduct = async (req, res) => {
   await createNewCategory(category);
 
   res.status(200).json({
-    msg: `${lang[req.currentLang].global.data} ${lang[req.currentLang].global.updated.toLowerCase()}`
+    msg: lang[req.currentLang].controllers.product.productUpdated
   });
 };
 
@@ -82,7 +82,7 @@ exports.createProduct = async (req, res) => {
   await createNewCategory(category);
 
   res.status(200).json({
-    msg: `${lang[req.currentLang].global.product} ${lang[req.currentLang].global.created.toLowerCase()}.`
+    msg: lang[req.currentLang].controllers.product.productCreated
   });
 };
 
