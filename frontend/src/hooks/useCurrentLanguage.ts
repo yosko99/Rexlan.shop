@@ -21,6 +21,7 @@ const useCurrentLanguage = () => {
   const [currentLanguage, setCurrentLanguage] = useState(getCurrentLanguage());
 
   const saveCurrentLanguage = (language: string) => {
+    location.reload();
     localStorage.setItem('language', language);
     setCurrentLanguage(getCurrentLanguage());
   };

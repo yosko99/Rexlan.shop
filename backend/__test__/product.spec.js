@@ -12,10 +12,12 @@ describe('Testing product API', () => {
     description: expect.any(String),
     category: expect.any(String),
     image: expect.any(String),
+    categoryURL: expect.any(String),
     rating: expect.objectContaining({
       rate: expect.any(Number),
       count: expect.any(Number)
-    })
+    }),
+    translations: expect.any(Array)
   };
 
   afterAll(async () => {

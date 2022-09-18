@@ -24,7 +24,6 @@ const ProductImage = styled.img`
 
 const RenderPDP: FC<Props> = ({ product }) => {
   const { lang } = useContext(CurrentLanguageContext);
-  const { category } = useParams();
 
   return (
 		<>
@@ -36,7 +35,7 @@ const RenderPDP: FC<Props> = ({ product }) => {
 					</Col>
 					<Col lg={5} className='d-flex align-items-center mt-4'>
 						<div className='text-left'>
-							<LinkContainer to={`/category/${category}`}>
+							<LinkContainer to={`/category/${product.categoryURL}`}>
 								<span className='bg-black text-white p-2' role='button'>
 									{product.category.toUpperCase()}
 								</span>

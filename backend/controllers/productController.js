@@ -3,6 +3,8 @@ const deleteEmptyCategory = require('./functions/category/deleteEmptyCategory');
 const createNewCategory = require('./functions/category/createNewCategory');
 const getMaxProductID = require('./functions/product/getMaxProductID');
 
+const getProductsTranslation = require('./functions/product/getProductsTranslation');
+const getProductTranslation = require('./functions/product/getProductTranslation');
 const getQueryQty = require('./functions/utils/getQueryQty');
 
 const Product = require('../models/productModel');
@@ -12,17 +14,27 @@ const lang = require('../resources/lang');
 exports.getProducts = async (req, res) => {
   const productQuantity = getQueryQty(req.query.qty);
 
-  const products = await Product
+  let products = await Product
     .find({})
     .limit(productQuantity);
+
+  products = getProductsTranslation(req, products);
 
   res.status(200).json(products);
 };
 
 exports.getProduct = async (req, res) => {
-  const product = await Product.findOne({
+  let product = await Product.findOne({
     id: req.params.id
   }).select('-__v -_id');
+
+  try {
+    product.url = product.category;
+  } catch (error) {
+    console.log(error);
+  }
+
+  product = getProductTranslation(req, product);
 
   if (product === null) {
     return res.status(404).send(lang[req.currentLang].global.noDataWithProvidedID);
@@ -55,6 +67,7 @@ exports.updateProduct = async (req, res) => {
     price,
     description,
     category,
+    categoryURL: category,
     image
   });
 
@@ -76,6 +89,7 @@ exports.createProduct = async (req, res) => {
     description,
     category,
     image,
+    categoryURL: category,
     id: maxID
   });
 
@@ -90,10 +104,12 @@ exports.getProductsByCategory = async (req, res) => {
   const category = req.params.category;
   const productQuantity = getQueryQty(req.query.qty);
 
-  const products = await Product.find({})
+  let products = await Product.find({})
     .where('category')
     .equals(category)
     .limit(productQuantity);
+
+  products = getProductsTranslation(req, products);
 
   if (products === null || products.length === 0) {
     return res.status(206).json({
@@ -109,9 +125,11 @@ exports.getProductsSortedBy = async (req, res) => {
   const productQuantity = getQueryQty(req.query.qty);
   const attribute = req.params.attribute;
 
-  const products = await Product.find({})
+  let products = await Product.find({})
     .sort({ [attribute]: -1 })
     .limit(productQuantity);
+
+  products = getProductsTranslation(req, products);
 
   if (products === null || products.length === 0) {
     return res.status(206).json({
@@ -126,7 +144,7 @@ exports.getProductsSortedBy = async (req, res) => {
 exports.getProductsByQueryString = async (req, res) => {
   const { pattern } = req.params;
 
-  const products = await Product
+  let products = await Product
     .find({
       title: {
         $regex: pattern,
@@ -134,6 +152,8 @@ exports.getProductsByQueryString = async (req, res) => {
       }
     })
     .limit(4);
+
+  products = getProductsTranslation(req, products);
 
   res.status(200).json({
     products
