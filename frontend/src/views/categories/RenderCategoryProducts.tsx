@@ -8,16 +8,12 @@ import Loading from '../../components/loading/Loading';
 import MultipleProductCards from '../../components/product/MultipleProductCards';
 import { getCategoriesRoute } from '../../hooks/apiRoutes';
 import useFetch from '../../hooks/useFetch';
+import Category from '../../types/categoryType';
 import { Product } from '../../types/productTypes';
 
 interface Props {
 	isLoading: boolean;
 	categoryProducts: Product[];
-}
-
-interface CategoryType {
-	name: string;
-	bannerImage: string;
 }
 
 const RenderCategoryProducts: FC<Props> = ({ isLoading, categoryProducts }) => {
@@ -39,7 +35,7 @@ const RenderCategoryProducts: FC<Props> = ({ isLoading, categoryProducts }) => {
 							className='shadow mt-3'
 							fluid
 							src={
-								categories.find((category: CategoryType) => category.name === categoryURL).bannerImage ||
+								categories.find((category: Category) => category.categoryURL === categoryURL).bannerImage ||
 								imgNotFoundImg}
 						/>
 				}

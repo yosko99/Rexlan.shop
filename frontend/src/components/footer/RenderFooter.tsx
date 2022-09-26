@@ -6,14 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
+import Category from '../../types/categoryType';
 import Loading from '../loading/Loading';
 
-interface CategoryData {
-	name: string;
-}
-
 interface Props {
-	categories: CategoryData[];
+	categories: Category[];
 	isLoading: boolean;
 }
 
@@ -58,12 +55,12 @@ const RenderFooter: FC<Props> = ({ isLoading, categories }) => {
 							</h6>
 							{isLoading
 							  ? <Loading />
-							  : categories.map((category: CategoryData) => (
+							  : categories.map((category: Category, index: number) => (
 									<LinkContainer
-										key={category.name}
+										key={index}
 										className='text-uppercase'
 										role="button"
-										to={`/category/${category.name}`}
+										to={`/category/${category.categoryURL}`}
 									>
 										<p>
 											{category.name}

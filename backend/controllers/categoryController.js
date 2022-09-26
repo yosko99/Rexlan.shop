@@ -1,3 +1,6 @@
+const getCategoriesTranslation = require('./functions/category/getCategoriesTranslation');
+const getCategoryTranslation = require('./functions/category/getCategoryTranslation');
+
 const deleteProductFromAllCarts = require('./functions/cart/deleteProductFromAllCarts');
 const updateProductCategory = require('./functions/category/updateProductCategory');
 
@@ -7,13 +10,17 @@ const Product = require('../models/productModel');
 const lang = require('../resources/lang');
 
 exports.getCategories = async (req, res) => {
-  const categories = await Category.find({});
+  let categories = await Category.find({});
+
+  categories = await getCategoriesTranslation(req.currentLang, categories);
 
   res.status(200).json(categories);
 };
 
 exports.getCategory = async (req, res) => {
-  res.status(200).json(req.category);
+  const category = await getCategoryTranslation(req.currentLang, req.category.name);
+
+  res.status(200).json(category);
 };
 
 exports.createCategory = async (req, res) => {

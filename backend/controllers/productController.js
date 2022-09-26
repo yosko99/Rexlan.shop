@@ -18,7 +18,7 @@ exports.getProducts = async (req, res) => {
     .find({})
     .limit(productQuantity);
 
-  products = getProductsTranslation(req, products);
+  products = await getProductsTranslation(req.currentLang, products);
 
   res.status(200).json(products);
 };
@@ -28,13 +28,7 @@ exports.getProduct = async (req, res) => {
     id: req.params.id
   }).select('-__v -_id');
 
-  try {
-    product.url = product.category;
-  } catch (error) {
-    console.log(error);
-  }
-
-  product = getProductTranslation(req, product);
+  product = await getProductTranslation(req.currentLang, product);
 
   if (product === null) {
     return res.status(404).send(lang[req.currentLang].global.noDataWithProvidedID);
@@ -71,7 +65,8 @@ exports.updateProduct = async (req, res) => {
     image
   });
 
-  await createNewCategory(category);
+  const newCategoryName = category === undefined ? req.product.category : category;
+  await createNewCategory(newCategoryName);
 
   res.status(200).json({
     msg: lang[req.currentLang].controllers.product.productUpdated
@@ -109,7 +104,7 @@ exports.getProductsByCategory = async (req, res) => {
     .equals(category)
     .limit(productQuantity);
 
-  products = getProductsTranslation(req, products);
+  products = await getProductsTranslation(req.currentLang, products);
 
   if (products === null || products.length === 0) {
     return res.status(206).json({
@@ -129,7 +124,7 @@ exports.getProductsSortedBy = async (req, res) => {
     .sort({ [attribute]: -1 })
     .limit(productQuantity);
 
-  products = getProductsTranslation(req, products);
+  products = await getProductsTranslation(req.currentLang, products);
 
   if (products === null || products.length === 0) {
     return res.status(206).json({
@@ -153,7 +148,7 @@ exports.getProductsByQueryString = async (req, res) => {
     })
     .limit(4);
 
-  products = getProductsTranslation(req, products);
+  products = await getProductsTranslation(req.currentLang, products);
 
   res.status(200).json({
     products

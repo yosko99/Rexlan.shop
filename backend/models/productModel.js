@@ -10,10 +10,6 @@ const productTranslationSchema = Schema({
     type: String,
     required: true
   },
-  category: {
-    type: String,
-    required: true
-  },
   lang: {
     type: String,
     required: true
@@ -31,8 +27,7 @@ const productSchema = Schema({
     required: true
   },
   categoryURL: {
-    type: String,
-    required: true
+    type: String
   },
   price: {
     type: Number,

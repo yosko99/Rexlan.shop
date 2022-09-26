@@ -1,14 +1,19 @@
-const getProductTranslation = (req, product) => {
+const getCategoryTranslation = require('../category/getCategoryTranslation');
+
+const getProductTranslation = async (currentLang, product) => {
   if (product === null) {
     return null;
   }
 
-  const [translation] = product.translations.filter((translation) => translation.lang === req.currentLang);
+  const translatedCategory = await getCategoryTranslation(currentLang, product.category);
+  const [translation] = product.translations.filter((translation) => translation.lang === currentLang);
+
+  product.categoryURL = translatedCategory.categoryURL;
 
   if (translation !== undefined) {
     product.title = translation.title;
     product.description = translation.description;
-    product.category = translation.category;
+    product.category = translatedCategory.name;
   }
 
   return product;

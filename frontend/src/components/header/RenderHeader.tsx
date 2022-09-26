@@ -6,6 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 import logo from '../../assets/header/logo192.png';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
+import Category from '../../types/categoryType';
 import CartIcon from '../icons/header/CartIcon';
 import FavouriteIcon from '../icons/header/FavouriteIcon';
 import LoginIcon from '../icons/header/LoginIcon';
@@ -14,12 +15,8 @@ import Loading from '../loading/Loading';
 import SearchBar from '../searchbar/SearchBar';
 import LanguageSwticher from './LanguageSwticher';
 
-interface CategoryData {
-	name: string;
-}
-
 interface Props {
-	categories: CategoryData[];
+	categories: Category[];
 	isLoading: boolean;
 }
 
@@ -59,8 +56,8 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
 							{isLoading
 							  ? <Loading />
 							  : categories.length !== 0
-							    ? categories.map((category: CategoryData, index: number) => (
-										<LinkContainer key={index} to={`/category/${category.name}`}>
+							    ? categories.map((category: Category, index: number) => (
+										<LinkContainer key={index} to={`/category/${category.categoryURL}`}>
 											<NavDropdown.Item>
 												{category.name}
 											</NavDropdown.Item>
