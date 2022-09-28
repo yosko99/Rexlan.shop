@@ -141,10 +141,23 @@ exports.getProductsByQueryString = async (req, res) => {
 
   let products = await Product
     .find({
-      title: {
-        $regex: pattern,
-        $options: 'si'
-      }
+      $or: [
+        {
+          title: {
+            $regex: pattern,
+            $options: 'si'
+          }
+        }, {
+          translations: {
+            $elemMatch: {
+              title: {
+                $regex: pattern,
+                $options: 'si'
+              }
+            }
+          }
+        }
+      ]
     })
     .limit(4);
 
