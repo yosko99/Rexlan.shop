@@ -1,5 +1,6 @@
 const getCategoriesTranslation = require('./functions/category/getCategoriesTranslation');
 const getCategoryTranslation = require('./functions/category/getCategoryTranslation');
+const flushRedis = require('./functions/utils/flushRedis');
 
 const deleteProductFromAllCarts = require('./functions/cart/deleteProductFromAllCarts');
 const updateProductCategory = require('./functions/category/updateProductCategory');
@@ -39,6 +40,8 @@ exports.createCategory = async (req, res) => {
     bannerImage
   });
 
+  await flushRedis();
+
   res.status(200).json({
     msg: lang[req.currentLang].controllers.category.categoryCreated
   });
@@ -54,6 +57,8 @@ exports.updateCategory = async (req, res) => {
     name: newCategoryName,
     bannerImage
   });
+
+  await flushRedis();
 
   res.status(200).json({
     msg: lang[req.currentLang].controllers.category.categoryUpdated
@@ -73,6 +78,7 @@ exports.deleteCategory = async (req, res) => {
 
   await Product.deleteMany({ category: req.category.name });
   await Category.deleteOne({ _id });
+  await flushRedis();
 
   res.status(200).json({
     msg: `${lang[req.currentLang].global.category} ${lang[req.currentLang].global.deleted.toLowerCase()}.`
