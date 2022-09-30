@@ -11,7 +11,7 @@ import DeleteDataIcon from '../../../../../components/icons/dashboard/DeleteData
 import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon';
 import Loading from '../../../../../components/loading/Loading';
 import { categoryStructure, CategoryStructure } from '../../../../../data/inputStructure/categoryStructure';
-import { getCategoriesRoute, getCategoryRoute } from '../../../../../hooks/apiRoutes';
+import { getCategoriesRoute, getCategoryRoute } from '../../../../../services/apiRoutes';
 import useFetch from '../../../../../hooks/useFetch';
 
 const EditCategoriesPage = () => {

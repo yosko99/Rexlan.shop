@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Form } from 'react-bootstrap';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
-import { getOpenWeatherCityRoute } from '../../hooks/apiRoutes';
+import { getOpenWeatherCityRoute } from '../../services/apiRoutes';
 
 const RUSE_LAT = 43.8;
 const RUSE_LON = 25.9;

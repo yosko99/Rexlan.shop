@@ -3,7 +3,7 @@ import React from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 
 import Loading from '../../components/loading/Loading';
-import { getProductRoute } from '../../hooks/apiRoutes';
+import { getProductRoute } from '../../services/apiRoutes';
 import useFetch from '../../hooks/useFetch';
 import RenderPDP from './RenderPDP';
 

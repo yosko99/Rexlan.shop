@@ -8,7 +8,7 @@ import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon
 import Loading from '../../../../../components/loading/Loading';
 import { TokenContext } from '../../../../../context/TokenContext';
 import { UserStructure, userStructure, passwordInputForUserStructure } from '../../../../../data/inputStructure/userStructure';
-import { getUserRoute, getUsersRoute } from '../../../../../hooks/apiRoutes';
+import { getUserRoute, getUsersRoute } from '../../../../../services/apiRoutes';
 import useFetch from '../../../../../hooks/useFetch';
 
 const EditUsersPage = () => {

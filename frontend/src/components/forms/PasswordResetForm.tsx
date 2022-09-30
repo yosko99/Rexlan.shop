@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { getUserPasswordResetRoute } from '../../hooks/apiRoutes';
+import { getUserPasswordResetRoute } from '../../services/apiRoutes';
 import EmailInput from '../inputs/EmailInput';
 import FormTemplate from '../templates/FormTemplate';
 

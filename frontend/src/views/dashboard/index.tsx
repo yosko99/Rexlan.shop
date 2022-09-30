@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 
 import Loading from '../../components/loading/Loading';
 import { TokenContext } from '../../context/TokenContext';
-import { getCurrentUserRoute } from '../../hooks/apiRoutes';
+import { getCurrentUserRoute } from '../../services/apiRoutes';
 import useAuth from '../../hooks/useAuth';
 import useFetch from '../../hooks/useFetch';
 import RenderDashboard from './RenderDashboard';

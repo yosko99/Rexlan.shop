@@ -2,7 +2,7 @@ import React from 'react';
 
 import EmptyCart from '../../components/cart/EmptyCart';
 import Loading from '../../components/loading/Loading';
-import { getCartRoute } from '../../hooks/apiRoutes';
+import { getCartRoute } from '../../services/apiRoutes';
 import useFetch from '../../hooks/useFetch';
 import RenderCartPage from './RenderCartPage';
 

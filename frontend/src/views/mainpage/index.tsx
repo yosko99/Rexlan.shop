@@ -3,7 +3,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 import Loading from '../../components/loading/Loading';
-import { getProductsRoute, getProductsSortedByRoute } from '../../hooks/apiRoutes';
+import { getProductsRoute, getProductsSortedByRoute } from '../../services/apiRoutes';
 import useMultipleFetch from '../../hooks/useMultipleFetch';
 import { Product } from '../../types/productTypes';
 import RenderMainPage from './RenderMainPage';

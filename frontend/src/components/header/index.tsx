@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { getCategoriesRoute } from '../../hooks/apiRoutes';
+import { getCategoriesRoute } from '../../services/apiRoutes';
 import useFetch from '../../hooks/useFetch';
 import RenderHeader from './RenderHeader';
 

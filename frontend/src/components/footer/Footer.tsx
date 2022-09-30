@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Navigate } from 'react-router-dom';
 
-import { getCategoriesRoute } from '../../hooks/apiRoutes';
+import { getCategoriesRoute } from '../../services/apiRoutes';
 import useFetch from '../../hooks/useFetch';
 import RenderFooter from './RenderFooter';
 

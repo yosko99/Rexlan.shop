@@ -1,7 +1,7 @@
 import React, { FC, useContext } from 'react';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
-import { getUserPasswordUpdateRoute } from '../../hooks/apiRoutes';
+import { getUserPasswordUpdateRoute } from '../../services/apiRoutes';
 import PasswordInput from '../inputs/PasswordInput';
 import FormTemplate from '../templates/FormTemplate';
 

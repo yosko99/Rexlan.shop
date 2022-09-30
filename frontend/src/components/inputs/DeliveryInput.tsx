@@ -4,7 +4,7 @@ import { Image, Form, ButtonGroup, Row, Col, Button } from 'react-bootstrap';
 import { Navigate } from 'react-router-dom';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
-import { getDeliveriesRoute } from '../../hooks/apiRoutes';
+import { getDeliveriesRoute } from '../../services/apiRoutes';
 import useFetch from '../../hooks/useFetch';
 import Loading from '../loading/Loading';
 

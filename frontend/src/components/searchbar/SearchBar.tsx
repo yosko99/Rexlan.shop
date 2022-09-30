@@ -5,8 +5,8 @@ import { Navigate } from 'react-router-dom';
 
 import noResultsImg from '../../assets/searchbar/no-results.png';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
-import { getProductsPatternRoute } from '../../hooks/apiRoutes';
 import useFetch from '../../hooks/useFetch';
+import { getProductsPatternRoute } from '../../services/apiRoutes';
 import Loading from '../loading/Loading';
 import CustomOffCanvas from '../offcanvas/CustomOffCanvas';
 import MultipleProductCards from '../product/MultipleProductCards';
@@ -21,7 +21,7 @@ const SearchBar: FC = () => {
   const {
     isLoading,
     error,
-    data
+    data: products
   } = useFetch(
     ['searchProducts', searchQuery],
     getProductsPatternRoute((searchQuery === '') ? '.*' : searchQuery),
@@ -59,14 +59,14 @@ const SearchBar: FC = () => {
               />
               {isLoading
                 ? <Loading />
-                : data.products.length === 0
+                : products.length === 0
                   ? <div className='d-flex flex-column justify-content-center'>
                     <Image className='mt-2 text-center' src={noResultsImg} fluid />
                     <p className='text-center fs-4'>{lang.searchBar.productNotFound} '<i>{searchQuery}</i>'</p>
                   </div>
                   : <MultipleProductCards
                     isLoading={isLoading}
-                    products={data.products}
+                    products={products}
                   />
               }
             </>

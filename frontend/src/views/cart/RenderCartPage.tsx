@@ -13,7 +13,7 @@ import ZipInput from '../../components/inputs/ZipInput';
 import Loading from '../../components/loading/Loading';
 import FormTemplate from '../../components/templates/FormTemplate';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
-import { getProductRoute, getProductsRoute } from '../../hooks/apiRoutes';
+import { getProductRoute, getProductsRoute } from '../../services/apiRoutes';
 import useMultipleFetch from '../../hooks/useMultipleFetch';
 import { DefaultValues } from '../../types/orderTypes';
 import { CartProductType } from '../../types/productTypes';

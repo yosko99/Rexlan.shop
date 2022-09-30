@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { getUsersRoute } from '../../hooks/apiRoutes';
+import { getUsersRoute } from '../../services/apiRoutes';
 import AddressInput from '../inputs/AddressInput';
 import EmailInput from '../inputs/EmailInput';
 import NameInput from '../inputs/NameInput';

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useQueryClient } from 'react-query';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
-import { getCartsProductRoute } from '../../hooks/apiRoutes';
+import { getCartsProductRoute } from '../../services/apiRoutes';
 
 interface Props {
   productID: string;

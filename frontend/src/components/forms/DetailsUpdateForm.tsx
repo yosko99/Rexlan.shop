@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { useQueryClient } from 'react-query';
 
-import { getCurrentUserRoute } from '../../hooks/apiRoutes';
+import { getCurrentUserRoute } from '../../services/apiRoutes';
 import { User } from '../../types/userTypes';
 import AddressInput from '../inputs/AddressInput';
 import EmailInput from '../inputs/EmailInput';

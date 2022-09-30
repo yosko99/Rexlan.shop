@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react';
 import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 
-import { getCartsRoute } from '../../hooks/apiRoutes';
+import { getCartsRoute } from '../../services/apiRoutes';
 import { Product } from '../../types/productTypes';
 import AddedToCartModal from '../modal/AddedToCartModal';
 

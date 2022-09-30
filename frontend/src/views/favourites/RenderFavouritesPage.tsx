@@ -6,7 +6,7 @@ import { Navigate } from 'react-router-dom';
 import FreeShippingBar from '../../components/partials/FreeShippingBar';
 import MultipleProductCards from '../../components/product/MultipleProductCards';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
-import { getProductRoute } from '../../hooks/apiRoutes';
+import { getProductRoute } from '../../services/apiRoutes';
 import useMultipleFetch from '../../hooks/useMultipleFetch';
 
 interface Props {

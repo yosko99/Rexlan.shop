@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 
 import Loading from '../../components/loading/Loading';
-import { getProductsByCategoryRoute } from '../../hooks/apiRoutes';
+import { getProductsByCategoryRoute } from '../../services/apiRoutes';
 import useFetch from '../../hooks/useFetch';
 import RenderCategoryProducts from './RenderCategoryProducts';
 

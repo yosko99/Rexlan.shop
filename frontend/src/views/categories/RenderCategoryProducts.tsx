@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import imgNotFoundImg from '../../assets/global/image-not-found.png';
 import Loading from '../../components/loading/Loading';
 import MultipleProductCards from '../../components/product/MultipleProductCards';
-import { getCategoriesRoute } from '../../hooks/apiRoutes';
+import { getCategoriesRoute } from '../../services/apiRoutes';
 import useFetch from '../../hooks/useFetch';
 import Category from '../../types/categoryType';
 import { Product } from '../../types/productTypes';
