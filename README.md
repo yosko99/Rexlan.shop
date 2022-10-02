@@ -30,7 +30,8 @@ For instructions on what they are used for scroll down to 'Environment variables
 
 # Instructions (without docker)
 
-> Note that you need to have yarn installed 😁.
+> ⚠️ Note! You need to have yarn and redis installed on your local machine to be able to run the project.
+
 <br/>
 
 After cloning the repository go to the main directory and run the following command to install the necessary npm packages.
@@ -63,7 +64,7 @@ But dont worry it is not required for running the app 😄.
 ## Database instructions
 
 This projects uses MongoDB as database, so to run it you will need to use local MongoDB database or MongoDB atlas. <br/>
-After setting up your database and receiving your MONGO_URI you can continue to the next section ⬇. 
+After setting up your database and receiving your ``MONGO_URI`` you can continue to the next section ⬇. 
 
 ## Environment variables instructions
 
