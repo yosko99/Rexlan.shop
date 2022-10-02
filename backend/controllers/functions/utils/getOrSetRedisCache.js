@@ -1,12 +1,8 @@
-const redis = require('redis');
+const connectedRedisClient = require('./connectedRedisClient');
 
 const getOrSetRedisCache = async (key, callback) => {
   return new Promise(async (resolve, reject) => {
-    const redisClient = redis.createClient();
-
-    redisClient.on('error', (err) => reject(err));
-
-    await redisClient.connect();
+    const redisClient = await connectedRedisClient();
 
     const redisData = await redisClient.get(key);
 
