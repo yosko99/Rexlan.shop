@@ -1,10 +1,10 @@
-import inputStructure from './inputStructure';
+import InputStructure from './inputStructure';
 
 export interface CategoryStructure {
     name: string;
     bannerImage: string;
     _id: string;
-    inputs: inputStructure[];
+    inputs: InputStructure[];
 }
 
 export const categoryStructure: CategoryStructure = {

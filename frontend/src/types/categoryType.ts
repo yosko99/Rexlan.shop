@@ -1,7 +1,7 @@
 interface Category {
-    name: String;
-    categoryURL: String;
-    bannerImage: String;
+    name: string;
+    categoryURL: string;
+    bannerImage: string;
 }
 
 export default Category;

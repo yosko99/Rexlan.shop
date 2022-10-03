@@ -1,6 +1,5 @@
 const deleteProductFromAllCarts = require('./functions/cart/deleteProductFromAllCarts');
 const deleteEmptyCategory = require('./functions/category/deleteEmptyCategory');
-const createCategory = require('./functions/category/createCategory');
 const createProduct = require('./functions/product/createProduct');
 const updateProduct = require('./functions/product/updateProduct');
 
@@ -64,10 +63,11 @@ exports.updateProduct = async (req, res) => {
   const { id: productID } = req.params;
 
   const { title, price, description, category, image } = req.body;
-  const newCategoryName = category === undefined ? req.product.category : category;
 
-  await deleteEmptyCategory(req.product.category);
-  await createCategory(req.currentLang, newCategoryName);
+  if (req.product.category !== category && category !== undefined) {
+    await deleteEmptyCategory(req.product.category);
+  }
+
   await updateProduct(productID, req.currentLang, { title, price, description, category, image });
   await flushRedis();
 
@@ -80,7 +80,6 @@ exports.createProduct = async (req, res) => {
   const { title, price, description, category, image } = req.body;
 
   await createProduct(req.currentLang, { title, price, description, category, image });
-  await createCategory(req.currentLang, category);
   await flushRedis();
 
   res.status(200).json({

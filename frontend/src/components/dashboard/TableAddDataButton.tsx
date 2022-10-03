@@ -2,12 +2,14 @@ import React, { FC } from 'react';
 
 import { useQueryClient } from 'react-query';
 
+import InputStructure from '../../data/inputStructure/inputStructure';
+import CategoriesSelect from '../inputs/CategoriesSelect';
 import CustomInput from '../inputs/CustomInput';
 import CustomModal from '../modal/CustomModal';
 import FormTemplate from '../templates/FormTemplate';
 
 interface Props {
-    inputStructure: any;
+    inputStructure: InputStructure[];
     createDataRoute: string;
 }
 
@@ -23,8 +25,10 @@ const TableAddDataButton: FC<Props> = ({ createDataRoute, inputStructure }) => {
                     inputs={
                         <>
                             {
-                                inputStructure.map((input: any, index: number) => (
-                                    <CustomInput
+                                inputStructure.map((input: InputStructure, index: number) => (
+                                  input.isDropdown
+                                    ? <CategoriesSelect key={index} />
+                                    : <CustomInput
                                         key={index}
                                         inputLabel={input.title}
                                         inputName={input.name}

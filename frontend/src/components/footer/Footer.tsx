@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Navigate } from 'react-router-dom';
 
-import { getCategoriesRoute } from '../../services/apiRoutes';
 import useFetch from '../../hooks/useFetch';
+import { getCategoriesRoute } from '../../services/apiRoutes';
 import RenderFooter from './RenderFooter';
 
 const Footer = () => {

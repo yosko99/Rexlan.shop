@@ -2,7 +2,9 @@ import React, { FC } from 'react';
 
 import { Navigate } from 'react-router-dom';
 
+import InputStructure from '../../../data/inputStructure/inputStructure';
 import useFetch from '../../../hooks/useFetch';
+import CategoriesSelect from '../../inputs/CategoriesSelect';
 import CustomInput from '../../inputs/CustomInput';
 import Loading from '../../loading/Loading';
 import CustomModal from '../../modal/CustomModal';
@@ -11,7 +13,7 @@ import FormTemplate from '../../templates/FormTemplate';
 interface Props {
   apiRoute: string;
   queryKey: string;
-  inputStructure: any;
+  inputStructure: InputStructure[];
 }
 
 const EditDataIcon: FC<Props> = ({ apiRoute, queryKey, inputStructure }) => {
@@ -44,8 +46,10 @@ const EditDataIcon: FC<Props> = ({ apiRoute, queryKey, inputStructure }) => {
                   inputs={
                     <>
                       {
-                        inputStructure.map((input: any, index: number) => (
-                          <CustomInput
+                        inputStructure.map((input: InputStructure, index: number) => (
+                          input.isDropdown
+                            ? <CategoriesSelect key={index} currentProduct={fetchedData}/>
+                            : <CustomInput
                             key={index}
                             inputLabel={input.title}
                             inputName={input.name}
@@ -54,15 +58,15 @@ const EditDataIcon: FC<Props> = ({ apiRoute, queryKey, inputStructure }) => {
                             pattern={input.pattern}
                           />
                         ))
-                      }
+                        }
                     </>
                   }
                   mutateURL={apiRoute}
                   updateRequest
                   redirectOnSuccess={false}
                   onSuccessFn={() => refetch()}
-                />
-              }
+                  />
+                }
             </>
         }
         modalHeader={<p className='mb-0'>Edit data</p>}

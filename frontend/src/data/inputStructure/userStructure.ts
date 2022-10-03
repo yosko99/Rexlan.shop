@@ -1,4 +1,4 @@
-import inputStructure from './inputStructure';
+import InputStructure from './inputStructure';
 
 export interface UserStructure {
     _id: string;
@@ -9,7 +9,7 @@ export interface UserStructure {
     phone: string;
     zipcode: string;
     isAdmin: boolean;
-    inputs: inputStructure[];
+    inputs: InputStructure[];
 }
 
 export const passwordInputForUserStructure = {

@@ -1,12 +1,13 @@
-import inputStructure from './inputStructure';
+import InputStructure from './inputStructure';
 
 export interface ProductStructure {
-    title: string;
-    price: number;
-    description: string;
-    category: string;
-    image: string;
-    inputs: inputStructure[];
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+  categoryURL: string;
+  inputs: InputStructure[];
 }
 
 export const productStructure: ProductStructure = {
@@ -15,6 +16,7 @@ export const productStructure: ProductStructure = {
   description: '',
   category: '',
   image: '',
+  categoryURL: '',
   inputs: [
     {
       title: 'Title',
@@ -30,12 +32,13 @@ export const productStructure: ProductStructure = {
       name: 'description'
     },
     {
-      title: 'Category',
-      name: 'category'
-    },
-    {
       title: 'Image URL',
       name: 'image'
+    },
+    {
+      title: 'Category',
+      name: 'category',
+      isDropdown: true
     }
   ]
 };
