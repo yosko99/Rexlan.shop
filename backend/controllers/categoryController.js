@@ -3,7 +3,8 @@ const getCategoryTranslation = require('./functions/category/getCategoryTranslat
 const flushRedis = require('./functions/utils/flushRedis');
 
 const deleteProductFromAllCarts = require('./functions/cart/deleteProductFromAllCarts');
-const updateProductCategory = require('./functions/category/updateProductCategory');
+const createNewCategory = require('./functions/category/createCategory');
+const updateCategory = require('./functions/category/updateCategory');
 
 const Category = require('../models/categoryModel');
 const Product = require('../models/productModel');
@@ -27,18 +28,13 @@ exports.getCategory = async (req, res) => {
 exports.createCategory = async (req, res) => {
   const { name, bannerImage } = req.body;
 
-  const checkIfCategoryExists = await Category.findOne({ name });
+  const isNewCategoryCreated = await createNewCategory(req.currentLang, name, bannerImage);
 
-  if (checkIfCategoryExists !== null) {
+  if (!isNewCategoryCreated) {
     return res.status(500).send(
       lang[req.currentLang].controllers.category.nameAlreadyExists
     );
   }
-
-  await Category.create({
-    name,
-    bannerImage
-  });
 
   await flushRedis();
 
@@ -51,13 +47,7 @@ exports.updateCategory = async (req, res) => {
   const { _id } = req.params;
   const { name: newCategoryName, bannerImage } = req.body;
 
-  await updateProductCategory(_id, newCategoryName);
-
-  await Category.updateOne({ _id }, {
-    name: newCategoryName,
-    bannerImage
-  });
-
+  await updateCategory(req.currentLang, _id, newCategoryName, bannerImage);
   await flushRedis();
 
   res.status(200).json({

@@ -1,7 +1,8 @@
 const deleteProductFromAllCarts = require('./functions/cart/deleteProductFromAllCarts');
 const deleteEmptyCategory = require('./functions/category/deleteEmptyCategory');
-const createNewCategory = require('./functions/category/createNewCategory');
-const getMaxProductID = require('./functions/product/getMaxProductID');
+const createCategory = require('./functions/category/createCategory');
+const createProduct = require('./functions/product/createProduct');
+const updateProduct = require('./functions/product/updateProduct');
 
 const getProductsTranslation = require('./functions/product/getProductsTranslation');
 const getProductTranslation = require('./functions/product/getProductTranslation');
@@ -63,21 +64,11 @@ exports.updateProduct = async (req, res) => {
   const { id: productID } = req.params;
 
   const { title, price, description, category, image } = req.body;
-
-  await deleteEmptyCategory(req.product.category);
-
-  await Product.updateOne({ id: productID }, {
-    title,
-    price,
-    description,
-    category,
-    categoryURL: category,
-    image
-  });
-
   const newCategoryName = category === undefined ? req.product.category : category;
 
-  await createNewCategory(newCategoryName);
+  await deleteEmptyCategory(req.product.category);
+  await createCategory(req.currentLang, newCategoryName);
+  await updateProduct(productID, req.currentLang, { title, price, description, category, image });
   await flushRedis();
 
   res.status(200).json({
@@ -88,19 +79,8 @@ exports.updateProduct = async (req, res) => {
 exports.createProduct = async (req, res) => {
   const { title, price, description, category, image } = req.body;
 
-  const maxID = await getMaxProductID();
-
-  await Product.create({
-    title,
-    price: price === undefined ? 0 : price,
-    description,
-    category,
-    image,
-    categoryURL: category,
-    id: maxID
-  });
-
-  await createNewCategory(category);
+  await createProduct(req.currentLang, { title, price, description, category, image });
+  await createCategory(req.currentLang, category);
   await flushRedis();
 
   res.status(200).json({
