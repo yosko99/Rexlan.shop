@@ -39,7 +39,6 @@ const TableAddDataButton: FC<Props> = ({ createDataRoute, inputStructure }) => {
                             }
                         </>}
                     mutateURL={createDataRoute}
-                    redirectOnSuccess={false}
                     onSuccessFn={() => queryClient.refetchQueries()}
                 />}
             activateButtonClassName="w-100 mb-3 btn-info"

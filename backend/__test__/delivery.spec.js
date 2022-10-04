@@ -4,16 +4,12 @@ const mongoose = require('mongoose');
 const app = require('../app');
 
 describe('Testing delivery API', () => {
-  let deliveryStructure;
-
-  beforeAll(() => {
-    deliveryStructure = {
-      title: expect.any(String),
-      initialPrice: expect.any(Number),
-      priceToAddress: expect.any(Number),
-      image: expect.any(String)
-    };
-  });
+  const deliveryStructure = {
+    title: expect.any(String),
+    initialPrice: expect.any(Number),
+    priceToAddress: expect.any(Number),
+    image: expect.any(String)
+  };
 
   afterAll(() => {
     mongoose.disconnect();

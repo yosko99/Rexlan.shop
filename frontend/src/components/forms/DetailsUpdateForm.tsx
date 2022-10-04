@@ -28,7 +28,6 @@ const DetailsUpdateForm: FC<Props> = ({ className, user }) => {
 		<div className={className}>
 			<FormTemplate
 				mutateURL={getCurrentUserRoute()}
-				redirectOnSuccess={false}
 				onSuccessFn={onSuccessFn}
 				updateRequest
 				inputs={

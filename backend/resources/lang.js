@@ -48,6 +48,9 @@ const lang = {
       product: {
         productUpdated: 'The product was updated',
         productCreated: 'The product was created'
+      },
+      order: {
+        orderCreated: 'Your order was created successfully, now you can wait for phone or email comfirmation from our team.'
       }
     }
   },
@@ -100,6 +103,9 @@ const lang = {
       product: {
         productUpdated: 'Продуктът е обновен',
         productCreated: 'Продуктът е създаден'
+      },
+      order: {
+        orderCreated: 'Вашата поръчка е създадена успешно, сега можете да изчакате потвърждение по телефона или имейл от нашия екип.'
       }
     }
   }

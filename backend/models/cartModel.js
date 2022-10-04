@@ -20,6 +20,11 @@ const cartShema = Schema({
   },
   userID: {
     type: String
+  },
+  totalPrice: {
+    type: Number,
+    required: false,
+    default: 0
   }
 
 });

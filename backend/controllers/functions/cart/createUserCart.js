@@ -7,7 +7,8 @@ const createUserCart = async (user) => {
     // Crete new cart for user
     const newCart = Cart({
       isLinked: true,
-      userID: user._id
+      userID: user._id,
+      totalPrice: 0
     });
 
     const savedCart = await newCart.save();

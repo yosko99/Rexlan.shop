@@ -17,6 +17,7 @@ const RegisterForm: FC<Props> = ({ className }) => {
     <div className={className}>
       <FormTemplate
         mutateURL={getUsersRoute()}
+        redirectOnSuccessURL={'/'}
         sendTokenBack
         inputs={
           <>

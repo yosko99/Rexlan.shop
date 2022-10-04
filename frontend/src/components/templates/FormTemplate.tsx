@@ -14,7 +14,7 @@ interface Props {
   className?: string;
   mutateURL: string;
   onSuccessFn?: () => void;
-  redirectOnSuccess?: boolean;
+  redirectOnSuccessURL?: string;
   inputs: React.ReactChild;
   updateRequest?: boolean;
   sendTokenBack?: boolean;
@@ -26,7 +26,7 @@ interface ErrorResponse {
   }
 }
 
-const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSuccess = true, onSuccessFn, updateRequest, sendTokenBack }) => {
+const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSuccessURL, onSuccessFn, updateRequest, sendTokenBack }) => {
   const queryClient = useQueryClient();
   const [data, setData] = useState({});
   const formRef = useRef<HTMLFormElement>(null);
@@ -69,15 +69,15 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
           className='mt-3 rounded-pill text-center'
           variant='success'>
           {data.data.msg}
-          {redirectOnSuccess && <Spinner animation='border' size='sm' className='ms-2' />}
+          {redirectOnSuccessURL !== undefined && <Spinner animation='border' size='sm' className='ms-2' />}
         </Alert>);
       setIsFetchingData(false);
-      if (redirectOnSuccess) {
+      if (redirectOnSuccessURL !== undefined) {
         setTimeout(() => {
           if (data.data.token !== undefined) {
             token!.setToken(data.data.token);
             localStorage.setItem('cart', data.data.cartID);
-            navigate('/');
+            navigate(redirectOnSuccessURL);
           }
         }, 500);
       }

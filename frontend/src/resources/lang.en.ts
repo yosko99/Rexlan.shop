@@ -171,8 +171,8 @@ const lang: HTMLFields = {
     deliveryBox: {
       initialPriceOfDelivery: 'Initial price of the delivery company',
       selectedCourier: 'Selected courier',
-      deliverToAddress: 'Deliver to office',
-      deliveryToOffice: 'Deliver to address'
+      deliverToAddress: 'Deliver to address',
+      deliveryToOffice: 'Deliver to office'
     }
   },
   favouritesPage: {

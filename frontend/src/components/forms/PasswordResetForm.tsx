@@ -13,7 +13,6 @@ const PasswordResetForm: FC<Props> = ({ className }) => {
 		<div className={className}>
 			<FormTemplate
 				mutateURL={getUserPasswordResetRoute()}
-				redirectOnSuccess={false}
 				inputs={
 					<>
 						<EmailInput />

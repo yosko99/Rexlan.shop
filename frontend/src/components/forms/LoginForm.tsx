@@ -20,6 +20,7 @@ const LoginForm: FC<Props> = ({ className }) => {
 		<div className={className}>
 			<FormTemplate
 				mutateURL={getUserLoginRoute()}
+				redirectOnSuccessURL={'/'}
 				sendTokenBack
 				inputs={
 					<>

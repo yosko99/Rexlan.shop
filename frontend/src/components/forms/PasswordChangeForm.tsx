@@ -16,7 +16,6 @@ const PasswordChangeForm: FC<Props> = ({ className }) => {
 		<div className={className}>
 			<FormTemplate
 				mutateURL={getUserPasswordUpdateRoute()}
-				redirectOnSuccess={false}
 				inputs={
 					<>
 						<p>{lang.dashboard.tabs.passwordChange.enterOldPassword}</p>

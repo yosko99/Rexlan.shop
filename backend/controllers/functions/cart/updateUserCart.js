@@ -9,7 +9,8 @@ const updateUserCart = async (user, cartID) => {
     // Link cart with current user ID
     await Cart.updateOne({ _id: cartID }, {
       userID: user._id,
-      isLinked: true
+      isLinked: true,
+      totalPrice: 0
     });
 
     // Update user

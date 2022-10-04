@@ -63,7 +63,6 @@ const EditDataIcon: FC<Props> = ({ apiRoute, queryKey, inputStructure }) => {
                   }
                   mutateURL={apiRoute}
                   updateRequest
-                  redirectOnSuccess={false}
                   onSuccessFn={() => refetch()}
                   />
                 }

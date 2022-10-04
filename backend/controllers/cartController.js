@@ -1,5 +1,8 @@
+const Product = require('../models/productModel');
 const Cart = require('../models/cartModel');
 const User = require('../models/userModel');
+
+const calculateCartTotalPrice = require('./functions/cart/calculateCartTotalPrice');
 
 const lang = require('../resources/lang');
 
@@ -10,7 +13,7 @@ exports.addProductToCart = async (req, res) => {
 
   const productQuantity = bodyProductQuantity !== undefined ? Number(bodyProductQuantity) : 1;
 
-  const checkCart = (cartID !== null) ? await Cart.findOne({ _id: cartID }) : null;
+  let currentCart = (cartID !== null) ? await Cart.findOne({ _id: cartID }) : null;
 
   if (productID === undefined) {
     return res.status(404).send(lang[req.currentLang].global.noProductID);
@@ -20,36 +23,38 @@ exports.addProductToCart = async (req, res) => {
   // If a cart exists check if the product exists in the cart
   // Otherwise create new cart and assign the new prodcut
 
-  if (checkCart !== null) {
-    let updatedCart;
-
+  if (currentCart !== null) {
     // Check if item is already in cart
-    const product = checkCart.products.find((product) => (
+    const product = currentCart.products.find((product) => (
       product.productID === productID
     ));
 
     // Already in cart (increment quantity)
     if (product !== undefined) {
       product.productQuantity += productQuantity;
-      updatedCart = await checkCart.save();
     } else { // Add new item to cart
-      checkCart.products.push({
+      currentCart.products.push({
         productID,
         productQuantity
       });
-      updatedCart = await checkCart.save();
     }
+    currentCart.totalPrice = await calculateCartTotalPrice(currentCart.products);
+    currentCart = await currentCart.save();
+
     return res.status(200).send({
-      cartID: updatedCart._id
+      cartID: currentCart._id
     });
   } else {
     try {
+      const addedProduct = await Product.findOne({ id: productID });
+
       const newCart = new Cart({
         isLinked: false,
         products: [{
           productID,
           productQuantity
-        }]
+        }],
+        totalPrice: addedProduct.price * productQuantity
       });
 
       const savedCart = await newCart.save();
@@ -122,21 +127,23 @@ exports.deleteProductFromCart = async (req, res) => {
     );
   }
 
-  const filteredProducts = [];
+  const productsWithRemovedProduct = [];
 
   cart.products.forEach((product) => {
     if (product.productID === productID) {
       // Decrement quantity
       if (product.productQuantity > 1) {
         product.productQuantity--;
-        filteredProducts.push(product);
+        productsWithRemovedProduct.push(product);
       }
     } else {
-      filteredProducts.push(product);
+      productsWithRemovedProduct.push(product);
     }
   });
 
-  cart.products = filteredProducts;
+  cart.products = productsWithRemovedProduct;
+  cart.totalPrice = await calculateCartTotalPrice(cart.products);
+
   await cart.save();
 
   return res.status(200).json({
