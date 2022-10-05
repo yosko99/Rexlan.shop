@@ -3,42 +3,35 @@ const Schema = mongoose.Schema;
 
 const orderSchema = Schema({
   userID: {
-    type: Schema.Types.ObjectId,
-    required: false
+    type: Schema.Types.ObjectId
   },
   orderStatus: {
     type: String,
     enum: ['Pending Approval', 'Processing', 'Delivered'],
-    default: 'Pending Approval',
-    required: true
+    default: 'Pending Approval'
   },
   selectedCourier: {
     type: String,
     required: true
   },
   name: {
-    type: String,
-    required: false
+    type: String
   },
   address: {
-    type: String,
-    required: false
+    type: String
   },
   city: {
-    type: String,
-    required: false
+    type: String
   },
   zipcode: {
-    type: Number,
-    required: false
+    type: Number
   },
   phone: {
-    type: String,
-    required: false
+    type: String
   },
   totalPrice: {
     type: Number,
-    required: true
+    default: 0
   }
 }, {
   timestamps: true

@@ -14,7 +14,7 @@ import Loading from '../../components/loading/Loading';
 import FormTemplate from '../../components/templates/FormTemplate';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import useMultipleFetch from '../../hooks/useMultipleFetch';
-import { getProductRoute } from '../../services/apiRoutes';
+import { getOrderRoute, getProductRoute } from '../../services/apiRoutes';
 import { DefaultValues } from '../../types/orderTypes';
 import { CartProductType } from '../../types/productTypes';
 import calculateTotalPrice from './calculateTotalPrice';
@@ -58,7 +58,7 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
               <Col lg={8} md={8} sm={12}>
                 <FormTemplate
                   className='pe-lg-5'
-                  mutateURL=''
+                  mutateURL={getOrderRoute()}
                   inputs={
                     <>
                       <DeliveryInput setDeliveryPrice={setDeliveryPrice} />

@@ -4,7 +4,8 @@ import {
   PRODUCTS_ROUTE,
   CATEGORIES_ROUTE,
   DELIVERIES_ROUTE,
-  OPENWEATHER_ROUTE
+  OPENWEATHER_ROUTE,
+  ORDERS_ROUTE
 } from '../constants/apiRouteConstants';
 
 const getCurrentLang = (): string => {
@@ -101,4 +102,9 @@ export const getOpenWeatherCityRoute = (lon: number, lat: number): string => {
 // Deliveries routes
 export const getDeliveriesRoute = (): string => {
   return DELIVERIES_ROUTE + getLinkDeffaultSuffixes();
+};
+
+// Order routes
+export const getOrderRoute = (): string => {
+  return ORDERS_ROUTE + getLinkDeffaultSuffixes();
 };

@@ -5,11 +5,15 @@ const convertFormInputToObject = (formRef: React.RefObject<HTMLFormElement>): ob
   const inputsObject = {};
 
   for (let i = 0; i < inputs.length; i++) {
-    if (inputs[i].nodeName === 'INPUT') {
+    if (inputs[i].nodeName === 'INPUT' || inputs[i].nodeName === 'SELECT') {
       Object.defineProperty(
         inputsObject,
-          inputs[i].getAttribute('name') as string,
-          { value: inputs[i].getAttribute('value') });
+        inputs[i].getAttribute('name') as string,
+        {
+          value: (
+          inputs[i] as HTMLInputElement).value,
+          enumerable: true
+        });
     }
   }
 

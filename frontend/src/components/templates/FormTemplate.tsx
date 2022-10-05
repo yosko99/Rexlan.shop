@@ -97,18 +97,16 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
     }
 
     event.preventDefault();
+
     if (form.checkValidity()) {
       mutation.mutate({ ...data, cartID } as any);
     }
+
     setFormValidated(true);
   };
 
   const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
-    const target = (e.target as HTMLInputElement);
-    setData({
-      ...data,
-      [target.name]: target.value
-    });
+    setData(convertFormInputToObject(formRef));
   };
 
   // Depending on passed inputs assign data
