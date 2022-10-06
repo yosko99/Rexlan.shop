@@ -28,7 +28,7 @@ interface ErrorResponse {
 
 const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSuccessURL, onSuccessFn, updateRequest, sendTokenBack }) => {
   const queryClient = useQueryClient();
-  const [data, setData] = useState({});
+  const data = useRef({});
   const formRef = useRef<HTMLFormElement>(null);
   const [formValidated, setFormValidated] = useState<boolean>(false);
   const [onMutateAlert, setOnMutateAlert] = useState<React.ReactNode>();
@@ -88,6 +88,7 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
   });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    data.current = convertFormInputToObject(formRef);
     const form = event.currentTarget;
     const localStorageCart = localStorage.getItem('cart');
     let cartID: String | null = null;
@@ -99,19 +100,19 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
     event.preventDefault();
 
     if (form.checkValidity()) {
-      mutation.mutate({ ...data, cartID } as any);
+      mutation.mutate({ ...data.current, cartID } as any);
     }
 
     setFormValidated(true);
   };
 
   const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
-    setData(convertFormInputToObject(formRef));
+    data.current = convertFormInputToObject(formRef);
   };
 
   // Depending on passed inputs assign data
   useEffect(() => {
-    setData(convertFormInputToObject(formRef));
+    data.current = convertFormInputToObject(formRef);
   }, []);
 
   return (

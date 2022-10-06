@@ -1,5 +1,6 @@
 import React, { FC, useContext } from 'react';
 
+import { FREE_DELIVERY_PRICE } from '../../constants/prices';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 
 interface Props {
@@ -10,7 +11,6 @@ interface Props {
 
 const DeliveryPrice: FC<Props> = ({ totalPriceFromProducts, deliveryPrice = 0, className }) => {
   const { lang } = useContext(CurrentLanguageContext);
-  const FREE_DELIVERY_PRICE = 99;
 
   return (
 		<div className={`d-flex justify-content-between ${className}`}>

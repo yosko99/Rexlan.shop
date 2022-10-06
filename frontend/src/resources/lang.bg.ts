@@ -178,7 +178,7 @@ const lang: HTMLFields = {
   favouritesPage: {
     header: 'Харесани продукти'
   },
-  freeShippingBarText: 'Безплатна доставка на поръчки над $99',
+  freeShippingBarText: 'Безплатна доставка на поръчки над ',
   contactsPage: {
     contactUs: 'Свържи се с нас',
     hereToHelp: 'Ние сме тук да помогнем',

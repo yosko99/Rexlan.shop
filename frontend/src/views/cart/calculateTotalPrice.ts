@@ -1,10 +1,10 @@
+import { FREE_DELIVERY_PRICE } from '../../constants/prices';
 import { CartProductType, Product } from '../../types/productTypes';
 
 const calculateTotalPrice = (
   products: Product[],
   cartProducts: CartProductType[],
   deliveryPrice: number): number => {
-  const FREE_DELIVERY_PRICE = 99;
   let price = 0;
 
   products.forEach((product: Product, index: number) => {

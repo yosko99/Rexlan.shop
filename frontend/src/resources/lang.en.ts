@@ -178,7 +178,7 @@ const lang: HTMLFields = {
   favouritesPage: {
     header: 'Liked products'
   },
-  freeShippingBarText: 'FREE SHIPPING WITH ORDER OVER $99 JUST NOW',
+  freeShippingBarText: 'FREE SHIPPING WITH ORDER OVER ',
   contactsPage: {
     contactUs: 'Contact us',
     hereToHelp: 'We are here to help',

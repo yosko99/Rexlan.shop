@@ -1,6 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const ProductsSchema = Schema({
+  productID: {
+    type: String
+  },
+  productQuantity: {
+    type: Number
+  }
+}, {
+  _id: false
+});
+
 const orderSchema = Schema({
   userID: {
     type: Schema.Types.ObjectId
@@ -29,9 +40,16 @@ const orderSchema = Schema({
   phone: {
     type: String
   },
-  totalPrice: {
+  productsPrice: {
     type: Number,
     default: 0
+  },
+  deliveryPrice: {
+    type: Number,
+    default: 0
+  },
+  products: {
+    type: [ProductsSchema]
   }
 }, {
   timestamps: true

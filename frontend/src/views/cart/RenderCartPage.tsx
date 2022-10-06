@@ -1,6 +1,7 @@
 import React, { FC, useState, useContext } from 'react';
 
 import { Col, Container, Row } from 'react-bootstrap';
+import { useQueryClient } from 'react-query';
 import { Navigate } from 'react-router-dom';
 
 import CartOrderBox from '../../components/cart/CartOrderBox';
@@ -12,6 +13,7 @@ import PhoneInput from '../../components/inputs/PhoneInput';
 import ZipInput from '../../components/inputs/ZipInput';
 import Loading from '../../components/loading/Loading';
 import FormTemplate from '../../components/templates/FormTemplate';
+import { FREE_DELIVERY_PRICE } from '../../constants/prices';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import useMultipleFetch from '../../hooks/useMultipleFetch';
 import { getOrderRoute, getProductRoute } from '../../services/apiRoutes';
@@ -32,6 +34,7 @@ interface QueryAttributes {
 const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
   const { lang } = useContext(CurrentLanguageContext);
+  const queryClient = useQueryClient();
 
   const queries: QueryAttributes[] = cartProducts.map((product) => {
     return {
@@ -39,6 +42,11 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
       link: getProductRoute(product.productID)
     };
   });
+
+  const onSuccessFn = () => {
+    localStorage.removeItem('cart');
+    queryClient.removeQueries('cart');
+  };
 
   // Fetch product information for cart items
   const { data: products, isLoading, error } = useMultipleFetch(queries);
@@ -59,9 +67,17 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
                 <FormTemplate
                   className='pe-lg-5'
                   mutateURL={getOrderRoute()}
+                  onSuccessFn={() => onSuccessFn()}
                   inputs={
                     <>
                       <DeliveryInput setDeliveryPrice={setDeliveryPrice} />
+                      <input
+                        type="number"
+                        name="deliveryPrice"
+                        readOnly
+                        className='d-none'
+                        value={calculateTotalPrice(products, cartProducts, deliveryPrice) >= FREE_DELIVERY_PRICE ? 0 : deliveryPrice}
+                      />
                       <NameInput defaultValue={defaultValues !== null ? defaultValues.name : ''} />
                       <AddressInput defaultValue={defaultValues !== null ? defaultValues.address : ''} />
                       <CityInput />

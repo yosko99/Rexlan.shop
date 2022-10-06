@@ -1,29 +1,30 @@
 const Order = require('../models/orderModel');
 const Cart = require('../models/cartModel');
-const User = require('../models/userModel');
-
-const calculateCartTotalPrice = require('./functions/cart/calculateCartTotalPrice');
-
-const lang = require('../resources/lang');
 
 exports.createCart = async (req, res) => {
   const {
-    cartID,
     delivery,
     name,
     address,
     city,
     zipcode,
-    phone
+    phone,
+    deliveryPrice
   } = req.body;
 
-  const user = await User.findOne({ cartID });
-  let newOrder;
+  const userID = req.currentCart.userID;
 
-  if (user !== null) {
+  let newOrder = {
+    productsPrice: req.currentCart.totalPrice,
+    deliveryPrice: deliveryPrice,
+    products: req.currentCart.products
+  };
+
+  if (req.currentCart.userID !== undefined) {
     newOrder = new Order({
       selectedCourier: delivery,
-      userID: user._id
+      userID: userID,
+      ...newOrder
     });
   } else {
     newOrder = new Order({
@@ -32,16 +33,15 @@ exports.createCart = async (req, res) => {
       city,
       zipcode,
       phone,
-      selectedCourier: delivery
+      selectedCourier: delivery,
+      ...newOrder
     });
   }
 
-  const { products: cartProducts } = await Cart.findOne({ _id: cartID });
-  newOrder.totalPrice = await calculateCartTotalPrice(cartProducts);
-
   await newOrder.save();
+  await Cart.deleteOne({ _id: req.currentCart._id });
 
   res.status(200).json({
-    msg: lang[req.currentLang].controllers.order.orderCreated
+    newOrderID: newOrder._id
   });
 };
