@@ -1,6 +1,19 @@
 version: "3.3"
 services:
   
+  reverse-proxy:
+    image: nginx:1.17.10
+    depends_on:
+        - client
+        - server
+        - redis
+    volumes:
+      - ./reverse-proxy/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+    networks:
+      - mern-network
+
   redis:
     image: redis:6.2-alpine
     networks:
@@ -14,9 +27,8 @@ services:
   client:
     build: 
       context: ./frontend
-      dockerfile: Dockerfile
     ports:
-      - 3000:3000
+        - 3000:3000
     networks:
       - mern-network
     volumes:
@@ -26,14 +38,14 @@ services:
       - server
     environment:
       - SKIP_PREFLIGHT_CHECK=true
-    command: npm start
     stdin_open: true
+    restart: on-failure
+    command: npm start
     tty: true
   
   server:
     build:
       context: ./backend
-      dockerfile: Dockerfile
     ports:
       - 5000:5000
     networks:
@@ -50,6 +62,7 @@ services:
       - SALT_ROUNDS=10
       - REDIS_HOSTNAME=redis
     command: sh -c "npm run data:import && npm run start"
+    restart: on-failure
 
   db:
     image: mongo:3.6.19-xenial
