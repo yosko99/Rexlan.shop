@@ -16,6 +16,9 @@ const orderSchema = Schema({
   userID: {
     type: Schema.Types.ObjectId
   },
+  cartID: {
+    type: Schema.Types.ObjectId
+  },
   orderStatus: {
     type: String,
     enum: ['Pending Approval', 'Processing', 'Delivered'],

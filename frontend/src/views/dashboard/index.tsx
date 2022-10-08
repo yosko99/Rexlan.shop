@@ -4,9 +4,9 @@ import { Navigate } from 'react-router-dom';
 
 import Loading from '../../components/loading/Loading';
 import { TokenContext } from '../../context/TokenContext';
-import { getCurrentUserRoute } from '../../services/apiRoutes';
 import useAuth from '../../hooks/useAuth';
 import useFetch from '../../hooks/useFetch';
+import { getCurrentUserRoute } from '../../services/apiRoutes';
 import RenderDashboard from './RenderDashboard';
 
 const Dashboard = () => {

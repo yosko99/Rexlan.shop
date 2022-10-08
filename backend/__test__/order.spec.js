@@ -20,7 +20,8 @@ describe('Testing orders API', () => {
     phone: expect.any(String),
     productsPrice: expect.any(Number),
     deliveryPrice: expect.any(Number),
-    products: expect.any(Array)
+    products: expect.any(Array),
+    orderID: expect.any(String)
   };
 
   let dummyData = {
@@ -53,9 +54,9 @@ describe('Testing orders API', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then(async (response) => {
-        const newOrderID = response.body.newOrderID;
+        const orderID = response.body.orderID;
 
-        await Order.deleteOne({ _id: newOrderID });
+        await Order.deleteOne({ _id: orderID });
       });
   });
 
@@ -69,13 +70,13 @@ describe('Testing orders API', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then(async (response) => {
-        const newOrderID = response.body.newOrderID;
-        const newOrder = await Order.findOne({ _id: newOrderID });
+        const orderID = response.body.orderID;
+        const newOrder = await Order.findOne({ _id: orderID });
 
         expect(newOrder.userID.toString())
           .toBe(dummyData.userLinkedWithCart._id.toString());
 
-        await Order.deleteOne({ _id: newOrderID });
+        await Order.deleteOne({ _id: orderID });
       });
   });
 

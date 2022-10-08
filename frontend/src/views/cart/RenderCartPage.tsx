@@ -1,8 +1,7 @@
 import React, { FC, useState, useContext } from 'react';
 
 import { Col, Container, Row } from 'react-bootstrap';
-import { useQueryClient } from 'react-query';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import CartOrderBox from '../../components/cart/CartOrderBox';
 import AddressInput from '../../components/inputs/AddressInput';
@@ -34,7 +33,7 @@ interface QueryAttributes {
 const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
   const { lang } = useContext(CurrentLanguageContext);
-  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const queries: QueryAttributes[] = cartProducts.map((product) => {
     return {
@@ -42,11 +41,6 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
       link: getProductRoute(product.productID)
     };
   });
-
-  const onSuccessFn = () => {
-    localStorage.removeItem('cart');
-    queryClient.removeQueries('cart');
-  };
 
   // Fetch product information for cart items
   const { data: products, isLoading, error } = useMultipleFetch(queries);
@@ -67,7 +61,8 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
                 <FormTemplate
                   className='pe-lg-5'
                   mutateURL={getOrderRoute()}
-                  onSuccessFn={() => onSuccessFn()}
+                  onSuccessFn={() => navigate('/payment')}
+                  redirectOnSuccessURL="/payment"
                   inputs={
                     <>
                       <DeliveryInput setDeliveryPrice={setDeliveryPrice} />

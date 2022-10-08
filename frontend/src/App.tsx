@@ -12,6 +12,7 @@ import useCurrentLanguage from './hooks/useCurrentLanguage';
 import useToken from './hooks/useToken';
 import GlobalCSS from './styles/global.css';
 import CartPage from './views/cart';
+import PaymentPage from './views/cart/payment/PaymentPage';
 import CategoryProductsPage from './views/categories';
 import ContactPage from './views/contactpage';
 import Dashboard from './views/dashboard';
@@ -47,6 +48,7 @@ function App () {
               <Route path='/dashboard/:option' element={<Dashboard />} />
               <Route path='/dashboard/admin-panel/:option' element={<Dashboard />} />
               <Route path='/contacts' element={<ContactPage />} />
+              <Route path='/payment' element={<PaymentPage />} />
               <Route path='/*' element={<Page404 />} />
             </Routes>
           </main>

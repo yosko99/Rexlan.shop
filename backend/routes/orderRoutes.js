@@ -5,6 +5,7 @@ const router = express.Router();
 const orderController = require('../controllers/orderController');
 
 const checkPassedCartIDMiddleware = require('../middleware/checkPassedCartIDMiddleware');
+const checkExistingOrderMiddleware = require('../middleware/checkExistingOrderMIddleware');
 
 // Question marks in front of 'accept' variables means that they are not required
 
@@ -12,6 +13,11 @@ const checkPassedCartIDMiddleware = require('../middleware/checkPassedCartIDMidd
 // @route POST /api/orders/
 // @access Public
 // @accept { cartID, selectedCourier, deliveryPrice, userID?, name?, address?, city?, zipcode?, phone? }
-router.post('/', checkPassedCartIDMiddleware, asyncHandler(orderController.createCart));
+router.post(
+  '/',
+  checkPassedCartIDMiddleware,
+  checkExistingOrderMiddleware,
+  asyncHandler(orderController.createCart)
+);
 
 module.exports = router;

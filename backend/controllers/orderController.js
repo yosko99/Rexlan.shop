@@ -1,5 +1,4 @@
 const Order = require('../models/orderModel');
-const Cart = require('../models/cartModel');
 
 exports.createCart = async (req, res) => {
   const {
@@ -12,36 +11,21 @@ exports.createCart = async (req, res) => {
     deliveryPrice
   } = req.body;
 
-  const userID = req.currentCart.userID;
-
-  let newOrder = {
+  const order = await Order.create({
+    userID: req.currentCart.userID === undefined ? null : req.currentCart.userID,
     productsPrice: req.currentCart.totalPrice,
+    products: req.currentCart.products,
     deliveryPrice: deliveryPrice,
-    products: req.currentCart.products
-  };
-
-  if (req.currentCart.userID !== undefined) {
-    newOrder = new Order({
-      selectedCourier: delivery,
-      userID: userID,
-      ...newOrder
-    });
-  } else {
-    newOrder = new Order({
-      name,
-      address,
-      city,
-      zipcode,
-      phone,
-      selectedCourier: delivery,
-      ...newOrder
-    });
-  }
-
-  await newOrder.save();
-  await Cart.deleteOne({ _id: req.currentCart._id });
+    selectedCourier: delivery,
+    cartID: req.body.cartID,
+    zipcode,
+    name,
+    address,
+    city,
+    phone
+  });
 
   res.status(200).json({
-    newOrderID: newOrder._id
+    orderID: order._id
   });
 };
