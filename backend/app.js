@@ -1,7 +1,6 @@
-const [notFound, errorHandler] = require('./middleware/errorMiddleware');
-const connectDb = require('./config/db');
+const setLanguageMiddleware = require('./middleware/utils/setLanguageMiddleware');
+const [notFound, errorHandler] = require('./middleware/utils/errorMiddleware');
 
-const setLanguageMiddleware = require('./middleware/setLanguageMiddleware');
 const openWeatherRoutes = require('./routes/openWeatherRoutes');
 const productRoutes = require('./routes/productRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
@@ -14,6 +13,8 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
+
+const connectDb = require('./config/db');
 
 const app = express();
 

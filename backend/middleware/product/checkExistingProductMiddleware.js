@@ -1,4 +1,4 @@
-const Product = require('../models/productModel');
+const Product = require('../../models/productModel');
 
 const checkExistingProductMiddleware = async (req, res, next) => {
   const { id: productID } = req.params;

@@ -4,8 +4,8 @@ const router = express.Router();
 
 const userController = require('../controllers/userController');
 
-const checkExistingUserMiddleware = require('../middleware/checkExistingUserMiddleware');
-const verifyJWT = require('../middleware/verifyJWTMiddleware');
+const checkExistingUserMiddleware = require('../middleware/user/checkExistingUserMiddleware');
+const verifyJWT = require('../middleware/user/verifyJWTMiddleware');
 
 // Question marks in front of 'accept' variables means that they are not required
 // Difference between 'current user' and 'user' is that one requires JWT for access and the other uses _id

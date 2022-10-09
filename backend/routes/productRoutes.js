@@ -4,7 +4,7 @@ const router = express.Router();
 
 const productController = require('../controllers/productController');
 
-const checkExistingProductMiddleware = require('../middleware/checkExistingProductMiddleware');
+const checkExistingProductMiddleware = require('../middleware/product/checkExistingProductMiddleware');
 
 // @desc Fetch all products with optional quantity value
 // @route GET /api/products?qty=2

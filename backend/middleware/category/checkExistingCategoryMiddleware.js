@@ -1,4 +1,4 @@
-const Category = require('../models/categoryModel');
+const Category = require('../../models/categoryModel');
 const mongoose = require('mongoose');
 
 const checkExstingCategoryMiddleware = async (req, res, next) => {

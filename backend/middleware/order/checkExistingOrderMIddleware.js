@@ -1,4 +1,4 @@
-const Order = require('../models/orderModel');
+const Order = require('../../models/orderModel');
 
 const checkExistingOrderMiddleware = async (req, res, next) => {
   const { cartID } = req.body;

@@ -4,7 +4,7 @@ const router = express.Router();
 
 const categoryController = require('../controllers/categoryController');
 
-const checkExstingCategoryMiddleware = require('../middleware/checkExistingCategoryMiddleware');
+const checkExstingCategoryMiddleware = require('../middleware/category/checkExistingCategoryMiddleware');
 
 // @desc Fetch all categories
 // @route GET /api/categories/

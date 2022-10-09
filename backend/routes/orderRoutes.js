@@ -4,8 +4,8 @@ const router = express.Router();
 
 const orderController = require('../controllers/orderController');
 
-const checkPassedCartIDMiddleware = require('../middleware/checkPassedCartIDMiddleware');
-const checkExistingOrderMiddleware = require('../middleware/checkExistingOrderMIddleware');
+const checkPassedCartIDMiddleware = require('../middleware/order/checkPassedCartIDMiddleware');
+const checkExistingOrderMiddleware = require('../middleware/order/checkExistingOrderMIddleware');
 
 // Question marks in front of 'accept' variables means that they are not required
 
