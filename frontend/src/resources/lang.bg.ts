@@ -173,6 +173,20 @@ const lang: HTMLFields = {
       selectedCourier: 'Избран куриер',
       deliverToAddress: 'Доставка до адрес',
       deliveryToOffice: 'Доставка до офис'
+    },
+    paymentPage: {
+      choosePayment: 'Моля изберете начин на плащане',
+      developmentWarning: 'Внимание! В момента плащането не е в пълна функционалност. Всички плащания работят само с "sandbox" профили.',
+      toPay: 'Сума за плащане'
+    },
+    successfulPaymentPage: {
+      createTime: 'Дата на създаване',
+      currentCurrency: 'Валута на превод',
+      description: 'Описание',
+      email: 'Имейл на купувача',
+      paymentID: 'ID на транзакцията',
+      status: 'Статус',
+      amountPayed: 'Платена сума'
     }
   },
   favouritesPage: {

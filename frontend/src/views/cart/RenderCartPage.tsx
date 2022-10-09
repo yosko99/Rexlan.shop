@@ -42,6 +42,11 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
     };
   });
 
+  const handleSuccess = () => {
+    sessionStorage.setItem('cartID', localStorage.getItem('cartID') as string);
+    navigate('/payment');
+  };
+
   // Fetch product information for cart items
   const { data: products, isLoading, error } = useMultipleFetch(queries);
 
@@ -61,7 +66,7 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
                 <FormTemplate
                   className='pe-lg-5'
                   mutateURL={getOrderRoute()}
-                  onSuccessFn={() => navigate('/payment')}
+                  onSuccessFn={() => handleSuccess()}
                   redirectOnSuccessURL="/payment"
                   inputs={
                     <>

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Footer from './components/footer/Footer';
@@ -13,6 +14,7 @@ import useToken from './hooks/useToken';
 import GlobalCSS from './styles/global.css';
 import CartPage from './views/cart';
 import PaymentPage from './views/cart/payment/PaymentPage';
+import SuccessfulPaymentPage from './views/cart/payment/SuccessfulPaymentPage';
 import CategoryProductsPage from './views/categories';
 import ContactPage from './views/contactpage';
 import Dashboard from './views/dashboard';
@@ -32,30 +34,35 @@ function App () {
     <Router>
       <ScrollToTop />
       <GlobalCSS />
-      <TokenContext.Provider value={{ token, setToken }}>
-        <CurrentLanguageContext.Provider value={{ lang: currentLanguage, setCurrentLanguage }}>
-          <Header />
-          <main style={{ minHeight: '70vh' }}>
-            <Routes>
-              <Route path='/' element={<MainPage />} />
-              <Route path='/category/:category' element={<CategoryProductsPage />} />
-              <Route path='/:category/product/:id' element={<PDPPage />} />
-              <Route path='/favourites' element={<FavouritesPage />} />
-              <Route path='/login' element={<LoginPage />} />
-              <Route path='/cart' element={<CartPage />} />
-              <Route path='/password-reset' element={<PasswordResetPage />} />
-              <Route path='/register' element={<RegisterPage />} />
-              <Route path='/dashboard/:option' element={<Dashboard />} />
-              <Route path='/dashboard/admin-panel/:option' element={<Dashboard />} />
-              <Route path='/contacts' element={<ContactPage />} />
-              <Route path='/payment' element={<PaymentPage />} />
-              <Route path='/*' element={<Page404 />} />
-            </Routes>
-          </main>
-          <CompanyLogos />
-          <Footer />
-        </CurrentLanguageContext.Provider>
-      </TokenContext.Provider>
+      <PayPalScriptProvider options={{
+        'client-id': process.env.REACT_APP_PAYPAL_CLIENT_ID as string
+      }}>
+        <TokenContext.Provider value={{ token, setToken }}>
+          <CurrentLanguageContext.Provider value={{ lang: currentLanguage, setCurrentLanguage }}>
+            <Header />
+            <main style={{ minHeight: '70vh' }}>
+              <Routes>
+                <Route path='/' element={<MainPage />} />
+                <Route path='/category/:category' element={<CategoryProductsPage />} />
+                <Route path='/:category/product/:id' element={<PDPPage />} />
+                <Route path='/favourites' element={<FavouritesPage />} />
+                <Route path='/login' element={<LoginPage />} />
+                <Route path='/cart' element={<CartPage />} />
+                <Route path='/password-reset' element={<PasswordResetPage />} />
+                <Route path='/register' element={<RegisterPage />} />
+                <Route path='/dashboard/:option' element={<Dashboard />} />
+                <Route path='/dashboard/admin-panel/:option' element={<Dashboard />} />
+                <Route path='/contacts' element={<ContactPage />} />
+                <Route path='/payment' element={<PaymentPage />} />
+                <Route path='/payment-successful' element={<SuccessfulPaymentPage />} />
+                <Route path='/*' element={<Page404 />} />
+              </Routes>
+            </main>
+            <CompanyLogos />
+            <Footer />
+          </CurrentLanguageContext.Provider>
+        </TokenContext.Provider>
+      </PayPalScriptProvider>
     </Router>
   );
 }

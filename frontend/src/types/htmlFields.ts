@@ -110,6 +110,20 @@ interface HTMLFields {
             initialPriceOfDelivery: string;
             deliveryToOffice: string;
             deliverToAddress: string;
+        },
+        paymentPage: {
+            toPay: string;
+            developmentWarning: string;
+            choosePayment: string;
+        },
+        successfulPaymentPage: {
+            paymentID: string;
+            createTime: string;
+            email: string;
+            status: string;
+            currentCurrency: string;
+            amountPayed: string;
+            description: string;
         }
     },
     favouritesPage: {

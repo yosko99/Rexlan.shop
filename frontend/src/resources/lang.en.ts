@@ -173,6 +173,20 @@ const lang: HTMLFields = {
       selectedCourier: 'Selected courier',
       deliverToAddress: 'Deliver to address',
       deliveryToOffice: 'Deliver to office'
+    },
+    paymentPage: {
+      choosePayment: 'Please choose a payment method',
+      developmentWarning: 'Attention! Payment is currently not fully functional. All payments only work with "sandbox" accounts.',
+      toPay: 'Payment amount'
+    },
+    successfulPaymentPage: {
+      createTime: 'Date of creation',
+      currentCurrency: 'Currency of transfer',
+      description: 'Description',
+      email: 'Buyer email',
+      paymentID: 'Transaction ID',
+      status: 'Status',
+      amountPayed: 'Amount paid'
     }
   },
   favouritesPage: {
