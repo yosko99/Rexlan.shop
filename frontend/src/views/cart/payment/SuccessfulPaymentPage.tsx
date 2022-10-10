@@ -9,12 +9,12 @@ import { CurrentLanguageContext } from '../../../context/CurrentLanguageContext'
 import PaymentType from '../../../types/paymentType';
 
 interface LocationPaymentType {
-    state: PaymentType;
+  state: PaymentType;
 }
 
 interface PaymentInformationFieldType {
-    text: string;
-    data: string;
+  text: string;
+  data: string;
 }
 
 const SuccessfulPaymentPage = () => {
@@ -53,29 +53,29 @@ const SuccessfulPaymentPage = () => {
   ];
 
   return (
-        <Container className='d-flex justify-content-center'>
-            <div className='shadow-lg mt-2 d-flex flex-column w-75'>
-                <FontAwesomeIcon
-                    icon={faCheckCircle}
-                    className='mt-4 mb-2'
-                    color='green'
-                    size='5x'
-                />
-                <p className='text-success text-center fs-3 mt-0 mb-2'>Payment successful</p>
-                <div className='p-5 text-wrap text-break'>
-                    {htmlFields.map((field: PaymentInformationFieldType, index: number) => (
-                        <div key={index} className='d-flex my-2 flex-column flex-lg-row justify-content-between'>
-                            <p className='m-0'>{field.text}</p>
-                            <p className='m-0'>{field.data}</p>
-                        </div>
-                    ))}
-                    <div className='d-flex flex-column my-2 flex-lg-row justify-content-between'>
-                        <p className='m-0 my-3 fs-4'>{lang.cart.successfulPaymentPage.amountPayed}</p>
-                        <p className='m-0 my-3 fs-4'>{location.state.purchase_units[0].amount.value}</p>
-                    </div>
-                </div>
+    <Container className='d-flex justify-content-center'>
+      <div className='shadow-lg mt-2 d-flex flex-column w-75'>
+        <FontAwesomeIcon
+          icon={faCheckCircle}
+          className='mt-4 mb-2'
+          color='green'
+          size='5x'
+        />
+        <p className='text-success text-center fs-3 mt-0 mb-2'>Payment successful</p>
+        <div className='p-5 text-wrap text-break'>
+          {htmlFields.map((field: PaymentInformationFieldType, index: number) => (
+            <div key={index} className='d-flex my-2 flex-column flex-lg-row justify-content-between'>
+              <p className='m-0'>{field.text}</p>
+              <p className='m-0'>{field.data}</p>
             </div>
-        </Container>
+          ))}
+          <div className='d-flex flex-column my-2 flex-lg-row justify-content-between'>
+            <p className='m-0 my-3 fs-4'>{lang.cart.successfulPaymentPage.amountPayed}</p>
+            <p className='m-0 my-3 fs-4'>{location.state.purchase_units[0].amount.value}</p>
+          </div>
+        </div>
+      </div>
+    </Container>
   );
 };
 

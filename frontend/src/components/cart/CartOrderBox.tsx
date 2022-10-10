@@ -59,12 +59,12 @@ const CartOrderBox: FC<Props> = ({ products, cartProducts, totalPrice, deliveryP
 
 			<div className='d-flex justify-content-between'>
 				<p>{lang.global.discount}</p>
-				<p>$0</p>
+				<p>0 $</p>
 			</div>
 			<hr className='m-0 mb-2' />
 			<div className='d-flex justify-content-between'>
 				<p className='fs-3'>{lang.cart.orderBox.total}</p>
-				<p className='fs-3'> ${totalPrice}</p>
+				<p className='fs-3'>{totalPrice} $</p>
 			</div>
 		</div>
   );

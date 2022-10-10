@@ -18,10 +18,10 @@ const DeliveryPrice: FC<Props> = ({ totalPriceFromProducts, deliveryPrice = 0, c
 			<div className='d-flex'>
 				{totalPriceFromProducts > FREE_DELIVERY_PRICE
 				  ? <p>
-						<del className='text-muted me-2'>${deliveryPrice}</del>
+						<del className='text-muted me-2'>{deliveryPrice} $</del>
 						{lang.global.free}
 					</p>
-				  : <>${deliveryPrice}</>
+				  : <>{deliveryPrice} $</>
 				}
 			</div>
 		</div>

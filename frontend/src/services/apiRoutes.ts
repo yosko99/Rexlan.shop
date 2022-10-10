@@ -105,6 +105,10 @@ export const getDeliveriesRoute = (): string => {
 };
 
 // Order routes
-export const getOrderRoute = (): string => {
+export const getOrdersRoute = (): string => {
   return ORDERS_ROUTE + getLinkDeffaultSuffixes();
+};
+
+export const getOrderRoute = (cartID: string): string => {
+  return ORDERS_ROUTE + cartID + getLinkDeffaultSuffixes();
 };

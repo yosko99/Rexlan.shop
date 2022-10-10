@@ -15,7 +15,7 @@ import FormTemplate from '../../components/templates/FormTemplate';
 import { FREE_DELIVERY_PRICE } from '../../constants/prices';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import useMultipleFetch from '../../hooks/useMultipleFetch';
-import { getOrderRoute, getProductRoute } from '../../services/apiRoutes';
+import { getOrdersRoute, getProductRoute } from '../../services/apiRoutes';
 import { DefaultValues } from '../../types/orderTypes';
 import { CartProductType } from '../../types/productTypes';
 import calculateTotalPrice from './calculateTotalPrice';
@@ -43,8 +43,11 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
   });
 
   const handleSuccess = () => {
-    sessionStorage.setItem('cartID', localStorage.getItem('cartID') as string);
-    navigate('/payment');
+    navigate('/payment', {
+      state: {
+        cartID: localStorage.getItem('cart')
+      }
+    });
   };
 
   // Fetch product information for cart items
@@ -65,7 +68,7 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
               <Col lg={8} md={8} sm={12}>
                 <FormTemplate
                   className='pe-lg-5'
-                  mutateURL={getOrderRoute()}
+                  mutateURL={getOrdersRoute()}
                   onSuccessFn={() => handleSuccess()}
                   redirectOnSuccessURL="/payment"
                   inputs={
