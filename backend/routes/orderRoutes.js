@@ -26,4 +26,9 @@ router.post(
 // @access Public
 router.get('/:cartID', checkExistingOrderMiddlewareByParam, asyncHandler(orderController.getOrder));
 
+// @desc Deletes a order
+// @route DELETE /api/orders/:cartID
+// @access Public
+router.delete('/:cartID', checkExistingOrderMiddlewareByParam, asyncHandler(orderController.deleteOrder));
+
 module.exports = router;

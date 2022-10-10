@@ -93,6 +93,7 @@ describe('Testing orders API', () => {
   test('cet order without providing cartID', () => {
     return request(app)
       .get(ORDERS_ROUTE + '12char12char')
+      .expect('Content-Type', /html/)
       .expect(404)
       .then((response) => {
         expect(response.text).toBe('Invalid or not provided cart ID');
@@ -106,6 +107,26 @@ describe('Testing orders API', () => {
       .expect(200)
       .then((response) => {
         expect(response.body).toEqual(orderStructure);
+      });
+  });
+
+  test('delete order with provided invalid cartID', () => {
+    return request(app)
+      .delete(ORDERS_ROUTE + '12char12char')
+      .expect('Content-Type', /html/)
+      .expect(404)
+      .then((response) => {
+        expect(response.text).toBe('Invalid or not provided cart ID');
+      });
+  });
+
+  test('delete order with provided valid cartID', () => {
+    return request(app)
+      .delete(ORDERS_ROUTE + dummyData.linkedCart._id)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.msg).toBe('The order was successfully removed.');
       });
   });
 });

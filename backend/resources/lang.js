@@ -50,7 +50,8 @@ const lang = {
         productCreated: 'The product was created'
       },
       order: {
-        orderCreated: 'Your order was created successfully, now you can wait for phone or email comfirmation from our team.'
+        orderCreated: 'Your order was created successfully, now you can wait for phone or email comfirmation from our team.',
+        orderDeleted: 'The order was successfully removed.'
       }
     }
   },
@@ -105,7 +106,8 @@ const lang = {
         productCreated: 'Продуктът е създаден'
       },
       order: {
-        orderCreated: 'Вашата поръчка е създадена успешно, сега можете да изчакате потвърждение по телефона или имейл от нашия екип.'
+        orderCreated: 'Вашата поръчка е създадена успешно, сега можете да изчакате потвърждение по телефона или имейл от нашия екип.',
+        orderDeleted: 'Поръчката беше изтрита успешно.'
       }
     }
   }
