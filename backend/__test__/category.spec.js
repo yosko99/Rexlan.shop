@@ -1,8 +1,9 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
 
-const app = require('../app');
 const Category = require('../models/categoryModel');
+
+const app = require('../app');
 
 describe('Testing category API', () => {
   const categoryStrucutre = {

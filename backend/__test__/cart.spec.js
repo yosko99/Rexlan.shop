@@ -1,22 +1,17 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
 
-const initializeDummyData = require('./config/initializeDummyData');
 const deleteDummyData = require('./config/deleteDummyData');
+const getDummyData = require('./config/getDummyData');
 
 const app = require('../app');
 const Cart = require('../models/cartModel');
 
 describe('Testing cart API', () => {
-  let dummyData = {
-    notLinkedCart: null,
-    linkedCart: null,
-    userLinkedWithCart: null,
-    userNotLinkedWithCart: null
-  };
+  let dummyData = {};
 
   beforeAll(async () => {
-    dummyData = await initializeDummyData(dummyData);
+    dummyData = await getDummyData();
   });
 
   afterAll(async () => {

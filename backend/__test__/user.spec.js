@@ -1,5 +1,6 @@
-const initializeDummyData = require('./config/initializeDummyData');
 const deleteDummyData = require('./config/deleteDummyData');
+const getDummyData = require('./config/getDummyData');
+
 const User = require('../models/userModel');
 const Cart = require('../models/cartModel');
 
@@ -9,13 +10,7 @@ const request = require('supertest');
 const app = require('../app');
 
 describe('Testing user API', () => {
-  let dummyData = {
-    notLinkedCart: null,
-    linkedCart: null,
-    userLinkedWithCart: null,
-    userNotLinkedWithCart: null,
-    userPassword: 'testing'
-  };
+  let dummyData = {};
 
   const mockUserInfo = {
     email: 'tempData',
@@ -40,7 +35,7 @@ describe('Testing user API', () => {
   };
 
   beforeEach(async () => {
-    dummyData = await initializeDummyData(dummyData);
+    dummyData = await getDummyData();
   });
 
   afterEach(async () => {

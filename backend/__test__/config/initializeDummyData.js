@@ -1,3 +1,4 @@
+const Order = require('../../models/orderModel');
 const User = require('../../models/userModel');
 const Cart = require('../../models/cartModel');
 
@@ -20,7 +21,7 @@ const initializeDummyData = async (dummyData) => {
     products: [exampleProducts]
   }).save();
 
-  const hashedPassword = bcrypt.hashSync('testing', 1);
+  const hashedPassword = bcrypt.hashSync(dummyData.userPassword, 1);
 
   dummyData.userLinkedWithCart = await User({
     email: 'test@test.gmail',
@@ -36,6 +37,19 @@ const initializeDummyData = async (dummyData) => {
     name: 'test2',
     address: 'test2',
     phone: 'test2'
+  }).save();
+
+  dummyData.orderLinkedWithUser = await Order({
+    userID: dummyData.userLinkedWithCart._id,
+    cartID: dummyData.linkedCart._id,
+    products: [],
+    selectedCourier: 'DHL',
+    deliveryPrice: 0,
+    zipcode: 1235,
+    address: 'test',
+    name: 'test',
+    city: 'test',
+    phone: '1'
   }).save();
 
   dummyData.linkedCart.userID = dummyData.userLinkedWithCart._id;
