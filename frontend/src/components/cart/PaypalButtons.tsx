@@ -1,7 +1,10 @@
 import React, { FC } from 'react';
 
 import { PayPalButtons } from '@paypal/react-paypal-js';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
+import { getOrderRoute } from '../../services/apiRoutes';
 
 interface Props {
     className?: string;
@@ -10,6 +13,11 @@ interface Props {
 
 const PaypalButtons: FC<Props> = ({ className, value }) => {
   const navigate = useNavigate();
+
+  const handleOnApprove = () => {
+    const cartID = localStorage.getItem('cart');
+    axios.delete(getOrderRoute(cartID as string));
+  };
 
   return (
     <PayPalButtons

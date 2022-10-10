@@ -2,6 +2,8 @@ const asyncHandler = require('express-async-handler');
 const express = require('express');
 const router = express.Router();
 
+const checkPassedCartIDMiddleware = require('../middleware/cart/checkPassedCartIDMiddleware');
+
 const cartController = require('../controllers/cartController');
 
 // Question marks in front of 'accept' variables means that they are not required
@@ -22,5 +24,10 @@ router.get('/:cartID', asyncHandler(cartController.getCart));
 // @access Public
 // @accepts { cartID, productID }
 router.delete('/product', asyncHandler(cartController.deleteProductFromCart));
+
+// @desc Delete a cart
+// @route DELETE /api/carts/:cartID
+// @access Public
+router.delete('/:cartID', checkPassedCartIDMiddleware, asyncHandler(cartController.deleteOrder));
 
 module.exports = router;

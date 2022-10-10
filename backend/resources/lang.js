@@ -21,7 +21,8 @@ const lang = {
     controllers: {
       cart: {
         invalidCartID: 'Invalid cart ID',
-        noItemsInCart: 'No items in cart'
+        noItemsInCart: 'No items in cart',
+        cartDeleted: 'The order was successfully removed.'
       },
       category: {
         nameAlreadyExists: 'Category with provided name already exists.',
@@ -77,7 +78,8 @@ const lang = {
     controllers: {
       cart: {
         invalidCartID: 'Невалиден ID на количка',
-        noItemsInCart: 'Няма продукти в количката'
+        noItemsInCart: 'Няма продукти в количката',
+        cartDeleted: 'Количката беше изтрита успешно'
       },
       category: {
         nameAlreadyExists: 'Категория с предоставеното име вече съществува.',

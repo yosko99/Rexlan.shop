@@ -7,21 +7,25 @@ const getDummyData = require('./config/getDummyData');
 const app = require('../app');
 const Cart = require('../models/cartModel');
 
+const CART_ROUTE = '/api/carts/';
 describe('Testing cart API', () => {
   let dummyData = {};
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     dummyData = await getDummyData();
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await deleteDummyData(dummyData);
+  });
+
+  afterAll(async () => {
     mongoose.disconnect();
   });
 
   test('add product to already created cart with provided valid productID, cartID and product quantity', () => {
     return request(app)
-      .post('/api/carts/')
+      .post(CART_ROUTE)
       .send({
         productID: '1',
         cartID: dummyData.notLinkedCart._id,
@@ -40,7 +44,7 @@ describe('Testing cart API', () => {
 
   test('add product to already created cart with provided valid productID, cartID', () => {
     return request(app)
-      .post('/api/carts/')
+      .post(CART_ROUTE)
       .send({
         productID: '1',
         cartID: dummyData.notLinkedCart._id
@@ -58,7 +62,7 @@ describe('Testing cart API', () => {
 
   test('add product to already created cart with provided valid cartID but no product ID', () => {
     return request(app)
-      .post('/api/carts/')
+      .post(CART_ROUTE)
       .send({
         cartID: dummyData.notLinkedCart._id
       })
@@ -71,7 +75,7 @@ describe('Testing cart API', () => {
 
   test('add product to non existant cart with provided valid product ID', () => {
     return request(app)
-      .post('/api/carts/')
+      .post(CART_ROUTE)
       .send({
         productID: '1'
       })
@@ -90,7 +94,7 @@ describe('Testing cart API', () => {
 
   test('get cart that is not linked with user, with provided valid ID', () => {
     return request(app)
-      .get(`/api/carts/${dummyData.notLinkedCart._id.toString()}`)
+      .get(`${CART_ROUTE}${dummyData.notLinkedCart._id.toString()}`)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -111,7 +115,7 @@ describe('Testing cart API', () => {
 
   test('get cart with invalid cart ID', () => {
     return request(app)
-      .get('/api/carts/blabla')
+      .get(CART_ROUTE + 'sada')
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -125,7 +129,7 @@ describe('Testing cart API', () => {
 
   test('get cart that is linked to user, with provided valid ID', () => {
     return request(app)
-      .get(`/api/carts/${dummyData.linkedCart._id.toString()}`)
+      .get(`${CART_ROUTE}${dummyData.linkedCart._id.toString()}`)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -150,7 +154,7 @@ describe('Testing cart API', () => {
 
   test('delete product from cart with provided valid product ID and cart ID', () => {
     return request(app)
-      .delete('/api/carts/product')
+      .delete(CART_ROUTE + 'product')
       .send({
         cartID: dummyData.linkedCart._id,
         productID: '7'
@@ -164,7 +168,7 @@ describe('Testing cart API', () => {
 
   test('delete product from cart with provided valid product ID and unvalid cart ID', () => {
     return request(app)
-      .delete('/api/carts/product')
+      .delete(CART_ROUTE + 'product')
       .send({
         cartID: 'blabla',
         productID: '7'
@@ -173,6 +177,26 @@ describe('Testing cart API', () => {
       .expect(404)
       .then((response) => {
         expect(response.text).toBe('Invalid cart ID');
+      });
+  });
+
+  test('delete a cart with provided invalid cartID', () => {
+    return request(app)
+      .delete(CART_ROUTE + '12char12char')
+      .expect('Content-Type', /html/)
+      .expect(404)
+      .then((response) => {
+        expect(response.text).toBe('Invalid or not provided cart ID');
+      });
+  });
+
+  test('delete a cart with provided valid cartID', () => {
+    return request(app)
+      .delete(CART_ROUTE + dummyData.notLinkedCart._id)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.msg).toBe('The order was successfully removed.');
       });
   });
 });

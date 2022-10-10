@@ -150,3 +150,9 @@ exports.deleteProductFromCart = async (req, res) => {
     msg: `${lang[req.currentLang].global.product} ${lang[req.currentLang].global.removed.toLowerCase()}`
   });
 };
+
+exports.deleteOrder = async (req, res) => {
+  await Cart.deleteOne({ _id: req.cart._id });
+
+  res.status(200).json({ msg: lang[req.currentLang].controllers.cart.cartDeleted });
+};
