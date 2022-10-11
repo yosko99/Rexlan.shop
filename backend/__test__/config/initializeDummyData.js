@@ -28,7 +28,8 @@ const initializeDummyData = async (dummyData) => {
     password: hashedPassword,
     name: 'test',
     address: 'test',
-    phone: 'test'
+    phone: 'test',
+    isAdmin: true
   }).save();
 
   dummyData.userNotLinkedWithCart = await User({

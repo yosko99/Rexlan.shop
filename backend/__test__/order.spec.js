@@ -92,7 +92,7 @@ describe('Testing orders API', () => {
 
   test('cet order without providing cartID', () => {
     return request(app)
-      .get(ORDERS_ROUTE + 'cart/' + '12char12char')
+      .get(ORDERS_ROUTE + '12char12char')
       .expect('Content-Type', /html/)
       .expect(404)
       .then((response) => {
@@ -102,7 +102,7 @@ describe('Testing orders API', () => {
 
   test('get order with providing valid cartID', () => {
     return request(app)
-      .get(ORDERS_ROUTE + 'cart/' + dummyData.linkedCart._id)
+      .get(ORDERS_ROUTE + dummyData.linkedCart._id)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -130,19 +130,19 @@ describe('Testing orders API', () => {
       });
   });
 
-  test('get orders with provided invalid userID', () => {
+  test('get all users orders with provided invalid cartID', () => {
     return request(app)
       .get(ORDERS_ROUTE + 'user/' + 'test')
       .expect('Content-Type', /html/)
       .expect(404)
       .then((response) => {
-        expect(response.text).toBe('Invalid or not provided user ID');
+        expect(response.text).toBe('Invalid or not provided cart ID');
       });
   });
 
-  test('get orders with provided valid userID', () => {
+  test('get all user orders with provided valid cartID', () => {
     return request(app)
-      .get(ORDERS_ROUTE + 'user/' + dummyData.userLinkedWithCart._id)
+      .get(ORDERS_ROUTE + 'user/' + dummyData.linkedCart._id)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {

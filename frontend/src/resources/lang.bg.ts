@@ -242,8 +242,18 @@ const lang: HTMLFields = {
       },
       myOrders: {
         header: {
-          title: 'Тази страница е в процес на разработка',
-          subtitle: 'Ние работим върху това!'
+          title: 'Моите поръчки',
+          subtitle: 'Всичките ваши поръчки са изброени по-долу'
+        },
+        noOrders: 'В момента нямате създадени поръчки.',
+        ordersTable: {
+          header: {
+            date: 'Дата',
+            order: '# Поръчка',
+            status: 'Статус',
+            total: 'Обща сума'
+          },
+          viewButton: 'Прегледай'
         }
       },
       adminPanel: {

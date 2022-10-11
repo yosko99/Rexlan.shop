@@ -161,6 +161,16 @@ interface HTMLFields {
             },
             myOrders: {
                 header: HeadingType;
+                noOrders: string;
+                ordersTable: {
+                    header: {
+                        order: string;
+                        date: string;
+                        status: string;
+                        total: string;
+                    }
+                    viewButton: string;
+                }
             },
             adminPanel: {
                 header: HeadingType;

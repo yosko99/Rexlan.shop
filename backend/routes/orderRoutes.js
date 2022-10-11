@@ -6,7 +6,7 @@ const orderController = require('../controllers/orderController');
 
 const checkPassedCartIDMiddleware = require('../middleware/order/checkPassedCartIDMiddleware');
 const checkExistingOrderMiddleware = require('../middleware/order/checkExistingOrderMIddleware');
-const checkExistingOrderByOrderIDMiddleware = require('../middleware/order/checkExistingOrderByOrderIDMiddleware');
+const checkExistingOrderByCartIDMiddleware = require('../middleware/order/checkExistingOrderByCartIDMiddleware');
 const checkExistingOrdersByUserIDMiddleware = require('../middleware/order/checkExistingOrdersByUserIDMiddleware');
 
 // Question marks in front of 'accept' variables means that they are not required
@@ -23,18 +23,18 @@ router.post(
 );
 
 // @desc Fetch single order by cartID
-// @route GET /api/orders/cart/:cartID
+// @route GET /api/orders/:cartID
 // @access Public
-router.get('/cart/:cartID', checkExistingOrderByOrderIDMiddleware, asyncHandler(orderController.getOrderByOrder));
+router.get('/:cartID', checkExistingOrderByCartIDMiddleware, asyncHandler(orderController.getOrder));
 
-// @desc Fetch all orders by userID
-// @route GET /api/orders/user/:userID
+// @desc Fetch all user orders by cartID
+// @route GET /api/orders/user/:cartID
 // @access Public
-router.get('/user/:userID', checkExistingOrdersByUserIDMiddleware, asyncHandler(orderController.getOrderByUser));
+router.get('/user/:cartID', checkExistingOrdersByUserIDMiddleware, asyncHandler(orderController.getUserOrders));
 
 // @desc Deletes a order
 // @route DELETE /api/orders/:cartID
 // @access Public
-router.delete('/:cartID', checkExistingOrderByOrderIDMiddleware, asyncHandler(orderController.deleteOrder));
+router.delete('/:cartID', checkExistingOrderByCartIDMiddleware, asyncHandler(orderController.deleteOrder));
 
 module.exports = router;

@@ -38,7 +38,7 @@ const RenderDashboard: FC<Props> = ({ user }) => {
               <DashboardNavigation isAdmin={user.isAdmin} />
             </Col>
             <Col lg={10} className='shadow-sm'>
-              <div className='mx-3 mb-3 p-3'>
+              <div className='mx-3 mb-3 p-lg-3 p-0'>
                 {subpage.page}
               </div>
             </Col>

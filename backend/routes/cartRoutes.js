@@ -25,8 +25,8 @@ router.get('/:cartID', asyncHandler(cartController.getCart));
 // @accepts { cartID, productID }
 router.delete('/product', asyncHandler(cartController.deleteProductFromCart));
 
-// @desc Delete a cart
-// @route DELETE /api/carts/:cartID
+// @desc Delete a cart with optional reassign new cart to user value
+// @route DELETE /api/carts/:cartID?reassignCartToUser=(true/false)
 // @access Public
 router.delete('/:cartID', checkPassedCartIDMiddleware, asyncHandler(cartController.deleteCart));
 

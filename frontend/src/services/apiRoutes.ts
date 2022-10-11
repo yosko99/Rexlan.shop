@@ -109,10 +109,10 @@ export const getOrdersRoute = (): string => {
   return ORDERS_ROUTE + getLinkDeffaultSuffixes();
 };
 
-export const getOrderByCartRoute = (cartID: string): string => {
-  return ORDERS_ROUTE + 'cart/' + cartID + getLinkDeffaultSuffixes();
+export const getOrderRoute = (cartID: string): string => {
+  return ORDERS_ROUTE + cartID + getLinkDeffaultSuffixes();
 };
 
-export const getOrderByUserRoute = (userID: string): string => {
-  return ORDERS_ROUTE + 'user/' + userID + getLinkDeffaultSuffixes();
+export const getUserOrdersRoute = (cartID: string): string => {
+  return ORDERS_ROUTE + 'user/' + cartID + getLinkDeffaultSuffixes();
 };

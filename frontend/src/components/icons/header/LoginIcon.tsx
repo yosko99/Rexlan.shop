@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 
 import { faSignIn, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useQueryClient } from 'react-query';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { CurrentLanguageContext } from '../../../context/CurrentLanguageContext';
@@ -11,11 +12,13 @@ import CenteredItems from '../../../styles/CenteredItems';
 const LoginIcon = () => {
   const { lang } = useContext(CurrentLanguageContext);
   const token = useContext(TokenContext);
+  const queryClient = useQueryClient();
 
   const handleClick = () => {
     if (token!.token !== null) {
-			token!.setToken(null);
-			localStorage.removeItem('cart');
+		token!.setToken(null);
+		localStorage.removeItem('cart');
+		queryClient.removeQueries('orders');
     }
   };
 

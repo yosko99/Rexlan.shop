@@ -4,7 +4,6 @@ import React from 'react';
 import { loadProgressBar } from 'axios-progress-bar';
 import ReactDOM from 'react-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 
 import 'axios-progress-bar/dist/nprogress.css';
 import './styles/bootstrap.min.css';
@@ -25,7 +24,6 @@ ReactDOM.render(
   <QueryClientProvider client={queryClient}>
     <React.StrictMode>
         <App />
-        <ReactQueryDevtools initialIsOpen/>
     </React.StrictMode>
   </QueryClientProvider>,
   document.getElementById('root')

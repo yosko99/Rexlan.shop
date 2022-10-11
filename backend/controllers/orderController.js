@@ -13,11 +13,11 @@ exports.createOrder = async (req, res) => {
   });
 };
 
-exports.getOrderByOrder = async (req, res) => {
+exports.getOrder = async (req, res) => {
   res.status(200).json(req.order);
 };
 
-exports.getOrderByUser = async (req, res) => {
+exports.getUserOrders = async (req, res) => {
   res.status(200).json(req.orders);
 };
 

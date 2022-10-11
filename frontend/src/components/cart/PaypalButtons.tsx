@@ -1,9 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
 import { PayPalButtons } from '@paypal/react-paypal-js';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+import { TokenContext } from '../../context/TokenContext';
 import { getCartRoute } from '../../services/apiRoutes';
 
 interface Props {
@@ -12,10 +13,11 @@ interface Props {
 }
 
 const PaypalButtons: FC<Props> = ({ className, value }) => {
+  const token = useContext(TokenContext);
   const navigate = useNavigate();
 
   const handleOnApprove = async () => {
-    const reassignCartToUser = localStorage.getItem('token') !== null;
+    const reassignCartToUser = token!.token !== null;
     const cartID = localStorage.getItem('cart');
 
     const { data } = await axios.delete(getCartRoute(cartID as string, reassignCartToUser));

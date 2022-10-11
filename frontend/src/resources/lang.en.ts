@@ -242,8 +242,18 @@ const lang: HTMLFields = {
       },
       myOrders: {
         header: {
-          title: 'This page is under construction',
-          subtitle: 'We are working on it!'
+          title: 'My orders',
+          subtitle: 'All your orders are listed below'
+        },
+        noOrders: 'Currently you don\'t have any created orders.',
+        ordersTable: {
+          header: {
+            date: 'Date',
+            order: '# Order',
+            status: 'Status',
+            total: 'Total'
+          },
+          viewButton: 'View'
         }
       },
       adminPanel: {

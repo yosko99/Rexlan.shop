@@ -13,7 +13,7 @@ interface Props {
 
 const EditDataTable: FC<Props> = ({ tableHeaderCells, tableRowCells, inputStructure, createDataRoute }) => {
   return (
-		<>
+		<div className='overflow-auto'>
 			{/* Add data */}
 			<TableAddDataButton
 				inputStructure={inputStructure}
@@ -35,7 +35,7 @@ const EditDataTable: FC<Props> = ({ tableHeaderCells, tableRowCells, inputStruct
 				</tbody>
 			</Table>
 			{/* Table wtih data */}
-		</>
+		</div>
   );
 };
 
