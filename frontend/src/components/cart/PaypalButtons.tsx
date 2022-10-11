@@ -15,11 +15,16 @@ const PaypalButtons: FC<Props> = ({ className, value }) => {
   const navigate = useNavigate();
 
   const handleOnApprove = async () => {
+    const reassignCartToUser = localStorage.getItem('token') !== null;
     const cartID = localStorage.getItem('cart');
 
-    await axios.delete(getCartRoute(cartID as string));
+    const { data } = await axios.delete(getCartRoute(cartID as string, reassignCartToUser));
 
-    localStorage.removeItem('cart');
+    if (reassignCartToUser) {
+      localStorage.setItem('cart', data.cartID);
+    } else {
+      localStorage.removeItem('cart');
+    }
   };
 
   return (

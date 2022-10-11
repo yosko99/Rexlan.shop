@@ -48,8 +48,8 @@ export const getCartsRoute = (): string => {
   return CARTS_ROUTE + getLinkDeffaultSuffixes();
 };
 
-export const getCartRoute = (id: string): string => {
-  return CARTS_ROUTE + id + getLinkDeffaultSuffixes();
+export const getCartRoute = (id: string, reassignCartToUser: boolean): string => {
+  return CARTS_ROUTE + id + getLinkDeffaultSuffixes() + `&reassignCartToUser=${reassignCartToUser}`;
 };
 
 export const getCartsProductRoute = (): string => {

@@ -28,6 +28,6 @@ router.delete('/product', asyncHandler(cartController.deleteProductFromCart));
 // @desc Delete a cart
 // @route DELETE /api/carts/:cartID
 // @access Public
-router.delete('/:cartID', checkPassedCartIDMiddleware, asyncHandler(cartController.deleteOrder));
+router.delete('/:cartID', checkPassedCartIDMiddleware, asyncHandler(cartController.deleteCart));
 
 module.exports = router;

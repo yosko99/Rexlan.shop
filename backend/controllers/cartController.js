@@ -3,6 +3,7 @@ const Cart = require('../models/cartModel');
 const User = require('../models/userModel');
 
 const calculateCartTotalPrice = require('./functions/cart/calculateCartTotalPrice');
+const reassignNewCartToUser = require('./functions/cart/reassignNewCartToUser');
 
 const lang = require('../resources/lang');
 
@@ -151,8 +152,21 @@ exports.deleteProductFromCart = async (req, res) => {
   });
 };
 
-exports.deleteOrder = async (req, res) => {
+exports.deleteCart = async (req, res) => {
+  const { reassignCartToUser } = req.query;
+
+  let newCart = {};
+
+  if (reassignCartToUser === 'true') {
+    newCart = await reassignNewCartToUser(req.cart.userID);
+  }
+
   await Cart.deleteOne({ _id: req.cart._id });
 
-  res.status(200).json({ msg: lang[req.currentLang].controllers.cart.cartDeleted });
+  const cartID = newCart._id === undefined ? null : newCart._id;
+
+  res.status(200).json({
+    msg: lang[req.currentLang].controllers.cart.cartDeleted,
+    cartID
+  });
 };
