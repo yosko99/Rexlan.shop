@@ -4,7 +4,7 @@ import { PayPalButtons } from '@paypal/react-paypal-js';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import { getOrderRoute } from '../../services/apiRoutes';
+import { getCartRoute } from '../../services/apiRoutes';
 
 interface Props {
     className?: string;
@@ -14,9 +14,12 @@ interface Props {
 const PaypalButtons: FC<Props> = ({ className, value }) => {
   const navigate = useNavigate();
 
-  const handleOnApprove = () => {
+  const handleOnApprove = async () => {
     const cartID = localStorage.getItem('cart');
-    axios.delete(getOrderRoute(cartID as string));
+
+    await axios.delete(getCartRoute(cartID as string));
+
+    localStorage.removeItem('cart');
   };
 
   return (
@@ -38,6 +41,9 @@ const PaypalButtons: FC<Props> = ({ className, value }) => {
       }}
       onApprove={async (data, actions) => {
         const order = await actions.order!.capture();
+
+        await handleOnApprove();
+
         navigate('/payment-successful', { state: order });
       }}
       onCancel={() => {

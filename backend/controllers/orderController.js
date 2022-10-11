@@ -13,8 +13,12 @@ exports.createOrder = async (req, res) => {
   });
 };
 
-exports.getOrder = async (req, res) => {
+exports.getOrderByOrder = async (req, res) => {
   res.status(200).json(req.order);
+};
+
+exports.getOrderByUser = async (req, res) => {
+  res.status(200).json(req.orders);
 };
 
 exports.deleteOrder = async (req, res) => {

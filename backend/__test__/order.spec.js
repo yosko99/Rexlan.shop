@@ -92,7 +92,7 @@ describe('Testing orders API', () => {
 
   test('cet order without providing cartID', () => {
     return request(app)
-      .get(ORDERS_ROUTE + '12char12char')
+      .get(ORDERS_ROUTE + 'cart/' + '12char12char')
       .expect('Content-Type', /html/)
       .expect(404)
       .then((response) => {
@@ -102,7 +102,7 @@ describe('Testing orders API', () => {
 
   test('get order with providing valid cartID', () => {
     return request(app)
-      .get(ORDERS_ROUTE + dummyData.linkedCart._id)
+      .get(ORDERS_ROUTE + 'cart/' + dummyData.linkedCart._id)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -127,6 +127,29 @@ describe('Testing orders API', () => {
       .expect(200)
       .then((response) => {
         expect(response.body.msg).toBe('The order was successfully removed.');
+      });
+  });
+
+  test('get orders with provided invalid userID', () => {
+    return request(app)
+      .get(ORDERS_ROUTE + 'user/' + 'test')
+      .expect('Content-Type', /html/)
+      .expect(404)
+      .then((response) => {
+        expect(response.text).toBe('Invalid or not provided user ID');
+      });
+  });
+
+  test('get orders with provided valid userID', () => {
+    return request(app)
+      .get(ORDERS_ROUTE + 'user/' + dummyData.userLinkedWithCart._id)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining(orderStructure)
+          ]));
       });
   });
 });

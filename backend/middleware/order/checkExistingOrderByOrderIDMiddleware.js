@@ -2,7 +2,7 @@ const Order = require('../../models/orderModel');
 
 const mongoose = require('mongoose');
 
-const checkExistingOrderMiddlewareByParam = async (req, res, next) => {
+const checkExistingOrderByOrderIDMiddleware = async (req, res, next) => {
   const { cartID } = req.params;
 
   if (cartID === undefined || !mongoose.Types.ObjectId.isValid(cartID)) {
@@ -19,4 +19,4 @@ const checkExistingOrderMiddlewareByParam = async (req, res, next) => {
   next();
 };
 
-module.exports = checkExistingOrderMiddlewareByParam;
+module.exports = checkExistingOrderByOrderIDMiddleware;

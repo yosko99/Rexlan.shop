@@ -16,7 +16,7 @@ const lang: HTMLFields = {
     submit: 'Изпрати',
     delivery: 'Доставка',
     discount: 'Отстъпка',
-    free: 'Безплатно',
+    free: 'Безплатна',
     addToCart: 'Добави в количката',
     outOf: 'от',
     users: 'Потребители'

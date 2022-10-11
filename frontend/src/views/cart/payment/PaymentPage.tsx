@@ -11,7 +11,7 @@ import PaypalButtons from '../../../components/cart/PaypalButtons';
 import Loading from '../../../components/loading/Loading';
 import { CurrentLanguageContext } from '../../../context/CurrentLanguageContext';
 import usePaymentRedirect from '../../../hooks/usePaymentRedirect';
-import { getOrderRoute } from '../../../services/apiRoutes';
+import { getOrderByCartRoute } from '../../../services/apiRoutes';
 import { OrderType } from '../../../types/orderTypes';
 
 interface LocationPaymentType {
@@ -32,7 +32,7 @@ const PaymentPage = () => {
   const { lang } = useContext(CurrentLanguageContext);
 
   useEffect(() => {
-    axios.get(getOrderRoute(location.state.cartID)).then((response) => {
+    axios.get(getOrderByCartRoute(location.state.cartID)).then((response) => {
       setOrderInfo(response.data);
       setLoading(false);
     }).catch((_err) => {
