@@ -9,6 +9,13 @@ const Cart = require('../models/cartModel');
 
 const CART_ROUTE = '/api/carts/';
 describe('Testing cart API', () => {
+  const cartStructure = {
+    products: expect.any(Array),
+    isLinked: expect.any(Boolean),
+    userID: expect.any(String),
+    totalPrice: expect.any(Number),
+    _id: expect.any(String)
+  };
   let dummyData = {};
 
   beforeEach(async () => {
@@ -21,6 +28,26 @@ describe('Testing cart API', () => {
 
   afterAll(async () => {
     mongoose.disconnect();
+  });
+
+  test('get cart info with provided valid cartID', () => {
+    return request(app)
+      .get(CART_ROUTE + dummyData.linkedCart._id)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual(cartStructure);
+      });
+  });
+
+  test('get cart info with provided invalid cartID', () => {
+    return request(app)
+      .get(CART_ROUTE + '12char12char')
+      .expect('Content-Type', /html/)
+      .expect(404)
+      .then((response) => {
+        expect(response.text).toBe('Invalid or not provided cart ID');
+      });
   });
 
   test('add product to already created cart with provided valid productID, cartID and product quantity', () => {
@@ -92,9 +119,9 @@ describe('Testing cart API', () => {
       });
   });
 
-  test('get cart that is not linked with user, with provided valid ID', () => {
+  test('get products of a cart that is not linked with user, with provided valid ID', () => {
     return request(app)
-      .get(`${CART_ROUTE}${dummyData.notLinkedCart._id.toString()}`)
+      .get(`${CART_ROUTE}products/${dummyData.notLinkedCart._id.toString()}`)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -113,9 +140,9 @@ describe('Testing cart API', () => {
       });
   });
 
-  test('get cart with invalid cart ID', () => {
+  test('get cart products with provided invalid cart ID', () => {
     return request(app)
-      .get(CART_ROUTE + 'sada')
+      .get(CART_ROUTE + 'products/' + 'sada')
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -127,9 +154,9 @@ describe('Testing cart API', () => {
       });
   });
 
-  test('get cart that is linked to user, with provided valid ID', () => {
+  test('get products from cart that is linked to user, with provided valid ID', () => {
     return request(app)
-      .get(`${CART_ROUTE}${dummyData.linkedCart._id.toString()}`)
+      .get(`${CART_ROUTE}/products/${dummyData.linkedCart._id.toString()}`)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -154,7 +181,7 @@ describe('Testing cart API', () => {
 
   test('delete product from cart with provided valid product ID and cart ID', () => {
     return request(app)
-      .delete(CART_ROUTE + 'product')
+      .delete(CART_ROUTE + 'products')
       .send({
         cartID: dummyData.linkedCart._id,
         productID: '7'
@@ -168,7 +195,7 @@ describe('Testing cart API', () => {
 
   test('delete product from cart with provided valid product ID and unvalid cart ID', () => {
     return request(app)
-      .delete(CART_ROUTE + 'product')
+      .delete(CART_ROUTE + 'products')
       .send({
         cartID: 'blabla',
         productID: '7'
@@ -196,7 +223,7 @@ describe('Testing cart API', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
-        expect(response.body.msg).toBe('The order was successfully removed.');
+        expect(response.body.msg).toBe('The cart was successfully removed.');
       });
   });
 });

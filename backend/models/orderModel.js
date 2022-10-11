@@ -21,8 +21,7 @@ const orderSchema = Schema({
   },
   orderStatus: {
     type: String,
-    enum: ['Pending Approval', 'Processing', 'Delivered'],
-    default: 'Pending Approval'
+    default: 'Pending'
   },
   selectedCourier: {
     type: String,

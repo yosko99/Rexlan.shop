@@ -8,7 +8,7 @@ const checkExistingOrderMiddlewareByParam = async (req, res, next) => {
   if (cartID === undefined || !mongoose.Types.ObjectId.isValid(cartID)) {
     return res.status(404).send('Invalid or not provided cart ID');
   }
-  const doesCartExist = await Cart.findOne({ _id: cartID });
+  const doesCartExist = await Cart.findOne({ _id: cartID }).select('-__v');
 
   if (doesCartExist === null) {
     return res.status(404).send('Invalid or not provided cart ID');

@@ -22,7 +22,7 @@ const lang = {
       cart: {
         invalidCartID: 'Invalid cart ID',
         noItemsInCart: 'No items in cart',
-        cartDeleted: 'The order was successfully removed.'
+        cartDeleted: 'The cart was successfully removed.'
       },
       category: {
         nameAlreadyExists: 'Category with provided name already exists.',

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useQueryClient } from 'react-query';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
-import { getCartsProductRoute } from '../../services/apiRoutes';
+import { getCartProductsRoute } from '../../services/apiRoutes';
 
 interface Props {
   productID: string;
@@ -18,7 +18,7 @@ const RemoveProduct: FC<Props> = ({ productID }) => {
   const handleRemove = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const productID = e.currentTarget.id;
 
-    axios.delete(getCartsProductRoute(), {
+    axios.delete(getCartProductsRoute(), {
       data: {
         cartID: localStorage.getItem('cart'),
         productID

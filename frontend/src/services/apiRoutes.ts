@@ -52,8 +52,12 @@ export const getCartRoute = (id: string, reassignCartToUser: boolean): string =>
   return CARTS_ROUTE + id + getLinkDeffaultSuffixes() + `&reassignCartToUser=${reassignCartToUser}`;
 };
 
-export const getCartsProductRoute = (): string => {
-  return CARTS_ROUTE + 'product' + getLinkDeffaultSuffixes();
+export const getCartProductsRoute = (cartID?: string): string => {
+  if (cartID !== undefined) {
+    return CARTS_ROUTE + 'products' + `/${cartID}` + getLinkDeffaultSuffixes();
+  } else {
+    return CARTS_ROUTE + 'products' + getLinkDeffaultSuffixes();
+  }
 };
 
 // Category routes

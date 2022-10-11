@@ -69,7 +69,11 @@ exports.addProductToCart = async (req, res) => {
   }
 };
 
-exports.getCart = async (req, res) => {
+exports.getCart = (req, res) => {
+  res.status(200).json(req.cart);
+};
+
+exports.getCartProducts = async (req, res) => {
   const { cartID } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(cartID)) {

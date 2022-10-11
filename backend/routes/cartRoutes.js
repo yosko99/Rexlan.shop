@@ -14,16 +14,21 @@ const cartController = require('../controllers/cartController');
 // @accepts { productID, cartID, productQuantity? }
 router.post('/', asyncHandler(cartController.addProductToCart));
 
-// @desc Fetch the products of cart if there are any
+// @desc Get cart info
 // @route GET /api/carts/:cartID
 // @access Public
-router.get('/:cartID', asyncHandler(cartController.getCart));
+router.get('/:cartID', checkPassedCartIDMiddleware, asyncHandler(cartController.getCart));
+
+// @desc Fetch the products of cart if there are any
+// @route GET /api/carts/products/:cartID
+// @access Public
+router.get('/products/:cartID', asyncHandler(cartController.getCartProducts));
 
 // @desc Delete/decrement product from cart
-// @route DELETE /api/carts/product
+// @route DELETE /api/carts/products
 // @access Public
 // @accepts { cartID, productID }
-router.delete('/product', asyncHandler(cartController.deleteProductFromCart));
+router.delete('/products', asyncHandler(cartController.deleteProductFromCart));
 
 // @desc Delete a cart with optional reassign new cart to user value
 // @route DELETE /api/carts/:cartID?reassignCartToUser=(true/false)
