@@ -50,7 +50,8 @@ const initializeDummyData = async (dummyData) => {
     address: 'test',
     name: 'test',
     city: 'test',
-    phone: '1'
+    phone: '1',
+    orderStatus: 'Processing'
   }).save();
 
   dummyData.linkedCart.userID = dummyData.userLinkedWithCart._id;

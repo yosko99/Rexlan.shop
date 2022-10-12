@@ -4,6 +4,7 @@ const User = require('../models/userModel');
 
 const calculateCartTotalPrice = require('./functions/cart/calculateCartTotalPrice');
 const reassignNewCartToUser = require('./functions/cart/reassignNewCartToUser');
+const updateOrderStatus = require('./functions/cart/updateOrderStatus');
 
 const lang = require('../resources/lang');
 
@@ -157,20 +158,13 @@ exports.deleteProductFromCart = async (req, res) => {
 };
 
 exports.deleteCart = async (req, res) => {
-  const { reassignCartToUser } = req.query;
-
-  let newCart = {};
-
-  if (reassignCartToUser === 'true') {
-    newCart = await reassignNewCartToUser(req.cart.userID);
-  }
+  const newCart = await reassignNewCartToUser(req.query.reassignCartToUser, req.cart.userID);
+  await updateOrderStatus(req.cart._id);
 
   await Cart.deleteOne({ _id: req.cart._id });
 
-  const cartID = newCart._id === undefined ? null : newCart._id;
-
   res.status(200).json({
     msg: lang[req.currentLang].controllers.cart.cartDeleted,
-    cartID
+    cartID: newCart._id
   });
 };

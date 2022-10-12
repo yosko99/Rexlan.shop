@@ -13,7 +13,9 @@ const checkExistingOrdersByUserMiddleware = async (req, res, next) => {
 
   const doesOrdersExist = await Order.find({
     userID: cart.userID
-  }).select('-__v -_id');
+  }).where('orderStatus')
+    .ne('Pending')
+    .select('-__v -_id');
 
   if (doesOrdersExist === null || cart === null) {
     return res.status(404).send('Invalid or not provided cart ID');

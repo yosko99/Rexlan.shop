@@ -226,4 +226,50 @@ describe('Testing cart API', () => {
         expect(response.body.msg).toBe('The cart was successfully removed.');
       });
   });
+
+  test('delete a cart with provided valid cartID and check if cartID in response is null', () => {
+    return request(app)
+      .del(CART_ROUTE + dummyData.linkedCart._id)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.cartID).toBe(null);
+      });
+  });
+
+  test('detele a cart with provided valid cartID and passed reassignCartToUser query', () => {
+    return request(app)
+      .del(CART_ROUTE + dummyData.linkedCart._id + '?reassignCartToUser=true')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        const newCartID = response.body.cartID;
+
+        return request(app)
+          .get(CART_ROUTE + newCartID)
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .then(async (response) => {
+            expect(response.body.userID).toBe(dummyData.userLinkedWithCart._id.toString());
+
+            await Cart.deleteOne({ _id: newCartID });
+          });
+      });
+  });
+
+  test('delete a cart with provided valid cartID and check if orderStatus is updated', () => {
+    return request(app)
+      .del(CART_ROUTE + dummyData.linkedCart._id)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        return request(app)
+          .get('/api/orders/' + dummyData.linkedCart._id)
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .then((response) => {
+            expect(response.body.orderStatus).toBe('Processing');
+          });
+      });
+  });
 });
