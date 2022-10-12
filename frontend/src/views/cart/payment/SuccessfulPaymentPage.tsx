@@ -5,8 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 
+import DataSplitBetween from '../../../components/partials/DataSplitBetween';
 import { CurrentLanguageContext } from '../../../context/CurrentLanguageContext';
 import PaymentType from '../../../types/paymentType';
+import TextDataType from '../../../types/textDataType';
 
 interface LocationPaymentType {
   state: PaymentType;
@@ -25,7 +27,7 @@ const SuccessfulPaymentPage = () => {
     window.location.href = '/';
   }
 
-  const htmlFields: PaymentInformationFieldType[] = [
+  const paymentInfoHTMLFields: TextDataType[] = [
     {
       text: lang.cart.successfulPaymentPage.status,
       data: location.state.status
@@ -63,12 +65,7 @@ const SuccessfulPaymentPage = () => {
         />
         <p className='text-success text-center fs-3 mt-0 mb-2'>Payment successful</p>
         <div className='p-5 text-wrap text-break'>
-          {htmlFields.map((field: PaymentInformationFieldType, index: number) => (
-            <div key={index} className='d-flex my-2 flex-column flex-lg-row justify-content-between'>
-              <p className='m-0'>{field.text}</p>
-              <p className='m-0'>{field.data}</p>
-            </div>
-          ))}
+          <DataSplitBetween textData={paymentInfoHTMLFields} />
           <div className='d-flex flex-column my-2 flex-lg-row justify-content-between'>
             <p className='m-0 my-3 fs-4'>{lang.cart.successfulPaymentPage.amountPayed}</p>
             <p className='m-0 my-3 fs-4'>{location.state.purchase_units[0].amount.value}</p>

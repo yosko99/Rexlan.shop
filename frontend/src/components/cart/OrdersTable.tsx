@@ -1,9 +1,10 @@
 import React, { FC, useContext } from 'react';
 
-import { Button, Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import { OrderType } from '../../types/orderTypes';
+import ViewOrderModal from './ViewOrderModal';
 
 interface Props {
   orders: OrderType[];
@@ -32,9 +33,7 @@ const OrdersTable: FC<Props> = ({ orders }) => {
             <th>{order.orderStatus}</th>
             <th>{(order.productsPrice + order.deliveryPrice).toFixed(2)} $</th>
             <th>
-              <Button variant="success">
-                {lang.dashboard.tabs.myOrders.ordersTable.viewButton}
-              </Button>
+              <ViewOrderModal order={order}/>
             </th>
           </tr>
         ))}

@@ -23,7 +23,7 @@ interface LocationPaymentType {
 const PaymentPage = () => {
   usePaymentRedirect();
 
-  const [orderInfo, setOrderInfo] = useState<OrderType>();
+  const [totalPrice, setTotalPrice] = useState('');
   const [loading, setLoading] = useState(true);
 
   const location = useLocation() as unknown as LocationPaymentType;
@@ -33,7 +33,9 @@ const PaymentPage = () => {
 
   useEffect(() => {
     axios.get(getOrderRoute(location.state.cartID)).then((response) => {
-      setOrderInfo(response.data);
+      const order = response.data as OrderType;
+      setTotalPrice((order!.productsPrice + order!.deliveryPrice).toFixed(2).toString());
+
       setLoading(false);
     }).catch((_err) => {
       navigate('/404');
@@ -47,14 +49,14 @@ const PaymentPage = () => {
           <Image src={securePaymentImg} alt='payment image' fluid className='mb-4' />
           <div className='text-left'>
             <p className='fs-2 m-0'>{lang.cart.paymentPage.toPay}</p>
-            <p className='fs-2 m-0 mb-2'>{orderInfo!.productsPrice} $</p>
+            <p className='fs-2 m-0 mb-2'>{totalPrice} $</p>
             <FontAwesomeIcon icon={faWarning} color='red' />
             <p className='text-danger m-0 mb-2'>{lang.cart.paymentPage.developmentWarning}</p>
             <p className='fs-5'>{lang.cart.paymentPage.choosePayment}</p>
           </div>
           <PaypalButtons
             className='w-100 d-flex justify-content-center align-items-center mt-3'
-            value={orderInfo!.productsPrice.toString()}
+            value={totalPrice}
           />
         </div>
         : <Loading height='70vh' />

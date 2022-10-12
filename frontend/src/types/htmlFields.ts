@@ -31,6 +31,15 @@ interface HTMLFields {
         addToCart: string;
         outOf: string;
         users: string;
+        close: string;
+        hello: string;
+        subtotal: string;
+        total: string;
+        name: string;
+        city: string;
+        address: string;
+        zipcode: string;
+        phone: string;
     },
     pdp: {
         inStock: string;
@@ -169,7 +178,14 @@ interface HTMLFields {
                         status: string;
                         total: string;
                     }
-                    viewButton: string;
+                    viewOrderModal: {
+                        activateButtonText: string;
+                        header: string;
+                        orderedProducts: string;
+                        billingInfo: string;
+                        shippingAddress: string;
+                        ifYouNeedHelp: string;
+                    }
                 }
             },
             adminPanel: {

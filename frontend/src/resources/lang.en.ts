@@ -19,7 +19,16 @@ const lang: HTMLFields = {
     free: 'Free',
     addToCart: 'Add to cart',
     outOf: 'out of',
-    users: 'Users'
+    users: 'Users',
+    close: 'Close',
+    hello: 'Hello',
+    subtotal: 'Subtotal',
+    total: 'Total',
+    address: 'Address',
+    city: 'City',
+    name: 'Name',
+    phone: 'Phone',
+    zipcode: 'Zipcode'
   },
   pdp: {
     inStock: 'In stock - pickup or order via courier',
@@ -253,7 +262,14 @@ const lang: HTMLFields = {
             status: 'Status',
             total: 'Total'
           },
-          viewButton: 'View'
+          viewOrderModal: {
+            activateButtonText: 'View',
+            header: 'We\'ve got your order! Your world is about to look a whole lot better. We\'ll drop you another email when your order ships.',
+            orderedProducts: 'Ordered products',
+            billingInfo: 'Billing info',
+            shippingAddress: 'Shipping address',
+            ifYouNeedHelp: 'If you need help with anything please don\'t hesitate to drop us an email :)'
+          }
         }
       },
       adminPanel: {
