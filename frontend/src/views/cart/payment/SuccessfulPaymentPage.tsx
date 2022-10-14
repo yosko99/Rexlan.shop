@@ -14,11 +14,6 @@ interface LocationPaymentType {
   state: PaymentType;
 }
 
-interface PaymentInformationFieldType {
-  text: string;
-  data: string;
-}
-
 const SuccessfulPaymentPage = () => {
   const location = useLocation() as unknown as LocationPaymentType;
   const { lang } = useContext(CurrentLanguageContext);

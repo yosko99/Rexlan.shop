@@ -11,7 +11,7 @@ interface Props {
 const CustomCarousel: FC<Props> = ({ carouselItems }) => {
   return (
     <Container className='mb-4'>
-      <Carousel axis='vertical' showThumbs={false} emulateTouch showStatus={false}>
+      <Carousel axis='vertical' interval={200} showThumbs={false} emulateTouch showStatus={false}>
         {carouselItems}
       </Carousel>
     </Container>
