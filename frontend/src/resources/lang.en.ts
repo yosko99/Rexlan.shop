@@ -152,7 +152,8 @@ const lang: HTMLFields = {
     },
     phone: {
       label: 'Your phone',
-      placeholder: '+12345678910'
+      placeholder: '+12345678910',
+      inputAlert: 'The expected format for phone number is \'+xxxxxxxxxxxx\''
     },
     city: {
       label: 'City',

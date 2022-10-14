@@ -17,7 +17,7 @@ const AddressInput: FC<Props> = ({ defaultValue }) => {
 			<Form.Control
 				name='address'
 				className='shadow-sm'
-				pattern='[a-zA-Z0-9a-zA-Zа-яА-Я\s]+'
+				pattern='[a-zA-Z0-9a-zA-Zа-яА-Я\s\-\.]+'
 				required type="text"
 				placeholder={lang.inputs.address.placeholder}
 				defaultValue={defaultValue}

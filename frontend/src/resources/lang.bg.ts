@@ -152,7 +152,8 @@ const lang: HTMLFields = {
     },
     phone: {
       label: 'Вашият телефон',
-      placeholder: '+12345678910'
+      placeholder: '+12345678910',
+      inputAlert: 'Очакваният формат за телефонен номер е \'+xxxxxxxxxxxx\''
     },
     city: {
       label: 'Град',

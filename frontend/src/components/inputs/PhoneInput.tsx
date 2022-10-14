@@ -22,6 +22,7 @@ const PhoneInput: FC<Props> = ({ defaultValue }) => {
 				placeholder={lang.inputs.phone.placeholder}
 				defaultValue={defaultValue}
 			/>
+			<Form.Control.Feedback type="invalid">{lang.inputs.phone.inputAlert}</Form.Control.Feedback>
 		</Form.Group>
   );
 };

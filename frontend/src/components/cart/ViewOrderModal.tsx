@@ -79,7 +79,7 @@ const ViewOrderModal: FC<Props> = ({ order }) => {
   const { data: products, error, isLoading } = useMultipleFetch(productData);
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading height='20px'/>;
   }
 
   if (error !== undefined) {

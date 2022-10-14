@@ -1,6 +1,6 @@
 import React, { FC, useContext } from 'react';
 
-import { Container, Row, Col, Image, Button } from 'react-bootstrap';
+import { Container, Row, Col, Image, Button, Carousel } from 'react-bootstrap';
 // @ts-ignore
 import Fade from 'react-reveal/Fade';
 
@@ -23,7 +23,9 @@ interface Props {
 const RenderMainPage: FC<Props> = ({ isLoading, featuredProducts, bestSellers }) => {
   const { lang } = useContext(CurrentLanguageContext);
   const carouselItems = Array(4).fill(0).map((value: any, index: number) => (
-		<Image key={index} src={require(`../../assets/carousel/carousel${index + 1}.webp`)} />
+	<Carousel.Item key={index}>
+		<Image src={require(`../../assets/carousel/carousel${index + 1}.webp`)} />
+	</Carousel.Item>
   ));
 
   return (
