@@ -8,8 +8,8 @@ import DeleteDataIcon from '../../../../../components/icons/dashboard/DeleteData
 import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon';
 import Loading from '../../../../../components/loading/Loading';
 import { productStructure } from '../../../../../data/inputStructure/productStructure';
-import { getProductRoute, getProductsRoute } from '../../../../../services/apiRoutes';
 import useFetch from '../../../../../hooks/useFetch';
+import { getProductRoute, getProductsRoute } from '../../../../../services/apiRoutes';
 import { Product } from '../../../../../types/productTypes';
 
 const EditProductsPage = () => {

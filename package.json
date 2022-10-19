@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest --verbose",
     "server": "nodemon --watch ./backend --ignore ./frontend",
+    "server2": "npm run start:dev --prefix backend-nest",
     "client": "npm start --prefix frontend",
     "installPackages": "concurrently \"yarn install --cwd backend\" \"yarn install --cwd frontend\"",
     "dev": "concurrently \"npm run server\" \"npm run client\" \"redis-server\"",
