@@ -21,6 +21,20 @@ const productTranslationSchema = new Schema(
   },
 );
 
+export const CartProductsSchema = new Schema(
+  {
+    productID: {
+      type: String,
+    },
+    productQuantity: {
+      type: Number,
+    },
+  },
+  {
+    _id: false,
+  },
+);
+
 export const productSchema = new Schema({
   id: {
     type: String,
@@ -60,24 +74,3 @@ export const productSchema = new Schema({
   },
   translations: [productTranslationSchema],
 });
-
-interface ProductTranslationType {
-  title: string;
-  description: string;
-  lang: string;
-}
-
-export interface ProductType {
-  id: string;
-  title: string;
-  categoryURL: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-  translations: ProductTranslationType[];
-}
