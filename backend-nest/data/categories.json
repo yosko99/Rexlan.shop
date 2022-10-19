@@ -1,0 +1,34 @@
+[
+	{
+		"name": "electronics",
+		"bannerImage": "/public/assets/categories/electronics.webp",
+		"translations": {
+			"lang": "bg",
+			"name": "електроника"
+		}
+	},
+	{
+		"name": "jewelery",
+		"bannerImage": "/public/assets/categories/jewelery.webp",
+		"translations": {
+			"lang": "bg",
+			"name": "бижута"
+		}
+	},
+	{
+		"name": "men's clothing",
+		"bannerImage": "/public/assets/categories/men's clothing.webp",
+		"translations": {
+			"lang": "bg",
+			"name": "мъжко облекло"
+		}
+	},
+	{
+		"name": "women's clothing",
+		"bannerImage": "/public/assets/categories/women's clothing.webp",
+		"translations": {
+			"lang": "bg",
+			"name": "дамски дрехи"
+		}
+	}
+]
