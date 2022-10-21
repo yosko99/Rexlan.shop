@@ -23,3 +23,10 @@ export interface ProductType {
   };
   translations: ProductTranslationType[];
 }
+
+export type productSortingType =
+  | 'title'
+  | 'price'
+  | 'description'
+  | 'category'
+  | 'rating';

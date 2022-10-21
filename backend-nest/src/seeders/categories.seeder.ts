@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Seeder } from 'nestjs-seeder';
 
-import * as categoryData from '../../data/categories.json';
+import * as categoryData from '../data/categories.json';
 import { CategoryType } from 'src/types/category.types';
 
 @Injectable()

@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { Seeder } from 'nestjs-seeder';
 
 import { DeliveryType } from 'src/types/delivery.types';
-import * as deliveryData from '../../data/deliveries.json';
+import * as deliveryData from '../data/deliveries.json';
 
 @Injectable()
 export class DeliveriesSeeder implements Seeder {
