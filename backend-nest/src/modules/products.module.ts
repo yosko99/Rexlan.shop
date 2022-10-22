@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { RedisCacheModule } from 'src/cache/redis.module';
@@ -19,4 +19,4 @@ import { ProductsService } from 'src/services/products.service';
   controllers: [ProductsController],
   providers: [ProductsService],
 })
-export class ProductModule {}
+export class ProductsModule {}

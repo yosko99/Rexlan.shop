@@ -44,7 +44,7 @@ const EditCategoriesPage = () => {
               {categories.map((category: CategoryStructure, index: number) => (
                 <tr key={index}>
                   <td>
-                    <LinkContainer role={'button'} to={'/category/' + category.name}>
+                    <LinkContainer role={'button'} to={'/category/' + category.categoryURL}>
                       <Image src={category.bannerImage || imgNotFoundImg} width={100} />
                     </LinkContainer>
                   </td>
