@@ -80,6 +80,8 @@ export class CategoriesService {
     };
   }
 
+  async deleteCategory() {}
+
   private createNewCategory = async (
     name: string,
     bannerImage: string,

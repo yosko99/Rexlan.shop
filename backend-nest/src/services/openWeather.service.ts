@@ -1,0 +1,39 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+
+import lang from '../resources/lang';
+
+@Injectable()
+export class OpenWeatherService {
+  constructor(private readonly http: HttpService) {}
+
+  async getCurrentCity(lon: string, lat: string, currentLang: string) {
+    if (process.env.OPENWEATHER_API_KEY === undefined) {
+      return new NotFoundException(lang[currentLang].global.apiKeyNotProvided);
+    }
+
+    if (lon === undefined || lat === undefined) {
+      return new NotFoundException(
+        lang[currentLang].controllers.openWeather.coordinatesNotProvided,
+      );
+    }
+
+    let response;
+
+    try {
+      response = await this.http
+        .get(
+          `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${process.env.OPENWEATHER_API_KEY}`,
+        )
+        .toPromise();
+    } catch (error) {
+      return new NotFoundException(
+        lang[currentLang].controllers.openWeather.invalidCoordinates,
+      );
+    }
+
+    const [{ name: city }] = response.data;
+
+    return { city };
+  }
+}

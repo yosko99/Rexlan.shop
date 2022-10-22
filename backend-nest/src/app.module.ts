@@ -5,6 +5,7 @@ import dotenv = require('dotenv');
 import { REDIS_CACHE_OPTIONS } from './constants/redis.constants';
 
 import { CategoriesModule } from './modules/categories.module';
+import { OpenWeatherModule } from './modules/openWeather.module';
 import { ProductsModule } from './modules/products.module';
 
 dotenv.config();
@@ -13,6 +14,7 @@ dotenv.config();
   imports: [
     ProductsModule,
     CategoriesModule,
+    OpenWeatherModule,
     MongooseModule.forRoot(process.env.MONGO_URI),
     CacheModule.register({
       ...REDIS_CACHE_OPTIONS,
