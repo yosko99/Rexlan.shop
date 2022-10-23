@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 
 import { CategoryTranslationService } from '../category/categoryTranslation.service';
 
-import { ProductType } from 'src/types/product.types';
+import { ProductType } from '../../types/product.types';
 
 @Injectable()
 export class ProductTranslationService {

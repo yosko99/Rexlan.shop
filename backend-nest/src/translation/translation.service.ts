@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import { CategoryType } from 'src/types/category.types';
-import { ProductType } from 'src/types/product.types';
+import { CategoryType } from '../types/category.types';
+import { ProductType } from '../types/product.types';
 
 import { CategoryTranslationService } from './category/categoryTranslation.service';
 import { ProductTranslationService } from './product/productTranslation.service';

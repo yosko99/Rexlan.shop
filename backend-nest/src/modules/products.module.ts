@@ -1,14 +1,14 @@
-import { Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { RedisCacheModule } from 'src/cache/redis.module';
-import { TranslationModule } from 'src/translation/translation.module';
+import { RedisCacheModule } from '../cache/redis.module';
+import { TranslationModule } from '../translation/translation.module';
 
-import { productSchema } from 'src/schemas/product.schema';
+import { productSchema } from '../schemas/product.schema';
 
-import { ProductsController } from 'src/controllers/products.controller';
+import { ProductsController } from '../controllers/products.controller';
 
-import { ProductsService } from 'src/services/products.service';
+import { ProductsService } from '../services/products.service';
 
 @Module({
   imports: [

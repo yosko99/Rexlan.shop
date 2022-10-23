@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 
 import lang from '../resources/lang';
@@ -27,8 +27,9 @@ export class OpenWeatherService {
         )
         .toPromise();
     } catch (error) {
-      return new NotFoundException(
+      return new HttpException(
         lang[currentLang].controllers.openWeather.invalidCoordinates,
+        400,
       );
     }
 

@@ -1,11 +1,12 @@
 import { Body, Controller, Get, Post, Put } from '@nestjs/common';
 import mongoose from 'mongoose';
 
-import { Category } from 'src/decorators/category.decorator';
-import { CurrentLang } from 'src/decorators/currentLang.decorator';
+import { Category } from '../decorators/category.decorator';
+import { CurrentLang } from '../decorators/currentLang.decorator';
 
-import { CategoriesService } from 'src/services/categories.service';
-import { CategoryType } from 'src/types/category.types';
+import { CategoriesService } from '../services/categories.service';
+
+import { CategoryType } from '../types/category.types';
 
 @Controller('categories')
 export class CategoriesController {

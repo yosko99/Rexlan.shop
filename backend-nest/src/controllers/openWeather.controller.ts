@@ -1,6 +1,8 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { CurrentLang } from 'src/decorators/currentLang.decorator';
-import { OpenWeatherService } from 'src/services/openWeather.service';
+
+import { CurrentLang } from '../decorators/currentLang.decorator';
+
+import { OpenWeatherService } from '../services/openWeather.service';
 
 @Controller('openweather')
 export class OpenWeatherController {

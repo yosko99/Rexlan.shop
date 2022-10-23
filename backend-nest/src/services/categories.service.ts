@@ -2,11 +2,11 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 
-import { RedisService } from 'src/cache/redis.service';
-import { TranslationService } from 'src/translation/translation.service';
+import { RedisService } from '../cache/redis.service';
+import { TranslationService } from '../translation/translation.service';
 
-import { CategoryType } from 'src/types/category.types';
-import { ProductType } from 'src/types/product.types';
+import { CategoryType } from '../types/category.types';
+import { ProductType } from '../types/product.types';
 
 import lang from '../resources/lang';
 

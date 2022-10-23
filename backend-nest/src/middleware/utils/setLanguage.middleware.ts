@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-import supportedLang from 'src/constants/supportedLanguages';
+import supportedLang from '../../constants/supportedLanguages';
 
 type ExtendedRequest = Request & { currentLang: string };
 

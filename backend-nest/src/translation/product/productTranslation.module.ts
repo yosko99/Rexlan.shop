@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { categorySchema } from 'src/schemas/category.schema';
-import { productSchema } from 'src/schemas/product.schema';
+import { categorySchema } from '../../schemas/category.schema';
+import { productSchema } from '../..//schemas/product.schema';
 
 import { CategoryTranslationService } from '../category/categoryTranslation.service';
 import { ProductTranslationService } from './productTranslation.service';

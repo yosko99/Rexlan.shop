@@ -1,9 +1,9 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 
-import { OpenWeatherController } from 'src/controllers/openWeather.controller';
+import { OpenWeatherController } from '../controllers/openWeather.controller';
 
-import { OpenWeatherService } from 'src/services/openWeather.service';
-import { HttpModule } from '@nestjs/axios';
+import { OpenWeatherService } from '../services/openWeather.service';
 
 @Module({
   imports: [HttpModule],

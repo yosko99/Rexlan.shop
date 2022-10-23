@@ -2,10 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { RedisService } from 'src/cache/redis.service';
-import { TranslationService } from 'src/translation/translation.service';
+import { RedisService } from '../cache/redis.service';
+import { TranslationService } from '../translation/translation.service';
 
-import { productSortingType, ProductType } from 'src/types/product.types';
+import { productSortingType, ProductType } from '../types/product.types';
 
 import lang from '../resources/lang';
 

@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 
-import { CurrentLang } from 'src/decorators/currentLang.decorator';
+import { CurrentLang } from '../decorators/currentLang.decorator';
 
-import { ProductsService } from 'src/services/products.service';
+import { ProductsService } from '../services/products.service';
 
-import { productSortingType } from 'src/types/product.types';
+import { productSortingType } from '../types/product.types';
 
 @Controller('products')
 export class ProductsController {

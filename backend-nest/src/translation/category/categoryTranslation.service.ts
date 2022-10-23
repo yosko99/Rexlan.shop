@@ -2,7 +2,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 
-import { CategoryType } from 'src/types/category.types';
+import { CategoryType } from '../../types/category.types';
 
 @Injectable()
 export class CategoryTranslationService {
