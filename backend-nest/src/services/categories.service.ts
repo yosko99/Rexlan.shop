@@ -82,11 +82,11 @@ export class CategoriesService {
 
   async deleteCategory() {}
 
-  private createNewCategory = async (
+  private async createNewCategory(
     name: string,
     bannerImage: string,
     currentLang: string,
-  ) => {
+  ) {
     const newCategory = new this.categoryModel({
       name,
       bannerImage,
@@ -102,14 +102,14 @@ export class CategoriesService {
     }
 
     await newCategory.save();
-  };
+  }
 
-  private updateProvidedCategory = async (
+  private async updateProvidedCategory(
     currentCategory: mongoose.Document<CategoryType> & CategoryType,
     name: string,
     bannerImage: string,
     currentLang: string,
-  ) => {
+  ) {
     const doesTranslationExistOnCategory =
       currentCategory.translations.find(
         (translation) => translation.lang === currentLang,
@@ -145,7 +145,7 @@ export class CategoriesService {
     }
 
     await currentCategory.save();
-  };
+  }
 
   private updateCategoryOfProducts = async (
     oldCategoryName: string,

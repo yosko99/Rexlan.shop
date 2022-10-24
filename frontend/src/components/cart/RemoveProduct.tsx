@@ -18,11 +18,9 @@ const RemoveProduct: FC<Props> = ({ productID }) => {
   const handleRemove = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const productID = e.currentTarget.id;
 
-    axios.delete(getCartProductsRoute(), {
-      data: {
-        cartID: localStorage.getItem('cart'),
-        productID
-      }
+    axios.put(getCartProductsRoute(), {
+      cartID: localStorage.getItem('cart'),
+      productID
     }).then((_response) => {
       queryClient.refetchQueries('cart');
     });

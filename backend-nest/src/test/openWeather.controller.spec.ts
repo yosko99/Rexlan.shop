@@ -26,7 +26,7 @@ describe('Testing openweather API', () => {
     app.close();
   });
 
-  describe('test /city route', () => {
+  describe('test GET openweather/city route', () => {
     test('get current city with provided valid coordinates', () => {
       return request(app.getHttpServer())
         .get('/openweather/city?lon=25.9648&lat=43.8626')

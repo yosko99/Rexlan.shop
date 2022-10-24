@@ -185,14 +185,14 @@ export class ProductsService {
     currentLang: string,
   ) {}
 
-  private addProduct = async (
+  private async addProduct(
     currentLang: string,
     title: string,
     price: number,
     description: string,
     category: string,
     image: string,
-  ) => {
+  ) {
     const maxID = await this.getMaxProductID();
 
     const newProduct = {
@@ -215,9 +215,9 @@ export class ProductsService {
     }
 
     await this.productModel.create(newProduct);
-  };
+  }
 
-  private getMaxProductID = async () => {
+  private async getMaxProductID() {
     const allProductIDs = await this.productModel.find({}).select('id -_id');
 
     if (allProductIDs.length === 0) {
@@ -227,49 +227,39 @@ export class ProductsService {
     const { id } = allProductIDs.sort((a, b) => Number(b.id) - Number(a.id))[0];
 
     return Number(id) + 1;
-  };
+  }
 
-  private getTranslatedProducts = async (
+  private async getTranslatedProducts(
     products: ProductType[],
     currentLang: string,
     cacheKey: string,
-  ) => {
+  ) {
     return await this.redisService.setAndGetData(cacheKey, async () => {
       return await this.translationService.getProductsTranslation(
         currentLang,
         products,
       );
     });
-  };
+  }
 
-  private getTranslatedProduct = async (
+  private async getTranslatedProduct(
     product: ProductType,
     currentLang: string,
     cacheKey: string,
-  ) => {
+  ) {
     return await this.redisService.setAndGetData(cacheKey, async () => {
       return await this.translationService.getProductTranslation(
         currentLang,
         product,
       );
     });
-  };
+  }
 
-  private checkExistingProduct = async (productID: string) => {
-    const product = await this.productModel.findOne({ id: productID });
-
-    if (product === null) {
-      return new NotFoundException('Cannot find product with provided id.');
-    }
-
-    return product;
-  };
-
-  private getQueryQty = (queryQty: string) => {
+  private getQueryQty(queryQty: string) {
     const queryQuantity = queryQty;
 
     const quantity = queryQuantity !== undefined ? queryQuantity : 0;
 
     return Number(quantity);
-  };
+  }
 }

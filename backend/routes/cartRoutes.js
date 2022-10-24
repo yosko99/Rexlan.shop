@@ -25,10 +25,10 @@ router.get('/:cartID', checkPassedCartIDMiddleware, asyncHandler(cartController.
 router.get('/products/:cartID', asyncHandler(cartController.getCartProducts));
 
 // @desc Delete/decrement product from cart
-// @route DELETE /api/carts/products
+// @route PUT /api/carts/products
 // @access Public
 // @accepts { cartID, productID }
-router.delete('/products', asyncHandler(cartController.deleteProductFromCart));
+router.put('/products', asyncHandler(cartController.deleteProductFromCart));
 
 // @desc Delete a cart with optional reassign new cart to user value
 // @route DELETE /api/carts/:cartID?reassignCartToUser=(true/false)

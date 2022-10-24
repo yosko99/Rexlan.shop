@@ -19,10 +19,13 @@ export class CategoriesController {
 
   @Get('/:_id')
   getCategory(
-    @Category() category: CategoryType,
+    @Category() currentCategory: CategoryType,
     @CurrentLang() currentLang: string,
   ) {
-    return this.categoriesService.getCategory(category.name, currentLang);
+    return this.categoriesService.getCategory(
+      currentCategory.name,
+      currentLang,
+    );
   }
 
   @Post()
@@ -36,13 +39,13 @@ export class CategoriesController {
 
   @Put('/:_id')
   updateCategory(
-    @Category() curentcategory: mongoose.Document<CategoryType> & CategoryType,
+    @Category() currentCategory: mongoose.Document<CategoryType> & CategoryType,
     @Body('name') name: string,
     @Body('bannerImg') bannerImg: string,
     @CurrentLang() currentLang: string,
   ) {
     return this.categoriesService.upateCategory(
-      curentcategory,
+      currentCategory,
       name,
       bannerImg,
       currentLang,

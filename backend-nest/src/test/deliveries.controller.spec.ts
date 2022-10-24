@@ -32,7 +32,7 @@ describe('Testing deliveries API', () => {
     app.close();
   });
 
-  describe('test root route', () => {
+  describe('test GET deliveries/ route', () => {
     test('get all deliveries', () => {
       return request(app.getHttpServer())
         .get('/deliveries')
