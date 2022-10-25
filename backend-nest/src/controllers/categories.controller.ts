@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
 import mongoose from 'mongoose';
 
 import { Category } from '../decorators/category.decorator';
@@ -50,5 +50,13 @@ export class CategoriesController {
       bannerImg,
       currentLang,
     );
+  }
+
+  @Delete('/:_id')
+  deleteCategory(
+    @Category() currentCategory: mongoose.Document<CategoryType> & CategoryType,
+    @CurrentLang() currentLang: string,
+  ) {
+    return this.categoriesService.deleteCategory(currentCategory, currentLang);
   }
 }

@@ -3,6 +3,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
 import { TranslationModule } from '../translation/translation.module';
 import { RedisCacheModule } from '../cache/redis.module';
+import { CartsModule } from './carts.module';
 
 import { CategoriesController } from '../controllers/categories.controller';
 
@@ -15,6 +16,7 @@ import { CheckExistingCategoryMiddleware } from '../middleware/category/checkExi
 
 @Module({
   imports: [
+    CartsModule,
     RedisCacheModule,
     TranslationModule,
     MongooseModule.forFeature([

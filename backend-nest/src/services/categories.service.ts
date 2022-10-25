@@ -2,8 +2,9 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 
-import { RedisService } from '../cache/redis.service';
 import { TranslationService } from '../translation/translation.service';
+import { RedisService } from '../cache/redis.service';
+import { CartsService } from './carts.service';
 
 import { CategoryType } from '../types/category.types';
 import { ProductType } from '../types/product.types';
@@ -18,6 +19,7 @@ export class CategoriesService {
     @InjectModel('Product')
     private readonly productModel: Model<ProductType>,
     private readonly redisService: RedisService,
+    private readonly cartsService: CartsService,
     private readonly translationService: TranslationService,
   ) {}
 
@@ -53,11 +55,16 @@ export class CategoriesService {
       );
     }
 
-    await this.createNewCategory(name, bannerImg, currentLang);
+    const createdCategory = await this.createNewCategory(
+      name,
+      bannerImg,
+      currentLang,
+    );
     await this.redisService.flushCache();
 
     return {
       msg: lang[currentLang].controllers.category.categoryCreated,
+      category: createdCategory,
     };
   }
 
@@ -80,7 +87,30 @@ export class CategoriesService {
     };
   }
 
-  async deleteCategory() {}
+  async deleteCategory(
+    currentCategory: mongoose.Document<CategoryType> & CategoryType,
+    currentLang: string,
+  ) {
+    const productsInProvidedCategory = await this.productModel.find({
+      category: currentCategory.name,
+    });
+
+    if (productsInProvidedCategory !== null) {
+      productsInProvidedCategory.forEach(async (product) => {
+        await this.cartsService.deleteProductFromAllCarts(product.id);
+      });
+    }
+
+    await this.productModel.deleteMany({ category: currentCategory.name });
+    await this.categoryModel.deleteOne({ _id: currentCategory._id });
+    await this.redisService.flushCache();
+
+    return {
+      msg: `${lang[currentLang].global.category} ${lang[
+        currentLang
+      ].global.deleted.toLowerCase()}.`,
+    };
+  }
 
   private async createNewCategory(
     name: string,
@@ -101,7 +131,9 @@ export class CategoriesService {
       });
     }
 
-    await newCategory.save();
+    const createdCategory = await newCategory.save();
+
+    return createdCategory;
   }
 
   private async updateProvidedCategory(
