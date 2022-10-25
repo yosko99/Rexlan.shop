@@ -158,4 +158,16 @@ export class CategoriesService {
       },
     );
   };
+
+  public async deleteEmptyCategory(categoryName: string) {
+    const isCategoryEmpty =
+      (await (
+        await this.productModel.find({ category: categoryName })
+      ).length) <= 1;
+
+    // Current product is the only one in the category
+    if (isCategoryEmpty) {
+      await this.categoryModel.deleteOne({ name: categoryName });
+    }
+  }
 }

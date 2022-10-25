@@ -1,10 +1,21 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
+import mongoose from 'mongoose';
 
 import { CurrentLang } from '../decorators/currentLang.decorator';
+import { Product } from '../decorators/product.decorator';
 
 import { ProductsService } from '../services/products.service';
 
-import { productSortingType } from '../types/product.types';
+import { productSortingType, ProductType } from '../types/product.types';
 
 @Controller('products')
 export class ProductsController {
@@ -74,5 +85,34 @@ export class ProductsController {
       image,
       currentLang,
     );
+  }
+
+  @Put('/:id')
+  updateProduct(
+    @Product() currentProduct: mongoose.Document<ProductType> & ProductType,
+    @Body('title') title: string,
+    @Body('price') price: number,
+    @Body('description') description: string,
+    @Body('category') category: string,
+    @Body('image') image: string,
+    @CurrentLang() currentLang: string,
+  ) {
+    return this.productsService.updateProduct(
+      currentProduct,
+      title,
+      price,
+      description,
+      category,
+      image,
+      currentLang,
+    );
+  }
+
+  @Delete('/:id')
+  deleteProduct(
+    @Product() currentProduct: mongoose.Document<ProductType> & ProductType,
+    @CurrentLang() currentLang: string,
+  ) {
+    return this.productsService.deleteProduct(currentProduct, currentLang);
   }
 }

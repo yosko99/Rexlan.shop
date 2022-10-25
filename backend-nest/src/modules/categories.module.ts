@@ -24,6 +24,7 @@ import { CheckExistingCategoryMiddleware } from '../middleware/category/checkExi
   ],
   controllers: [CategoriesController],
   providers: [CategoriesService],
+  exports: [CategoriesService],
 })
 export class CategoriesModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

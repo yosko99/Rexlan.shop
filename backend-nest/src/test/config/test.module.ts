@@ -16,5 +16,6 @@ import { orderSchema } from '../../schemas/order.schema';
     ]),
   ],
   providers: [TestService],
+  exports: [TestService],
 })
 export class TestModule {}

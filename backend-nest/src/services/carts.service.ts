@@ -246,4 +246,20 @@ export class CartsService {
       ? Number(productPrices.reduce((a, b) => a + b).toFixed(2))
       : 0;
   }
+
+  public async deleteProductFromAllCarts(productID: string) {
+    const allCarts = await this.cartModel.find({});
+
+    allCarts.forEach(async (cart) => {
+      if (cart.products.length > 0) {
+        const cartProductsWithRemovedProduct = cart.products.filter(
+          (product) => {
+            return product.productID !== productID;
+          },
+        );
+        cart.products = cartProductsWithRemovedProduct;
+        await cart.save();
+      }
+    });
+  }
 }

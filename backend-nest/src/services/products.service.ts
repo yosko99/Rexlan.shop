@@ -1,9 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 
-import { RedisService } from '../cache/redis.service';
 import { TranslationService } from '../translation/translation.service';
+import { CategoriesService } from './categories.service';
+import { RedisService } from '../cache/redis.service';
+import { CartsService } from './carts.service';
 
 import { productSortingType, ProductType } from '../types/product.types';
 
@@ -14,7 +16,9 @@ export class ProductsService {
   constructor(
     @InjectModel('Product') private readonly productModel: Model<ProductType>,
     private readonly translationService: TranslationService,
+    private readonly categoriesService: CategoriesService,
     private readonly redisService: RedisService,
+    private readonly cartsService: CartsService,
   ) {}
 
   async getProducts(qty: string, currentLang: string) {
@@ -157,7 +161,7 @@ export class ProductsService {
     image: string,
     currentLang: string,
   ) {
-    await this.addProduct(
+    const createdProduct = await this.createProvidedProduct(
       currentLang,
       title,
       price,
@@ -170,29 +174,129 @@ export class ProductsService {
 
     return {
       msg: lang[currentLang].controllers.product.productCreated,
+      product: createdProduct,
     };
   }
 
-  async deleteProduct(productID: string, currentLang: string) {}
+  async deleteProduct(
+    currentProduct: mongoose.Document<ProductType> & ProductType,
+    currentLang: string,
+  ) {
+    await this.categoriesService.deleteEmptyCategory(currentProduct.category);
+    await this.cartsService.deleteProductFromAllCarts(currentProduct.id);
+    await this.productModel.deleteOne({ id: currentProduct.id });
+    await this.redisService.flushCache();
+
+    return {
+      msg: lang[currentLang].global.dataDeleted,
+    };
+  }
 
   async updateProduct(
-    productID: string,
-    title,
-    price,
-    description,
-    category,
-    image,
+    currentProduct: mongoose.Document<ProductType> & ProductType,
+    title: string,
+    price: number,
+    description: string,
+    category: string,
+    image: string,
     currentLang: string,
-  ) {}
+  ) {
+    if (currentProduct.category !== category && category !== undefined) {
+      await this.categoriesService.deleteEmptyCategory(currentProduct.category);
+    }
 
-  private async addProduct(
+    await this.updateProvidedProduct(
+      currentProduct,
+      title,
+      price,
+      description,
+      category,
+      image,
+      currentLang,
+    );
+    await this.redisService.flushCache();
+
+    return {
+      msg: lang[currentLang].controllers.product.productUpdated,
+    };
+  }
+
+  private async updateProvidedProduct(
+    currentProduct: mongoose.Document<ProductType> & ProductType,
+    title: string,
+    price: number,
+    description: string,
+    category: string,
+    image: string,
+    currentLang: string,
+  ) {
+    const newDescription =
+      description === undefined ? currentProduct.description : description;
+    const newTitle = title === undefined ? currentProduct.title : title;
+
+    let product = {};
+
+    if (currentLang !== 'en') {
+      // Update non english
+      const doesTranslationExistOnProduct =
+        currentProduct.translations.find(
+          (translation) => translation.lang === currentLang,
+        ) !== undefined;
+
+      if (doesTranslationExistOnProduct) {
+        currentProduct.translations = currentProduct.translations.map(
+          (translation) => {
+            const returnValue = { ...translation };
+
+            if (translation.lang === currentLang) {
+              translation.title =
+                title === undefined ? translation.title : title;
+              translation.description =
+                description === undefined
+                  ? translation.description
+                  : description;
+            }
+
+            return returnValue;
+          },
+        );
+      } else {
+        currentProduct.translations.push({
+          lang: currentLang,
+          title: newTitle,
+          description: newDescription,
+        });
+      }
+
+      product = {
+        price,
+        category,
+        image,
+        translations: currentProduct.translations,
+      };
+    } else {
+      // Update english
+      product = {
+        title,
+        price,
+        description,
+        category,
+        categoryURL: category,
+        image,
+      };
+    }
+
+    await this.productModel.updateOne({ id: currentProduct.id }, product);
+  }
+
+  private async createProvidedProduct(
     currentLang: string,
     title: string,
     price: number,
     description: string,
     category: string,
     image: string,
-  ) {
+  ): Promise<ProductType> {
     const maxID = await this.getMaxProductID();
 
     const newProduct = {
@@ -214,7 +318,9 @@ export class ProductsService {
       });
     }
 
-    await this.productModel.create(newProduct);
+    const createdProduct = await this.productModel.create(newProduct);
+
+    return createdProduct;
   }
 
   private async getMaxProductID() {

@@ -9,5 +9,6 @@ import { OpenWeatherService } from '../services/openWeather.service';
   imports: [HttpModule],
   controllers: [OpenWeatherController],
   providers: [OpenWeatherService],
+  exports: [OpenWeatherService],
 })
 export class OpenWeatherModule {}

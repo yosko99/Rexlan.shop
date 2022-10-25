@@ -28,6 +28,7 @@ import { ChekPassedCartIDMiddleware } from '../middleware/cart/checkPassedCartID
   ],
   controllers: [CartsControler],
   providers: [CartsService],
+  exports: [CartsService],
 })
 export class CartsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -19,6 +19,7 @@ describe('Testing openweather API', () => {
 
     app = module.createNestApplication();
     app.use(setLanguageMiddleware);
+
     await app.init();
   });
 
