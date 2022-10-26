@@ -15,7 +15,7 @@ import { CartsControler } from '../controllers/carts.controller';
 
 import { CartsService } from '../services/carts.service';
 
-import { ChekPassedCartIDMiddleware } from '../middleware/cart/checkPassedCartID.middleware';
+import { CheckExistingCartFromParamMiddleware } from '../middleware/cart/checkExistingCartFromParam.middleware';
 
 @Module({
   imports: [
@@ -32,7 +32,7 @@ import { ChekPassedCartIDMiddleware } from '../middleware/cart/checkPassedCartID
 })
 export class CartsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ChekPassedCartIDMiddleware).forRoutes(
+    consumer.apply(CheckExistingCartFromParamMiddleware).forRoutes(
       {
         path: '/carts/:cartID',
         method: RequestMethod.GET,

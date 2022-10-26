@@ -106,4 +106,66 @@ export class TestService {
       _id: [this.dummyData.notLinkedCart._id, this.dummyData.linkedCart._id],
     });
   }
+
+  public getCartStructure() {
+    return {
+      products: expect.any(Array),
+      isLinked: expect.any(Boolean),
+      userID: expect.any(String),
+      totalPrice: expect.any(Number),
+      _id: expect.any(String),
+    };
+  }
+
+  public getCategoryStructure() {
+    return {
+      name: expect.any(String),
+      bannerImage: expect.any(String),
+    };
+  }
+
+  public getDeliveryStructure() {
+    return {
+      title: expect.any(String),
+      initialPrice: expect.any(Number),
+      priceToAddress: expect.any(Number),
+      image: expect.any(String),
+    };
+  }
+
+  public getOrderStructure() {
+    return {
+      selectedCourier: expect.any(String),
+      userID: expect.any(String),
+      orderStatus: expect.any(String),
+      name: expect.any(String),
+      address: expect.any(String),
+      city: expect.any(String),
+      zipcode: expect.any(Number),
+      phone: expect.any(String),
+      productsPrice: expect.any(Number),
+      deliveryPrice: expect.any(Number),
+      products: expect.any(Array),
+      cartID: expect.any(String),
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
+    };
+  }
+
+  public getProductStructure() {
+    return {
+      id: expect.any(String),
+      title: expect.any(String),
+      price: expect.any(Number),
+      description: expect.any(String),
+      category: expect.any(String),
+      image: expect.any(String),
+      categoryURL: expect.any(String),
+      rating: expect.objectContaining({
+        rate: expect.any(Number),
+        count: expect.any(Number),
+      }),
+      translations: expect.any(Array),
+    };
+  }
 }

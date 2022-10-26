@@ -15,22 +15,8 @@ import dotenv = require('dotenv');
 dotenv.config();
 
 describe('Testing carts API', () => {
-  const cartStructure = {
-    products: expect.any(Array),
-    isLinked: expect.any(Boolean),
-    userID: expect.any(String),
-    totalPrice: expect.any(Number),
-    _id: expect.any(String),
-  };
-
-  let dummyData: DummyDataType = {
-    notLinkedCart: null,
-    linkedCart: null,
-    userLinkedWithCart: null,
-    userNotLinkedWithCart: null,
-    orderLinkedWithUser: null,
-    userPassword: 'testing',
-  };
+  let cartStructure;
+  let dummyData: DummyDataType;
   let app: INestApplication;
   let testService: TestService;
 
@@ -40,6 +26,8 @@ describe('Testing carts API', () => {
     }).compile();
 
     testService = module.get<TestService>(TestService);
+
+    cartStructure = testService.getCartStructure();
 
     app = module.createNestApplication();
     app.use(setLanguageMiddleware);
@@ -59,7 +47,7 @@ describe('Testing carts API', () => {
     app.close();
   });
 
-  describe('test GET /carts/ route', () => {
+  describe('test GET carts/:cartID route', () => {
     test('get cart info with provided valid cartID', () => {
       return request(app.getHttpServer())
         .get('/carts/' + dummyData.linkedCart._id)
@@ -153,7 +141,7 @@ describe('Testing carts API', () => {
     });
   });
 
-  describe('test GET carts/products route', () => {
+  describe('test GET carts/products/:cartID route', () => {
     test('get products of a cart that is not linked with user, with provided valid ID', () => {
       return request(app.getHttpServer())
         .get(`/carts/products/${dummyData.notLinkedCart._id.toString()}`)

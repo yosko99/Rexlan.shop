@@ -7,26 +7,15 @@ import setLanguageMiddleware from '../middleware/utils/setLanguage.middleware';
 import { TestModule } from './config/test.module';
 import { AppModule } from '../app.module';
 
+import { TestService } from './config/test.service';
+
 import dotenv = require('dotenv');
 dotenv.config();
 
 describe('Testing products API', () => {
-  const productStructure = {
-    id: expect.any(String),
-    title: expect.any(String),
-    price: expect.any(Number),
-    description: expect.any(String),
-    category: expect.any(String),
-    image: expect.any(String),
-    categoryURL: expect.any(String),
-    rating: expect.objectContaining({
-      rate: expect.any(Number),
-      count: expect.any(Number),
-    }),
-    translations: expect.any(Array),
-  };
-
+  let testService: TestService;
   let app: INestApplication;
+  let productStructure;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -35,6 +24,10 @@ describe('Testing products API', () => {
 
     app = module.createNestApplication();
     app.use(setLanguageMiddleware);
+
+    testService = module.get<TestService>(TestService);
+
+    productStructure = testService.getProductStructure();
 
     await app.init();
   });

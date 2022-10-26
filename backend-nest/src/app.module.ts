@@ -9,12 +9,14 @@ import { CategoriesModule } from './modules/categories.module';
 import { DeliveriesModule } from './modules/deliveries.module';
 import { ProductsModule } from './modules/products.module';
 import { CartsModule } from './modules/carts.module';
+import { OrdersModule } from './modules/orders.module';
 
 dotenv.config();
 
 @Module({
   imports: [
     CartsModule,
+    OrdersModule,
     ProductsModule,
     CategoriesModule,
     DeliveriesModule,

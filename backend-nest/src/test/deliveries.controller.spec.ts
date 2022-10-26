@@ -4,27 +4,31 @@ import * as request from 'supertest';
 
 import setLanguageMiddleware from '../middleware/utils/setLanguage.middleware';
 
+import { TestModule } from './config/test.module';
 import { AppModule } from '../app.module';
+
+import { TestService } from './config/test.service';
 
 import dotenv = require('dotenv');
 dotenv.config();
 
 describe('Testing deliveries API', () => {
-  const deliveryStructure = {
-    title: expect.any(String),
-    initialPrice: expect.any(Number),
-    priceToAddress: expect.any(Number),
-    image: expect.any(String),
-  };
+  let testService: TestService;
   let app: INestApplication;
+  let deliveryStructure;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [AppModule, TestModule],
     }).compile();
 
     app = module.createNestApplication();
     app.use(setLanguageMiddleware);
+
+    testService = module.get<TestService>(TestService);
+
+    deliveryStructure = testService.getDeliveryStructure();
+
     await app.init();
   });
 

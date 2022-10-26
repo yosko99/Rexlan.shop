@@ -90,7 +90,7 @@ describe('Testing orders API', () => {
       });
   });
 
-  test('cet order without providing cartID', () => {
+  test('get order without providing cartID', () => {
     return request(app)
       .get(ORDERS_ROUTE + '12char12char')
       .expect('Content-Type', /html/)
