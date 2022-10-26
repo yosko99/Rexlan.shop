@@ -1,9 +1,10 @@
 import { seeder } from 'nestjs-seeder';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { categorySchema } from './schemas/category.schema';
-import { deliverySchema } from './schemas/delivery.schema';
-import { productSchema } from './schemas/product.schema';
+import { categorySchema } from './modules/categories/schemas/category.schema';
+import { deliverySchema } from './modules/deliveries/schemas/delivery.schema';
+import { productSchema } from './modules/products/schemas/product.schema';
+
 import { ProductsSeeder } from './seeders/products.seeder';
 import { CategoriesSeeder } from './seeders/categories.seeder';
 import { DeliveriesSeeder } from './seeders/deliveries.seeder';

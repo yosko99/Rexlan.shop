@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Request, Response, NextFunction } from 'express';
 import * as mongoose from 'mongoose';
 
-import { CategoryType } from 'src/types/category.types';
+import { CategoryType } from '../../types/category.types';
 
 type ExtendedRequest = Request & { category: CategoryType };
 

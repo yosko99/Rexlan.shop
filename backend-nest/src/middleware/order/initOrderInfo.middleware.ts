@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { Injectable } from '@nestjs/common';
-import { OrderType } from 'src/types/order.types';
-import { CartType } from 'src/types/cart.types';
+
+import { OrderType } from '../../types/order.types';
+import { CartType } from '../../types/cart.types';
 
 type ExtendedRequest = Request & { orderInfo: OrderType; cart: CartType };
 

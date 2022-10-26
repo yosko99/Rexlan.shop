@@ -3,9 +3,9 @@ import { Module } from '@nestjs/common';
 
 import { TestService } from './test.service';
 
-import { cartShema } from '../../schemas/cart.schema';
-import { userSchema } from '../../schemas/user.schema';
-import { orderSchema } from '../../schemas/order.schema';
+import { orderSchema } from '../../modules/orders/schemas/order.schema';
+import { userSchema } from '../../modules/users/schemas/user.schema';
+import { cartShema } from '../../modules/carts/schemas/cart.schema';
 
 @Module({
   imports: [
