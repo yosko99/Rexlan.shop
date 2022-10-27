@@ -45,7 +45,7 @@ services:
   
   server:
     build:
-      context: ./backend
+      context: ./backend-nest
     ports:
       - 5000:5000
     networks:
@@ -61,8 +61,10 @@ services:
       - JWT_SECRET_KEY=p0tpY8rIzugOu7pV5qBW
       - SALT_ROUNDS=10
       - REDIS_HOSTNAME=redis
-    command: sh -c "npm run data:import && npm run start"
+      - NODE_ENV=production
+    command: sh -c "npm run seed:refresh && npm run start:dev"
     restart: on-failure
+    tty: true
 
   db:
     image: mongo:3.6.19-xenial
