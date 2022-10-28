@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 
-import { CurrentLang } from '../../decorators/currentLang.decorator';
+import { RequestData } from '../../decorators/requestData.decorator';
 
 import { DeliveriesService } from './deliveries.service';
 
@@ -9,7 +9,7 @@ export class DeliveriesController {
   constructor(private readonly deliveriesService: DeliveriesService) {}
 
   @Get()
-  getDeliveries(@CurrentLang() currentLang: string) {
+  getDeliveries(@RequestData('currentLang') currentLang: string) {
     return this.deliveriesService.getDeliveries(currentLang);
   }
 }

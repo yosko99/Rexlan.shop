@@ -10,26 +10,28 @@ import {
 } from '@nestjs/common';
 import mongoose from 'mongoose';
 
-import { CurrentLang } from '../../decorators/currentLang.decorator';
-import { Product } from '../../decorators/product.decorator';
-
 import { ProductsService } from './products.service';
 
 import { productSortingType, ProductType } from '../../types/product.types';
+
+import { RequestData } from '../../decorators/requestData.decorator';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get()
-  getProducts(@Query('qty') qty: string, @CurrentLang() currentLang: string) {
+  getProducts(
+    @Query('qty') qty: string,
+    @RequestData('currentLang') currentLang: string,
+  ) {
     return this.productsService.getProducts(qty, currentLang);
   }
 
   @Get('/:id')
   getProduct(
     @Param('id') productID: string,
-    @CurrentLang() currentLang: string,
+    @RequestData('currentLang') currentLang: string,
   ) {
     return this.productsService.getProduct(productID, currentLang);
   }
@@ -37,7 +39,7 @@ export class ProductsController {
   @Get('/category/:category')
   getProdcutsByCategory(
     @Param('category') categoryName: string,
-    @CurrentLang() currentLang: string,
+    @RequestData('currentLang') currentLang: string,
     @Query('qty') qty: string,
   ) {
     return this.productsService.getProductsByCategory(
@@ -50,7 +52,7 @@ export class ProductsController {
   @Get('/sort/:attribute')
   getProductsSortedByAttribute(
     @Param('attribute') productAttribute: productSortingType,
-    @CurrentLang() currentLang: string,
+    @RequestData('currentLang') currentLang: string,
     @Query('qty') qty: string,
   ) {
     return this.productsService.getProductsSortedByAttribute(
@@ -63,7 +65,7 @@ export class ProductsController {
   @Get('/regex/:pattern')
   getProductsByQueryString(
     @Param('pattern') pattern: RegExp,
-    @CurrentLang() currentLang: string,
+    @RequestData('currentLang') currentLang: string,
   ) {
     return this.productsService.getProductsByQueryString(pattern, currentLang);
   }
@@ -75,7 +77,7 @@ export class ProductsController {
     @Body('description') description: string,
     @Body('category') category: string,
     @Body('image') image: string,
-    @CurrentLang() currentLang: string,
+    @RequestData('currentLang') currentLang: string,
   ) {
     return this.productsService.createProduct(
       title,
@@ -89,13 +91,14 @@ export class ProductsController {
 
   @Put('/:id')
   updateProduct(
-    @Product() currentProduct: mongoose.Document<ProductType> & ProductType,
+    @RequestData('product')
+    currentProduct: mongoose.Document<ProductType> & ProductType,
     @Body('title') title: string,
     @Body('price') price: number,
     @Body('description') description: string,
     @Body('category') category: string,
     @Body('image') image: string,
-    @CurrentLang() currentLang: string,
+    @RequestData('currentLang') currentLang: string,
   ) {
     return this.productsService.updateProduct(
       currentProduct,
@@ -110,8 +113,9 @@ export class ProductsController {
 
   @Delete('/:id')
   deleteProduct(
-    @Product() currentProduct: mongoose.Document<ProductType> & ProductType,
-    @CurrentLang() currentLang: string,
+    @RequestData('product')
+    currentProduct: mongoose.Document<ProductType> & ProductType,
+    @RequestData('currentLang') currentLang: string,
   ) {
     return this.productsService.deleteProduct(currentProduct, currentLang);
   }

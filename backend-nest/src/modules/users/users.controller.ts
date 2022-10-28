@@ -1,16 +1,7 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Headers,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, Post } from '@nestjs/common';
 import mongoose from 'mongoose';
 
-import { CurrentLang } from '../../decorators/currentLang.decorator';
-import { User } from '../../decorators/user.decorator';
+import { RequestData } from '../../decorators/requestData.decorator';
 
 import { UserType } from '../../types/user.types';
 
@@ -34,7 +25,7 @@ export class UsersController {
     @Body('address') address: string,
     @Body('phone') phone: string,
     @Body('cartID') cartID: string,
-    @CurrentLang() currentLang: string,
+    @RequestData('currentLang') currentLang: string,
   ) {
     return this.usersService.createUser(
       { email, name, password, address, phone, cartID },
@@ -45,8 +36,8 @@ export class UsersController {
 
   @Delete(':_id')
   deleteUser(
-    @User() currentUser: mongoose.Document<UserType> & UserType,
-    @CurrentLang() currentLang: string,
+    @RequestData('user') currentUser: mongoose.Document<UserType> & UserType,
+    @RequestData('currentLang') currentLang: string,
   ) {
     return this.usersService.deleteUser(currentUser, currentLang);
   }

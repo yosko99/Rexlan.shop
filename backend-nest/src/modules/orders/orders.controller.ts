@@ -1,9 +1,6 @@
 import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
 
-import { CurrentLang } from '../../decorators/currentLang.decorator';
-import { OrderInfo } from '../../decorators/orderInfo.decorator';
-import { Order } from '../../decorators/order.decorator';
-import { Cart } from '../../decorators/cart.decorator';
+import { RequestData } from '../../decorators/requestData.decorator';
 
 import { CartType } from '../../types/cart.types';
 import { OrderType } from '../../types/order.types';
@@ -15,26 +12,26 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Get('/:cartID')
-  getOrder(@Order() currentOrder: OrderType) {
+  getOrder(@RequestData('order') currentOrder: OrderType) {
     return currentOrder;
   }
 
   @Get('/user/:cartID')
-  getUserOrders(@Cart() currentCart: CartType) {
+  getUserOrders(@RequestData('cart') currentCart: CartType) {
     return this.ordersService.getUserOrders(currentCart);
   }
 
   @Delete('/:cartID')
   deleteOrder(
-    @Order() currentOrder: OrderType,
-    @CurrentLang() currentLang: string,
+    @RequestData('order') currentOrder: OrderType,
+    @RequestData('currentLang') currentLang: string,
   ) {
     return this.ordersService.deleteOrder(currentOrder, currentLang);
   }
 
   @Post()
   createOrder(
-    @OrderInfo() currentOrderInfo: OrderType,
+    @RequestData('orderInfo') currentOrderInfo: OrderType,
     @Body('cartID') cartID: string,
   ) {
     return this.ordersService.createOrder(currentOrderInfo, cartID);

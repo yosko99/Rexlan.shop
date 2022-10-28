@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
 
-import { CurrentLang } from '../../decorators/currentLang.decorator';
+import { RequestData } from '../../decorators/requestData.decorator';
 
 import { OpenWeatherService } from './openWeather.service';
 
@@ -12,7 +12,7 @@ export class OpenWeatherController {
   getCurrentCity(
     @Query('lon') lon: string,
     @Query('lat') lat: string,
-    @CurrentLang() currentLang: string,
+    @RequestData('currentLang') currentLang: string,
   ) {
     return this.openWeatherService.getCurrentCity(lon, lat, currentLang);
   }

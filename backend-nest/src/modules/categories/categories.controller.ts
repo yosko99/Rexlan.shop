@@ -1,26 +1,25 @@
 import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
 import mongoose from 'mongoose';
 
-import { Category } from '../../decorators/category.decorator';
-import { CurrentLang } from '../../decorators/currentLang.decorator';
-
 import { CategoriesService } from './categories.service';
 
 import { CategoryType } from '../../types/category.types';
+
+import { RequestData } from '../../decorators/requestData.decorator';
 
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Get()
-  getCategories(@CurrentLang() currentLang: string) {
+  getCategories(@RequestData('currentLang') currentLang: string) {
     return this.categoriesService.getCategories(currentLang);
   }
 
   @Get('/:_id')
   getCategory(
-    @Category() currentCategory: CategoryType,
-    @CurrentLang() currentLang: string,
+    @RequestData('category') currentCategory: CategoryType,
+    @RequestData('currentLang') currentLang: string,
   ) {
     return this.categoriesService.getCategory(
       currentCategory.name,
@@ -32,17 +31,18 @@ export class CategoriesController {
   createCategory(
     @Body('name') name: string,
     @Body('bannerImg') bannerImg: string,
-    @CurrentLang() currentLang: string,
+    @RequestData('currentLang') currentLang: string,
   ) {
     return this.categoriesService.createCategory(name, bannerImg, currentLang);
   }
 
   @Put('/:_id')
   updateCategory(
-    @Category() currentCategory: mongoose.Document<CategoryType> & CategoryType,
+    @RequestData('category')
+    currentCategory: mongoose.Document<CategoryType> & CategoryType,
     @Body('name') name: string,
     @Body('bannerImg') bannerImg: string,
-    @CurrentLang() currentLang: string,
+    @RequestData('currentLang') currentLang: string,
   ) {
     return this.categoriesService.upateCategory(
       currentCategory,
@@ -54,8 +54,9 @@ export class CategoriesController {
 
   @Delete('/:_id')
   deleteCategory(
-    @Category() currentCategory: mongoose.Document<CategoryType> & CategoryType,
-    @CurrentLang() currentLang: string,
+    @RequestData('category')
+    currentCategory: mongoose.Document<CategoryType> & CategoryType,
+    @RequestData('currentLang') currentLang: string,
   ) {
     return this.categoriesService.deleteCategory(currentCategory, currentLang);
   }
