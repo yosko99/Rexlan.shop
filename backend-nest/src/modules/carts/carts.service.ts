@@ -262,4 +262,77 @@ export class CartsService {
       }
     });
   }
+
+  public async checkExistingCart(cartID: string) {
+    const doesCartExist =
+      cartID !== null ? await this.cartModel.findOne({ _id: cartID }) : null;
+
+    return doesCartExist !== null;
+  }
+
+  public async updateUserCart(
+    currentUser: mongoose.Document<unknown, any, UserType> &
+      UserType & {
+        _id: mongoose.Types.ObjectId;
+      },
+    cartID: string,
+  ) {
+    // User does not have linked cartID
+    currentUser.cartID = cartID;
+
+    // Link cart with current user ID
+    await this.cartModel.updateOne(
+      { _id: cartID },
+      {
+        userID: currentUser._id,
+        isLinked: true,
+      },
+    );
+
+    // Update user
+    await currentUser.save();
+
+    return cartID;
+  }
+
+  public async createUserCart(
+    currentUser: mongoose.Document<unknown, any, UserType> &
+      UserType & {
+        _id: mongoose.Types.ObjectId;
+      },
+  ) {
+    // Create new cart for user
+    const newCart = new this.cartModel({
+      isLinked: true,
+      userID: currentUser._id,
+      totalPrice: 0,
+    });
+
+    const savedCart = await newCart.save();
+    currentUser.cartID = savedCart._id.toString();
+
+    await currentUser.save();
+
+    return savedCart._id.toString();
+  }
+
+  public async checkAndUpdateCart(
+    email: string,
+    cartID: string,
+  ): Promise<string> {
+    const doesCartExist = await this.checkExistingCart(cartID);
+
+    const currentUser = await this.userModel.findOne({ email });
+
+    // User already has a linked cart
+    if (currentUser.cartID !== undefined) {
+      return currentUser.cartID;
+    }
+
+    if (doesCartExist) {
+      return await this.updateUserCart(currentUser, cartID);
+    } else {
+      return await this.createUserCart(currentUser);
+    }
+  }
 }

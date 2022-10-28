@@ -168,4 +168,20 @@ export class TestService {
       translations: expect.any(Array),
     };
   }
+
+  public getUserStructure() {
+    return {
+      _id: expect.any(String),
+      email: expect.any(String),
+      name: expect.any(String),
+      address: expect.any(String),
+      phone: expect.any(String),
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
+      cartID: expect.any(String),
+      zipcode: expect.any(String),
+      __v: expect.any(Number),
+      isAdmin: expect.any(Boolean),
+    };
+  }
 }
