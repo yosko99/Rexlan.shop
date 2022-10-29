@@ -1,7 +1,7 @@
 import React, { FC, useContext } from 'react';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
-import { getUserPasswordUpdateRoute } from '../../services/apiRoutes';
+import { getCurrentUserPasswordUpdateRoute } from '../../services/apiRoutes';
 import PasswordInput from '../inputs/PasswordInput';
 import FormTemplate from '../templates/FormTemplate';
 
@@ -15,7 +15,8 @@ const PasswordChangeForm: FC<Props> = ({ className }) => {
   return (
 		<div className={className}>
 			<FormTemplate
-				mutateURL={getUserPasswordUpdateRoute()}
+				mutateURL={getCurrentUserPasswordUpdateRoute()}
+				updateRequest
 				inputs={
 					<>
 						<p>{lang.dashboard.tabs.passwordChange.enterOldPassword}</p>

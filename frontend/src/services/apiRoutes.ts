@@ -86,7 +86,7 @@ export const getUserLoginRoute = (): string => {
   return USERS_ROUTE + 'login' + getLinkDeffaultSuffixes();
 };
 
-export const getUserPasswordUpdateRoute = (): string => {
+export const getCurrentUserPasswordUpdateRoute = (): string => {
   return USERS_ROUTE + 'change-password' + getLinkDeffaultSuffixes();
 };
 

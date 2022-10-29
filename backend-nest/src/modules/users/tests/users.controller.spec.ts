@@ -220,4 +220,261 @@ describe('test users API', () => {
         });
     });
   });
+
+  describe('test POST users/login route', () => {
+    test('login with valid email and password', () => {
+      return request(app.getHttpServer())
+        .post('/users/login')
+        .send({
+          email: dummyData.userLinkedWithCart.email,
+          password: dummyData.userPassword,
+        })
+        .expect('Content-Type', /json/)
+        .expect(201)
+        .then((response) => {
+          expect(response.body).toEqual(
+            expect.objectContaining({
+              msg: 'You Have Successfully Logged in.',
+              token: expect.any(String),
+              cartID: expect.any(String),
+            }),
+          );
+        });
+    });
+
+    test('login with valid email and unvalid password', () => {
+      return request(app.getHttpServer())
+        .post('/users/login')
+        .send({
+          email: dummyData.userNotLinkedWithCart.email,
+          password: 'blabla',
+        })
+        .expect('Content-Type', /json/)
+        .then((response) => {
+          expect(response.body.message).toBe(
+            'Password does not match registered email.',
+          );
+          expect(response.body.status).toBe(403);
+        });
+    });
+
+    test('login with email that is not registered', () => {
+      return request(app.getHttpServer())
+        .post('/users/login')
+        .send({
+          email: 'blabla@abv.bg',
+        })
+        .expect('Content-Type', /json/)
+        .then((response) => {
+          expect(response.body.message).toBe(
+            'User with this email does not exist.',
+          );
+          expect(response.body.status).toBe(403);
+        });
+    });
+  });
+
+  describe('test PUT users/current route', () => {
+    test('update current user with provided valid data and valid JWT token', () => {
+      return request(app.getHttpServer())
+        .post('/users/login')
+        .send({
+          email: dummyData.userLinkedWithCart.email,
+          password: dummyData.userPassword,
+        })
+        .expect('Content-Type', /json/)
+        .expect(201)
+        .then((response) => {
+          const { token } = response.body;
+
+          return request(app.getHttpServer())
+            .put('/users/current')
+            .expect('Content-Type', /json/)
+            .set('authorization', 'Bearer ' + token)
+            .send({
+              name: 'newName',
+              phone: 'newPhone',
+              address: 'newAddress',
+              zip: 1234,
+            })
+            .expect(200)
+            .then((response) => {
+              expect(response.body.msg).toBe('Data updated successfully');
+            });
+        });
+    });
+
+    test('update current user without providing JWT token', () => {
+      return request(app.getHttpServer())
+        .put('/users/current')
+        .expect('Content-Type', /json/)
+        .then((response) => {
+          expect(response.body.message).toBe('jwt must be provided');
+        });
+    });
+  });
+
+  describe('test GET users/user/:_id route', () => {
+    test('get user with provided registered user ID', async () => {
+      return request(app.getHttpServer())
+        .get('/users/user/' + dummyData.userLinkedWithCart._id)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body).toEqual(
+            expect.objectContaining({
+              email: dummyData.userLinkedWithCart.email,
+              _id: expect.any(String),
+              name: dummyData.userLinkedWithCart.name,
+              address: dummyData.userLinkedWithCart.address,
+              phone: dummyData.userLinkedWithCart.phone,
+              isAdmin: expect.any(Boolean),
+            }),
+          );
+        });
+    });
+
+    test('get user with provided non registered user ID', () => {
+      return request(app.getHttpServer())
+        .get('/users/user/12char12char')
+        .expect('Content-Type', /html/)
+        .expect(404)
+        .then((response) => {
+          expect(response.text).toBe('Could not find user with provided email');
+        });
+    });
+  });
+
+  describe('test PUT users/user/:_id', () => {
+    test('update user name with provided registered ID', async () => {
+      return request(app.getHttpServer())
+        .put('/users/user/' + dummyData.userLinkedWithCart._id)
+        .send({
+          name: 'new name',
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.msg).toBe('Data updated successfully');
+        });
+    });
+
+    test('update user name with provided non registered ID', () => {
+      return request(app.getHttpServer())
+        .put('/users/user/12char12char')
+        .send({
+          name: 'new name',
+        })
+        .expect('Content-Type', /html/)
+        .expect(404)
+        .then((response) => {
+          expect(response.text).toBe('Could not find user with provided email');
+        });
+    });
+  });
+
+  describe('test GET users/current route', () => {
+    test('get current user with provided valid JWT token', () => {
+      return request(app.getHttpServer())
+        .post('/users/login')
+        .send({
+          email: dummyData.userLinkedWithCart.email,
+          password: dummyData.userPassword,
+        })
+        .expect('Content-Type', /json/)
+        .expect(201)
+        .then((response) => {
+          const { token } = response.body;
+
+          return request(app.getHttpServer())
+            .get('/users/current')
+            .expect('Content-Type', /json/)
+            .set('authorization', 'Bearer ' + token)
+            .expect(200)
+            .then(async (response) => {
+              expect(response.body.user).toEqual(
+                expect.objectContaining(userStructure),
+              );
+            });
+        });
+    });
+
+    test('get current user without providing JWT token', () => {
+      return request(app.getHttpServer())
+        .get('/users/current')
+        .expect('Content-Type', /json/)
+        .expect(403)
+        .then((response) => {
+          expect(response.body.message).toBe('jwt must be provided');
+        });
+    });
+  });
+
+  describe('test PUT users/current/change-password route', () => {
+    test('change current user password with valid old password and JWT token', () => {
+      return request(app.getHttpServer())
+        .post('/users/login')
+        .send({
+          email: dummyData.userLinkedWithCart.email,
+          password: dummyData.userPassword,
+        })
+        .expect('Content-Type', /json/)
+        .expect(201)
+        .then((response) => {
+          const { token } = response.body;
+
+          return request(app.getHttpServer())
+            .put('/users/current/change-password')
+            .expect('Content-Type', /json/)
+            .set('authorization', 'Bearer ' + token)
+            .send({
+              oldPassword: dummyData.userPassword,
+              newPassword: 'newPassword',
+            })
+            .expect(200)
+            .then((response) => {
+              expect(response.body.msg).toBe('Password updated successfully');
+            });
+        });
+    });
+
+    test('change curernt user password with provided JWT token but invalid old password', () => {
+      return request(app.getHttpServer())
+        .post('/users/login')
+        .send({
+          email: dummyData.userLinkedWithCart.email,
+          password: dummyData.userPassword,
+        })
+        .expect('Content-Type', /json/)
+        .expect(201)
+        .then((response) => {
+          const { token } = response.body;
+
+          return request(app.getHttpServer())
+            .put('/users/current/change-password')
+            .expect('Content-Type', /json/)
+            .set('authorization', 'Bearer ' + token)
+            .send({
+              oldPassword: 'invalid :D',
+              newPassword: 'newPassword',
+            })
+            .then((response) => {
+              expect(response.body.message).toBe(
+                'Password does not match registered email.',
+              );
+              expect(response.body.status).toBe(403);
+            });
+        });
+    });
+
+    test('change current user password without providing JWT token', () => {
+      return request(app.getHttpServer())
+        .put('/users/current/change-password')
+        .expect('Content-Type', /json/)
+        .expect(403)
+        .then((response) => {
+          expect(response.body.message).toBe('jwt must be provided');
+        });
+    });
+  });
 });

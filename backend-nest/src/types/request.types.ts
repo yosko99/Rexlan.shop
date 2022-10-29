@@ -5,4 +5,5 @@ export type DataInRequestType =
   | 'order'
   | 'orderInfo'
   | 'product'
-  | 'category';
+  | 'category'
+  | 'userDataFromToken';
