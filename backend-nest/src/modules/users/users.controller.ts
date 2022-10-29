@@ -133,4 +133,12 @@ export class UsersController {
       currentLang,
     );
   }
+
+  @Post('/password-reset')
+  resetPassword(
+    @Body('email') email: string,
+    @RequestData('currentLang') currentLang: string,
+  ) {
+    return this.usersService.resetPassword(email, currentLang);
+  }
 }

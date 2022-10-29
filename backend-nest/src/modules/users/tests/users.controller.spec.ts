@@ -477,4 +477,44 @@ describe('test users API', () => {
         });
     });
   });
+
+  describe('test POST users/reset-password route', () => {
+    test('reset password with provided registered email', () => {
+      return request(app.getHttpServer())
+        .post('/users/password-reset')
+        .send({
+          email: dummyData.userLinkedWithCart.email,
+        })
+        .expect('Content-Type', /json/)
+        .expect(201)
+        .then((response) => {
+          expect(response.body.msg).toBe(
+            'You can check your email for a new password.',
+          );
+        });
+    });
+
+    test('reset password with non registred email', () => {
+      return request(app.getHttpServer())
+        .post('/users/password-reset')
+        .send({
+          email: 'blabla@abv.bg',
+        })
+        .expect('Content-Type', /json/)
+        .then((response) => {
+          expect(response.body.message).toBe('We could not find your email.');
+          expect(response.body.status).toBe(404);
+        });
+    });
+
+    test('reset password without providing email', () => {
+      return request(app.getHttpServer())
+        .post('/users/password-reset')
+        .expect('Content-Type', /json/)
+        .then((response) => {
+          expect(response.body.message).toBe('We could not find your email.');
+          expect(response.body.status).toBe(404);
+        });
+    });
+  });
 });

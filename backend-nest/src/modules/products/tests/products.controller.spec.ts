@@ -270,18 +270,5 @@ describe('Testing products API', () => {
             .expect(200);
         });
     });
-
-    test('create product with missing title', () => {
-      return request(app.getHttpServer())
-        .post('/products/')
-        .send({
-          price: 1,
-          description: 'test',
-          category: 'test',
-          image: 'test',
-        })
-        .expect('Content-Type', /json/)
-        .expect(500);
-    });
   });
 });

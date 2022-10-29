@@ -16,6 +16,7 @@ import { userSchema } from './schemas/user.schema';
 
 import { UsersController } from './users.controller';
 
+import { MailService } from '../../mail/mail.service';
 import { UsersService } from './users.service';
 
 @Module({
@@ -27,7 +28,7 @@ import { UsersService } from './users.service';
     CartsModule,
   ],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService, MailService],
   exports: [UsersService],
 })
 export class UsersModule implements NestModule {

@@ -22,41 +22,26 @@ export class MailService {
     });
   }
 
-  private initEmailMessage(emailInformation: EmailMessageType) {
+  private initEmailMessage({ to, subject, text, html }: EmailMessageType) {
     return {
       from: process.env.SENDER_EMAIL,
-      to: emailInformation.to,
-      subject: emailInformation.subject,
-      text: emailInformation.text,
-      html: emailInformation.html,
+      to,
+      subject,
+      text,
+      html,
     };
-  }
-
-  private sendOptimisticEmail(currentLang: string) {
-    if (process.env.SENDER_EMAIL === undefined) {
-      return {
-        msg: lang[currentLang].controllers.user.checkMailForPassword,
-      };
-    }
   }
 
   public async sendEmailMessage(
     emailInformation: EmailMessageType,
     currentLang: string,
   ) {
-    this.sendOptimisticEmail(currentLang);
+    if (process.env.SENDER_EMAIL !== undefined) {
+      await this.transporter.sendMail(this.initEmailMessage(emailInformation));
+    }
 
-    this.transporter.sendMail(
-      this.initEmailMessage(emailInformation),
-      (err, _info: unknown) => {
-        if (err) {
-          return err;
-        }
-
-        return {
-          msg: lang[currentLang].controllers.user.checkMailForPassword,
-        };
-      },
-    );
+    return {
+      msg: lang[currentLang].controllers.user.checkMailForPassword,
+    };
   }
 }

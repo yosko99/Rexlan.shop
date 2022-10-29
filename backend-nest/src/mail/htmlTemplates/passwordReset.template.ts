@@ -15,9 +15,7 @@ export const passwordResetTemplate = (password: string) => {
 				<p style="margin-bottom: 1.2em;">You can use the provided temporary password to login.</p>
 				<div style="height: 4em;" class="center">
 					<p style="background-color: coral;padding: 1.5em;border-radius: 25px;border: none;color:white;font-size: 1em;margin: 2em;">
-						<b>
-							${password}
-						</b>
+						<b>${password}</b>
 					</p>
 				</div>
 				<div style="background-color: rgb(0, 0, 0);min-height: 5vh;color: white;width: 100%;margin-top: 4em;text-align: center;height: 100%;">

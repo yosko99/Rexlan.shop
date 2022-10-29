@@ -10,6 +10,11 @@ import { CartType } from '../../types/cart.types';
 import lang from '../../resources/lang';
 
 import { CartsService } from '../carts/carts.service';
+import { MailService } from '../../mail/mail.service';
+
+import { generateRandomChars } from '../../functions/generateRandomChars';
+
+import { passwordResetTemplate } from '../../mail/htmlTemplates/passwordReset.template';
 
 @Injectable()
 export class UsersService {
@@ -17,6 +22,7 @@ export class UsersService {
     @InjectModel('User') private readonly userModel: Model<UserType>,
     @InjectModel('Cart') private readonly cartModel: Model<CartType>,
     private readonly cartsService: CartsService,
+    private readonly mailService: MailService,
   ) {}
 
   async getUsers() {
@@ -99,7 +105,6 @@ export class UsersService {
     let findUserQuery = {};
 
     if (currentUser._id !== undefined) {
-      console.log('non current');
       // When route is PUT /api/users/user/:_id
       const checkExistingEmail = await this.userModel.findOne({
         email,
@@ -116,8 +121,6 @@ export class UsersService {
       }
       findUserQuery = { _id: currentUser._id };
     } else {
-      console.log('current');
-
       // When route is POST /api/users/current
       findUserQuery = { email: currentUser.email };
     }
@@ -211,6 +214,38 @@ export class UsersService {
       lang[currentLang].controllers.user.passwordMismatch,
       403,
     );
+  }
+
+  async resetPassword(email: string, currentLang: string) {
+    const user = await this.userModel.findOne({ email });
+
+    if (email === undefined || user === null) {
+      return new NotFoundException(
+        lang[currentLang].controllers.user.couldNotFindEmail,
+      );
+    }
+
+    const temporaryPassword = generateRandomChars(15);
+    const hashedPassword = await this.createHashedPassword(temporaryPassword);
+
+    await this.userModel.updateOne(
+      { email },
+      {
+        password: hashedPassword,
+      },
+    );
+
+    const mailResponse = await this.mailService.sendEmailMessage(
+      {
+        to: email,
+        subject: 'Password reset',
+        text: 'Password reset',
+        html: passwordResetTemplate(temporaryPassword),
+      },
+      currentLang,
+    );
+
+    return mailResponse;
   }
 
   private async createHashedPassword(password: string): Promise<string> {

@@ -87,7 +87,7 @@ export const getUserLoginRoute = (): string => {
 };
 
 export const getCurrentUserPasswordUpdateRoute = (): string => {
-  return USERS_ROUTE + 'change-password' + getLinkDeffaultSuffixes();
+  return USERS_ROUTE + '/current/change-password' + getLinkDeffaultSuffixes();
 };
 
 export const getUserPasswordResetRoute = (): string => {
