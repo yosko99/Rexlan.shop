@@ -64,14 +64,22 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
       queryClient.invalidateQueries();
       onSuccessFn && onSuccessFn();
 
-      setOnMutateAlert(
-        <Alert
+      if (data.data.status === 404 || data.data.status === 403) {
+        setOnMutateAlert(<Alert
           className='mt-3 rounded-pill text-center'
-          variant='success'>
-          {data.data.msg}
-          {redirectOnSuccessURL !== undefined && <Spinner animation='border' size='sm' className='ms-2' />}
-        </Alert>);
+          variant='danger'>{typeof data.data.message !== 'string' ? 'Error occurred' : data.data.message}</Alert>);
+      } else {
+        setOnMutateAlert(
+          <Alert
+            className='mt-3 rounded-pill text-center'
+            variant='success'>
+            {data.data.msg}
+            {redirectOnSuccessURL !== undefined && <Spinner animation='border' size='sm' className='ms-2' />}
+          </Alert>);
+      }
+
       setIsFetchingData(false);
+
       if (redirectOnSuccessURL !== undefined) {
         setTimeout(() => {
           if (data.data.token !== undefined) {

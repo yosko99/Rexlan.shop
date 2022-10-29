@@ -8,8 +8,8 @@ import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon
 import Loading from '../../../../../components/loading/Loading';
 import { TokenContext } from '../../../../../context/TokenContext';
 import { UserStructure, userStructure, passwordInputForUserStructure } from '../../../../../data/inputStructure/userStructure';
-import { getUserRoute, getUsersRoute } from '../../../../../services/apiRoutes';
 import useFetch from '../../../../../hooks/useFetch';
+import { getUserRoute, getUsersRoute } from '../../../../../services/apiRoutes';
 
 const EditUsersPage = () => {
   const queryClient = useQueryClient();
@@ -54,7 +54,7 @@ const EditUsersPage = () => {
                                     </td>
                                     <td>
                                         <DeleteDataIcon
-                                            apiRoute={getUserRoute(user._id)}
+                                            apiRoute={getUsersRoute(user._id)}
                                             queryKey={'user-' + user._id}
                                         />
                                     </td>

@@ -284,20 +284,20 @@ describe('Testing carts API', () => {
         });
     });
 
-    // test('delete a cart with provided valid cartID and check if orderStatus is updated', () => {
-    //   return request(app.getHttpServer())
-    //     .del('/carts/' + dummyData.linkedCart._id)
-    //     .expect('Content-Type', /json/)
-    //     .expect(200)
-    //     .then((_response) => {
-    //       return request(app.getHttpServer())
-    //         .get('/api/orders/' + dummyData.linkedCart._id)
-    //         .expect('Content-Type', /json/)
-    //         .expect(200)
-    //         .then((response) => {
-    //           expect(response.body.orderStatus).toBe('Processing');
-    //         });
-    //     });
-    // });
+    test('delete a cart with provided valid cartID and check if orderStatus is updated', () => {
+      return request(app.getHttpServer())
+        .del('/carts/' + dummyData.linkedCart._id)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((_response) => {
+          return request(app.getHttpServer())
+            .get('/orders/' + dummyData.linkedCart._id)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .then((response) => {
+              expect(response.body.orderStatus).toBe('Processing');
+            });
+        });
+    });
   });
 });

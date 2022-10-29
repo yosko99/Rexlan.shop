@@ -70,8 +70,12 @@ export const getCategoryRoute = (category: string): string => {
 };
 
 // User routes
-export const getUsersRoute = (): string => {
-  return USERS_ROUTE + getLinkDeffaultSuffixes();
+export const getUsersRoute = (id?: string): string => {
+  if (id !== undefined) {
+    return USERS_ROUTE + id + getLinkDeffaultSuffixes();
+  } else {
+    return USERS_ROUTE + getLinkDeffaultSuffixes();
+  }
 };
 
 export const getUserRoute = (id: string): string => {
