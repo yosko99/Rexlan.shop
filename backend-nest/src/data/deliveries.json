@@ -3,24 +3,24 @@
 		"title": "Econt",
 		"initialPrice" : 5,
 		"priceToAddress" : 4,
-		"image" : "/public/assets/deliveries/econt.png"
+		"image" : "/assets/deliveries/econt.png"
 	},
 	{
 		"title": "Speedy",
 		"initialPrice" : 6,
 		"priceToAddress" : 3,
-		"image" : "/public/assets/deliveries/speedy.png"
+		"image" : "/assets/deliveries/speedy.png"
 	},
 	{
 		"title": "DHL",
 		"initialPrice" : 10,
 		"priceToAddress" : 5,
-		"image" : "/public/assets/deliveries/dhl.png"
+		"image" : "/assets/deliveries/dhl.png"
 	},
 	{
 		"title": "Ups",
 		"initialPrice" : 10,
 		"priceToAddress" : 10,
-		"image" : "/public/assets/deliveries/ups.png"
+		"image" : "/assets/deliveries/ups.png"
 	}
 ]

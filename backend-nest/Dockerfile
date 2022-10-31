@@ -5,11 +5,11 @@ FROM node:lts-alpine
 WORKDIR /usr/app
 
 COPY . .
-
-# Install app dependencies
 COPY package*.json ./
+
 RUN npm install --silent
 RUN npm run build
+RUN npm run seed:refresh
 
 # Copy app to container
 COPY . .

@@ -1,7 +1,7 @@
 [
 	{
 		"name": "electronics",
-		"bannerImage": "/public/assets/categories/electronics.webp",
+		"bannerImage": "/assets/categories/electronics.webp",
 		"categoryURL": "electronics",
 		"translations": {
 			"lang": "bg",
@@ -10,7 +10,7 @@
 	},
 	{
 		"name": "jewelery",
-		"bannerImage": "/public/assets/categories/jewelery.webp",
+		"bannerImage": "/assets/categories/jewelery.webp",
 		"categoryURL": "jewelery",
 		"translations": {
 			"lang": "bg",
@@ -19,7 +19,7 @@
 	},
 	{
 		"name": "men's clothing",
-		"bannerImage": "/public/assets/categories/men's clothing.webp",
+		"bannerImage": "/assets/categories/men's clothing.webp",
 		"categoryURL": "men's clothing",
 		"translations": {
 			"lang": "bg",
@@ -28,7 +28,7 @@
 	},
 	{
 		"name": "women's clothing",
-		"bannerImage": "/public/assets/categories/women's clothing.webp",
+		"bannerImage": "/assets/categories/women's clothing.webp",
 		"categoryURL": "women's clothing",
 		"translations": {
 			"lang": "bg",

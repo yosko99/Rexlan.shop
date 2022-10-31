@@ -40,7 +40,7 @@ services:
       - SKIP_PREFLIGHT_CHECK=true
     stdin_open: true
     restart: on-failure
-    command: npm start
+    command: serve -d build -p 3000
     tty: true
   
   server:
@@ -62,7 +62,7 @@ services:
       - SALT_ROUNDS=10
       - REDIS_HOSTNAME=redis
       - NODE_ENV=production
-    command: sh -c "npm run seed:refresh && npm run start:dev"
+    command: npm run start:prod
     restart: on-failure
     tty: true
 
