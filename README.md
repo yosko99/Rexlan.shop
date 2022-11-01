@@ -116,3 +116,76 @@ You can start them independently with the following commands.
 npm run server - start server side
 npm run client - start frontend side
 ```
+
+# Routes
+
+For backend currently i have the following CRUD operations.
+
+![Order and product routes](https://user-images.githubusercontent.com/80975936/199237831-27f7c572-a6e6-47ef-bd3d-c2c03a2fdb2e.png)
+
+![User Routes](https://user-images.githubusercontent.com/80975936/199237902-42e6762b-50ed-4b75-a277-d2fdf21e7cf5.png)
+
+![Cart, category, openweather and delivery routes](https://user-images.githubusercontent.com/80975936/199237755-da3ad07b-d7c4-412b-86ea-c19e2cdb50b8.png)
+
+## Order routes
+```
+GET - /api/orders/:cartID                 # Get order information with provided cartID
+GET - /api/orders/user/:cartID            # Get all user orders with provided cartID linked with user
+DELETE - /api/orders/:cartID              # Deletes a order with provided cartID
+POST - /api/odrers/                       # Create a new order
+```
+
+## Product routes
+```
+GET - /api/products/                      # Get all products
+GET - /api/products/:id                   # Get single product with provided productID
+GET - /api/products/category/:category    # Recieve products in specific category with provided category name
+GET - /api/products/sort/:attribute       # Recieve products sorted by provided product attribute
+GET - /api/products/regex/:pattern        # Recieve products filtered by provided string
+PUT - /api/products/:id                   # Update a product with provided productID
+POST - /api/products/                     # Create a new product
+DELETE - /api/products/                   # Delete a product with provided productID
+```
+
+## User routes
+```
+GET - /api/users/                         # Get all users
+GET - /api/users/user/:_id                # Get user info with provided userID
+GET - /api/users/current                  # Get current user info (JWT token required)
+PUT - /api/users/user/:_id                # Update user info with provided userID
+PUT - /api/users/current                  # Update current user info (JWT token required)
+PUT - /api/users/current/change-password  # Update current user password (JWT token required)
+POST - /api/users/                        # Create a new user
+POST - /api/users/password-reset          # Reset user password
+POST - /api/users/login                   # Login a user
+DELETE - /api/users/                      # Delete a user with provided userID
+
+```
+
+## Cart routes
+```
+GET - /api/carts/                         # Get cart info with provided cartID
+GET - /api/carts/products/:cartID         # Get cart products with provided cartID
+PUT - /api/carts/products                 # Delete or decrement product quantity from cart
+POST - /api/carts/                        # Add product to a cart
+DELETE - /api/carts/:cartiD               # Delete a cart with provide cartID
+```
+
+## Category routes
+```
+GET - /api/categories/                    # Get all categories
+GET - /api/categories/                    # Get category info with provided categoryID
+PUT - /api/categories/                    # Update category info with provided categoryID
+POST - /api/categories/                   # Create a new category
+DELETE - /api/categories/                 # Delete a category with provided categoryID
+```
+
+## Openweather routes
+```
+GET - /api/openweather/city               # Get name of city by providing lon and lat coordinates
+```
+
+## Delivery routes
+```
+GET - /api/deliveries/                   # Get all deliveries
+```
