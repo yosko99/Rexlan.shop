@@ -12,6 +12,7 @@ List of used languages, technologies and frameworks in the project.
 - mongoDB/mongoose
 - Nest JS/express
 - Docker
+- Redis
 
 > The reason there are two back end folders in this project, is because the back end functionality got integrated from express to Nest JS.
 

@@ -2,7 +2,9 @@ version: "3.3"
 services:
   
   reverse-proxy:
-    image: nginx:1.17.10
+    build: 
+      context: ./reverse-proxy
+      dockerfile: Dockerfile
     depends_on:
         - client
         - server
@@ -11,6 +13,7 @@ services:
       - ./reverse-proxy/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - 80:80
+      - 443:443
     networks:
       - mern-network
 
