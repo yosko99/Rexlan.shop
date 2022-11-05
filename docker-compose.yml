@@ -41,6 +41,7 @@ services:
       - server
     environment:
       - SKIP_PREFLIGHT_CHECK=true
+      - REACT_APP_PROXY_URL=
     stdin_open: true
     restart: on-failure
     command: serve -d build -p 3000

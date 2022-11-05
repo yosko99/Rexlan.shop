@@ -19,14 +19,6 @@ List of used languages, technologies and frameworks in the project.
 # Instructions (with docker 🐋)
 
 After cloning the repository first make sure your docker is running.<br/><br/>
-Now open the ``docker-compose.yml`` file. <br/>
-In the ``client`` section under 
-```
-    environment:
-      - SKIP_PREFLIGHT_CHECK=true
-```
-You need to add `` - REACT_APP_PROXY_URL=YOUR_URL`` and replace ``YOUR_URL`` with your host IP.
-Your host IP can be found using ``hostname -I`` in ubuntu and ``ipconfig`` using windows.
 
 Next you can run the following command in the main directory:
 
