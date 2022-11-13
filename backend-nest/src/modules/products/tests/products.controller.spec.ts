@@ -219,7 +219,7 @@ describe('Testing products API', () => {
           title: 'test',
           price: 1,
           description: 'test',
-          category: 'test',
+          category: "men's clothing",
           image: 'test',
         })
         .expect('Content-Type', /json/)
@@ -256,7 +256,7 @@ describe('Testing products API', () => {
           title: 'test',
           price: 1,
           description: 'test',
-          category: 'test',
+          category: "men's clothing",
           image: 'test',
         })
         .expect('Content-Type', /json/)
@@ -268,6 +268,26 @@ describe('Testing products API', () => {
           return request(app.getHttpServer())
             .del('/products/' + createdProductID)
             .expect(200);
+        });
+    });
+
+    test('create a product with valid data and invalid category name', () => {
+      return request(app.getHttpServer())
+        .post('/products')
+        .send({
+          title: 'test',
+          price: 1,
+          description: 'test',
+          category: 'test',
+          image: 'test',
+        })
+        .expect('Content-Type', /json/)
+
+        .expect(201)
+        .then(async (response) => {
+          expect(response.body.message).toBe(
+            'Category with provided name does not exists',
+          );
         });
     });
   });

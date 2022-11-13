@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 
@@ -8,6 +8,7 @@ import { RedisService } from '../../cache/redis.service';
 import { CartsService } from '../carts/carts.service';
 
 import { productSortingType, ProductType } from '../../types/product.types';
+import { CategoryType } from '../../types/category.types';
 
 import lang from '../../resources/lang';
 
@@ -15,6 +16,8 @@ import lang from '../../resources/lang';
 export class ProductsService {
   constructor(
     @InjectModel('Product') private readonly productModel: Model<ProductType>,
+    @InjectModel('Category')
+    private readonly categoryModel: Model<CategoryType>,
     private readonly translationService: TranslationService,
     private readonly categoriesService: CategoriesService,
     private readonly redisService: RedisService,
@@ -161,7 +164,7 @@ export class ProductsService {
     image: string,
     currentLang: string,
   ) {
-    const createdProduct = await this.createProvidedProduct(
+    const createdProductResponse = await this.createProvidedProductResponse(
       currentLang,
       title,
       price,
@@ -172,10 +175,7 @@ export class ProductsService {
 
     await this.redisService.flushCache();
 
-    return {
-      msg: lang[currentLang].controllers.product.productCreated,
-      product: createdProduct,
-    };
+    return createdProductResponse;
   }
 
   async deleteProduct(
@@ -289,14 +289,24 @@ export class ProductsService {
     await this.productModel.updateOne({ id: currentProduct.id }, product);
   }
 
-  private async createProvidedProduct(
+  private async createProvidedProductResponse(
     currentLang: string,
     title: string,
     price: number,
     description: string,
     category: string,
     image: string,
-  ): Promise<ProductType> {
+  ) {
+    const doesCategoryExists =
+      (await this.categoryModel.findOne({ name: category })) !== null;
+
+    if (!doesCategoryExists) {
+      return new HttpException(
+        'Category with provided name does not exists',
+        405,
+      );
+    }
+
     const maxID = await this.getMaxProductID();
 
     const newProduct = {
@@ -320,7 +330,10 @@ export class ProductsService {
 
     const createdProduct = await this.productModel.create(newProduct);
 
-    return createdProduct;
+    return {
+      msg: lang[currentLang].controllers.product.productCreated,
+      product: createdProduct,
+    };
   }
 
   private async getMaxProductID() {

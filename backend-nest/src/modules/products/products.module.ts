@@ -14,6 +14,7 @@ import { CategoriesModule } from '../categories/categories.module';
 import { CartsModule } from '../carts/carts.module';
 
 import { productSchema } from './schemas/product.schema';
+import { categorySchema } from '../categories/schemas/category.schema';
 
 import { ProductsController } from './products.controller';
 
@@ -25,7 +26,10 @@ import { ProductsService } from './products.service';
     RedisCacheModule,
     CategoriesModule,
     CartsModule,
-    MongooseModule.forFeature([{ name: 'Product', schema: productSchema }]),
+    MongooseModule.forFeature([
+      { name: 'Product', schema: productSchema },
+      { name: 'Category', schema: categorySchema },
+    ]),
   ],
   controllers: [ProductsController],
   providers: [ProductsService],
