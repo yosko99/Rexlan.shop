@@ -75,16 +75,16 @@ const RenderFooter: FC<Props> = ({ isLoading, categories }) => {
 								{lang.footer.usefullLinks}
 							</h6>
 							<p>
-								<a href="#!" className="text-reset">{lang.global.pricing}</a>
+								<a href="#" className="text-reset">{lang.global.pricing}</a>
 							</p>
 							<p>
-								<a href="#!" className="text-reset">{lang.global.settings}</a>
+								<a href="#" className="text-reset">{lang.global.settings}</a>
 							</p>
 							<p>
-								<a href="#!" className="text-reset">{lang.global.orders}</a>
+								<a href="#" className="text-reset">{lang.global.orders}</a>
 							</p>
 							<p>
-								<a href="#!" className="text-reset">{lang.global.help}</a>
+								<a href="#" className="text-reset">{lang.global.help}</a>
 							</p>
 						</div>
 

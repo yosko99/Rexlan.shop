@@ -15,10 +15,16 @@ interface Props {
 
 const FavouriteBtn: FC<Props> = ({ productID, size = '1x', className }) => {
   const [heart, setHeart] = useState<IconProp>(hollowHeart);
+  const [bounce, setBounce] = useState(false);
 
   const changeIcon = (): void => {
     if (checkIfLiked(productID)) {
       setHeart(filledHeart);
+      setBounce(true);
+
+      setTimeout(() => {
+        setBounce(false);
+      }, 1000);
     } else {
       setHeart(hollowHeart);
     }
@@ -38,6 +44,7 @@ const FavouriteBtn: FC<Props> = ({ productID, size = '1x', className }) => {
 			color='red'
 			fontSize={`${size}em`}
 			border
+      bounce={bounce}
 			onClick={handleClick}
 			icon={heart}
 			className={className}
