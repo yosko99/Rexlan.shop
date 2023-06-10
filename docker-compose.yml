@@ -1,22 +1,5 @@
-version: "3.3"
+version: "2"
 services:
-  
-  reverse-proxy:
-    build: 
-      context: ./reverse-proxy
-      dockerfile: Dockerfile
-    depends_on:
-        - client
-        - server
-        - redis
-    volumes:
-      - ./reverse-proxy/nginx.conf:/etc/nginx/nginx.conf
-    ports:
-      - 80:80
-      - 443:443
-    networks:
-      - mern-network
-
   redis:
     image: redis:6.2-alpine
     networks:
@@ -24,14 +7,14 @@ services:
     expose:
       - 6379
     command: redis-server
-    volumes: 
+    volumes:
       - redis:/data
 
   client:
-    build: 
+    build:
       context: ./frontend
     ports:
-        - 3000:3000
+      - 3000:3000
     networks:
       - mern-network
     volumes:
@@ -46,7 +29,7 @@ services:
     restart: on-failure
     command: serve -d build -p 3000
     tty: true
-  
+
   server:
     build:
       context: ./backend-nest
@@ -57,27 +40,17 @@ services:
     volumes:
       - ./server/src:/usr/app/src
     depends_on:
-      - db
       - redis
     environment:
       - PORT=5000
-      - MONGO_URI=mongodb://db:27017/mern
       - JWT_SECRET_KEY=p0tpY8rIzugOu7pV5qBW
       - SALT_ROUNDS=10
       - REDIS_HOSTNAME=redis
       - NODE_ENV=production
+      - MONGO_URI=XXXX
     command: npm run start:prod
     restart: on-failure
     tty: true
-
-  db:
-    image: mongo:3.6.19-xenial
-    ports:
-      - 27017:27017
-    networks:
-      - mern-network
-    volumes:
-      - mongo-data:/data/db
 
 networks:
   mern-network:
