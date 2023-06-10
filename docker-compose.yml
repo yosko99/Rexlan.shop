@@ -49,7 +49,7 @@ services:
       - SALT_ROUNDS=10
       - REDIS_HOSTNAME=redis
       - NODE_ENV=production
-      - MONGO_URI=mongodb+srv://azis:1234@cluster0.dhabe.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+      - MONGO_URI=mongodb+srv://<username>:<password>@<URI>/<db>?retryWrites=true&w=majority
     command: npm run start:prod
     restart: on-failure
     tty: true
