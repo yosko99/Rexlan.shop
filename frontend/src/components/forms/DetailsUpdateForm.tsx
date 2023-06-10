@@ -12,8 +12,8 @@ import ZipInput from '../inputs/ZipInput';
 import FormTemplate from '../templates/FormTemplate';
 
 interface Props {
-	className?: string;
-	user: User;
+  className?: string;
+  user: User;
 }
 
 const DetailsUpdateForm: FC<Props> = ({ className, user }) => {
@@ -25,22 +25,22 @@ const DetailsUpdateForm: FC<Props> = ({ className, user }) => {
   };
 
   return (
-		<div className={className}>
-			<FormTemplate
-				mutateURL={getCurrentUserRoute()}
-				onSuccessFn={onSuccessFn}
-				updateRequest
-				inputs={
-					<>
-						<EmailInput defaultValue={user.email} readOnly />
-						<NameInput defaultValue={user.name} />
-						<AddressInput defaultValue={user.address} />
-						<PhoneInput defaultValue={user.phone} />
-						<ZipInput defaultValue={user.zipcode} />
-					</>
-				}
-			/>
-		</div>
+    <div className={className}>
+      <FormTemplate
+        mutateURL={getCurrentUserRoute()}
+        onSuccessFn={onSuccessFn}
+        updateRequest
+        inputs={
+          <>
+            <EmailInput defaultValue={user.email} readOnly />
+            <NameInput defaultValue={user.name} />
+            <AddressInput defaultValue={user.address} />
+            <PhoneInput defaultValue={user.phone} />
+            <ZipInput defaultValue={user.zipcode} />
+          </>
+        }
+      />
+    </div>
   );
 };
 

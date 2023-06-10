@@ -7,7 +7,9 @@ export interface ProductStructure {
   category: string;
   image: string;
   categoryURL: string;
-  inputs: InputStructure[];
+  inputs: {
+    [key: string]: InputStructure[];
+  };
 }
 
 export const productStructure: ProductStructure = {
@@ -17,28 +19,54 @@ export const productStructure: ProductStructure = {
   category: '',
   image: '',
   categoryURL: '',
-  inputs: [
-    {
-      title: 'Title',
-      name: 'title'
-    },
-    {
-      title: 'Price',
-      name: 'price',
-      isNumber: true
-    },
-    {
-      title: 'Description',
-      name: 'description'
-    },
-    {
-      title: 'Image URL',
-      name: 'image'
-    },
-    {
-      title: 'Category',
-      name: 'category',
-      isDropdown: true
-    }
-  ]
+  inputs: {
+    en: [
+      {
+        title: 'Title',
+        name: 'title'
+      },
+      {
+        title: 'Price',
+        name: 'price',
+        isNumber: true
+      },
+      {
+        title: 'Description',
+        name: 'description'
+      },
+      {
+        title: 'Image URL',
+        name: 'image'
+      },
+      {
+        title: 'Category',
+        name: 'category',
+        isDropdown: true
+      }
+    ],
+    bg: [
+      {
+        title: 'Заглавие',
+        name: 'title'
+      },
+      {
+        title: 'Цена',
+        name: 'price',
+        isNumber: true
+      },
+      {
+        title: 'Описание',
+        name: 'description'
+      },
+      {
+        title: 'URL на изображение',
+        name: 'image'
+      },
+      {
+        title: 'Категория',
+        name: 'category',
+        isDropdown: true
+      }
+    ]
+  }
 };

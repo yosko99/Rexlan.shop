@@ -5,7 +5,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 
 interface Props {
-  activateButtonText: string;
+  activateButtonText: React.ReactNode;
   activateButtonClassName?: string;
   activateButtonOnClick?: () => void;
   modalHeader: React.ReactChild;
@@ -36,12 +36,12 @@ const CustomModal: FC<Props> = ({
   return (
     <>
       <Button className={activateButtonClassName} onClick={handleButtonClick}>
-        {activateButtonText}
+        <>{activateButtonText}</>
       </Button>
 
       <Modal centered animation show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title className='w-100'>
+          <Modal.Title className="w-100">
             <>{modalHeader}</>
           </Modal.Title>
         </Modal.Header>
@@ -50,7 +50,9 @@ const CustomModal: FC<Props> = ({
         </Modal.Body>
         <Modal.Footer onClick={handleClose}>
           <>
-            {modalFooter || <Button variant="primary">{lang.global.close}</Button>}
+            {modalFooter || (
+              <Button variant="primary">{lang.global.close}</Button>
+            )}
           </>
         </Modal.Footer>
       </Modal>

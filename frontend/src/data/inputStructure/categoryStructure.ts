@@ -1,11 +1,13 @@
 import InputStructure from './inputStructure';
 
 export interface CategoryStructure {
-    name: string;
-    bannerImage: string;
-    _id: string;
-    categoryURL: string;
-    inputs: InputStructure[];
+  name: string;
+  bannerImage: string;
+  _id: string;
+  categoryURL: string;
+  inputs: {
+    [key: string]: InputStructure[];
+  };
 }
 
 export const categoryStructure: CategoryStructure = {
@@ -13,14 +15,26 @@ export const categoryStructure: CategoryStructure = {
   name: '',
   bannerImage: '',
   categoryURL: '',
-  inputs: [
-    {
-      title: 'Name',
-      name: 'name'
-    },
-    {
-      title: 'Banner image URL',
-      name: 'bannerImage'
-    }
-  ]
+  inputs: {
+    en: [
+      {
+        title: 'Name',
+        name: 'name'
+      },
+      {
+        title: 'Banner image URL',
+        name: 'bannerImage'
+      }
+    ],
+    bg: [
+      {
+        title: 'Заглавие',
+        name: 'name'
+      },
+      {
+        title: 'URL на банер',
+        name: 'bannerImage'
+      }
+    ]
+  }
 };

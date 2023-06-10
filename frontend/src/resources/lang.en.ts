@@ -1,4 +1,9 @@
-import { faCircleDollarToSlot, faClock, faLock, faTruck } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCircleDollarToSlot,
+  faClock,
+  faLock,
+  faTruck
+} from '@fortawesome/free-solid-svg-icons';
 
 import HTMLFields from '../types/htmlFields';
 
@@ -55,7 +60,7 @@ const lang: HTMLFields = {
     buttonText: 'Search products',
     inputfieldPlaceholder: 'Search',
     titleText: 'Search products',
-    productNotFound: 'Sorry we couldn\'t find any matches for'
+    productNotFound: "Sorry we couldn't find any matches for"
   },
   mainPage: {
     infoBar: [
@@ -94,7 +99,8 @@ const lang: HTMLFields = {
     },
     homegrownHeading: {
       title: 'Homegrown',
-      subtitle: 'We love all of our beautiful brands here at Rexlan but there is a special place in our heart for the Bulgarian brands. We have made it easy for you to find a little about each of these amazing brands. Head over to our Homegrown page where we give you a little insight into what makes each of these brands so special.'
+      subtitle:
+        'We love all of our beautiful brands here at Rexlan but there is a special place in our heart for the Bulgarian brands. We have made it easy for you to find a little about each of these amazing brands. Head over to our Homegrown page where we give you a little insight into what makes each of these brands so special.'
     }
   },
   footer: {
@@ -107,7 +113,7 @@ const lang: HTMLFields = {
       title: 'Welcome back !',
       subtitle: 'Please enter your login details.'
     },
-    dontHaveAccount: 'Don\'t have an account?',
+    dontHaveAccount: "Don't have an account?",
     signUpForFree: 'Sign up for free!',
     rembemberMe: 'Remember me',
     resetPassword: 'Forgot your password?'
@@ -122,7 +128,8 @@ const lang: HTMLFields = {
   resetPasswordPage: {
     heading: {
       title: 'Forgot password',
-      subtitle: 'We will send a temporary password to your email so you can login 😄.'
+      subtitle:
+        'We will send a temporary password to your email so you can login 😄.'
     },
     backToLogin: 'Back to login'
   },
@@ -131,10 +138,10 @@ const lang: HTMLFields = {
       label: 'Email address',
       placeholder: 'steven@gmail.com',
       inputAlert: 'Please provide a valid email format.',
-      inputText: 'We\'ll never share your email with anyone else.'
+      inputText: "We'll never share your email with anyone else."
     },
     password: {
-      label: 'Password <span className=\'text-muted\'>(min 8 chars)</span>',
+      label: "Password <span className='text-muted'>(min 8 chars)</span>",
       placeholder: 'Password',
       inputAlert: `Please provide a password that includes
       (At least 1 Uppercase,
@@ -153,12 +160,13 @@ const lang: HTMLFields = {
     phone: {
       label: 'Your phone',
       placeholder: '+12345678910',
-      inputAlert: 'The expected format for phone number is \'+xxxxxxxxxxxx\''
+      inputAlert: "The expected format for phone number is '+xxxxxxxxxxxx'"
     },
     city: {
       label: 'City',
       placeholder: 'Amsterdam',
-      inputText: 'By allowing \'current location\' we will populate this value for you.'
+      inputText:
+        "By allowing 'current location' we will populate this value for you."
     },
     postalCode: {
       label: 'Postal code',
@@ -171,7 +179,7 @@ const lang: HTMLFields = {
   },
   cart: {
     addProductsToCart: 'Add products to cart',
-    emptyCart: 'I\'m empty :(',
+    emptyCart: "I'm empty :(",
     header: 'Shopping cart',
     orderBox: {
       total: 'Total',
@@ -186,7 +194,8 @@ const lang: HTMLFields = {
     },
     paymentPage: {
       choosePayment: 'Please choose a payment method',
-      developmentWarning: 'Attention! Payment is currently not fully functional. All payments only work with "sandbox" accounts.',
+      developmentWarning:
+        'Attention! Payment is currently not fully functional. All payments only work with "sandbox" accounts.',
       toPay: 'Payment amount'
     },
     successfulPaymentPage: {
@@ -223,7 +232,8 @@ const lang: HTMLFields = {
     },
     lookingForSomeone: 'Looking for someone you know?',
     tryOurStaffDirectory: 'Try our Staff directory',
-    forMediaQueries: 'For media queries, contact email@email.com or find your regional media contact',
+    forMediaQueries:
+      'For media queries, contact email@email.com or find your regional media contact',
     regionalMediaContacts: 'Regional Media Contacts'
   },
   dashboard: {
@@ -255,7 +265,7 @@ const lang: HTMLFields = {
           title: 'My orders',
           subtitle: 'All your orders are listed below'
         },
-        noOrders: 'Currently you don\'t have any created orders.',
+        noOrders: "Currently you don't have any created orders.",
         ordersTable: {
           header: {
             date: 'Date',
@@ -265,11 +275,13 @@ const lang: HTMLFields = {
           },
           viewOrderModal: {
             activateButtonText: 'View',
-            header: 'We\'ve got your order! Your world is about to look a whole lot better. We\'ll drop you another email when your order ships.',
+            header:
+              "We've got your order! Your world is about to look a whole lot better. We'll drop you another email when your order ships.",
             orderedProducts: 'Ordered products',
             billingInfo: 'Billing info',
             shippingAddress: 'Shipping address',
-            ifYouNeedHelp: 'If you need help with anything please don\'t hesitate to drop us an email :)'
+            ifYouNeedHelp:
+              "If you need help with anything please don't hesitate to drop us an email :)"
           }
         }
       },
@@ -277,6 +289,44 @@ const lang: HTMLFields = {
         header: {
           title: 'Admin panel',
           subtitle: 'Select which data you want to edit'
+        },
+        editProducts: {
+          header: {
+            title: 'Edit products',
+            subtitle: 'Here you can add, remove and update products'
+          },
+          editProductsTableCols: {
+            imageCol: 'Image',
+            titleCol: 'Title'
+          }
+        },
+        editCategories: {
+          header: {
+            title: 'Edit categories',
+            subtitle: 'Here you can add, remove and update categories',
+            secondSubtitle:
+              'Deleting a category will remove all products related to it.'
+          },
+          editCategoriesTableCols: {
+            bannerImageCol: 'Banner image',
+            nameCol: 'Name'
+          }
+        },
+        editUsers: {
+          header: {
+            title: 'Edit users',
+            subtitle: 'Here you can edit and remove users'
+          },
+          editUsersTable: {
+            emailCol: 'Email',
+            nameCol: 'Name'
+          }
+        },
+        editDataTable: {
+          addDataBtn: 'Edit data',
+          deleteDataBtn: 'Delete',
+          editDataBtn: 'Edit',
+          deleteDataPrompt: 'Are you sure you want to delete this?'
         }
       }
     }
