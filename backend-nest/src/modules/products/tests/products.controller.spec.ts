@@ -253,7 +253,7 @@ describe('Testing products API', () => {
       return request(app.getHttpServer())
         .post('/products')
         .send({
-          title: 'test',
+          title: 'sadasda',
           price: 1,
           description: 'test',
           category: "men's clothing",

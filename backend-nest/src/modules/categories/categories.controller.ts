@@ -30,7 +30,7 @@ export class CategoriesController {
   @Post()
   createCategory(
     @Body('name') name: string,
-    @Body('bannerImg') bannerImg: string,
+    @Body('bannerImage') bannerImg: string,
     @RequestData('currentLang') currentLang: string,
   ) {
     return this.categoriesService.createCategory(name, bannerImg, currentLang);
@@ -41,10 +41,10 @@ export class CategoriesController {
     @RequestData('category')
     currentCategory: mongoose.Document<CategoryType> & CategoryType,
     @Body('name') name: string,
-    @Body('bannerImg') bannerImg: string,
+    @Body('bannerImage') bannerImg: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.categoriesService.upateCategory(
+    return this.categoriesService.updateCategory(
       currentCategory,
       name,
       bannerImg,

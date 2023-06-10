@@ -68,7 +68,7 @@ export class CategoriesService {
     };
   }
 
-  async upateCategory(
+  async updateCategory(
     currentCategory: mongoose.Document<CategoryType> & CategoryType,
     name: string,
     bannerImage: string,
@@ -172,9 +172,10 @@ export class CategoriesService {
       await this.updateCategoryOfProducts(currentCategory.name, name);
 
       currentCategory.name = name === undefined ? currentCategory.name : name;
-      currentCategory.bannerImage =
-        bannerImage === undefined ? currentCategory.bannerImage : bannerImage;
     }
+
+    currentCategory.bannerImage =
+      bannerImage === undefined ? currentCategory.bannerImage : bannerImage;
 
     await currentCategory.save();
   }
