@@ -1,6 +1,8 @@
 import React from 'react';
 
-const convertFormInputToObject = (formRef: React.RefObject<HTMLFormElement>): object => {
+const convertFormInputToObject = (
+  formRef: React.RefObject<HTMLFormElement>
+): object => {
   const inputs = formRef.current!.elements;
   const inputsObject = {};
 
@@ -10,10 +12,10 @@ const convertFormInputToObject = (formRef: React.RefObject<HTMLFormElement>): ob
         inputsObject,
         inputs[i].getAttribute('name') as string,
         {
-          value: (
-          inputs[i] as HTMLInputElement).value,
+          value: (inputs[i] as HTMLInputElement).value,
           enumerable: true
-        });
+        }
+      );
     }
   }
 

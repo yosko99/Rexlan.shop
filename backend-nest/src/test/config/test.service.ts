@@ -63,6 +63,7 @@ export class TestService {
       name: 'test2',
       address: 'test2',
       phone: 'test2',
+      isAdmin: true,
     }).save();
 
     this.dummyData.orderLinkedWithUser = await new this.orderModel({

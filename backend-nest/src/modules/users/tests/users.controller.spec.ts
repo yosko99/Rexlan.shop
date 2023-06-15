@@ -27,6 +27,7 @@ describe('test users API', () => {
     name: 'tempData',
     address: 'tempData',
     phone: 'tempData',
+    isAdmin: true,
   };
 
   beforeAll(async () => {

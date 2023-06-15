@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { useState, FC, useContext, useRef, useEffect } from 'react';
 
 import axios from 'axios';
@@ -23,10 +24,18 @@ interface Props {
 interface ErrorResponse {
   response: {
     data: string;
-  }
+  };
 }
 
-const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSuccessURL, onSuccessFn, updateRequest, sendTokenBack }) => {
+const FormTemplate: FC<Props> = ({
+  className,
+  mutateURL,
+  inputs,
+  redirectOnSuccessURL,
+  onSuccessFn,
+  updateRequest,
+  sendTokenBack
+}) => {
   const queryClient = useQueryClient();
   const data = useRef({});
   const formRef = useRef<HTMLFormElement>(null);
@@ -43,57 +52,67 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
     sendTokenBack: sendTokenBack === undefined ? false : sendTokenBack
   };
 
-  const mutation = useMutation(data => {
-    return !updateRequest
-      ? axios.post(mutateURL, data, {
-        headers: requestHeaders
-      })
-      : axios.put(mutateURL, data, {
-        headers: requestHeaders
-      });
-  }, {
-    onError: (err: ErrorResponse) => {
-      const errorMsg = err.response.data;
-
-      setOnMutateAlert(<Alert
-        className='mt-3 rounded-pill text-center'
-        variant='danger'>{typeof errorMsg !== 'string' ? 'Error occurred' : errorMsg}</Alert>);
-      setIsFetchingData(false);
+  const mutation = useMutation(
+    (data) => {
+      return !updateRequest
+        ? axios.post(mutateURL, data, {
+            headers: requestHeaders
+          })
+        : axios.put(mutateURL, data, {
+            headers: requestHeaders
+          });
     },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries();
-      onSuccessFn && onSuccessFn();
+    {
+      onError: (err: ErrorResponse) => {
+        const errorMsg = err.response.data;
 
-      if (data.data.status === 404 || data.data.status === 403) {
-        setOnMutateAlert(<Alert
-          className='mt-3 rounded-pill text-center'
-          variant='danger'>{typeof data.data.message !== 'string' ? 'Error occurred' : data.data.message}</Alert>);
-      } else {
         setOnMutateAlert(
-          <Alert
-            className='mt-3 rounded-pill text-center'
-            variant='success'>
-            {data.data.msg}
-            {redirectOnSuccessURL !== undefined && <Spinner animation='border' size='sm' className='ms-2' />}
-          </Alert>);
-      }
+          <Alert className="mt-3 rounded-pill text-center" variant="danger">
+            {typeof errorMsg !== 'string' ? 'Error occurred' : errorMsg}
+          </Alert>
+        );
+        setIsFetchingData(false);
+      },
+      onSuccess: (data) => {
+        queryClient.invalidateQueries();
+        onSuccessFn && onSuccessFn();
 
-      setIsFetchingData(false);
+        if (data.data.status === 404 || data.data.status === 403) {
+          setOnMutateAlert(
+            <Alert className="mt-3 rounded-pill text-center" variant="danger">
+              {typeof data.data.message !== 'string'
+                ? 'Error occurred'
+                : data.data.message}
+            </Alert>
+          );
+        } else {
+          setOnMutateAlert(
+            <Alert className="mt-3 rounded-pill text-center" variant="success">
+              {data.data.msg}
+              {redirectOnSuccessURL !== undefined && (
+                <Spinner animation="border" size="sm" className="ms-2" />
+              )}
+            </Alert>
+          );
+        }
 
-      if (redirectOnSuccessURL !== undefined) {
-        setTimeout(() => {
-          if (data.data.token !== undefined) {
-            token!.setToken(data.data.token);
-            localStorage.setItem('cart', data.data.cartID);
-            navigate(redirectOnSuccessURL);
-          }
-        }, 500);
+        setIsFetchingData(false);
+
+        if (redirectOnSuccessURL !== undefined) {
+          setTimeout(() => {
+            if (data.data.token !== undefined) {
+              token!.setToken(data.data.token);
+              localStorage.setItem('cart', data.data.cartID);
+              navigate(redirectOnSuccessURL);
+            }
+          }, 500);
+        }
+      },
+      onMutate: (): void => {
+        setIsFetchingData(true);
       }
-    },
-    onMutate: (): void => {
-      setIsFetchingData(true);
     }
-  });
+  );
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     data.current = convertFormInputToObject(formRef);
@@ -130,19 +149,15 @@ const FormTemplate: FC<Props> = ({ className, mutateURL, inputs, redirectOnSucce
       noValidate
       validated={formValidated}
       onChange={(e) => handleChange(e)}
-      onSubmit={(e) => handleSubmit(e)}>
-
+      onSubmit={(e) => handleSubmit(e)}
+    >
       <>{inputs}</>
 
-      <Button variant="outline-primary" className='w-100 mt-3' type="submit">
-        {isFetchingData
-          ? <Loading height='10' />
-          : <>{lang.global.submit}</>
-        }
+      <Button variant="outline-primary" className="w-100 mt-3" type="submit">
+        {isFetchingData ? <Loading height="10" /> : <>{lang.global.submit}</>}
       </Button>
 
-      {(mutation.isError || mutation.isSuccess) && <>{onMutateAlert}</>
-      }
+      {(mutation.isError || mutation.isSuccess) && <>{onMutateAlert}</>}
     </Form>
   );
 };

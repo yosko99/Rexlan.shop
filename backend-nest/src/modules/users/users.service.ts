@@ -56,6 +56,10 @@ export class UsersService {
       name: userData.name,
       address: userData.address,
       phone: userData.phone,
+      isAdmin:
+        typeof userData.isAdmin === 'string'
+          ? userData.isAdmin === 'on'
+          : userData.isAdmin,
     });
 
     // Create new user from register page
@@ -132,7 +136,7 @@ export class UsersService {
         phone,
         address,
         zipcode,
-        isAdmin,
+        isAdmin: typeof isAdmin === 'string' ? isAdmin === 'on' : isAdmin,
       });
 
       return {

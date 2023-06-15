@@ -32,11 +32,12 @@ export class UsersController {
     @Body('password') password: string,
     @Body('address') address: string,
     @Body('phone') phone: string,
+    @Body('isAdmin') isAdmin: boolean,
     @Body('cartID') cartID: string,
     @RequestData('currentLang') currentLang: string,
   ) {
     return this.usersService.createUser(
-      { email, name, password, address, phone, cartID },
+      { email, name, password, address, phone, cartID, isAdmin },
       headers.sendtokenback,
       currentLang,
     );

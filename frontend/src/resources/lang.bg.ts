@@ -329,7 +329,7 @@ const lang: HTMLFields = {
         editDataTable: {
           addDataBtn: 'Добавяне на данни',
           deleteDataBtn: 'Изтриване',
-          editDataBtn: 'Редактиране',
+          editDataBtn: 'Редактиране на данни',
           deleteDataPrompt: 'Сигурни ли сте, че искате да изтриете това?'
         }
       }

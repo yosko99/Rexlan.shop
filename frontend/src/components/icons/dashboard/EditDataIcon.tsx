@@ -1,14 +1,17 @@
 /* eslint-disable multiline-ternary */
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Navigate } from 'react-router-dom';
 
+import { CurrentLanguageContext } from '../../../context/CurrentLanguageContext';
 import InputStructure from '../../../data/inputStructure/inputStructure';
 import useFetch from '../../../hooks/useFetch';
+import CenteredItems from '../../../styles/CenteredItems';
 import CategoriesSelect from '../../inputs/CategoriesSelect';
 import CustomInput from '../../inputs/CustomInput';
+import CustomSwitch from '../../inputs/CustomSwitch';
 import Loading from '../../loading/Loading';
 import CustomModal from '../../modal/CustomModal';
 import FormTemplate from '../../templates/FormTemplate';
@@ -26,6 +29,8 @@ const EditDataIcon: FC<Props> = ({ apiRoute, queryKey, inputStructure }) => {
     error,
     refetch
   } = useFetch(queryKey, apiRoute, false);
+
+  const { lang } = useContext(CurrentLanguageContext);
 
   if (error !== undefined) {
     return <Navigate to="/404" state={{ error: error.message }} />;
@@ -56,6 +61,14 @@ const EditDataIcon: FC<Props> = ({ apiRoute, queryKey, inputStructure }) => {
                               key={index}
                               currentProduct={fetchedData}
                             />
+                          ) : input.isRadio ? (
+                            <CenteredItems key={index} className="fs-5">
+                              <CustomSwitch
+                                defaultValue={fetchedData[input.name]}
+                                label={input.title}
+                                name={input.name}
+                              />
+                            </CenteredItems>
                           ) : (
                             <CustomInput
                               key={index}
@@ -77,7 +90,11 @@ const EditDataIcon: FC<Props> = ({ apiRoute, queryKey, inputStructure }) => {
             </>
           )
         }
-        modalHeader={<p className="mb-0">Edit data</p>}
+        modalHeader={
+          <p className="mb-0">
+            {lang.dashboard.tabs.adminPanel.editDataTable.editDataBtn}
+          </p>
+        }
       />
     </>
   );

@@ -60,7 +60,7 @@ export const userStructure: UserStructure = {
       {
         title: 'Is admin (true / false)',
         name: 'isAdmin',
-        pattern: '(true|false)'
+        isRadio: true
       }
     ],
     bg: [
@@ -83,9 +83,9 @@ export const userStructure: UserStructure = {
         pattern: '\\+\\d{12}'
       },
       {
-        title: 'Админ (true / false)',
+        title: 'Админ (да / не)',
         name: 'isAdmin',
-        pattern: '(true|false)'
+        isRadio: true
       }
     ]
   }
