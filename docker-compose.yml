@@ -12,47 +12,47 @@ services:
     volumes:
       - redis:/data
 
-#   client:
-#     build:
-#       context: ./frontend
-#     ports:
-#       - 3000:3000
-#     networks:
-#       - mern-network
-#     volumes:
-#       - ./client/src:/app/client/src
-#       - ./client/public:/app/client/public
-#     depends_on:
-#       - server
-#     environment:
-#       - SKIP_PREFLIGHT_CHECK=true
-#       - REACT_APP_PROXY_URL=
-#     stdin_open: true
-#     restart: on-failure
-#     command: serve -d build -p 3000
-#     tty: true
+  client:
+    build:
+      context: ./frontend
+    ports:
+      - 3000:3000
+    networks:
+      - mern-network
+    volumes:
+      - ./client/src:/app/client/src
+      - ./client/public:/app/client/public
+    depends_on:
+      - server
+    environment:
+      - SKIP_PREFLIGHT_CHECK=true
+      - REACT_APP_PROXY_URL=
+    stdin_open: true
+    restart: on-failure
+    command: serve -d build -p 3000
+    tty: true
 
-#   server:
-#     build:
-#       context: ./backend-nest
-#     ports:
-#       - 5000:5000
-#     networks:
-#       - mern-network
-#     volumes:
-#       - ./server/src:/usr/app/src
-#     depends_on:
-#       - redis
-#     environment:
-#       - PORT=5000
-#       - JWT_SECRET_KEY=p0tpY8rIzugOu7pV5qBW
-#       - SALT_ROUNDS=10
-#       - REDIS_HOSTNAME=redis
-#       - NODE_ENV=production
-#       - MONGO_URI=mongodb+srv://<username>:<password>@<URI>/<db>?retryWrites=true&w=majority
-#     command: npm run start:prod
-#     restart: on-failure
-#     tty: true
+  server:
+    build:
+      context: ./backend-nest
+    ports:
+      - 5000:5000
+    networks:
+      - mern-network
+    volumes:
+      - ./server/src:/usr/app/src
+    depends_on:
+      - redis
+    environment:
+      - PORT=5000
+      - JWT_SECRET_KEY=p0tpY8rIzugOu7pV5qBW
+      - SALT_ROUNDS=10
+      - REDIS_HOSTNAME=redis
+      - NODE_ENV=production
+      - MONGO_URI=mongodb+srv://<username>:<password>@<URI>/<db>?retryWrites=true&w=majority
+    command: npm run start:prod
+    restart: on-failure
+    tty: true
 
 networks:
   mern-network:
