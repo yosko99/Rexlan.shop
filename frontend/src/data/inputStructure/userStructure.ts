@@ -25,6 +25,11 @@ export const passwordInputForUserStructure: { [key: string]: InputStructure } =
       title: 'Парола',
       name: 'password',
       pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,}$'
+    },
+    es: {
+      title: 'Contraseña',
+      name: 'password',
+      pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,}$'
     }
   };
 
@@ -58,7 +63,7 @@ export const userStructure: UserStructure = {
         pattern: '\\+\\d{12}'
       },
       {
-        title: 'Is admin (true / false)',
+        title: 'Admin',
         name: 'isAdmin',
         isRadio: true
       }
@@ -83,7 +88,32 @@ export const userStructure: UserStructure = {
         pattern: '\\+\\d{12}'
       },
       {
-        title: 'Админ (да / не)',
+        title: 'Админ',
+        name: 'isAdmin',
+        isRadio: true
+      }
+    ],
+    es: [
+      {
+        title: 'Correo electrónico',
+        name: 'email',
+        pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'
+      },
+      {
+        title: 'Nombre',
+        name: 'name'
+      },
+      {
+        title: 'Direccion',
+        name: 'address'
+      },
+      {
+        title: 'Teléfono',
+        name: 'phone',
+        pattern: '\\+\\d{12}'
+      },
+      {
+        title: 'Administrador',
         name: 'isAdmin',
         isRadio: true
       }

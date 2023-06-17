@@ -205,7 +205,8 @@ const lang: HTMLFields = {
       email: 'Buyer email',
       paymentID: 'Transaction ID',
       status: 'Status',
-      amountPayed: 'Amount paid'
+      amountPayed: 'Amount paid',
+      title: 'Payment successful'
     }
   },
   favouritesPage: {

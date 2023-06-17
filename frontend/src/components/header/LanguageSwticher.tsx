@@ -8,13 +8,17 @@ const LanguageSwticher = () => {
   const { lang, setCurrentLanguage } = useContext(CurrentLanguageContext);
 
   return (
-
-        <NavDropdown id="dropdown-basic-button" title={lang.header.languageSwitcherButton} onSelect={(e) => {
-          setCurrentLanguage(e as string);
-        }}>
-            <Dropdown.Item eventKey="bg">Български</Dropdown.Item>
-            <Dropdown.Item eventKey="en">English</Dropdown.Item>
-        </NavDropdown>
+    <NavDropdown
+      id="dropdown-basic-button"
+      title={lang.header.languageSwitcherButton}
+      onSelect={(e) => {
+        setCurrentLanguage(e as string);
+      }}
+    >
+      <Dropdown.Item eventKey="bg">Български</Dropdown.Item>
+      <Dropdown.Item eventKey="en">English</Dropdown.Item>
+      <Dropdown.Item eventKey="es">Español</Dropdown.Item>
+    </NavDropdown>
   );
 };
 

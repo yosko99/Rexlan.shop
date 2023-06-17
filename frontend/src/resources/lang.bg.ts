@@ -206,7 +206,8 @@ const lang: HTMLFields = {
       email: 'Имейл на купувача',
       paymentID: 'ID на транзакцията',
       status: 'Статус',
-      amountPayed: 'Платена сума'
+      amountPayed: 'Платена сума',
+      title: 'Успешно плащане'
     }
   },
   favouritesPage: {

@@ -133,6 +133,7 @@ interface HTMLFields {
       currentCurrency: string;
       amountPayed: string;
       description: string;
+      title: string;
     };
   };
   favouritesPage: {

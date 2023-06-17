@@ -11,8 +11,6 @@ interface Props {
 const CustomSwitch: FC<Props> = ({ defaultValue, name, label }) => {
   const [value, setValue] = useState(defaultValue);
 
-  console.log(value);
-
   return (
     <Form.Group>
       <Form.Check

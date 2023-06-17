@@ -50,20 +50,26 @@ const SuccessfulPaymentPage = () => {
   ];
 
   return (
-    <Container className='d-flex justify-content-center'>
-      <div className='shadow-lg mt-2 d-flex flex-column w-75'>
+    <Container className="d-flex justify-content-center">
+      <div className="shadow-lg mt-2 d-flex flex-column w-75">
         <FontAwesomeIcon
           icon={faCheckCircle}
-          className='mt-4 mb-2'
-          color='green'
-          size='5x'
+          className="mt-4 mb-2"
+          color="green"
+          size="5x"
         />
-        <p className='text-success text-center fs-3 mt-0 mb-2'>Payment successful</p>
-        <div className='p-5 text-wrap text-break'>
+        <p className="text-success text-center fs-3 mt-0 mb-2">
+          {lang.cart.successfulPaymentPage.title}
+        </p>
+        <div className="p-5 text-wrap text-break">
           <DataSplitBetween textData={paymentInfoHTMLFields} />
-          <div className='d-flex flex-column my-2 flex-lg-row justify-content-between'>
-            <p className='m-0 my-3 fs-4'>{lang.cart.successfulPaymentPage.amountPayed}</p>
-            <p className='m-0 my-3 fs-4'>{location.state.purchase_units[0].amount.value}</p>
+          <div className="d-flex flex-column my-2 flex-lg-row justify-content-between">
+            <p className="m-0 my-3 fs-4">
+              {lang.cart.successfulPaymentPage.amountPayed}
+            </p>
+            <p className="m-0 my-3 fs-4">
+              {location.state.purchase_units[0].amount.value}
+            </p>
           </div>
         </div>
       </div>

@@ -35,6 +35,16 @@ export const categoryStructure: CategoryStructure = {
         title: 'URL на банер',
         name: 'bannerImage'
       }
+    ],
+    es: [
+      {
+        title: 'Nombre',
+        name: 'name'
+      },
+      {
+        title: 'URL de la imagen del banner',
+        name: 'bannerImage'
+      }
     ]
   }
 };

@@ -67,6 +67,30 @@ export const productStructure: ProductStructure = {
         name: 'category',
         isDropdown: true
       }
+    ],
+    es: [
+      {
+        title: 'Título',
+        name: 'title'
+      },
+      {
+        title: 'Precio',
+        name: 'price',
+        isNumber: true
+      },
+      {
+        title: 'Descripción',
+        name: 'description'
+      },
+      {
+        title: 'URL de la imagen',
+        name: 'image'
+      },
+      {
+        title: 'Categoría',
+        name: 'category',
+        isDropdown: true
+      }
     ]
   }
 };
