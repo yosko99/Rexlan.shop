@@ -47,6 +47,12 @@ const lang: MultilanguageFieldType = {
         userWithEmailDoesNotExist: 'User with this email does not exist.',
         userUpdated: 'The user was updated',
         userCreated: 'The user was created',
+        passwordReset: {
+          subject: 'Password reset',
+          text: 'Password reset',
+          title: 'Forgot your password?',
+          description: 'You can use the provided temporary password to login.',
+        },
       },
       product: {
         productUpdated: 'The product was updated',
@@ -109,6 +115,13 @@ const lang: MultilanguageFieldType = {
           'Потребител с предоставения имейл не съществува.',
         userUpdated: 'Данните на потребителя са обновени',
         userCreated: 'Потребителя е създаден',
+        passwordReset: {
+          subject: 'Нулиране на парола',
+          text: 'Нулиране на парола',
+          title: 'Забравена парола?',
+          description:
+            'Можете да използвате предоставената временна парола за влизане.',
+        },
       },
       product: {
         productUpdated: 'Продуктът е обновен',
@@ -173,6 +186,13 @@ const lang: MultilanguageFieldType = {
           'No existe un usuario con este correo electrónico.',
         userUpdated: 'El usuario se ha actualizado',
         userCreated: 'El usuario se ha creado',
+        passwordReset: {
+          subject: 'Restablecimiento de contraseña',
+          text: 'Restablecimiento de contraseña',
+          title: '¿Olvidaste tu contraseña?',
+          description:
+            'Puede utilizar la contraseña temporal proporcionada para iniciar sesión.',
+        },
       },
       product: {
         productUpdated: 'El producto se ha actualizado',

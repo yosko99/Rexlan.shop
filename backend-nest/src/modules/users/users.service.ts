@@ -242,9 +242,14 @@ export class UsersService {
     const mailResponse = await this.mailService.sendEmailMessage(
       {
         to: email,
-        subject: 'Password reset',
-        text: 'Password reset',
-        html: passwordResetTemplate(temporaryPassword),
+        subject: lang[currentLang].controllers.user.passwordReset.subject,
+        text: lang[currentLang].controllers.user.passwordReset.text,
+        html: passwordResetTemplate({
+          password: temporaryPassword,
+          title: lang[currentLang].controllers.user.passwordReset.title,
+          description:
+            lang[currentLang].controllers.user.passwordReset.description,
+        }),
       },
       currentLang,
     );

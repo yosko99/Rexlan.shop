@@ -45,6 +45,12 @@ export interface MultilanguageFieldType {
         userWithEmailDoesNotExist: string;
         userUpdated: string;
         userCreated: string;
+        passwordReset: {
+          subject: string;
+          text: string;
+          title: string;
+          description: string;
+        };
       };
       product: {
         productUpdated: string;
