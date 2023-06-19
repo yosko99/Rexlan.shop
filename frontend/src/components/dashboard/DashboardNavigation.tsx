@@ -17,16 +17,16 @@ const DashboardNavigation: FC<Props> = ({ isAdmin }) => {
   const buttons = [
     {
       btnText: lang.dashboard.navigationButtons.myDetails,
-      urlParam: 'details'
+      urlParam: 'details',
     },
     {
       btnText: lang.dashboard.navigationButtons.passwordChange,
-      urlParam: 'password-change'
+      urlParam: 'password-change',
     },
     {
       btnText: lang.dashboard.navigationButtons.myOrders,
-      urlParam: 'orders'
-    }
+      urlParam: 'orders',
+    },
   ];
 
   return (
@@ -34,23 +34,27 @@ const DashboardNavigation: FC<Props> = ({ isAdmin }) => {
       {buttons.map((button, index: number) => (
         <LinkContainer key={index} to={`/dashboard/${button.urlParam}`}>
           <Button
-            variant={`${option === button.urlParam ? 'success' : 'outline-success'}`}
+            variant={`${
+              option === button.urlParam ? 'success' : 'outline-success'
+            }`}
             className='mb-3'
           >
             {button.btnText}
           </Button>
         </LinkContainer>
       ))}
-      {isAdmin &&
+      {isAdmin && (
         <LinkContainer to='/dashboard/admin-panel'>
           <Button
-            variant={`${option === 'admin-panel' ? 'primary' : 'outline-primary'}`}
+            variant={`${
+              option === 'admin-panel' ? 'primary' : 'outline-primary'
+            }`}
             className='mb-3 mt-3'
           >
             {lang.dashboard.navigationButtons.adminPanel}
           </Button>
         </LinkContainer>
-      }
+      )}
     </div>
   );
 };

@@ -28,7 +28,8 @@ const lang: HTMLFields = {
     city: 'City',
     name: 'Name',
     phone: 'Phone',
-    zipcode: 'Zipcode'
+    zipcode: 'Zipcode',
+    layouts: 'Layouts'
   },
   pdp: {
     inStock: 'In stock - pickup or order via courier',
@@ -231,6 +232,7 @@ const lang: HTMLFields = {
     navigationButtons: {
       myDetails: 'My details',
       myOrders: 'My orders',
+      layouts: 'Layouts',
       passwordChange: 'Password change',
       adminPanel: 'Admin panel'
     },

@@ -5,7 +5,8 @@ import {
   CATEGORIES_ROUTE,
   DELIVERIES_ROUTE,
   OPENWEATHER_ROUTE,
-  ORDERS_ROUTE
+  ORDERS_ROUTE,
+  LAYOUTS_ROUTES,
 } from '../constants/apiRouteConstants';
 
 const getCurrentLang = (): string => {
@@ -37,9 +38,17 @@ export const getProductsByCategoryRoute = (category: string): string => {
   return PRODUCTS_ROUTE + 'category/' + category + getLinkDeffaultSuffixes();
 };
 
-type productSortingType = 'title' | 'price' | 'description' | 'category' | 'rating';
+type productSortingType =
+  | 'title'
+  | 'price'
+  | 'description'
+  | 'category'
+  | 'rating';
 
-export const getProductsSortedByRoute = (sort: productSortingType, qty?: number): string => {
+export const getProductsSortedByRoute = (
+  sort: productSortingType,
+  qty?: number
+): string => {
   return PRODUCTS_ROUTE + 'sort/' + sort + getLinkDeffaultSuffixes(qty);
 };
 
@@ -48,8 +57,16 @@ export const getCartsRoute = (): string => {
   return CARTS_ROUTE + getLinkDeffaultSuffixes();
 };
 
-export const getCartRoute = (id: string, reassignCartToUser: boolean): string => {
-  return CARTS_ROUTE + id + getLinkDeffaultSuffixes() + `&reassignCartToUser=${reassignCartToUser}`;
+export const getCartRoute = (
+  id: string,
+  reassignCartToUser: boolean
+): string => {
+  return (
+    CARTS_ROUTE +
+    id +
+    getLinkDeffaultSuffixes() +
+    `&reassignCartToUser=${reassignCartToUser}`
+  );
 };
 
 export const getCartProductsRoute = (cartID?: string): string => {
@@ -123,4 +140,13 @@ export const getOrderRoute = (cartID: string): string => {
 
 export const getUserOrdersRoute = (cartID: string): string => {
   return ORDERS_ROUTE + 'user/' + cartID + getLinkDeffaultSuffixes();
+};
+
+// Layout routes
+export const getLayoutsRoute = (): string => {
+  return LAYOUTS_ROUTES + getLinkDeffaultSuffixes();
+};
+
+export const getLayoutRoute = (layoutID: string): string => {
+  return LAYOUTS_ROUTES + layoutID + getLinkDeffaultSuffixes();
 };
