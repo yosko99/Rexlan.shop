@@ -1,6 +1,5 @@
 package com.yosko;
 
-import com.yosko.entities.*;
 import com.yosko.models.CategoryRequest;
 import com.yosko.models.ProductRequest;
 import com.yosko.services.service.CategoryService;

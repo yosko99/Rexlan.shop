@@ -1,5 +1,7 @@
 package com.yosko.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +25,7 @@ public class Product {
     private Rating rating = new Rating();
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "categoryID")
     private Category category;
 
@@ -30,6 +33,7 @@ public class Product {
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             mappedBy = "product")
+    @JsonIgnoreProperties("product")
     private List<ProductTranslation> translations = new ArrayList<>();
 
     public Product(

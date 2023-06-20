@@ -16,8 +16,14 @@ public class ProductController {
     @GetMapping()
     public List<Product> getProducts(
             @RequestParam(value = "qty", defaultValue = "20", required = false) int qty,
-            @RequestParam(value = "currentLang", defaultValue = "en", required = false) String currentLang
-    ) {
+            @RequestParam(value = "currentLang", defaultValue = "en", required = false) String currentLang) {
         return productService.getProducts(qty, currentLang);
+    }
+
+    @GetMapping(value = "/{id}")
+    public Product getProduct(
+            @PathVariable long id,
+            @RequestParam(value = "currentLang", defaultValue = "en", required = false) String currentLang) {
+        return productService.getProduct(id, currentLang);
     }
 }

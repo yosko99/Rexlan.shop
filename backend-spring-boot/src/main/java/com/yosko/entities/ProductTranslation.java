@@ -1,5 +1,6 @@
 package com.yosko.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class ProductTranslation {
     private String lang;
 
     @ManyToOne
+    @JsonBackReference
     private Product product;
 
     public ProductTranslation(

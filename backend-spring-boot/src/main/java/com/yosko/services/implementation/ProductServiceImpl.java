@@ -9,6 +9,7 @@ import com.yosko.repositories.CategoryRepository;
 import com.yosko.repositories.ProductRepository;
 import com.yosko.services.service.ProductService;
 import com.yosko.services.service.TranslationService;
+import com.yosko.utils.MultilingualFieldType;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProduct(long productID, String currentLang) {
-        return null;
+        return retrieveProduct(productID, currentLang);
     }
 
     @Override
@@ -92,12 +94,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product retrieveProduct(long id, String currentLang) {
-        log.info("Retrieving product...");
+        log.info("Retrieving product with id ({})...", id);
 
         return productRepository
                 .findById(id)
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                "Can't find product with provided id"));
+                                new MultilingualFieldType(Locale.forLanguageTag(currentLang))
+                                        .getLocalizedString("global.noDataWithProvidedID")
+                        )
+                );
     }
 }

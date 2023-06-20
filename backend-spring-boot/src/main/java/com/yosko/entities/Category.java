@@ -1,5 +1,6 @@
 package com.yosko.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,9 +23,14 @@ public class Category {
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             mappedBy = "category")
+    @JsonIgnoreProperties("category")
     private List<CategoryTranslation> translations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(
+            mappedBy = "category",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("category")
     private List<Product> products = new ArrayList<>();
 
     public Category(
