@@ -27,4 +27,6 @@ public interface ProductService {
     void updateProvidedProduct(ProductRequest productRequest, String currentLang);
 
     CustomResponse createProvidedProduct(ProductRequest productRequest, String currentLang);
+
+    Product retrieveProduct(long id, String currentLang);
 }

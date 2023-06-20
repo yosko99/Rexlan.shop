@@ -15,14 +15,16 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String title;
-    private String categoryURL;
     private double price;
     private String description;
-    private String category;
     private String image;
 
     @Embedded
-    private Rating rating;
+    private Rating rating = new Rating();
+
+    @ManyToOne
+    @JoinColumn(name = "categoryID")
+    private Category category;
 
     @OneToMany(
             cascade = CascadeType.ALL,
@@ -32,15 +34,12 @@ public class Product {
 
     public Product(
             String title,
-            String categoryURL,
             double price,
             String description,
-            String category,
+            Category category,
             String image,
-            Rating rating
-    ) {
+            Rating rating) {
         this.title = title;
-        this.categoryURL = categoryURL;
         this.price = price;
         this.description = description;
         this.category = category;
@@ -50,21 +49,31 @@ public class Product {
 
     public Product(
             String title,
-            String categoryURL,
             double price,
             String description,
-            String category,
+            Category category,
             String image,
             Rating rating,
-            List<ProductTranslation> translations
-    ) {
+            List<ProductTranslation> translations) {
         this.title = title;
-        this.categoryURL = categoryURL;
         this.price = price;
         this.description = description;
         this.category = category;
         this.image = image;
         this.rating = rating;
         this.translations = translations;
+    }
+
+    public Product(
+            String title,
+            double price,
+            String description,
+            String image,
+            Category category) {
+        this.title = title;
+        this.price = price;
+        this.description = description;
+        this.image = image;
+        this.category = category;
     }
 }

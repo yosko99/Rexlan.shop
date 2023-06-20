@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,13 +22,15 @@ public class Category {
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             mappedBy = "category")
-    private List<CategoryTranslation> translations;
+    private List<CategoryTranslation> translations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Product> products = new ArrayList<>();
 
     public Category(
             String name,
             String bannerImage,
-            String categoryURL
-    ) {
+            String categoryURL) {
         this.name = name;
         this.bannerImage = bannerImage;
         this.categoryURL = categoryURL;
@@ -37,8 +40,7 @@ public class Category {
             String name,
             String bannerImage,
             String categoryURL,
-            List<CategoryTranslation> translations
-    ) {
+            List<CategoryTranslation> translations) {
         this.name = name;
         this.bannerImage = bannerImage;
         this.categoryURL = categoryURL;
