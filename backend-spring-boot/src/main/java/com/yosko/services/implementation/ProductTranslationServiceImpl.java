@@ -32,7 +32,6 @@ public class ProductTranslationServiceImpl implements TranslationService<Product
                 break;
             }
         }
-
         return product;
     }
 

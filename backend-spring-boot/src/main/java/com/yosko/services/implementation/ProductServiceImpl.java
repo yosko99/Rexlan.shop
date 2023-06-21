@@ -112,7 +112,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProvidedProduct(Product currentProduct, ProductUpdateRequest updateRequest, String currentLang) {
+    public Product updateProvidedProduct(Product currentProduct, ProductUpdateRequest updateRequest, String currentLang) {
         log.info("Updating product with title ({})", currentProduct.getTitle());
 
         Category newCategory = categoryService.retrieveCategory(updateRequest.getCategory(), currentLang);
@@ -148,6 +148,8 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.save(currentProduct);
         log.info("Product updated.");
+
+        return currentProduct;
     }
 
     @Override
