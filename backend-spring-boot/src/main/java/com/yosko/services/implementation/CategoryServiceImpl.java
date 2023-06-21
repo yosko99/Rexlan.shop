@@ -5,6 +5,7 @@ import com.yosko.models.CategoryRequest;
 import com.yosko.models.CustomResponse;
 import com.yosko.repositories.CategoryRepository;
 import com.yosko.services.service.CategoryService;
+import com.yosko.utils.MultilingualFieldType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -31,12 +33,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CustomResponse createCategory(CategoryRequest categoryRequest, String currentLang) {
-        log.info("Saving category...");
+        log.info("Saving category");
 
         Category newCategory = new Category(
-                categoryRequest.name(),
-                categoryRequest.bannerImg(),
-                categoryRequest.name()
+                categoryRequest.getName(),
+                categoryRequest.getBannerImg(),
+                categoryRequest.getName()
         );
 
         categoryRepository.save(newCategory);
@@ -72,13 +74,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category retrieveCategory(String categoryName, String currentLang) {
-        log.info("Retrieving category...");
+        log.info("Retrieving category with name ({})", categoryName);
 
         Category category = categoryRepository.findByName(categoryName);
 
         if (category == null) {
+            log.error("Category with name ({}) could not be found.", categoryName);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Can't find category with provided id");
+                    new MultilingualFieldType(Locale.forLanguageTag(currentLang))
+                            .getLocalizedString("global.noDataWithProvidedCategory")
+            );
         }
 
         return category;

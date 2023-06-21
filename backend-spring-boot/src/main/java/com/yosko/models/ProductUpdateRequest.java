@@ -4,9 +4,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+
 @Data
 @AllArgsConstructor
-public class ProductRequest {
+public class ProductUpdateRequest {
     @NotNull
     private String title;
     @NotNull
@@ -14,7 +15,7 @@ public class ProductRequest {
     @NotNull
     private String description;
     @NotNull
-    private String categoryName;
+    private String category;
     @NotNull
     private String image;
 }

@@ -1,16 +1,18 @@
 package com.yosko.services.service;
 
+import com.yosko.dtos.dto.ProductDTO;
 import com.yosko.models.CustomResponse;
 import com.yosko.entities.Product;
 import com.yosko.enums.ProductSortingType;
 import com.yosko.models.ProductRequest;
+import com.yosko.models.ProductUpdateRequest;
 
 import java.util.List;
 
 public interface ProductService {
-    List<Product> getProducts(int qty, String currentLang);
+    List<ProductDTO> getProducts(int qty, String currentLang);
 
-    Product getProduct(long productID, String currentLang);
+    ProductDTO getProduct(long productID, String currentLang);
 
     Product getProdctByCategory(int qty, String categoryName, String currentLang);
 
@@ -22,11 +24,13 @@ public interface ProductService {
 
     CustomResponse deleteProduct(long productID, String currentLang);
 
-    CustomResponse updateProduct(ProductRequest productRequest, String currentLang);
+    CustomResponse updateProduct(long productID, ProductUpdateRequest productRequest, String currentLang);
 
-    void updateProvidedProduct(ProductRequest productRequest, String currentLang);
+    void updateProvidedProduct(Product currentProduct, ProductUpdateRequest productRequest, String currentLang);
 
     CustomResponse createProvidedProduct(ProductRequest productRequest, String currentLang);
 
     Product retrieveProduct(long id, String currentLang);
+
+    void assignNewProductTranslation(Product product, ProductRequest productRequest, String currentLang);
 }
