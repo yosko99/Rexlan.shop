@@ -14,11 +14,11 @@ public interface ProductService {
 
     ProductDTO getProduct(long productID, String currentLang);
 
-    Product getProdctByCategory(int qty, String categoryName, String currentLang);
+    List<ProductDTO> getProductsByCategory(int qty, String categoryName, String currentLang);
 
-    List<Product> getProductsSortedByAttribute(int qty, ProductSortingType productAttribute, String currentLang);
+    List<ProductDTO> getProductsSortedByAttribute(int qty, ProductSortingType productAttribute, String currentLang);
 
-    List<Product> getProductsByQueryString(String pattern, String currentLang);
+    List<ProductDTO> getProductsByQueryString(String pattern, String currentLang);
 
     Product createProduct(ProductRequest productRequest, String currentLang);
 
@@ -28,9 +28,5 @@ public interface ProductService {
 
     Product updateProvidedProduct(Product currentProduct, ProductUpdateRequest productRequest, String currentLang);
 
-    CustomResponse createProvidedProduct(ProductRequest productRequest, String currentLang);
-
     Product retrieveProduct(long id, String currentLang);
-
-    void assignNewProductTranslation(Product product, ProductRequest productRequest, String currentLang);
 }

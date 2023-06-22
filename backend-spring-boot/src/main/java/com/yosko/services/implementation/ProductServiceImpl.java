@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -44,11 +45,7 @@ public class ProductServiceImpl implements ProductService {
         Pageable limit = PageRequest.of(0, qty);
         List<Product> products = productRepository.findAll(limit).toList();
 
-        ProductDTOMapper mapper = new ProductDTOMapper(translationService, currentLang);
-        return translationService.translateMultipleObjects(products, currentLang)
-                .stream()
-                .map(mapper)
-                .toList();
+        return translateAndMapProducts(products, currentLang);
     }
 
     @Override
@@ -59,18 +56,35 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProdctByCategory(int qty, String categoryName, String currentLang) {
-        return null;
+    public List<ProductDTO> getProductsByCategory(int qty, String categoryName, String currentLang) {
+        log.info("Retrieving products with limit ({}), lang ({}) and category ({})", qty, currentLang, categoryName);
+        categoryService.retrieveCategory(categoryName, currentLang);
+
+        List<Product> products = productRepository.getProductsByCategoryName(categoryName)
+                .stream()
+                .limit(qty)
+                .toList();
+
+        return translateAndMapProducts(products, currentLang);
     }
 
     @Override
-    public List<Product> getProductsSortedByAttribute(int qty, ProductSortingType productAttribute, String currentLang) {
-        return null;
+    public List<ProductDTO> getProductsSortedByAttribute(int qty, ProductSortingType productAttribute, String currentLang) {
+        List<Product> products = productRepository.findAll(Sort.by(Sort.Direction.DESC, productAttribute.toString()))
+                .stream()
+                .limit(qty)
+                .toList();
+
+        return translateAndMapProducts(products, currentLang);
     }
 
     @Override
-    public List<Product> getProductsByQueryString(String pattern, String currentLang) {
-        return null;
+    public List<ProductDTO> getProductsByQueryString(String pattern, String currentLang) {
+        List<Product> products = productRepository.getProductsByPattern(pattern).stream()
+                .limit(4)
+                .toList();
+
+        return translateAndMapProducts(products, currentLang);
     }
 
     @Override
@@ -97,7 +111,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public CustomResponse deleteProduct(long productID, String currentLang) {
-        return null;
+        retrieveProduct(productID, currentLang);
+//        TODO categoriesService.deleteEmptyCategory
+//        TODO cartsService.deleteProductFromAllCarts
+        productRepository.deleteById(productID);
+
+        return new CustomResponse(
+                new MultilingualFieldType(Locale.forLanguageTag(currentLang))
+                        .getLocalizedString("global.dataDeleted"));
     }
 
     @Override
@@ -153,11 +174,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public CustomResponse createProvidedProduct(ProductRequest productRequest, String currentLang) {
-        return null;
-    }
-
-    @Override
     public Product retrieveProduct(long id, String currentLang) {
         log.info("Retrieving product with id ({})", id);
 
@@ -171,8 +187,7 @@ public class ProductServiceImpl implements ProductService {
                 );
     }
 
-    @Override
-    public void assignNewProductTranslation(Product product, ProductRequest productRequest, String currentLang) {
+    private void assignNewProductTranslation(Product product, ProductRequest productRequest, String currentLang) {
         log.info("Assigning translation to product with lang ({})", currentLang);
         ProductTranslation productTranslation = new ProductTranslation(
                 productRequest.getTitle(),
@@ -180,5 +195,14 @@ public class ProductServiceImpl implements ProductService {
                 currentLang,
                 product);
         product.getTranslations().add(productTranslation);
+    }
+
+    public List<ProductDTO> translateAndMapProducts(List<Product> products, String currentLang) {
+        ProductDTOMapper mapper = new ProductDTOMapper(translationService, currentLang);
+
+        return translationService.translateMultipleObjects(products, currentLang)
+                .stream()
+                .map(mapper)
+                .toList();
     }
 }

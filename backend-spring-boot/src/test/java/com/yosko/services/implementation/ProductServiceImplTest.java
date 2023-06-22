@@ -5,24 +5,25 @@ import com.yosko.dtos.mapper.ProductDTOMapper;
 import com.yosko.entities.Category;
 import com.yosko.entities.Product;
 import com.yosko.entities.ProductTranslation;
+import com.yosko.entities.Rating;
+import com.yosko.enums.ProductSortingType;
+import com.yosko.models.CustomResponse;
 import com.yosko.models.ProductUpdateRequest;
 import com.yosko.repositories.ProductRepository;
 import com.yosko.services.service.CategoryService;
 import com.yosko.services.service.TranslationService;
+import com.yosko.utils.MultilingualFieldType;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -79,6 +80,25 @@ class ProductServiceImplTest {
     }
 
     @Test
+    void getProductsByCategory_ShouldGetList() {
+        // Arrange
+        int qty = 1;
+        String categoryName = "exampleCategory";
+        String currentLang = "en";
+
+        List<Product> mockProducts = new ArrayList<>();
+
+        when(productRepository.getProductsByCategoryName(categoryName)).thenReturn(mockProducts);
+        when(translationService.translateMultipleObjects(mockProducts, currentLang)).thenReturn(new ArrayList<>());
+
+        // Act
+        List<ProductDTO> result = productService.getProductsByCategory(qty, categoryName, currentLang);
+
+        // Assert
+        assertNotNull(result);
+    }
+
+    @Test
     void retrieveProduct_ShouldReturnProduct() {
         // Arrange
         long productID = 1;
@@ -131,12 +151,7 @@ class ProductServiceImplTest {
         // Arrange
         String currentLang = "fr";
         Product currentProduct = new Product();
-        ProductUpdateRequest updateRequest = new ProductUpdateRequest(
-                "newTitle",
-                10.0,
-                "newDescription",
-                "newCategory",
-                "newImage");
+        ProductUpdateRequest updateRequest = new ProductUpdateRequest("newTitle", 10.0, "newDescription", "newCategory", "newImage");
         Category newCategory = new Category("newCategory", "bannerImg", "newCategory");
 
         when(categoryService.retrieveCategory("newCategory", currentLang)).thenReturn(newCategory);
@@ -156,12 +171,7 @@ class ProductServiceImplTest {
         // Arrange
         String currentLang = "en";
         Product currentProduct = new Product();
-        ProductUpdateRequest updateRequest = new ProductUpdateRequest(
-                "newTitle",
-                10.0,
-                "newDescription",
-                "newCategory",
-                "newImage");
+        ProductUpdateRequest updateRequest = new ProductUpdateRequest("newTitle", 10.0, "newDescription", "newCategory", "newImage");
         Category newCategory = new Category("newCategory", "bannerImg", "newCategory");
 
         when(categoryService.retrieveCategory("newCategory", currentLang)).thenReturn(newCategory);

@@ -12,5 +12,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "WHERE p.title LIKE %:pattern% OR EXISTS " +
             "(SELECT t FROM p.translations t " +
             "WHERE t.product = p AND t.title LIKE %:pattern%)")
-    List<Product> searchProducts(@Param("pattern") String pattern);
+    List<Product> getProductsByPattern(@Param("pattern") String pattern);
+
+    List<Product> getProductsByCategoryName(String categoryName);
 }
