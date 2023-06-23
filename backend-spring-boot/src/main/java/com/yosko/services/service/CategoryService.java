@@ -9,19 +9,15 @@ import java.util.List;
 public interface CategoryService {
     List<Category> getCategories(String currentLang);
 
-    Category getCategory(String categoryName, String currentLang);
+    Category getCategory(long id, String currentLang);
 
     CustomResponse createCategory(CategoryRequest categoryRequest, String currentLang);
 
-    CustomResponse updateCategory(CategoryRequest categoryRequest, String currentLang);
+    CustomResponse updateCategory(long id, CategoryRequest categoryRequest, String currentLang);
 
-    CustomResponse deleteCategory(String categoryName, String currentLang);
+    CustomResponse deleteCategory(long id, String currentLang);
 
-    Category createProvidedCategory(CategoryRequest categoryRequest, String currentLang);
-
-    void updateProvidedCategory(CategoryRequest categoryRequest,String currentLang);
-
-    void deleteEmptyCategory(String categoryName);
+    void updateProvidedCategory(Category category, CategoryRequest categoryRequest, String currentLang);
 
     Category retrieveCategory(String categoryName, String currentLang);
 }

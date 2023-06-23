@@ -1,5 +1,6 @@
 package com.yosko.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -30,7 +31,7 @@ public class Category {
             mappedBy = "category",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("category")
+    @JsonIgnore
     private List<Product> products = new ArrayList<>();
 
     public Category(

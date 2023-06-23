@@ -9,10 +9,10 @@ import java.util.Locale;
 
 @Slf4j
 public class ExceptionHandler {
-    public static void throwNotFoundStatusException(String resourceKey, String currentLang) {
+    public static ResponseStatusException throwNotFoundStatusException(String resourceKey, String currentLang) {
         log.error("Data not found!");
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+        return new ResponseStatusException(HttpStatus.NOT_FOUND,
                 new MultilingualFieldType(Locale.forLanguageTag(currentLang))
                         .getLocalizedString(resourceKey));
     }

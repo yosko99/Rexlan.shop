@@ -69,7 +69,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> getProductsSortedByAttribute(int qty, ProductSortingType productAttribute, String currentLang) {
+    public List<ProductDTO> getProductsSortedByAttribute(int qty, ProductSortingType productAttribute,
+            String currentLang) {
+        log.info("Retrieving products with limit ({}), lang ({}), sorted by attribute ({})",
+                qty, currentLang, productAttribute.toString());
+
         List<Product> products = productRepository.findAll(Sort.by(Sort.Direction.DESC, productAttribute.toString()))
                 .stream()
                 .limit(qty)
@@ -80,6 +84,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> getProductsByQueryString(String pattern, String currentLang) {
+        log.info("Retrieving products with pattern ({}) and lang ({})", pattern, currentLang);
+
         List<Product> products = productRepository.getProductsByPattern(pattern).stream()
                 .limit(4)
                 .toList();
@@ -111,10 +117,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public CustomResponse deleteProduct(long productID, String currentLang) {
+        log.info("Deleting product with id ({})", productID);
         retrieveProduct(productID, currentLang);
-//        TODO categoriesService.deleteEmptyCategory
-//        TODO cartsService.deleteProductFromAllCarts
+        // TODO cartsService.deleteProductFromAllCarts
         productRepository.deleteById(productID);
+        log.info("Product deleted");
 
         return new CustomResponse(
                 new MultilingualFieldType(Locale.forLanguageTag(currentLang))
@@ -133,7 +140,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProvidedProduct(Product currentProduct, ProductUpdateRequest updateRequest, String currentLang) {
+    public Product updateProvidedProduct(Product currentProduct, ProductUpdateRequest updateRequest,
+            String currentLang) {
         log.info("Updating product with title ({})", currentProduct.getTitle());
 
         Category newCategory = categoryService.retrieveCategory(updateRequest.getCategory(), currentLang);
@@ -179,19 +187,16 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepository
                 .findById(id)
-                .orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                new MultilingualFieldType(Locale.forLanguageTag(currentLang))
-                                        .getLocalizedString("global.noDataWithProvidedID")
-                        )
-                );
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        new MultilingualFieldType(Locale.forLanguageTag(currentLang))
+                                .getLocalizedString("global.noDataWithProvidedID")));
     }
 
-    private void assignNewProductTranslation(Product product, ProductRequest productRequest, String currentLang) {
+    private void assignNewProductTranslation(Product product, ProductRequest request, String currentLang) {
         log.info("Assigning translation to product with lang ({})", currentLang);
         ProductTranslation productTranslation = new ProductTranslation(
-                productRequest.getTitle(),
-                productRequest.getDescription(),
+                request.getTitle(),
+                request.getDescription(),
                 currentLang,
                 product);
         product.getTranslations().add(productTranslation);

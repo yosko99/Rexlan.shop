@@ -1,9 +1,9 @@
 package com.yosko.services.service;
 
 import com.yosko.dtos.dto.ProductDTO;
-import com.yosko.models.CustomResponse;
 import com.yosko.entities.Product;
 import com.yosko.enums.ProductSortingType;
+import com.yosko.models.CustomResponse;
 import com.yosko.models.ProductRequest;
 import com.yosko.models.ProductUpdateRequest;
 
