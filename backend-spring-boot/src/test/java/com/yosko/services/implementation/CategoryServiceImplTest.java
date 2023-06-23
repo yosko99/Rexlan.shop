@@ -56,10 +56,8 @@ class CategoryServiceImplTest {
         String currentLang = "en";
 
         // Act and Assert
-        assertThrows(ResponseStatusException.class, () ->
-                        categoryService.retrieveCategory(categoryName, currentLang),
-                "Category with name (NonExistentCategory) could not be found."
-        );
+        assertThrows(ResponseStatusException.class, () -> categoryService.retrieveCategory(categoryName, currentLang),
+                "Category with name (NonExistentCategory) could not be found.");
     }
 
     @Test
@@ -77,7 +75,7 @@ class CategoryServiceImplTest {
         CustomResponse result = categoryService.createCategory(categoryRequest, "en");
 
         // Assert
-        assertEquals("Category created", result.getMsg());
+        assertEquals("The category was created", result.getMsg());
         assertEquals(newCategory, result.getCategory());
 
         verify(categoryRepository).save(newCategory);

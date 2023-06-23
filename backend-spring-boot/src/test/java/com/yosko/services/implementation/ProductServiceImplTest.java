@@ -14,6 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -46,7 +49,6 @@ class ProductServiceImplTest {
         MockitoAnnotations.openMocks(this);
     }
 
-
     @Test
     void getProducts_ShouldReturnProductDTOList() {
         // Arrange
@@ -60,10 +62,12 @@ class ProductServiceImplTest {
 
         TranslationService<Product> translationService = mock(TranslationService.class);
         ProductDTOMapper mapper = mock(ProductDTOMapper.class);
-        when(translationService.translateMultipleObjects(products, currentLang)).thenReturn(new ArrayList<>());
+        when(translationService.translateMultipleObjects(products,
+                currentLang)).thenReturn(new ArrayList<>());
         when(mapper.apply(any())).thenReturn(new ProductDTO());
 
-        productService = new ProductServiceImpl(productRepository, categoryService, translationService);
+        productService = new ProductServiceImpl(productRepository, categoryService,
+                translationService);
 
         // Act
         List<ProductDTO> result = productService.getProducts(qty, currentLang);
@@ -71,7 +75,8 @@ class ProductServiceImplTest {
         // Assert
         assertEquals(0, result.size());
         verify(productRepository, times(1)).findAll(any(Pageable.class));
-        verify(translationService, times(1)).translateMultipleObjects(products, currentLang);
+        verify(translationService, times(1)).translateMultipleObjects(products,
+                currentLang);
         verify(mapper, never()).apply(any());
     }
 
@@ -128,7 +133,8 @@ class ProductServiceImplTest {
         long productID = 1;
         String currentLang = "en";
 
-        Product product = new Product();
+        Category category = new Category("test", "test", "test");
+        Product product = new Product("test", 1, "test", "test", category);
         ProductDTO productDTO = new ProductDTO();
         when(productRepository.findById(productID)).thenReturn(Optional.of(product));
         when(translationService.translateSingleObject(product, currentLang)).thenReturn(product);
@@ -141,13 +147,13 @@ class ProductServiceImplTest {
         assertNotNull(result);
     }
 
-
     @Test
     void testUpdateProvidedProduct_WithNonEnglish() {
         // Arrange
         String currentLang = "fr";
         Product currentProduct = new Product();
-        ProductUpdateRequest updateRequest = new ProductUpdateRequest("newTitle", 10.0, "newDescription", "newCategory", "newImage");
+        ProductUpdateRequest updateRequest = new ProductUpdateRequest("newTitle", 10.0, "newDescription", "newCategory",
+                "newImage");
         Category newCategory = new Category("newCategory", "bannerImg", "newCategory");
 
         when(categoryService.retrieveCategory("newCategory", currentLang)).thenReturn(newCategory);
@@ -167,7 +173,8 @@ class ProductServiceImplTest {
         // Arrange
         String currentLang = "en";
         Product currentProduct = new Product();
-        ProductUpdateRequest updateRequest = new ProductUpdateRequest("newTitle", 10.0, "newDescription", "newCategory", "newImage");
+        ProductUpdateRequest updateRequest = new ProductUpdateRequest("newTitle", 10.0, "newDescription", "newCategory",
+                "newImage");
         Category newCategory = new Category("newCategory", "bannerImg", "newCategory");
 
         when(categoryService.retrieveCategory("newCategory", currentLang)).thenReturn(newCategory);

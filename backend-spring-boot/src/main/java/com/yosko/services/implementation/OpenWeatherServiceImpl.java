@@ -20,16 +20,19 @@ public class OpenWeatherServiceImpl implements OpenWeatherService {
     private final ApiService apiService;
 
     @Override
-    public OpenWeatherResponse getCurrentCity(String lon, String lat, String currentLang) throws JsonProcessingException {
+    public OpenWeatherResponse getCurrentCity(String lon, String lat, String currentLang)
+            throws JsonProcessingException {
         Dotenv dotenv = Dotenv.load();
         String API_KEY = dotenv.get("OPENWEATHER_API_KEY");
 
         if (API_KEY == null) {
+            log.warn("API key for openweather not provided");
             throw ExceptionHandler.throwBadRequestStatusException("global.apiKeyNotProvided", currentLang);
         }
 
         try {
-            String OPEN_WEATHER_URL = String.format("http://api.openweathermap.org/geo/1.0/reverse?lat=%s&lon=%s&appid=%s", lat, lon, API_KEY);
+            String OPEN_WEATHER_URL = String
+                    .format("http://api.openweathermap.org/geo/1.0/reverse?lat=%s&lon=%s&appid=%s", lat, lon, API_KEY);
 
             String response = apiService.getApiResponse(OPEN_WEATHER_URL);
 
@@ -39,7 +42,9 @@ public class OpenWeatherServiceImpl implements OpenWeatherService {
 
             return new OpenWeatherResponse(cityName);
         } catch (HttpClientErrorException e) {
-            throw ExceptionHandler.throwBadRequestStatusException("controllers.openWeather.invalidCoordinates", currentLang);
+            log.warn("Provided invalid coordinates for openweather API");
+            throw ExceptionHandler.throwBadRequestStatusException("controllers.openWeather.invalidCoordinates",
+                    currentLang);
         }
     }
 }

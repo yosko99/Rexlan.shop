@@ -24,9 +24,9 @@ public interface ProductService {
 
     CustomResponse deleteProduct(long productID, String currentLang);
 
-    CustomResponse updateProduct(long productID, ProductUpdateRequest productRequest, String currentLang);
+    CustomResponse updateProduct(long productID, ProductUpdateRequest request, String currentLang);
 
-    Product updateProvidedProduct(Product currentProduct, ProductUpdateRequest productRequest, String currentLang);
+    Product updateProvidedProduct(Product currentProduct, ProductUpdateRequest request, String currentLang);
 
     Product retrieveProduct(long id, String currentLang);
 }
