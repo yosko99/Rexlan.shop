@@ -12,20 +12,20 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/categories")
+@RequestMapping("/api/categories/")
 public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
     public List<Category> getCategories(
-            @RequestParam(value = "currentLang", defaultValue = "en", required = false) String currentLang) {
+            @RequestParam(value = "lang", defaultValue = "en", required = false) String currentLang) {
         return categoryService.getCategories(currentLang);
     }
 
     @GetMapping("/{id}")
     public Category getCategory(
             @PathVariable long id,
-            @RequestParam(value = "currentLang", defaultValue = "en", required = false) String currentLang) {
+            @RequestParam(value = "lang", defaultValue = "en", required = false) String currentLang) {
         return categoryService.getCategory(id, currentLang);
     }
 
@@ -33,21 +33,21 @@ public class CategoryController {
     public CustomResponse updateCategory(
             @PathVariable long id,
             @RequestBody @Valid CategoryRequest request,
-            @RequestParam(value = "currentLang", defaultValue = "en", required = false) String currentLang) {
+            @RequestParam(value = "lang", defaultValue = "en", required = false) String currentLang) {
         return categoryService.updateCategory(id, request, currentLang);
     }
 
     @DeleteMapping("/{id}")
     public CustomResponse updateCategory(
             @PathVariable long id,
-            @RequestParam(value = "currentLang", defaultValue = "en", required = false) String currentLang) {
+            @RequestParam(value = "lang", defaultValue = "en", required = false) String currentLang) {
         return categoryService.deleteCategory(id, currentLang);
     }
 
     @PostMapping
     public CustomResponse updateCategory(
             @RequestBody @Valid CategoryRequest request,
-            @RequestParam(value = "currentLang", defaultValue = "en", required = false) String currentLang) {
+            @RequestParam(value = "lang", defaultValue = "en", required = false) String currentLang) {
         return categoryService.createCategory(request, currentLang);
     }
 }

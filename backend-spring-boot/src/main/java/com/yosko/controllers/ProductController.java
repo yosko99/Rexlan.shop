@@ -15,21 +15,21 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/products")
+@RequestMapping("/api/products/")
 public class ProductController {
     private final ProductService productService;
 
     @GetMapping
     public List<ProductDTO> getProducts(
             @RequestParam(value = "qty", defaultValue = "20", required = false) int qty,
-            @RequestParam(value = "currentLang", defaultValue = "en", required = false) String currentLang) {
+            @RequestParam(value = "lang", defaultValue = "en", required = false) String currentLang) {
         return productService.getProducts(qty, currentLang);
     }
 
     @GetMapping(value = "/{id}")
     public ProductDTO getProduct(
             @PathVariable long id,
-            @RequestParam(value = "currentLang", defaultValue = "en", required = false) String currentLang) {
+            @RequestParam(value = "lang", defaultValue = "en", required = false) String currentLang) {
         return productService.getProduct(id, currentLang);
     }
 
@@ -37,7 +37,7 @@ public class ProductController {
     public List<ProductDTO> getProductsByCategory(
             @PathVariable String category,
             @RequestParam(value = "qty", defaultValue = "20", required = false) int qty,
-            @RequestParam(value = "currentLang", defaultValue = "en", required = false) String currentLang) {
+            @RequestParam(value = "lang", defaultValue = "en", required = false) String currentLang) {
         return productService.getProductsByCategory(qty, category, currentLang);
     }
 
@@ -45,14 +45,14 @@ public class ProductController {
     public List<ProductDTO> getProductsSortedByAttribute(
             @PathVariable ProductSortingType productAttribute,
             @RequestParam(value = "qty", defaultValue = "20", required = false) int qty,
-            @RequestParam(value = "currentLang", defaultValue = "en", required = false) String currentLang) {
+            @RequestParam(value = "lang", defaultValue = "en", required = false) String currentLang) {
         return productService.getProductsSortedByAttribute(qty, productAttribute, currentLang);
     }
 
     @GetMapping(value = "/regex/{pattern}")
     public List<ProductDTO> getProductsByPattern(
             @PathVariable String pattern,
-            @RequestParam(value = "currentLang", defaultValue = "en", required = false) String currentLang) {
+            @RequestParam(value = "lang", defaultValue = "en", required = false) String currentLang) {
         return productService.getProductsByQueryString(pattern, currentLang);
     }
 
@@ -60,21 +60,21 @@ public class ProductController {
     public CustomResponse updateProduct(
             @PathVariable long id,
             @RequestBody @Valid ProductUpdateRequest request,
-            @RequestParam(value = "currentLang", defaultValue = "en", required = false) String currentLang) {
+            @RequestParam(value = "lang", defaultValue = "en", required = false) String currentLang) {
         return productService.updateProduct(id, request, currentLang);
     }
 
     @DeleteMapping("/{id}")
     public CustomResponse deleteProduct(
             @PathVariable long id,
-            @RequestParam(value = "currentLang", defaultValue = "en", required = false) String currentLang) {
+            @RequestParam(value = "lang", defaultValue = "en", required = false) String currentLang) {
         return productService.deleteProduct(id, currentLang);
     }
 
     @PostMapping
     public Product createProduct(
             @RequestBody @Valid ProductRequest request,
-            @RequestParam(value = "currentLang", defaultValue = "en", required = false) String currentLang) {
+            @RequestParam(value = "lang", defaultValue = "en", required = false) String currentLang) {
         return productService.createProduct(request, currentLang);
     }
 }
