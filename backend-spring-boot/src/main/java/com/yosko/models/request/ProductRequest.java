@@ -1,13 +1,12 @@
-package com.yosko.models;
+package com.yosko.models.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-
 @Data
 @AllArgsConstructor
-public class ProductUpdateRequest {
+public class ProductRequest {
     @NotNull
     private String title;
     @NotNull
@@ -15,7 +14,7 @@ public class ProductUpdateRequest {
     @NotNull
     private String description;
     @NotNull
-    private String category;
+    private String categoryName;
     @NotNull
     private String image;
 }

@@ -1,8 +1,8 @@
 package com.yosko.controllers;
 
 import com.yosko.entities.Category;
-import com.yosko.models.CategoryRequest;
-import com.yosko.models.CustomResponse;
+import com.yosko.models.request.CategoryRequest;
+import com.yosko.models.response.CustomResponse;
 import com.yosko.services.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

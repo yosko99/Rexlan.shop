@@ -5,7 +5,7 @@ import com.yosko.dtos.mapper.ProductDTOMapper;
 import com.yosko.entities.Category;
 import com.yosko.entities.Product;
 import com.yosko.entities.ProductTranslation;
-import com.yosko.models.ProductUpdateRequest;
+import com.yosko.models.request.ProductUpdateRequest;
 import com.yosko.repositories.ProductRepository;
 import com.yosko.services.service.CategoryService;
 import com.yosko.services.service.TranslationService;

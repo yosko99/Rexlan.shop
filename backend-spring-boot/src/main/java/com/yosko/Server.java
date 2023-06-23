@@ -1,8 +1,8 @@
 package com.yosko;
 
-import com.yosko.models.CategoryRequest;
-import com.yosko.models.ProductRequest;
-import com.yosko.models.ProductUpdateRequest;
+import com.yosko.models.request.CategoryRequest;
+import com.yosko.models.request.ProductRequest;
+import com.yosko.models.request.ProductUpdateRequest;
 import com.yosko.services.service.CategoryService;
 import com.yosko.services.service.ProductService;
 import org.springframework.boot.CommandLineRunner;

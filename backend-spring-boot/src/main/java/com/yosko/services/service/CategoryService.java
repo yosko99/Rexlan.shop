@@ -1,8 +1,8 @@
 package com.yosko.services.service;
 
 import com.yosko.entities.Category;
-import com.yosko.models.CategoryRequest;
-import com.yosko.models.CustomResponse;
+import com.yosko.models.request.CategoryRequest;
+import com.yosko.models.response.CustomResponse;
 
 import java.util.List;
 

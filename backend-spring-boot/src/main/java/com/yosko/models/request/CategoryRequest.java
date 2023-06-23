@@ -1,4 +1,4 @@
-package com.yosko.models;
+package com.yosko.models.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

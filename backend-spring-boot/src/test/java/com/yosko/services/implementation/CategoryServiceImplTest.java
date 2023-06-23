@@ -1,8 +1,8 @@
 package com.yosko.services.implementation;
 
 import com.yosko.entities.Category;
-import com.yosko.models.CategoryRequest;
-import com.yosko.models.CustomResponse;
+import com.yosko.models.request.CategoryRequest;
+import com.yosko.models.response.CustomResponse;
 import com.yosko.repositories.CategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

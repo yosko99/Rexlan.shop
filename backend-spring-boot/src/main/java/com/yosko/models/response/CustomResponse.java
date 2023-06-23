@@ -1,4 +1,4 @@
-package com.yosko.models;
+package com.yosko.models.response;
 
 import com.yosko.entities.Category;
 import com.yosko.entities.Product;
