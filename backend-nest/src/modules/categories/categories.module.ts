@@ -2,7 +2,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
 import { TranslationModule } from '../../translation/translation.module';
-import { RedisCacheModule } from '../../cache/redis.module';
+import { RedisCacheModule } from '../../cache/cache.module';
 import { CartsModule } from '../carts/carts.module';
 
 import { CategoriesController } from './categories.controller';

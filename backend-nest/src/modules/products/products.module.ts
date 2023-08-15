@@ -9,7 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CheckExistingProductMiddleware } from '../../middleware/product/checkExistingProduct.middleware';
 
 import { TranslationModule } from '../../translation/translation.module';
-import { RedisCacheModule } from '../../cache/redis.module';
+import { RedisCacheModule } from '../../cache/cache.module';
 import { CategoriesModule } from '../categories/categories.module';
 import { CartsModule } from '../carts/carts.module';
 

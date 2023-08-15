@@ -2,8 +2,6 @@ import { CacheModule, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import dotenv = require('dotenv');
 
-import { REDIS_CACHE_OPTIONS } from './constants/redis.constants';
-
 import { OpenWeatherModule } from './modules/openweather/openWeather.module';
 import { DeliveriesModule } from './modules/deliveries/deliveries.module';
 import { CategoriesModule } from './modules/categories/categories.module';
@@ -25,7 +23,7 @@ dotenv.config();
     OpenWeatherModule,
     MongooseModule.forRoot(process.env.MONGO_URI),
     CacheModule.register({
-      ...REDIS_CACHE_OPTIONS,
+      isGlobal: true,
     }),
   ],
   controllers: [],

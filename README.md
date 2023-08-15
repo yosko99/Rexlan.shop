@@ -12,7 +12,6 @@ List of used languages, technologies and frameworks in the project.
 - mongoDB/mongoose
 - Nest JS/express
 - Docker
-- Redis
 
 > The reason there are two back end folders in this project, is because the back end functionality got integrated from express to Nest JS.
 
@@ -41,8 +40,6 @@ For instructions on what they are used for scroll down to 'Environment variables
 
 # Instructions (without docker)
 
-> ⚠️ Note! You need to have yarn and redis installed on your local machine to be able to run the project.
-
 <br/>
 
 After cloning the repository go to the main directory and run the following command to install the necessary npm packages.
@@ -54,7 +51,7 @@ npm install
 Next run the following command
 
 ```
-npm run installPackages
+npm run install-packages
 ```
 
 This command will concurrently install the necessary npm packages for both backend and frontend 😍.

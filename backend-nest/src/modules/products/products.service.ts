@@ -4,7 +4,7 @@ import mongoose, { Model } from 'mongoose';
 
 import { TranslationService } from '../../translation/translation.service';
 import { CategoriesService } from '../categories/categories.service';
-import { RedisService } from '../../cache/redis.service';
+import { CacheService } from '../../cache/cache.service';
 import { CartsService } from '../carts/carts.service';
 
 import { productSortingType, ProductType } from '../../types/product.types';
@@ -20,7 +20,7 @@ export class ProductsService {
     private readonly categoryModel: Model<CategoryType>,
     private readonly translationService: TranslationService,
     private readonly categoriesService: CategoriesService,
-    private readonly redisService: RedisService,
+    private readonly cacheService: CacheService,
     private readonly cartsService: CartsService,
   ) {}
 
@@ -173,7 +173,7 @@ export class ProductsService {
       image,
     );
 
-    await this.redisService.flushCache();
+    await this.cacheService.flushCache();
 
     return createdProductResponse;
   }
@@ -185,7 +185,7 @@ export class ProductsService {
     await this.categoriesService.deleteEmptyCategory(currentProduct.category);
     await this.cartsService.deleteProductFromAllCarts(currentProduct.id);
     await this.productModel.deleteOne({ id: currentProduct.id });
-    await this.redisService.flushCache();
+    await this.cacheService.flushCache();
 
     return {
       msg: lang[currentLang].global.dataDeleted,
@@ -214,7 +214,7 @@ export class ProductsService {
       image,
       currentLang,
     );
-    await this.redisService.flushCache();
+    await this.cacheService.flushCache();
 
     return {
       msg: lang[currentLang].controllers.product.productUpdated,
@@ -353,7 +353,7 @@ export class ProductsService {
     currentLang: string,
     cacheKey: string,
   ) {
-    return await this.redisService.setAndGetData(cacheKey, async () => {
+    return await this.cacheService.setAndGetData(cacheKey, async () => {
       return await this.translationService.getProductsTranslation(
         currentLang,
         products,
@@ -366,7 +366,7 @@ export class ProductsService {
     currentLang: string,
     cacheKey: string,
   ) {
-    return await this.redisService.setAndGetData(cacheKey, async () => {
+    return await this.cacheService.setAndGetData(cacheKey, async () => {
       return await this.translationService.getProductTranslation(
         currentLang,
         product,

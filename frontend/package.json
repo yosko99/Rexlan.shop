@@ -19,6 +19,7 @@
     "@types/react-dom": "^17.0.14",
     "axios": "^0.26.1",
     "axios-progress-bar": "^1.2.0",
+    "code": "file:..",
     "html-react-parser": "^3.0.1",
     "react": "^18.0.0",
     "react-bootstrap": "^2.2.3",

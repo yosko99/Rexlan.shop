@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
-import { Routes, Route, HashRouter } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 import Footer from './components/footer/Footer';
 import Header from './components/header';
@@ -26,36 +26,49 @@ import PasswordResetPage from './views/passwordResetPage';
 import PDPPage from './views/pdp';
 import RegisterPage from './views/registerpage';
 
-function App () {
+const App = () => {
   const { token, setToken } = useToken();
   const { currentLanguage, setCurrentLanguage } = useCurrentLanguage();
 
   return (
-    <HashRouter>
+    <BrowserRouter>
       <ScrollToTop />
       <GlobalCSS />
-      <PayPalScriptProvider options={{
-        'client-id': process.env.REACT_APP_PAYPAL_CLIENT_ID as string
-      }}>
+      <PayPalScriptProvider
+        options={{
+          'client-id': process.env.REACT_APP_PAYPAL_CLIENT_ID as string
+        }}
+      >
         <TokenContext.Provider value={{ token, setToken }}>
-          <CurrentLanguageContext.Provider value={{ lang: currentLanguage, setCurrentLanguage }}>
+          <CurrentLanguageContext.Provider
+            value={{ lang: currentLanguage, setCurrentLanguage }}
+          >
             <Header />
             <main style={{ minHeight: '70vh' }}>
               <Routes>
-                <Route path='/' element={<MainPage />} />
-                <Route path='/category/:category' element={<CategoryProductsPage />} />
-                <Route path='/:category/product/:id' element={<PDPPage />} />
-                <Route path='/favourites' element={<FavouritesPage />} />
-                <Route path='/login' element={<LoginPage />} />
-                <Route path='/cart' element={<CartPage />} />
-                <Route path='/password-reset' element={<PasswordResetPage />} />
-                <Route path='/register' element={<RegisterPage />} />
-                <Route path='/dashboard/:option' element={<Dashboard />} />
-                <Route path='/dashboard/admin-panel/:option' element={<Dashboard />} />
-                <Route path='/contacts' element={<ContactPage />} />
-                <Route path='/payment' element={<PaymentPage />} />
-                <Route path='/payment-successful' element={<SuccessfulPaymentPage />} />
-                <Route path='/*' element={<Page404 />} />
+                <Route path="/" element={<MainPage />} />
+                <Route
+                  path="/category/:category"
+                  element={<CategoryProductsPage />}
+                />
+                <Route path="/:category/product/:id" element={<PDPPage />} />
+                <Route path="/favourites" element={<FavouritesPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/password-reset" element={<PasswordResetPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/dashboard/:option" element={<Dashboard />} />
+                <Route
+                  path="/dashboard/admin-panel/:option"
+                  element={<Dashboard />}
+                />
+                <Route path="/contacts" element={<ContactPage />} />
+                <Route path="/payment" element={<PaymentPage />} />
+                <Route
+                  path="/payment-successful"
+                  element={<SuccessfulPaymentPage />}
+                />
+                <Route path="/*" element={<Page404 />} />
               </Routes>
             </main>
             <CompanyLogos />
@@ -63,8 +76,8 @@ function App () {
           </CurrentLanguageContext.Provider>
         </TokenContext.Provider>
       </PayPalScriptProvider>
-    </HashRouter>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

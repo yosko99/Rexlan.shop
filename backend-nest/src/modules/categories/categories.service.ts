@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 
 import { TranslationService } from '../../translation/translation.service';
-import { RedisService } from '../../cache/redis.service';
+import { CacheService } from '../../cache/cache.service';
 import { CartsService } from '../carts/carts.service';
 
 import { CategoryType } from '../../types/category.types';
@@ -18,7 +18,7 @@ export class CategoriesService {
     private readonly categoryModel: Model<CategoryType>,
     @InjectModel('Product')
     private readonly productModel: Model<ProductType>,
-    private readonly redisService: RedisService,
+    private readonly redisService: CacheService,
     private readonly cartsService: CartsService,
     private readonly translationService: TranslationService,
   ) {}
