@@ -1,23 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { Seeder } from 'nestjs-seeder';
+import deliveriesData from 'src/data/deliveries';
 
-import { DeliveryType } from 'src/types/delivery.types';
-import * as deliveryData from '../data/deliveries.json';
+import { PrismaService } from 'src/modules/prisma/prisma.service';
 
 @Injectable()
 export class DeliveriesSeeder implements Seeder {
-  constructor(
-    @InjectModel('Delivery')
-    private readonly deliveryModel: Model<DeliveryType>,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  async seed(): Promise<any> {
-    return this.deliveryModel.insertMany(deliveryData);
+  async seed(): Promise<void> {
+    await this.drop();
+
+    await this.prisma.delivery.createMany({
+      data: deliveriesData,
+    });
   }
 
-  async drop(): Promise<any> {
-    return this.deliveryModel.deleteMany({});
+  async drop(): Promise<void> {
+    await this.prisma.delivery.deleteMany({});
   }
 }

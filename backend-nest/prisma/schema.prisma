@@ -34,18 +34,17 @@ model Delivery {
 }
 
 model Product {
-    id                  String                @id @default(uuid())
-    title               String
-    price               Float
-    description         String
-    image               String
-    rating              Rating?
-    createdAt           DateTime              @default(now())
-    updatedAt           DateTime              @updatedAt
-    carts               Cart[]
-    orders              Order[]
-    translations        ProductTranslation[]
-    categoryTranslation CategoryTranslation[]
+    id           String               @id @default(uuid())
+    price        Float
+    image        String
+    rating       Rating?
+    createdAt    DateTime             @default(now())
+    updatedAt    DateTime             @updatedAt
+    carts        Cart[]
+    orders       Order[]
+    translations ProductTranslation[]
+    category     Category?            @relation(fields: [categoryId], references: [id])
+    categoryId   String?
 }
 
 model ProductTranslation {
@@ -92,9 +91,9 @@ model Order {
 
 model Category {
     id           String                @id @default(uuid())
-    title        String
     bannerImage  String?
     translations CategoryTranslation[]
+    Product      Product[]
 }
 
 model CategoryTranslation {
@@ -103,8 +102,6 @@ model CategoryTranslation {
     lang       String
     category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
     categoryId String
-    Product    Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
-    productId  String?
 
     @@unique([categoryId, lang])
 }
