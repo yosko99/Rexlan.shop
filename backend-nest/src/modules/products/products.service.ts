@@ -1,52 +1,42 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
 
-import { TranslationService } from '../../translation/translation.service';
-import { CategoriesService } from '../categories/categories.service';
 import { CacheService } from '../../cache/cache.service';
-import { CartsService } from '../carts/carts.service';
 
-import { productSortingType, ProductType } from '../../types/product.types';
-import { CategoryType } from '../../types/category.types';
+import { productSortingType } from '../../types/product.types';
 
 import lang from '../../resources/lang';
+import { PrismaService } from '../prisma/prisma.service';
+import { getProductIncludeQuery } from '../prisma/queries/product.queries';
+import Product from '../../interfaces/product';
+import getTranslation from '../../functions/getTranslation';
 
 @Injectable()
 export class ProductsService {
   constructor(
-    @InjectModel('Product') private readonly productModel: Model<ProductType>,
-    @InjectModel('Category')
-    private readonly categoryModel: Model<CategoryType>,
-    private readonly translationService: TranslationService,
-    private readonly categoriesService: CategoriesService,
     private readonly cacheService: CacheService,
-    private readonly cartsService: CartsService,
+    private readonly prisma: PrismaService,
   ) {}
 
   async getProducts(qty: string, currentLang: string) {
     const productQuantity = this.getQueryQty(qty);
     const cacheKey = `products-qty${productQuantity}-lang${currentLang}`;
 
-    const products = await this.productModel.find({}).limit(productQuantity);
+    const products = (await this.prisma.product.findMany({
+      take: productQuantity,
+      include: getProductIncludeQuery(),
+    })) as unknown as Product[];
 
-    const translatedProducts = await this.getTranslatedProducts(
-      products,
-      currentLang,
-      cacheKey,
-    );
-
-    return translatedProducts;
+    return this.getCachedProducts(products, cacheKey, currentLang);
   }
 
-  async getProduct(productID: string, currentLang: string) {
-    const cacheKey = `product-${productID}-lang${currentLang}`;
+  async getProduct(productId: string, currentLang: string) {
+    const cacheKey = `product-${productId}-lang${currentLang}`;
 
-    const product = await this.productModel
-      .findOne({
-        id: productID,
-      })
-      .select('-__v -_id');
+    const product = (await this.prisma.product.findUnique({
+      where: { id: productId },
+      include: getProductIncludeQuery(),
+    })) as unknown as Product;
 
     if (product === null) {
       return new NotFoundException(
@@ -54,13 +44,29 @@ export class ProductsService {
       );
     }
 
-    const translatedProduct = await this.getTranslatedProduct(
-      product,
-      currentLang,
-      cacheKey,
+    return this.cacheService.setAndGetData(cacheKey, () =>
+      this.extractProductData(product, currentLang),
+    );
+  }
+
+  private extractProductData(product: Product, lang: string) {
+    const productTranslation = getTranslation(product.translations, lang);
+    const categoryTranslation = getTranslation(
+      product.category.translations,
+      lang,
     );
 
-    return translatedProduct;
+    return {
+      id: product.id,
+      price: product.price,
+      image: product.image,
+      rating: product.rating,
+      category:
+        categoryTranslation?.title || product.category.translations[0].title,
+      title: productTranslation?.title || product.translations[0].title,
+      description:
+        productTranslation?.description || product.translations[0].description,
+    };
   }
 
   async getProductsByCategory(
@@ -71,25 +77,25 @@ export class ProductsService {
     const productQuantity = this.getQueryQty(qty);
     const cacheKey = `${categoryName}-qty${productQuantity}-lang${currentLang}`;
 
-    const products = await this.productModel
-      .find({})
-      .where('category')
-      .equals(categoryName)
-      .limit(productQuantity);
+    const products = (await this.prisma.product.findMany({
+      take: productQuantity,
+      include: getProductIncludeQuery(),
+      where: {
+        category: {
+          translations: {
+            some: { title: categoryName },
+          },
+        },
+      },
+    })) as unknown as Product[];
 
     if (products === null || products.length === 0) {
-      return {
-        products: [],
-        msg: lang[currentLang].global.noDataWithProvidedCategory,
-      };
+      return new NotFoundException(
+        lang[currentLang].global.noDataWithProvidedCategory,
+      );
     }
 
-    const translatedProducts = await this.getTranslatedProducts(
-      products,
-      currentLang,
-      cacheKey,
-    );
-    return translatedProducts;
+    return this.getCachedProducts(products, cacheKey, currentLang);
   }
 
   async getProductsSortedByAttribute(
@@ -100,60 +106,42 @@ export class ProductsService {
     const productQuantity = this.getQueryQty(qty);
     const cacheKey = `${productAttribute}-qty${productQuantity}-lang${currentLang}`;
 
-    const products = await this.productModel
-      .find({})
-      .sort({ [productAttribute]: -1 })
-      .limit(productQuantity);
+    try {
+      const products = (await this.prisma.product.findMany({
+        take: productQuantity,
+        include: getProductIncludeQuery(),
+        orderBy: { [productAttribute]: 'desc' },
+      })) as unknown as Product[];
 
-    if (products === null || products.length === 0) {
-      return {
-        products: [],
-        msg: lang[currentLang].global.couldNotFindData,
-      };
+      if (products === null || products.length === 0) {
+        return new NotFoundException(lang[currentLang].global.couldNotFindData);
+      }
+
+      return this.getCachedProducts(products, cacheKey, currentLang);
+    } catch (_error) {
+      throw new HttpException(lang[currentLang].global.couldNotFindData, 422);
     }
-
-    const translatedProducts = await this.getTranslatedProducts(
-      products,
-      currentLang,
-      cacheKey,
-    );
-
-    return translatedProducts;
   }
 
-  async getProductsByQueryString(pattern: RegExp, currentLang: string) {
+  async getProductsByQueryString(pattern: string, currentLang: string) {
     const cacheKey = `${pattern}-lang${currentLang}`;
 
-    const products = await this.productModel
-      .find({
-        $or: [
-          {
+    const products = (await this.prisma.product.findMany({
+      where: {
+        translations: {
+          some: {
             title: {
-              $regex: pattern,
-              $options: 'si',
+              contains: pattern,
+              mode: 'insensitive',
             },
           },
-          {
-            translations: {
-              $elemMatch: {
-                title: {
-                  $regex: pattern,
-                  $options: 'si',
-                },
-              },
-            },
-          },
-        ],
-      })
-      .limit(4);
+        },
+      },
+      take: 4,
+      include: getProductIncludeQuery(),
+    })) as unknown as Product[];
 
-    const translatedProducts = await this.getTranslatedProducts(
-      products,
-      currentLang,
-      cacheKey,
-    );
-
-    return translatedProducts;
+    return this.getCachedProducts(products, cacheKey, currentLang);
   }
 
   async createProduct(
@@ -164,27 +152,40 @@ export class ProductsService {
     image: string,
     currentLang: string,
   ) {
-    const createdProductResponse = await this.createProvidedProductResponse(
-      currentLang,
-      title,
-      price,
-      description,
-      category,
-      image,
-    );
+    const selectedCategory = await this.prisma.category.findFirst({
+      where: { translations: { some: { title: category } } },
+    });
+
+    if (selectedCategory === null) {
+      return new HttpException(
+        'Category with provided name does not exists',
+        405,
+      );
+    }
+
+    const newProduct = await this.prisma.product.create({
+      data: {
+        rating: { create: { count: 0, rate: 0 } },
+        price: price === undefined ? 0 : Number(price),
+        category: { connect: { id: selectedCategory.id } },
+        image,
+        translations: {
+          create: { lang: currentLang, title, description },
+        },
+      },
+    });
 
     await this.cacheService.flushCache();
 
-    return createdProductResponse;
+    return {
+      msg: lang[currentLang].controllers.product.productCreated,
+      product: newProduct,
+    };
   }
 
-  async deleteProduct(
-    currentProduct: mongoose.Document<ProductType> & ProductType,
-    currentLang: string,
-  ) {
-    await this.categoriesService.deleteEmptyCategory(currentProduct.category);
-    await this.cartsService.deleteProductFromAllCarts(currentProduct.id);
-    await this.productModel.deleteOne({ id: currentProduct.id });
+  async deleteProduct(productId: string, currentLang: string) {
+    await this.retrieveProduct(productId, currentLang);
+    await this.prisma.product.delete({ where: { id: productId } });
     await this.cacheService.flushCache();
 
     return {
@@ -193,7 +194,7 @@ export class ProductsService {
   }
 
   async updateProduct(
-    currentProduct: mongoose.Document<ProductType> & ProductType,
+    productId: string,
     title: string,
     price: number,
     description: string,
@@ -201,19 +202,53 @@ export class ProductsService {
     image: string,
     currentLang: string,
   ) {
-    if (currentProduct.category !== category && category !== undefined) {
-      await this.categoriesService.deleteEmptyCategory(currentProduct.category);
+    const product = await this.retrieveProduct(productId, currentLang);
+
+    const productTranslationIndex = product.translations.findIndex(
+      (translation) => translation.lang === currentLang,
+    );
+
+    const selectedCategory = await this.prisma.category.findFirst({
+      where: { translations: { some: { title: category } } },
+    });
+
+    // Does not exist translation
+    if (productTranslationIndex === -1) {
+      await this.prisma.product.update({
+        where: { id: productId },
+        data: {
+          price: Number(price) || product.price,
+          image: image || product.image,
+          translations: {
+            create: {
+              title: title || product.title,
+              description: description || product.description,
+              lang: currentLang,
+            },
+          },
+          category: { connect: { id: selectedCategory.id } },
+        },
+      });
+    } else {
+      await this.prisma.product.update({
+        where: { id: productId },
+        data: {
+          price: Number(price) || product.price,
+          image: image || product.image,
+          category: { connect: { id: selectedCategory.id } },
+          translations: {
+            update: {
+              where: { id: product.translations[productTranslationIndex].id },
+              data: {
+                title: title || product.title,
+                description: description || product.description,
+              },
+            },
+          },
+        },
+      });
     }
 
-    await this.updateProvidedProduct(
-      currentProduct,
-      title,
-      price,
-      description,
-      category,
-      image,
-      currentLang,
-    );
     await this.cacheService.flushCache();
 
     return {
@@ -221,163 +256,38 @@ export class ProductsService {
     };
   }
 
-  private async updateProvidedProduct(
-    currentProduct: mongoose.Document<ProductType> & ProductType,
-    title: string,
-    price: number,
-    description: string,
-    category: string,
-    image: string,
-    currentLang: string,
-  ) {
-    const newDescription =
-      description === undefined ? currentProduct.description : description;
-    const newTitle = title === undefined ? currentProduct.title : title;
+  private async retrieveProduct(productId: string, currentLang: string) {
+    const product = (await this.prisma.product.findUnique({
+      where: { id: productId },
+      include: getProductIncludeQuery(),
+    })) as unknown as Product;
 
-    let product = {};
-
-    if (currentLang !== 'en') {
-      // Update non english
-      const doesTranslationExistOnProduct =
-        currentProduct.translations.find(
-          (translation) => translation.lang === currentLang,
-        ) !== undefined;
-
-      if (doesTranslationExistOnProduct) {
-        currentProduct.translations = currentProduct.translations.map(
-          (translation) => {
-            const returnValue = { ...translation };
-
-            if (translation.lang === currentLang) {
-              translation.title =
-                title === undefined ? translation.title : title;
-              translation.description =
-                description === undefined
-                  ? translation.description
-                  : description;
-            }
-
-            return returnValue;
-          },
-        );
-      } else {
-        currentProduct.translations.push({
-          lang: currentLang,
-          title: newTitle,
-          description: newDescription,
-        });
-      }
-
-      product = {
-        price,
-        category,
-        image,
-        translations: currentProduct.translations,
-      };
-    } else {
-      // Update english
-      product = {
-        title,
-        price,
-        description,
-        category,
-        categoryURL: category,
-        image,
-      };
-    }
-
-    await this.productModel.updateOne({ id: currentProduct.id }, product);
-  }
-
-  private async createProvidedProductResponse(
-    currentLang: string,
-    title: string,
-    price: number,
-    description: string,
-    category: string,
-    image: string,
-  ) {
-    const doesCategoryExists =
-      (await this.categoryModel.findOne({ name: category })) !== null;
-
-    if (!doesCategoryExists) {
-      return new HttpException(
-        'Category with provided name does not exists',
-        405,
+    if (product === null) {
+      throw new NotFoundException(
+        lang[currentLang].global.noDataWithProvidedID,
       );
     }
 
-    const maxID = await this.getMaxProductID();
-
-    const newProduct = {
-      title,
-      price: price === undefined ? 0 : price,
-      description,
-      category,
-      image,
-      categoryURL: category,
-      id: maxID,
-      translations: [],
-    };
-
-    if (currentLang !== 'en') {
-      newProduct.translations.push({
-        lang: currentLang,
-        title,
-        description,
-      });
-    }
-
-    const createdProduct = await this.productModel.create(newProduct);
-
-    return {
-      msg: lang[currentLang].controllers.product.productCreated,
-      product: createdProduct,
-    };
+    return product;
   }
 
-  private async getMaxProductID() {
-    const allProductIDs = await this.productModel.find({}).select('id -_id');
-
-    if (allProductIDs.length === 0) {
-      return 1;
-    }
-
-    const { id } = allProductIDs.sort((a, b) => Number(b.id) - Number(a.id))[0];
-
-    return Number(id) + 1;
-  }
-
-  private async getTranslatedProducts(
-    products: ProductType[],
-    currentLang: string,
+  private async getCachedProducts(
+    products: Product[],
     cacheKey: string,
+    lang: string,
   ) {
-    return await this.cacheService.setAndGetData(cacheKey, async () => {
-      return await this.translationService.getProductsTranslation(
-        currentLang,
-        products,
-      );
-    });
-  }
-
-  private async getTranslatedProduct(
-    product: ProductType,
-    currentLang: string,
-    cacheKey: string,
-  ) {
-    return await this.cacheService.setAndGetData(cacheKey, async () => {
-      return await this.translationService.getProductTranslation(
-        currentLang,
-        product,
-      );
-    });
+    return this.cacheService.setAndGetData(cacheKey, () =>
+      products.map((product) => {
+        return this.extractProductData(product as unknown as Product, lang);
+      }),
+    );
   }
 
   private getQueryQty(queryQty: string) {
     const queryQuantity = queryQty;
 
-    const quantity = queryQuantity !== undefined ? queryQuantity : 0;
+    const quantity =
+      queryQuantity !== undefined ? queryQuantity : Number.MAX_SAFE_INTEGER;
 
     return Number(quantity);
   }

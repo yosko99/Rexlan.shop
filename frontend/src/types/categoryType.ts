@@ -1,7 +1,7 @@
 interface Category {
-    name: string;
-    categoryURL: string;
-    bannerImage: string;
+  id: string;
+  title: string;
+  bannerImage?: string;
 }
 
 export default Category;

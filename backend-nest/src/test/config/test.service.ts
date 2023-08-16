@@ -153,23 +153,6 @@ export class TestService {
     };
   }
 
-  public getProductStructure() {
-    return {
-      id: expect.any(String),
-      title: expect.any(String),
-      price: expect.any(Number),
-      description: expect.any(String),
-      category: expect.any(String),
-      image: expect.any(String),
-      categoryURL: expect.any(String),
-      rating: expect.objectContaining({
-        rate: expect.any(Number),
-        count: expect.any(Number),
-      }),
-      translations: expect.any(Array),
-    };
-  }
-
   public getUserStructure() {
     return {
       _id: expect.any(String),

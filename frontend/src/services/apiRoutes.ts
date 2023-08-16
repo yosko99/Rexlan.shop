@@ -14,7 +14,7 @@ const getCurrentLang = (): string => {
   return currentLang === null ? 'en' : currentLang;
 };
 
-const getLinkDeffaultSuffixes = (qty?: number) => {
+const getLinkDefaultSuffixes = (qty?: number) => {
   return qty !== undefined
     ? `?qty=${qty}&lang=${getCurrentLang()}`
     : `?lang=${getCurrentLang()}`;
@@ -22,85 +22,101 @@ const getLinkDeffaultSuffixes = (qty?: number) => {
 
 // Product routes
 export const getProductsRoute = (qty?: number): string => {
-  return PRODUCTS_ROUTE + getLinkDeffaultSuffixes(qty);
+  return PRODUCTS_ROUTE + getLinkDefaultSuffixes(qty);
 };
 
 export const getProductRoute = (id: string): string => {
-  return PRODUCTS_ROUTE + id + getLinkDeffaultSuffixes();
+  return PRODUCTS_ROUTE + id + getLinkDefaultSuffixes();
 };
 
 export const getProductsPatternRoute = (matchString: string): string => {
-  return PRODUCTS_ROUTE + 'regex/' + matchString + getLinkDeffaultSuffixes();
+  return PRODUCTS_ROUTE + 'regex/' + matchString + getLinkDefaultSuffixes();
 };
 
 export const getProductsByCategoryRoute = (category: string): string => {
-  return PRODUCTS_ROUTE + 'category/' + category + getLinkDeffaultSuffixes();
+  return PRODUCTS_ROUTE + 'category/' + category + getLinkDefaultSuffixes();
 };
 
-type productSortingType = 'title' | 'price' | 'description' | 'category' | 'rating';
+type productSortingType =
+  | 'title'
+  | 'price'
+  | 'description'
+  | 'category'
+  | 'rating';
 
-export const getProductsSortedByRoute = (sort: productSortingType, qty?: number): string => {
-  return PRODUCTS_ROUTE + 'sort/' + sort + getLinkDeffaultSuffixes(qty);
+export const getProductsSortedByRoute = (
+  sort: productSortingType,
+  qty?: number
+): string => {
+  return PRODUCTS_ROUTE + 'sort/' + sort + getLinkDefaultSuffixes(qty);
 };
 
 // Cart routes
 export const getCartsRoute = (): string => {
-  return CARTS_ROUTE + getLinkDeffaultSuffixes();
+  return CARTS_ROUTE + getLinkDefaultSuffixes();
 };
 
-export const getCartRoute = (id: string, reassignCartToUser: boolean): string => {
-  return CARTS_ROUTE + id + getLinkDeffaultSuffixes() + `&reassignCartToUser=${reassignCartToUser}`;
+export const getCartRoute = (
+  id: string,
+  reassignCartToUser: boolean
+): string => {
+  return (
+    CARTS_ROUTE +
+    id +
+    getLinkDefaultSuffixes() +
+    `&reassignCartToUser=${reassignCartToUser}`
+  );
 };
 
 export const getCartProductsRoute = (cartID?: string): string => {
   if (cartID !== undefined) {
-    return CARTS_ROUTE + 'products' + `/${cartID}` + getLinkDeffaultSuffixes();
+    return CARTS_ROUTE + 'products' + `/${cartID}` + getLinkDefaultSuffixes();
   } else {
-    return CARTS_ROUTE + 'products' + getLinkDeffaultSuffixes();
+    return CARTS_ROUTE + 'products' + getLinkDefaultSuffixes();
   }
 };
 
 // Category routes
 export const getCategoriesRoute = (): string => {
-  return CATEGORIES_ROUTE + getLinkDeffaultSuffixes();
+  return CATEGORIES_ROUTE + getLinkDefaultSuffixes();
 };
 
 export const getCategoryRoute = (category: string): string => {
-  return CATEGORIES_ROUTE + category + getLinkDeffaultSuffixes();
+  return CATEGORIES_ROUTE + category + getLinkDefaultSuffixes();
 };
 
 // User routes
 export const getUsersRoute = (id?: string): string => {
   if (id !== undefined) {
-    return USERS_ROUTE + id + getLinkDeffaultSuffixes();
+    return USERS_ROUTE + id + getLinkDefaultSuffixes();
   } else {
-    return USERS_ROUTE + getLinkDeffaultSuffixes();
+    return USERS_ROUTE + getLinkDefaultSuffixes();
   }
 };
 
 export const getUserRoute = (id: string): string => {
-  return USERS_ROUTE + 'user/' + id + getLinkDeffaultSuffixes();
+  return USERS_ROUTE + 'user/' + id + getLinkDefaultSuffixes();
 };
 
 export const getCurrentUserRoute = (): string => {
-  return USERS_ROUTE + 'current' + getLinkDeffaultSuffixes();
+  return USERS_ROUTE + 'current' + getLinkDefaultSuffixes();
 };
 
 export const getUserLoginRoute = (): string => {
-  return USERS_ROUTE + 'login' + getLinkDeffaultSuffixes();
+  return USERS_ROUTE + 'login' + getLinkDefaultSuffixes();
 };
 
 export const getCurrentUserPasswordUpdateRoute = (): string => {
-  return USERS_ROUTE + '/current/change-password' + getLinkDeffaultSuffixes();
+  return USERS_ROUTE + '/current/change-password' + getLinkDefaultSuffixes();
 };
 
 export const getUserPasswordResetRoute = (): string => {
-  return USERS_ROUTE + 'password-reset' + getLinkDeffaultSuffixes();
+  return USERS_ROUTE + 'password-reset' + getLinkDefaultSuffixes();
 };
 
 // Openweather routes
 export const getOpenWeatherRoute = (): string => {
-  return OPENWEATHER_ROUTE + getLinkDeffaultSuffixes();
+  return OPENWEATHER_ROUTE + getLinkDefaultSuffixes();
 };
 
 export const getOpenWeatherCityRoute = (lon: number, lat: number): string => {
@@ -109,18 +125,18 @@ export const getOpenWeatherCityRoute = (lon: number, lat: number): string => {
 
 // Deliveries routes
 export const getDeliveriesRoute = (): string => {
-  return DELIVERIES_ROUTE + getLinkDeffaultSuffixes();
+  return DELIVERIES_ROUTE + getLinkDefaultSuffixes();
 };
 
 // Order routes
 export const getOrdersRoute = (): string => {
-  return ORDERS_ROUTE + getLinkDeffaultSuffixes();
+  return ORDERS_ROUTE + getLinkDefaultSuffixes();
 };
 
 export const getOrderRoute = (cartID: string): string => {
-  return ORDERS_ROUTE + cartID + getLinkDeffaultSuffixes();
+  return ORDERS_ROUTE + cartID + getLinkDefaultSuffixes();
 };
 
 export const getUserOrdersRoute = (cartID: string): string => {
-  return ORDERS_ROUTE + 'user/' + cartID + getLinkDeffaultSuffixes();
+  return ORDERS_ROUTE + 'user/' + cartID + getLinkDefaultSuffixes();
 };

@@ -8,11 +8,10 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import mongoose from 'mongoose';
 
 import { ProductsService } from './products.service';
 
-import { productSortingType, ProductType } from '../../types/product.types';
+import { productSortingType } from '../../types/product.types';
 
 import { RequestData } from '../../decorators/requestData.decorator';
 
@@ -30,10 +29,10 @@ export class ProductsController {
 
   @Get('/:id')
   getProduct(
-    @Param('id') productID: string,
+    @Param('id') productId: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.productsService.getProduct(productID, currentLang);
+    return this.productsService.getProduct(productId, currentLang);
   }
 
   @Get('/category/:category')
@@ -64,7 +63,7 @@ export class ProductsController {
 
   @Get('/regex/:pattern')
   getProductsByQueryString(
-    @Param('pattern') pattern: RegExp,
+    @Param('pattern') pattern: string,
     @RequestData('currentLang') currentLang: string,
   ) {
     return this.productsService.getProductsByQueryString(pattern, currentLang);
@@ -91,8 +90,7 @@ export class ProductsController {
 
   @Put('/:id')
   updateProduct(
-    @RequestData('product')
-    currentProduct: mongoose.Document<ProductType> & ProductType,
+    @Param('id') productId: string,
     @Body('title') title: string,
     @Body('price') price: number,
     @Body('description') description: string,
@@ -101,7 +99,7 @@ export class ProductsController {
     @RequestData('currentLang') currentLang: string,
   ) {
     return this.productsService.updateProduct(
-      currentProduct,
+      productId,
       title,
       price,
       description,
@@ -113,10 +111,9 @@ export class ProductsController {
 
   @Delete('/:id')
   deleteProduct(
-    @RequestData('product')
-    currentProduct: mongoose.Document<ProductType> & ProductType,
+    @Param('id') productId: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.productsService.deleteProduct(currentProduct, currentLang);
+    return this.productsService.deleteProduct(productId, currentLang);
   }
 }

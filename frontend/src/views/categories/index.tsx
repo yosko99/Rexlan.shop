@@ -1,10 +1,11 @@
+/* eslint-disable multiline-ternary */
 import React, { FC } from 'react';
 
 import { useParams, Navigate } from 'react-router-dom';
 
 import Loading from '../../components/loading/Loading';
-import { getProductsByCategoryRoute } from '../../services/apiRoutes';
 import useFetch from '../../hooks/useFetch';
+import { getProductsByCategoryRoute } from '../../services/apiRoutes';
 import RenderCategoryProducts from './RenderCategoryProducts';
 
 const CategoryProductsPage: FC = () => {
@@ -17,18 +18,19 @@ const CategoryProductsPage: FC = () => {
   } = useFetch(category!, getProductsByCategoryRoute(category!), true);
 
   if (isLoading) {
-    return <Loading height='90vh' />;
+    return <Loading height="90vh" />;
   }
 
   return (
     <>
-      {error !== undefined
-        ? <Navigate to="/404" state={{ error: error.message }} />
-        : <RenderCategoryProducts
+      {error !== undefined ? (
+        <Navigate to="/404" state={{ error: error.message }} />
+      ) : (
+        <RenderCategoryProducts
           categoryProducts={categoryProducts}
           isLoading={isLoading}
         />
-      }
+      )}
     </>
   );
 };

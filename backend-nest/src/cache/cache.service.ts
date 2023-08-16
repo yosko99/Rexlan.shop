@@ -23,7 +23,8 @@ export class CacheService {
   async flushCache() {
     this.logger.log('Flushing cache');
 
-    await this.cacheManager.reset();
+    const keys = await this.cacheManager.keys();
+    await this.cacheManager.del(keys);
   }
 
   async setAndGetData(key: string, callback: () => void) {

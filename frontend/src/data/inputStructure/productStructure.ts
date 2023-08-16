@@ -6,7 +6,6 @@ export interface ProductStructure {
   description: string;
   category: string;
   image: string;
-  categoryURL: string;
   inputs: {
     [key: string]: InputStructure[];
   };
@@ -18,7 +17,6 @@ export const productStructure: ProductStructure = {
   description: '',
   category: '',
   image: '',
-  categoryURL: '',
   inputs: {
     en: [
       {

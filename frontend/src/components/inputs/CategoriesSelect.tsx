@@ -28,7 +28,6 @@ const CategoriesSelect: FC<Props> = ({ currentProduct }) => {
   if (currentProduct === undefined) {
     currentProduct = {
       category: '',
-      categoryURL: '',
       description: '',
       image: '',
       inputs: {},
@@ -51,17 +50,17 @@ const CategoriesSelect: FC<Props> = ({ currentProduct }) => {
       <Form.Select
         name="category"
         defaultValue={
-          currentProduct.title === '' ? 'DEFAULT' : currentProduct.categoryURL
+          currentProduct.title === '' ? 'DEFAULT' : currentProduct.category
         }
         required
         aria-label="category"
       >
         {currentProduct.title === '' ? ( // Not provided current product
           <>
-            <option value="DEFAULT"></option>
+            <option></option>
             {categories.map((category: Category, index: number) => (
-              <option key={index} value={category.categoryURL}>
-                {category.name}
+              <option key={index} value={category.title}>
+                {category.title}
               </option>
             ))}
           </>
@@ -71,17 +70,17 @@ const CategoriesSelect: FC<Props> = ({ currentProduct }) => {
               category: Category,
               index: number // With provided current product
             ) =>
-              category.categoryURL === currentProduct!.categoryURL ? (
+              category.title === currentProduct!.category ? (
                 <option
-                  key={currentProduct!.categoryURL}
+                  key={currentProduct!.category}
                   selected
-                  value={currentProduct!.categoryURL}
+                  value={currentProduct!.category}
                 >
                   {currentProduct!.category}
                 </option>
               ) : (
-                <option key={index} value={category.categoryURL}>
-                  {category.name}
+                <option key={index} value={category.title}>
+                  {category.title}
                 </option>
               )
           )

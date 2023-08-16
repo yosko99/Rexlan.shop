@@ -1,12 +1,5 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-
-import { CheckExistingProductMiddleware } from '../../middleware/product/checkExistingProduct.middleware';
 
 import { TranslationModule } from '../../translation/translation.module';
 import { RedisCacheModule } from '../../cache/cache.module';
@@ -19,6 +12,7 @@ import { categorySchema } from '../categories/schemas/category.schema';
 import { ProductsController } from './products.controller';
 
 import { ProductsService } from './products.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
   imports: [
@@ -32,20 +26,11 @@ import { ProductsService } from './products.service';
     ]),
   ],
   controllers: [ProductsController],
-  providers: [ProductsService],
+  providers: [ProductsService, PrismaService],
   exports: [ProductsService],
 })
 export class ProductsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(CheckExistingProductMiddleware).forRoutes(
-      {
-        path: '/products/:id',
-        method: RequestMethod.PUT,
-      },
-      {
-        path: '/products/:id',
-        method: RequestMethod.DELETE,
-      },
-    );
+    consumer.apply();
   }
 }

@@ -13,6 +13,7 @@ import { categorySchema } from './schemas/category.schema';
 import { productSchema } from '../products/schemas/product.schema';
 
 import { CheckExistingCategoryMiddleware } from '../../middleware/category/checkExistingCategory.middleware';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { CheckExistingCategoryMiddleware } from '../../middleware/category/check
     ]),
   ],
   controllers: [CategoriesController],
-  providers: [CategoriesService],
+  providers: [CategoriesService, PrismaService],
   exports: [CategoriesService],
 })
 export class CategoriesModule implements NestModule {

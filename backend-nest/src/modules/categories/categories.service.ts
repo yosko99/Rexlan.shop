@@ -10,6 +10,9 @@ import { CategoryType } from '../../types/category.types';
 import { ProductType } from '../../types/product.types';
 
 import lang from '../../resources/lang';
+import Category from '../../interfaces/category';
+import getTranslation from '../../functions/getTranslation';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class CategoriesService {
@@ -21,18 +24,27 @@ export class CategoriesService {
     private readonly redisService: CacheService,
     private readonly cartsService: CartsService,
     private readonly translationService: TranslationService,
+    private readonly prisma: PrismaService,
   ) {}
 
   async getCategories(currentLang: string) {
-    const categories = await this.categoryModel.find({});
+    const categories = (await this.prisma.category.findMany({
+      include: { translations: { select: { title: true, lang: true } } },
+    })) as unknown as Category[];
 
-    const translatedCategories =
-      await this.translationService.getCategoriesTranslation(
-        currentLang,
-        categories,
-      );
+    return categories.map((category) => {
+      return {
+        id: category.id,
+        bannerImage: category.bannerImage,
+        title: this.extractCategoryData(category, currentLang),
+      };
+    }) as Category[];
+  }
 
-    return translatedCategories;
+  private extractCategoryData(category: Category, lang: string) {
+    const categoryTranslation = getTranslation(category.translations, lang);
+
+    return categoryTranslation?.title || category.translations[0].title;
   }
 
   async getCategory(categoryName: string, currentLang: string) {
