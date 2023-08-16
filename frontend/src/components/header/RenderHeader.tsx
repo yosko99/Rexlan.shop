@@ -14,7 +14,7 @@ import LoginIcon from '../icons/header/LoginIcon';
 import ProfileIcon from '../icons/header/ProfileIcon';
 import Loading from '../loading/Loading';
 import SearchBar from '../searchbar/SearchBar';
-import LanguageSwticher from './LanguageSwticher';
+import LanguageSwitcher from './LanguageSwitcher';
 
 interface Props {
   categories: Category[];
@@ -85,7 +85,7 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
                 <p className="m-0">{lang.global.contacts}</p>
               </LinkContainer>
             </Nav.Link>
-            <LanguageSwticher />
+            <LanguageSwitcher />
           </Nav>
           <Nav className="d-flex justify-content-center">
             <div className="d-flex flex-wrap justify-content-center">

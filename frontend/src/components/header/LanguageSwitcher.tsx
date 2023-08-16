@@ -4,7 +4,7 @@ import { NavDropdown, Dropdown } from 'react-bootstrap';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 
-const LanguageSwticher = () => {
+const LanguageSwitcher = () => {
   const { lang, setCurrentLanguage } = useContext(CurrentLanguageContext);
 
   return (
@@ -15,11 +15,17 @@ const LanguageSwticher = () => {
         setCurrentLanguage(e as string);
       }}
     >
-      <Dropdown.Item eventKey="bg">Български</Dropdown.Item>
-      <Dropdown.Item eventKey="en">English</Dropdown.Item>
-      <Dropdown.Item eventKey="es">Español</Dropdown.Item>
+      <Dropdown.Item href="/" eventKey="bg">
+        Български
+      </Dropdown.Item>
+      <Dropdown.Item href="/" eventKey="en">
+        English
+      </Dropdown.Item>
+      <Dropdown.Item href="/" eventKey="es">
+        Español
+      </Dropdown.Item>
     </NavDropdown>
   );
 };
 
-export default LanguageSwticher;
+export default LanguageSwitcher;

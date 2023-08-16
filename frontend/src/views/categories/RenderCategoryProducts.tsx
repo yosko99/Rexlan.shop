@@ -20,31 +20,29 @@ interface Props {
 const RenderCategoryProducts: FC<Props> = ({ isLoading, categoryProducts }) => {
   const { category: categoryURL } = useParams();
 
-  const {
-    isLoading: isLoadingCategories,
-    data: categories,
-    error
-  } = useFetch('categories', getCategoriesRoute(), true);
+  const { isLoading: isLoadingCategories, data: categories } = useFetch(
+    'categories',
+    getCategoriesRoute(),
+    true
+  );
 
-  // TODO: Fix image after updating category service
+  if (isLoadingCategories) {
+    return <Loading />;
+  }
+
   return (
     <Container>
       <div className="text-center">
-        {isLoadingCategories ? (
-          <Loading />
-        ) : (
-          //   <Image
-          //     alt={categoryURL}
-          //     className="shadow mt-3"
-          //     fluid
-          //     src={
-          //       categories.find(
-          //         (category: Category) => category.categoryURL === categoryURL
-          //       ).bannerImage || imgNotFoundImg
-          //     }
-          //   />
-          <></>
-        )}
+        <Image
+          alt={categoryURL}
+          className="shadow mt-3"
+          fluid
+          src={
+            categories.find(
+              (category: Category) => category.title === categoryURL
+            ).bannerImage || imgNotFoundImg
+          }
+        />
         <hr className="my-5" />
       </div>
       <MultipleProductCards products={categoryProducts} isLoading={isLoading} />
