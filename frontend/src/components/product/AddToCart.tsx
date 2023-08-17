@@ -8,62 +8,65 @@ import { Product } from '../../types/productTypes';
 import AddedToCartModal from '../modal/AddedToCartModal';
 
 interface MutateData {
-  productID: String;
+  productId: String;
   productQuantity: number;
-  cartID: String | null;
+  cartId: String | null;
 }
 
 interface Props {
-  product: Product
+  product: Product;
 }
 
 const AddToCart: FC<Props> = ({ product }) => {
   const [productQuantity, setProductQuantity] = useState<number>(1);
   const queryClient = useQueryClient();
 
-  const mutation = useMutation((data) => {
-    return axios.post(getCartsRoute(), data);
-  }, {
-    onSuccess: (data) => {
-      const cartID = data.data.cartID;
-      localStorage.setItem('cart', cartID);
+  const mutation = useMutation(
+    (data) => {
+      return axios.post(getCartsRoute(), data);
+    },
+    {
+      onSuccess: (data) => {
+        const cartID = data.data.cartID;
+        localStorage.setItem('cart', cartID);
 
-      queryClient.refetchQueries('cart');
+        queryClient.refetchQueries('cart');
+      }
     }
-  });
+  );
 
   // Check if there is cart ID in local storage and update cart
   const handleClick = () => {
     const localStorageCart = localStorage.getItem('cart');
 
-    let cartID: String | null = null;
+    let cartId: String | null = null;
 
     if (localStorageCart !== null) {
-      cartID = localStorageCart;
+      cartId = localStorageCart;
     }
 
     const mutateData: MutateData = {
-      productID: product.id,
+      productId: product.id,
       productQuantity,
-      cartID
+      cartId: cartId
     };
 
     mutation.mutate(mutateData as any);
   };
 
   return (
-    <div className='d-flex'>
+    <div className="d-flex">
       <AddedToCartModal
         onClick={handleClick}
         productQuantity={productQuantity}
         product={product}
       />
       <input
-        className='ms-3 input-group-text'
+        className="ms-3 input-group-text"
         style={{ width: '75px' }}
         min={1}
         value={productQuantity}
-        type='number'
+        type="number"
         onChange={(e) => setProductQuantity(Number(e.target.value))}
       />
     </div>

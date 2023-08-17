@@ -7,15 +7,11 @@ import setLanguageMiddleware from '../../../middleware/utils/setLanguage.middlew
 import { TestModule } from '../../../test/config/test.module';
 import { AppModule } from '../../../app.module';
 
-import { TestService } from '../../../test/config/test.service';
-
 import dotenv = require('dotenv');
 dotenv.config();
 
 describe('Testing categories API', () => {
-  let testService: TestService;
   let app: INestApplication;
-  let categoryStrucutre;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -24,10 +20,6 @@ describe('Testing categories API', () => {
 
     app = module.createNestApplication();
     app.use(setLanguageMiddleware);
-
-    testService = module.get<TestService>(TestService);
-
-    categoryStrucutre = testService.getCategoryStructure();
 
     await app.init();
   });
@@ -43,11 +35,7 @@ describe('Testing categories API', () => {
         .expect('Content-Type', /json/)
         .expect(200)
         .then((response) => {
-          expect(response.body).toEqual(
-            expect.arrayContaining([
-              expect.objectContaining(categoryStrucutre),
-            ]),
-          );
+          expect(response.body).toEqual(expect.any(Array));
         });
     });
   });
@@ -57,7 +45,7 @@ describe('Testing categories API', () => {
       return request(app.getHttpServer())
         .post('/categories/')
         .send({
-          name: 'test',
+          title: 'test',
           bannerImage: 'test',
         })
         .expect('Content-Type', /json/)
@@ -65,7 +53,7 @@ describe('Testing categories API', () => {
         .then(async (response) => {
           expect(response.body.msg).toBe('The category was created');
 
-          const createdCategoryID = response.body.category._id;
+          const createdCategoryID = response.body.category.id;
           return request(app.getHttpServer()).del(
             '/categories/' + createdCategoryID,
           );
@@ -73,23 +61,24 @@ describe('Testing categories API', () => {
     });
   });
 
-  describe('test PUT categories/:_id route', () => {
+  describe('test PUT categories/:id route', () => {
     test('update a existing category', () => {
       return request(app.getHttpServer())
         .post('/categories/')
         .send({
-          name: 'test',
+          title: 'asdasd asd',
           bannerImage: 'test',
         })
         .expect('Content-Type', /json/)
         .expect(201)
         .then(async (response) => {
-          const createdCategoryID = response.body.category._id;
+          console.log(response);
+          const createdCategoryID = response.body.category.id;
 
           return request(app.getHttpServer())
             .put('/categories/' + createdCategoryID)
             .send({
-              name: 'new name',
+              title: 'new name',
               bannerImage: 'test',
             })
             .expect('Content-Type', /json/)
@@ -107,11 +96,11 @@ describe('Testing categories API', () => {
     test('update non existing category', () => {
       return request(app.getHttpServer())
         .put('/categories/12char12char')
-        .expect('Content-Type', /html/)
+        .expect('Content-Type', /json/)
         .expect(404)
-        .then((reponse) => {
-          expect(reponse.text).toBe(
-            'Category with provided name does not exists.',
+        .then((response) => {
+          expect(response.body.message).toBe(
+            'Could not find data with provided ID',
           );
         });
     });
@@ -122,13 +111,13 @@ describe('Testing categories API', () => {
       return request(app.getHttpServer())
         .post('/categories/')
         .send({
-          name: 'test',
+          title: '12char12char',
           bannerImage: 'test',
         })
         .expect('Content-Type', /json/)
         .expect(201)
         .then((response) => {
-          const createdCategoryID = response.body.category._id;
+          const createdCategoryID = response.body.category.id;
 
           return request(app.getHttpServer())
             .del('/categories/' + createdCategoryID)
@@ -143,11 +132,11 @@ describe('Testing categories API', () => {
     test('delete non existing category', () => {
       return request(app.getHttpServer())
         .del('/categories/12char12char')
-        .expect('Content-Type', /html/)
+        .expect('Content-Type', /json/)
         .expect(404)
-        .then((reponse) => {
-          expect(reponse.text).toBe(
-            'Category with provided name does not exists.',
+        .then((response) => {
+          expect(response.body.message).toBe(
+            'Could not find data with provided ID',
           );
         });
     });

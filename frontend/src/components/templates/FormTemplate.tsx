@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import { TokenContext } from '../../context/TokenContext';
 import convertFormInputToObject from '../../functions/convertFormInputToObject';
+import ErrorResponse from '../../interfaces/errorResponse';
 import Loading from '../loading/Loading';
 
 interface Props {
@@ -19,12 +20,6 @@ interface Props {
   inputs: React.ReactChild;
   updateRequest?: boolean;
   sendTokenBack?: boolean;
-}
-
-interface ErrorResponse {
-  response: {
-    data: string;
-  };
 }
 
 const FormTemplate: FC<Props> = ({
@@ -64,7 +59,7 @@ const FormTemplate: FC<Props> = ({
     },
     {
       onError: (err: ErrorResponse) => {
-        const errorMsg = err.response.data;
+        const errorMsg = err.response.data.message;
 
         setOnMutateAlert(
           <Alert className="mt-3 rounded-pill text-center" variant="danger">

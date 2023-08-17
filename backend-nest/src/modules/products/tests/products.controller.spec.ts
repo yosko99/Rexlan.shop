@@ -216,8 +216,7 @@ describe('Testing products API', () => {
           image: 'test',
         })
         .expect('Content-Type', /json/)
-
-        .expect(201)
+        .expect(404)
         .then(async (response) => {
           expect(response.body.message).toBe(
             'Category with provided name does not exists',

@@ -35,14 +35,14 @@ export class CartsControler {
 
   @Post()
   addProductToCart(
-    @Body('productID') productID: string,
-    @Body('cartID') cartID: string,
+    @Body('productId') productId: string,
+    @Body('cartId') cartId: string,
     @Body('productQuantity') productQuantity: number,
     @RequestData('currentLang') currentLang: string,
   ) {
     return this.cartsService.addProductToCart(
-      productID,
-      cartID,
+      productId,
+      cartId,
       productQuantity,
       currentLang,
     );

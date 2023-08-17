@@ -8,6 +8,7 @@ import { UserType } from '../../types/user.types';
 import { CartType } from '../../types/cart.types';
 
 import lang from '../../resources/lang';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class CartsService {
@@ -20,6 +21,7 @@ export class CartsService {
     private readonly orderModel: Model<OrderType>,
     @InjectModel('Product')
     private readonly productModel: Model<ProductType>,
+    private readonly prisma: PrismaService,
   ) {}
 
   async getCartProducts(cartID: string, currentLang: string) {
@@ -63,73 +65,79 @@ export class CartsService {
   }
 
   async addProductToCart(
-    productID: string,
-    cartID: string,
+    productId: string,
+    cartId: string,
     productQuantity: number,
     currentLang: string,
   ) {
-    productQuantity =
-      productQuantity !== undefined ? Number(productQuantity) : 1;
+    return 'lol';
+    // productQuantity =
+    //   productQuantity !== undefined ? Number(productQuantity) : 1;
 
-    let currentCart =
-      cartID !== null ? await this.cartModel.findOne({ _id: cartID }) : null;
+    // let currentCart =
+    //   cartId !== null
+    //     ? await this.prisma.cart.findUnique({
+    //         where: { id: cartId },
+    //         include: { products: true },
+    //       })
+    //     : null;
 
-    if (productID === undefined) {
-      return new NotFoundException(lang[currentLang].global.noProductID);
-    }
+    // if (productId === undefined) {
+    //   throw new NotFoundException(lang[currentLang].global.noProductID);
+    // }
 
-    // Check if cart with provdided id exists
-    // If a cart exists check if the product exists in the cart
-    // Otherwise create new cart and assign the new prodcut
+    // // Check if cart with provdided id exists
+    // // If a cart exists check if the product exists in the cart
+    // // Otherwise create new cart and assign the new prodcut
 
-    if (currentCart !== null) {
-      // Check if item is already in cart
-      const product = currentCart.products.find(
-        (product) => product.productID === productID,
-      );
+    // if (currentCart !== null) {
+    //   // Check if item is already in cart
+    //   const product = currentCart.products.find(
+    //     (product) => product.id === productId,
+    //   );
 
-      // Already in cart (increment quantity)
-      if (product !== undefined) {
-        product.productQuantity += productQuantity;
-      } else {
-        // Add new item to cart
-        currentCart.products.push({
-          productID,
-          productQuantity,
-        });
-      }
-      currentCart.totalPrice = await this.calculateCartTotalPrice(
-        currentCart.products,
-      );
-      currentCart = await currentCart.save();
+    //   // Already in cart (increment quantity)
+    //   if (product !== undefined) {
+    //     product.quantity += productQuantity;
+    //   } else {
+    //     // Add new item to cart
+    //     currentCart.products.push({
+    //       productId,
+    //       quantity: productQuantity,
+    //     });
+    //   }
+    //   currentCart.totalPrice = await this.calculateCartTotalPrice(
+    //     currentCart.products,
+    //   );
+    //   currentCart = await currentCart.save();
 
-      return {
-        cartID: currentCart._id,
-      };
-    } else {
-      try {
-        const addedProduct = await this.productModel.findOne({ id: productID });
+    //   return {
+    //     cartID: currentCart._id,
+    //   };
+    // } else {
+    //   try {
+    //     const addedProduct = await this.productModel.findOne({ id: productId });
 
-        const newCart = new this.cartModel({
-          isLinked: false,
-          products: [
-            {
-              productID,
-              productQuantity,
-            },
-          ],
-          totalPrice: addedProduct.price * productQuantity,
-        });
+    //     const newCart = new this.cartModel({
+    //       isLinked: false,
+    //       products: [
+    //         {
+    //           productID: productId,
+    //           productQuantity,
+    //         },
+    //       ],
+    //       totalPrice: addedProduct.price * productQuantity,
+    //     });
 
-        const savedCart = await newCart.save();
+    //     const savedCart = await newCart.save();
 
-        return {
-          cartID: savedCart._id,
-        };
-      } catch (error) {
-        return new NotFoundException(error.message);
-      }
-    }
+    //     return {
+    //       cartID: savedCart._id,
+    //     };
+    //   } catch (error) {
+    //     throw new NotFoundException(error.message);
+    //   }
+    // }
   }
 
   async deleteProductFromCart(
@@ -247,25 +255,46 @@ export class CartsService {
       : 0;
   }
 
-  public async deleteProductFromAllCarts(productID: string) {
-    const allCarts = await this.cartModel.find({});
-
-    allCarts.forEach(async (cart) => {
-      if (cart.products.length > 0) {
-        const cartProductsWithRemovedProduct = cart.products.filter(
-          (product) => {
-            return product.productID !== productID;
-          },
-        );
-        cart.products = cartProductsWithRemovedProduct;
-        await cart.save();
-      }
+  public async deleteCategoryProductsFromCarts(categoryId: string) {
+    const products = await this.prisma.product.findMany({
+      where: {
+        categoryId: categoryId,
+      },
     });
+
+    // Find carts containing any of the products
+    const cartsToUpdate = await this.prisma.cart.findMany({
+      where: {
+        products: {
+          some: {
+            id: {
+              in: products.map((product) => product.id),
+            },
+          },
+        },
+      },
+    });
+
+    // Update each cart to remove the products
+    for (const cart of cartsToUpdate) {
+      await this.prisma.cart.update({
+        where: {
+          id: cart.id,
+        },
+        data: {
+          products: {
+            disconnect: products.map((product) => ({ id: product.id })),
+          },
+        },
+      });
+    }
   }
 
-  public async checkExistingCart(cartID: string) {
+  public async checkExistingCart(cartId: string) {
     const doesCartExist =
-      cartID !== null ? await this.cartModel.findOne({ _id: cartID }) : null;
+      cartId !== null
+        ? await this.prisma.cart.findUnique({ where: { id: cartId } })
+        : null;
 
     return doesCartExist !== null;
   }

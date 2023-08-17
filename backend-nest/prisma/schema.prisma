@@ -19,7 +19,7 @@ model User {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     orders    Order[]
-    cart      Cart?
+    cart      Cart?    @relation(fields: [cartId], references: [id], onDelete: Cascade)
     cartId    String?
 }
 
@@ -43,8 +43,9 @@ model Product {
     carts        Cart[]
     orders       Order[]
     translations ProductTranslation[]
-    category     Category?            @relation(fields: [categoryId], references: [id])
+    category     Category?            @relation(fields: [categoryId], references: [id], onDelete: Cascade)
     categoryId   String?
+    CartProduct  CartProduct[]
 }
 
 model ProductTranslation {
@@ -67,13 +68,25 @@ model Rating {
 }
 
 model Cart {
-    id         String    @id @default(uuid())
-    totalPrice Float?    @default(0)
-    createdAt  DateTime  @default(now())
-    updatedAt  DateTime  @updatedAt
-    products   Product[]
-    user       User?     @relation(fields: [userId], references: [id])
-    userId     String?   @unique
+    id        String        @id @default(uuid())
+    userId    Int
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @updatedAt
+    products  CartProduct[]
+    user      User[]
+    product   Product?      @relation(fields: [productId], references: [id], onDelete: Cascade)
+    productId String?
+}
+
+model CartProduct {
+    id        String   @id @default(uuid())
+    quantity  Int
+    cartId    String
+    productId String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+    product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Order {

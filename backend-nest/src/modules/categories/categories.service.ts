@@ -1,13 +1,7 @@
-import { HttpException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 
-import { TranslationService } from '../../translation/translation.service';
 import { CacheService } from '../../cache/cache.service';
 import { CartsService } from '../carts/carts.service';
-
-import { CategoryType } from '../../types/category.types';
-import { ProductType } from '../../types/product.types';
 
 import lang from '../../resources/lang';
 import Category from '../../interfaces/category';
@@ -17,13 +11,8 @@ import { PrismaService } from '../prisma/prisma.service';
 @Injectable()
 export class CategoriesService {
   constructor(
-    @InjectModel('Category')
-    private readonly categoryModel: Model<CategoryType>,
-    @InjectModel('Product')
-    private readonly productModel: Model<ProductType>,
     private readonly redisService: CacheService,
     private readonly cartsService: CartsService,
-    private readonly translationService: TranslationService,
     private readonly prisma: PrismaService,
   ) {}
 
@@ -41,57 +30,122 @@ export class CategoriesService {
     }) as Category[];
   }
 
-  private extractCategoryData(category: Category, lang: string) {
+  private extractCategoryData(category: Category, lang: string): string {
     const categoryTranslation = getTranslation(category.translations, lang);
 
     return categoryTranslation?.title || category.translations[0].title;
   }
 
-  async getCategory(categoryName: string, currentLang: string) {
-    const category = await this.translationService.getCategoryTranslation(
-      currentLang,
-      categoryName,
-    );
+  async getCategory(categoryId: string, currentLang: string) {
+    const category = await this.retrieveCategory(categoryId, currentLang);
+
+    return {
+      title: this.extractCategoryData(category, currentLang),
+      bannerImage: category.bannerImage,
+      id: category.id,
+    };
+  }
+
+  private async retrieveCategory(categoryId: string, currentLang: string) {
+    const category = (await this.prisma.category.findUnique({
+      where: { id: categoryId },
+      include: {
+        translations: true,
+      },
+    })) as unknown as Category;
+
+    if (category === null) {
+      throw new NotFoundException(
+        lang[currentLang].global.noDataWithProvidedID,
+      );
+    }
 
     return category;
   }
 
-  async createCategory(name: string, bannerImg: string, currentLang: string) {
+  async createCategory(
+    title: string,
+    bannerImage: string,
+    currentLang: string,
+  ) {
     const doesCategoryExists =
-      (await this.categoryModel.findOne({ name })) !== null;
+      (await this.prisma.category.findFirst({
+        where: { translations: { some: { title } } },
+      })) !== null;
 
     if (doesCategoryExists) {
-      return new HttpException(
+      throw new HttpException(
         lang[currentLang].controllers.category.nameAlreadyExists,
-        500,
+        409,
       );
     }
 
-    const createdCategory = await this.createNewCategory(
-      name,
-      bannerImg,
-      currentLang,
-    );
+    const newCategory = await this.prisma.category.create({
+      data: {
+        bannerImage,
+        translations: {
+          create: {
+            lang: currentLang,
+            title,
+          },
+        },
+      },
+    });
+
     await this.redisService.flushCache();
 
     return {
       msg: lang[currentLang].controllers.category.categoryCreated,
-      category: createdCategory,
+      category: newCategory,
     };
   }
 
   async updateCategory(
-    currentCategory: mongoose.Document<CategoryType> & CategoryType,
-    name: string,
+    categoryId: string,
+    title: string,
     bannerImage: string,
     currentLang: string,
   ) {
-    await this.updateProvidedCategory(
-      currentCategory,
-      name,
-      bannerImage,
-      currentLang,
+    const category = await this.retrieveCategory(categoryId, currentLang);
+
+    const categoryTranslationIndex = category.translations.findIndex(
+      (translation) => translation.lang === currentLang,
     );
+
+    if (categoryTranslationIndex === -1) {
+      await this.prisma.category.update({
+        where: {
+          id: categoryId,
+        },
+        data: {
+          bannerImage: bannerImage || category.bannerImage,
+          translations: {
+            create: {
+              lang: currentLang,
+              title: title,
+            },
+          },
+        },
+      });
+    } else {
+      await this.prisma.category.update({
+        where: {
+          id: categoryId,
+        },
+        data: {
+          bannerImage: bannerImage || category.bannerImage,
+          translations: {
+            update: {
+              where: { id: category.translations[categoryTranslationIndex].id },
+              data: {
+                title: title || category.title,
+              },
+            },
+          },
+        },
+      });
+    }
+
     await this.redisService.flushCache();
 
     return {
@@ -99,22 +153,14 @@ export class CategoriesService {
     };
   }
 
-  async deleteCategory(
-    currentCategory: mongoose.Document<CategoryType> & CategoryType,
-    currentLang: string,
-  ) {
-    const productsInProvidedCategory = await this.productModel.find({
-      category: currentCategory.name,
-    });
+  async deleteCategory(categoryId: string, currentLang: string) {
+    await this.retrieveCategory(categoryId, currentLang);
+    await this.cartsService.deleteCategoryProductsFromCarts(categoryId);
+    await this.prisma.$transaction([
+      this.prisma.product.deleteMany({ where: { categoryId } }),
+      this.prisma.category.delete({ where: { id: categoryId } }),
+    ]);
 
-    if (productsInProvidedCategory !== null) {
-      productsInProvidedCategory.forEach(async (product) => {
-        await this.cartsService.deleteProductFromAllCarts(product.id);
-      });
-    }
-
-    await this.productModel.deleteMany({ category: currentCategory.name });
-    await this.categoryModel.deleteOne({ _id: currentCategory._id });
     await this.redisService.flushCache();
 
     return {
@@ -122,97 +168,5 @@ export class CategoriesService {
         currentLang
       ].global.deleted.toLowerCase()}.`,
     };
-  }
-
-  private async createNewCategory(
-    name: string,
-    bannerImage: string,
-    currentLang: string,
-  ) {
-    const newCategory = new this.categoryModel({
-      name,
-      bannerImage,
-      categoryURL: name,
-      translations: [],
-    });
-
-    if (currentLang !== 'en') {
-      newCategory.translations.push({
-        lang: currentLang,
-        name,
-      });
-    }
-
-    const createdCategory = await newCategory.save();
-
-    return createdCategory;
-  }
-
-  private async updateProvidedCategory(
-    currentCategory: mongoose.Document<CategoryType> & CategoryType,
-    name: string,
-    bannerImage: string,
-    currentLang: string,
-  ) {
-    const doesTranslationExistOnCategory =
-      currentCategory.translations.find(
-        (translation) => translation.lang === currentLang,
-      ) !== undefined;
-
-    if (currentLang !== 'en') {
-      // Update non english category
-      if (doesTranslationExistOnCategory) {
-        currentCategory.translations = currentCategory.translations.map(
-          (translation) => {
-            const returnValue = { ...translation };
-
-            if (translation.lang === currentLang) {
-              translation.name = name === undefined ? translation.name : name;
-            }
-
-            return returnValue;
-          },
-        );
-      } else {
-        currentCategory.translations.push({
-          lang: currentLang,
-          name: name === undefined ? currentCategory.name : name,
-        });
-      }
-    } else {
-      // Update english category
-      await this.updateCategoryOfProducts(currentCategory.name, name);
-
-      currentCategory.name = name === undefined ? currentCategory.name : name;
-    }
-
-    currentCategory.bannerImage =
-      bannerImage === undefined ? currentCategory.bannerImage : bannerImage;
-
-    await currentCategory.save();
-  }
-
-  private updateCategoryOfProducts = async (
-    oldCategoryName: string,
-    newCategoryName: string,
-  ) => {
-    await this.productModel.updateMany(
-      { category: oldCategoryName },
-      {
-        category: newCategoryName,
-      },
-    );
-  };
-
-  public async deleteEmptyCategory(categoryName: string) {
-    const isCategoryEmpty =
-      (await (
-        await this.productModel.find({ category: categoryName })
-      ).length) <= 1;
-
-    // Current product is the only one in the category
-    if (isCategoryEmpty) {
-      await this.categoryModel.deleteOne({ name: categoryName });
-    }
   }
 }

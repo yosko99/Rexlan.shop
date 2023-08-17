@@ -157,9 +157,9 @@ export class ProductsService {
     });
 
     if (selectedCategory === null) {
-      return new HttpException(
+      throw new HttpException(
         'Category with provided name does not exists',
-        405,
+        404,
       );
     }
 

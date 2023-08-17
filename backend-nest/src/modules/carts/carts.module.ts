@@ -15,6 +15,7 @@ import { cartShema } from './schemas/cart.schema';
 import { CartsService } from './carts.service';
 
 import { CartsControler } from './carts.controller';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
   imports: [
@@ -26,7 +27,7 @@ import { CartsControler } from './carts.controller';
     ]),
   ],
   controllers: [CartsControler],
-  providers: [CartsService],
+  providers: [CartsService, PrismaService],
   exports: [CartsService],
 })
 export class CartsModule implements NestModule {

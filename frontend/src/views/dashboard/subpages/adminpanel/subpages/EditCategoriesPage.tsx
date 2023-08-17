@@ -70,7 +70,7 @@ const EditCategoriesPage = () => {
                   <td>
                     <LinkContainer
                       role={'button'}
-                      to={'/category/' + category.categoryURL}
+                      to={'/category/' + category.title}
                     >
                       <Image
                         src={category.bannerImage || imgNotFoundImg}
@@ -78,18 +78,18 @@ const EditCategoriesPage = () => {
                       />
                     </LinkContainer>
                   </td>
-                  <td>{category.name}</td>
+                  <td>{category.title}</td>
                   <td>
                     <EditDataIcon
-                      queryKey={'category-' + category._id}
-                      apiRoute={getCategoryRoute(category._id)}
+                      queryKey={'category-' + category.id}
+                      apiRoute={getCategoryRoute(category.id)}
                       inputStructure={categoryStructure.inputs[lang.current]}
                     />
                   </td>
                   <td>
                     <DeleteDataIcon
-                      queryKey={'category-' + category._id}
-                      apiRoute={getCategoryRoute(category._id)}
+                      queryKey={'category-' + category.id}
+                      apiRoute={getCategoryRoute(category.id)}
                     />
                   </td>
                 </tr>

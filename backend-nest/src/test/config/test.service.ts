@@ -118,13 +118,6 @@ export class TestService {
     };
   }
 
-  public getCategoryStructure() {
-    return {
-      name: expect.any(String),
-      bannerImage: expect.any(String),
-    };
-  }
-
   public getDeliveryStructure() {
     return {
       title: expect.any(String),
