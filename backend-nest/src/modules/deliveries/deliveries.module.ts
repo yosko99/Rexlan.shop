@@ -1,18 +1,13 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-
-import { deliverySchema } from './schemas/delivery.schema';
 
 import { DeliveriesController } from './deliveries.controllers';
 
 import { DeliveriesService } from './deliveries.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: 'Delivery', schema: deliverySchema }]),
-  ],
   controllers: [DeliveriesController],
-  providers: [DeliveriesService],
+  providers: [DeliveriesService, PrismaService],
   exports: [DeliveriesService],
 })
 export class DeliveriesModule {}

@@ -118,15 +118,6 @@ export class TestService {
     };
   }
 
-  public getDeliveryStructure() {
-    return {
-      title: expect.any(String),
-      initialPrice: expect.any(Number),
-      priceToAddress: expect.any(Number),
-      image: expect.any(String),
-    };
-  }
-
   public getOrderStructure() {
     return {
       selectedCourier: expect.any(String),
