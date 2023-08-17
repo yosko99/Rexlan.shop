@@ -97,7 +97,7 @@ const FormTemplate: FC<Props> = ({
           setTimeout(() => {
             if (data.data.token !== undefined) {
               token!.setToken(data.data.token);
-              localStorage.setItem('cart', data.data.cartID);
+              localStorage.setItem('cart', data.data.cartId);
               navigate(redirectOnSuccessURL);
             }
           }, 500);
@@ -113,22 +113,22 @@ const FormTemplate: FC<Props> = ({
     data.current = convertFormInputToObject(formRef);
     const form = event.currentTarget;
     const localStorageCart = localStorage.getItem('cart');
-    let cartID: String | null = null;
+    let cartId: String | null = null;
 
     if (localStorageCart !== null) {
-      cartID = localStorageCart;
+      cartId = localStorageCart;
     }
 
     event.preventDefault();
 
     if (form.checkValidity()) {
-      mutation.mutate({ ...data.current, cartID } as any);
+      mutation.mutate({ ...data.current, cartId } as any);
     }
 
     setFormValidated(true);
   };
 
-  const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleChange = () => {
     data.current = convertFormInputToObject(formRef);
   };
 
@@ -143,7 +143,7 @@ const FormTemplate: FC<Props> = ({
       className={className}
       noValidate
       validated={formValidated}
-      onChange={(e) => handleChange(e)}
+      onChange={handleChange}
       onSubmit={(e) => handleSubmit(e)}
     >
       <>{inputs}</>

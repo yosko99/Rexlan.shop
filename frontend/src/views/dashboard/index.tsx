@@ -15,23 +15,27 @@ const Dashboard = () => {
 
   const token = useContext(TokenContext);
 
-  const { data, isLoading, error } = useFetch(
+  const {
+    data: user,
+    isLoading,
+    error
+  } = useFetch(
     ['profile', token!.token as string],
-    getCurrentUserRoute(), true,
+    getCurrentUserRoute(),
+    true,
     {
       headers: { authorization: 'Bearer ' + token!.token }
-    });
+    }
+  );
 
   if (isLoading) {
-    return <Loading height='90vh' />;
+    return <Loading height="90vh" />;
   }
   if (error !== undefined) {
     return <Navigate to="/404" state={{ error: error.message }} />;
   }
 
-  return (
-    <RenderDashboard user={data.user} />
-  );
+  return <RenderDashboard user={user} />;
 };
 
 export default Dashboard;

@@ -4,7 +4,6 @@ import * as request from 'supertest';
 
 import setLanguageMiddleware from '../../../middleware/utils/setLanguage.middleware';
 
-import { TestModule } from '../../../test/config/test.module';
 import { AppModule } from '../../../app.module';
 
 import dotenv = require('dotenv');
@@ -15,7 +14,7 @@ describe('Testing products API', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [AppModule, TestModule],
+      imports: [AppModule],
     }).compile();
 
     app = module.createNestApplication();

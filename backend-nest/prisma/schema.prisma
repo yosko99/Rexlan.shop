@@ -15,7 +15,7 @@ model User {
     address   String
     phone     String
     zipcode   String?  @default("")
-    isAdmin   Boolean?
+    isAdmin   Boolean? @default(false)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     orders    Order[]
@@ -69,7 +69,7 @@ model Rating {
 
 model Cart {
     id        String        @id @default(uuid())
-    userId    Int
+    userId    String
     createdAt DateTime      @default(now())
     updatedAt DateTime      @updatedAt
     products  CartProduct[]

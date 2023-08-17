@@ -1,7 +1,7 @@
 import InputStructure from './inputStructure';
 
 export interface UserStructure {
-  _id: string;
+  id: string;
   email: string;
   password: string;
   name: string;
@@ -34,7 +34,7 @@ export const passwordInputForUserStructure: { [key: string]: InputStructure } =
   };
 
 export const userStructure: UserStructure = {
-  _id: '',
+  id: '',
   email: '',
   password: '',
   name: '',

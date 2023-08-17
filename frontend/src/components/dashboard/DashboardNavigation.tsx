@@ -30,27 +30,31 @@ const DashboardNavigation: FC<Props> = ({ isAdmin }) => {
   ];
 
   return (
-    <div className='d-flex flex-column'>
+    <div className="d-flex flex-column">
       {buttons.map((button, index: number) => (
         <LinkContainer key={index} to={`/dashboard/${button.urlParam}`}>
           <Button
-            variant={`${option === button.urlParam ? 'success' : 'outline-success'}`}
-            className='mb-3'
+            variant={`${
+              option === button.urlParam ? 'success' : 'outline-success'
+            }`}
+            className="mb-3"
           >
             {button.btnText}
           </Button>
         </LinkContainer>
       ))}
-      {isAdmin &&
-        <LinkContainer to='/dashboard/admin-panel'>
+      {isAdmin && (
+        <LinkContainer to="/dashboard/admin-panel">
           <Button
-            variant={`${option === 'admin-panel' ? 'primary' : 'outline-primary'}`}
-            className='mb-3 mt-3'
+            variant={`${
+              option === 'admin-panel' ? 'primary' : 'outline-primary'
+            }`}
+            className="mb-3 mt-3"
           >
             {lang.dashboard.navigationButtons.adminPanel}
           </Button>
         </LinkContainer>
-      }
+      )}
     </div>
   );
 };

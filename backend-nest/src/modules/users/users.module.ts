@@ -4,50 +4,22 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 
-import { CheckExistingUserMiddleware } from '../../middleware/user/checkExistingUser.middleware';
 import { VerifyJWTMiddleware } from '../../middleware/user/verifyJWT.middleware';
-
-import { CartsModule } from '../carts/carts.module';
-
-import { cartShema } from '../carts/schemas/cart.schema';
-import { userSchema } from './schemas/user.schema';
 
 import { UsersController } from './users.controller';
 
 import { MailService } from '../../mail/mail.service';
 import { UsersService } from './users.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: 'User', schema: userSchema },
-      { name: 'Cart', schema: cartShema },
-    ]),
-    CartsModule,
-  ],
   controllers: [UsersController],
-  providers: [UsersService, MailService],
+  providers: [UsersService, MailService, PrismaService],
   exports: [UsersService],
 })
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(CheckExistingUserMiddleware).forRoutes(
-      {
-        path: '/users/:_id',
-        method: RequestMethod.DELETE,
-      },
-      {
-        path: '/users/user/:_id',
-        method: RequestMethod.GET,
-      },
-      {
-        path: '/users/user/:_id',
-        method: RequestMethod.PUT,
-      },
-    );
-
     consumer.apply(VerifyJWTMiddleware).forRoutes(
       {
         path: '/users/current',
@@ -58,8 +30,12 @@ export class UsersModule implements NestModule {
         method: RequestMethod.GET,
       },
       {
-        path: '/users/current/change-password',
+        path: '/users/current/password',
         method: RequestMethod.PUT,
+      },
+      {
+        path: '/users',
+        method: RequestMethod.GET,
       },
     );
   }

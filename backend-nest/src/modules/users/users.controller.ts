@@ -4,24 +4,26 @@ import {
   Delete,
   Get,
   Headers,
+  Param,
   Post,
   Put,
 } from '@nestjs/common';
-import mongoose from 'mongoose';
 
 import { RequestData } from '../../decorators/requestData.decorator';
 
-import { UserType } from '../../types/user.types';
-
 import { UsersService } from './users.service';
+import Token from 'src/interfaces/token';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  getUsers() {
-    return this.usersService.getUsers();
+  getUsers(
+    @RequestData('userDataFromToken')
+    userDataFromToken: Token,
+  ) {
+    return this.usersService.getUsers(userDataFromToken);
   }
 
   @Post()
@@ -33,32 +35,31 @@ export class UsersController {
     @Body('address') address: string,
     @Body('phone') phone: string,
     @Body('isAdmin') isAdmin: boolean,
-    @Body('cartID') cartID: string,
+    @Body('cartId') cartId: string,
     @RequestData('currentLang') currentLang: string,
   ) {
     return this.usersService.createUser(
-      { email, name, password, address, phone, cartID, isAdmin },
+      { email, name, password, address, phone, cartId, isAdmin },
       headers.sendtokenback,
       currentLang,
     );
   }
 
-  @Delete(':_id')
+  @Delete('/:id')
   deleteUser(
-    @RequestData('user') currentUser: mongoose.Document<UserType> & UserType,
+    @Param('id') userId: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.usersService.deleteUser(currentUser, currentLang);
+    return this.usersService.deleteUser(userId, currentLang);
   }
 
-  @Get('/user/:_id')
-  getUser(@RequestData('user') currentUser: UserType) {
-    return currentUser;
+  @Get('/user/:id')
+  getUser(@Param('id') userId: string) {
+    return this.usersService.getUser(userId);
   }
 
-  @Put('/user/:_id')
+  @Put('/user/:id')
   updateUser(
-    @RequestData('user') currentUser: mongoose.Document<UserType> & UserType,
     @Body('email') email: string,
     @Body('name') name: string,
     @Body('phone') phone: string,
@@ -66,9 +67,10 @@ export class UsersController {
     @Body('zipcode') zipcode: string,
     @Body('isAdmin') isAdmin: boolean,
     @RequestData('currentLang') currentLang: string,
+    @Param('id') userId: string,
   ) {
     return this.usersService.updateUser(
-      currentUser,
+      userId,
       {
         email,
         name,
@@ -84,14 +86,14 @@ export class UsersController {
   @Put('/current')
   updateCurrentUser(
     @RequestData('userDataFromToken')
-    userDataFromToken: mongoose.Document<UserType> & UserType,
+    userDataFromToken: Token,
     @Body('name') name: string,
     @Body('phone') phone: string,
     @Body('address') address: string,
     @Body('zipcode') zipcode: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.usersService.updateUser(
+    return this.usersService.updateCurrentUser(
       userDataFromToken,
       {
         name,
@@ -107,30 +109,27 @@ export class UsersController {
   loginUser(
     @Body('email') email: string,
     @Body('password') password: string,
-    @Body('cartID') cartID: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.usersService.loginUser(email, password, cartID, currentLang);
+    return this.usersService.loginUser(email, password, currentLang);
   }
 
   @Get('/current')
-  getCurrentUser(
-    @RequestData('userDataFromToken') userDataFromToken: { email: string },
-  ) {
-    return this.usersService.getCurrentUser(userDataFromToken.email);
+  getCurrentUser(@RequestData('userDataFromToken') userDataFromToken: Token) {
+    return this.usersService.getCurrentUser(userDataFromToken);
   }
 
-  @Put('/current/change-password')
+  @Put('/current/password')
   changeCurrentUserPassword(
     @Body('oldPassword') oldPassword: string,
     @Body('newPassword') newPassword: string,
-    @RequestData('userDataFromToken') userDataFromToken: { email: string },
+    @RequestData('userDataFromToken') userDataFromToken: Token,
     @RequestData('currentLang') currentLang: string,
   ) {
     return this.usersService.changeCurrentUserPassword(
       oldPassword,
       newPassword,
-      userDataFromToken.email,
+      userDataFromToken,
       currentLang,
     );
   }

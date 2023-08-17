@@ -1,83 +1,99 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcryptjs';
-import mongoose, { Model } from 'mongoose';
 
 import { UserType } from '../../types/user.types';
-import { CartType } from '../../types/cart.types';
 
 import lang from '../../resources/lang';
 
-import { CartsService } from '../carts/carts.service';
 import { MailService } from '../../mail/mail.service';
 
 import { generateRandomChars } from '../../functions/generateRandomChars';
 
 import { passwordResetTemplate } from '../../mail/htmlTemplates/passwordReset.template';
+import Token from '../../interfaces/token';
+import { PrismaService } from '../prisma/prisma.service';
+import excludeObjectFields from '../../functions/excludeObjectFields';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel('User') private readonly userModel: Model<UserType>,
-    @InjectModel('Cart') private readonly cartModel: Model<CartType>,
-    private readonly cartsService: CartsService,
     private readonly mailService: MailService,
+    private readonly prisma: PrismaService,
   ) {}
 
-  async getUsers() {
-    const users = await this.userModel.find({}).select('-password');
+  async getUsers(token: Token) {
+    await this.isAdmin(token.email);
 
-    return users;
+    const users = await this.prisma.user.findMany({
+      where: { email: { not: token.email } },
+    });
+
+    return users.map((user) => {
+      return excludeObjectFields(user, ['password']);
+    });
+  }
+
+  async isAdmin(email: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+      select: {
+        isAdmin: true,
+      },
+    });
+
+    if (!user.isAdmin) {
+      throw new HttpException(
+        'User not unauthorized, do not meet required privileges',
+        401,
+      );
+    }
   }
 
   async createUser(
-    userData: UserType,
+    userDto: UserType,
     sendtokenback: 'true' | 'false',
     currentLang: string,
   ) {
-    const checkRegistered = await this.userModel.findOne({
-      email: userData.email,
-    });
+    const isUserRegistered =
+      (await this.prisma.user.findFirst({
+        where: { email: userDto.email },
+      })) !== null;
 
-    // Email is already registered
-    if (checkRegistered !== null) {
+    if (isUserRegistered) {
       return new HttpException(
         lang[currentLang].controllers.user.userWithEmailAlreadyExists,
         403,
       );
     }
 
-    const hashedPassword = await this.createHashedPassword(userData.password);
+    const hashedPassword = await this.createHashedPassword(userDto.password);
 
-    const newUser = await this.userModel.create({
-      email: userData.email,
-      password: hashedPassword,
-      name: userData.name,
-      address: userData.address,
-      phone: userData.phone,
-      isAdmin:
-        typeof userData.isAdmin === 'string'
-          ? userData.isAdmin === 'on'
-          : userData.isAdmin,
+    const newUser = await this.prisma.user.create({
+      data: {
+        email: userDto.email,
+        password: hashedPassword,
+        name: userDto.name,
+        address: userDto.address,
+        phone: userDto.phone,
+        isAdmin:
+          typeof userDto.isAdmin === 'string'
+            ? userDto.isAdmin === 'on'
+            : userDto.isAdmin,
+      },
     });
 
     // Create new user from register page
     if (sendtokenback === 'true') {
-      const token = jwt.sign(
-        { email: userData.email },
-        process.env.JWT_SECRET_KEY,
-      );
+      const token = this.generateToken(userDto.email, userDto.password);
 
-      const cartID = await this.cartsService.checkAndUpdateCart(
-        userData.email,
-        userData.cartID,
-      );
+      const cartId = await this.assignUserCart(newUser.id, userDto.cartId);
 
       return {
         msg: lang[currentLang].controllers.user.accountCreated,
         token,
-        cartID,
+        cartId,
         user: newUser,
       };
     }
@@ -89,12 +105,47 @@ export class UsersService {
     };
   }
 
-  async deleteUser(
-    currentUser: mongoose.Document<UserType> & UserType,
-    currentLang: string,
-  ) {
-    await this.cartModel.deleteOne({ userID: currentUser._id });
-    await this.userModel.deleteOne({ _id: currentUser._id });
+  private async assignUserCart(userId: string, cartId?: string) {
+    if (cartId === undefined || cartId === null) {
+      const cart = await this.prisma.cart.create({
+        data: { user: { connect: { id: userId } }, userId },
+      });
+      return cart.id;
+    }
+
+    const cart = await this.prisma.cart.update({
+      where: { id: cartId },
+      data: { user: { connect: { id: userId } } },
+    });
+
+    return cart.id;
+  }
+
+  private generateToken(email: string, password: string) {
+    const token = jwt.sign({ email, password }, process.env.JWT_SECRET_KEY);
+
+    return token;
+  }
+
+  private async retrieveUser(userId: string) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+
+    if (user === null) {
+      throw new HttpException('Could not find user with provided email', 404);
+    }
+
+    return excludeObjectFields(user, ['password']);
+  }
+
+  async getUser(userId: string) {
+    const user = await this.retrieveUser(userId);
+
+    return user;
+  }
+
+  async deleteUser(userId: string, currentLang: string) {
+    await this.retrieveUser(userId);
+    await this.prisma.user.delete({ where: { id: userId } });
 
     return {
       msg: lang[currentLang].controllers.user.userDeleted,
@@ -102,62 +153,80 @@ export class UsersService {
   }
 
   async updateUser(
-    currentUser: mongoose.Document<UserType> & UserType,
+    userId: string,
     { email, name, phone, address, zipcode, isAdmin }: UserType,
     currentLang: string,
   ) {
-    let findUserQuery = {};
+    const user = await this.retrieveUser(userId);
 
-    if (currentUser._id !== undefined) {
-      // When route is PUT /api/users/user/:_id
-      const checkExistingEmail = await this.userModel.findOne({
-        email,
-      });
+    const checkExistingEmail = await this.prisma.user.findUnique({
+      where: { email },
+    });
 
-      if (
-        checkExistingEmail !== null &&
-        currentUser.email !== checkExistingEmail.email
-      ) {
-        return new HttpException(
-          lang[currentLang].controllers.user.userWithEmailAlreadyExists,
-          403,
-        );
-      }
-      findUserQuery = { _id: currentUser._id };
-    } else {
-      // When route is POST /api/users/current
-      findUserQuery = { email: currentUser.email };
+    if (
+      checkExistingEmail !== null &&
+      user.email !== checkExistingEmail.email
+    ) {
+      throw new HttpException(
+        lang[currentLang].controllers.user.userWithEmailAlreadyExists,
+        403,
+      );
     }
 
     try {
-      await this.userModel.updateOne(findUserQuery, {
-        email,
-        name,
-        phone,
-        address,
-        zipcode,
-        isAdmin: typeof isAdmin === 'string' ? isAdmin === 'on' : isAdmin,
+      await this.prisma.user.update({
+        where: { id: user.id },
+        data: {
+          email,
+          name,
+          phone,
+          address,
+          zipcode,
+          isAdmin: typeof isAdmin === 'string' ? isAdmin === 'on' : isAdmin,
+        },
       });
 
       return {
         msg: lang[currentLang].global.dataUpdated,
       };
     } catch (error) {
-      return new NotFoundException(error);
+      throw new NotFoundException(error);
     }
   }
 
-  async loginUser(
-    email: string,
-    password: string,
-    cartID: string,
+  async updateCurrentUser(
+    { email: tokenEmail }: Token,
+    { name, phone, address, zipcode }: UserType,
     currentLang: string,
   ) {
-    const user = await this.userModel.findOne({ email });
+    try {
+      await this.prisma.user.update({
+        where: { email: tokenEmail },
+        data: {
+          name,
+          phone,
+          address,
+          zipcode,
+        },
+      });
+
+      return {
+        msg: lang[currentLang].global.dataUpdated,
+      };
+    } catch (error) {
+      throw new NotFoundException(error);
+    }
+  }
+
+  async loginUser(email: string, password: string, currentLang: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+      include: { cart: { select: { id: true } } },
+    });
 
     // Provided not registered email
     if (user === null) {
-      return new HttpException(
+      throw new HttpException(
         lang[currentLang].controllers.user.userWithEmailDoesNotExist,
         403,
       );
@@ -166,65 +235,61 @@ export class UsersService {
     const doesPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (doesPasswordMatch) {
-      const checkedCartID = await this.cartsService.checkAndUpdateCart(
-        email,
-        cartID,
-      );
-
       const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET_KEY);
 
       return {
         msg: lang[currentLang].controllers.user.loggedIn,
         token,
-        cartID: checkedCartID,
+        cartId: user.cartId,
       };
     }
 
-    return new HttpException(
+    throw new HttpException(
       lang[currentLang].controllers.user.passwordMismatch,
       403,
     );
   }
 
-  async getCurrentUser(userEmailFromToken: string) {
-    const user = await this.userModel
-      .findOne({ email: userEmailFromToken })
-      .select('-password');
+  async getCurrentUser({ email }: Token) {
+    const user = await this.prisma.user.findUnique({ where: { email } });
 
-    return { user };
+    return excludeObjectFields(user, ['password']);
   }
 
   async changeCurrentUserPassword(
     oldPassword: string,
     newPassword: string,
-    userEmailFromToken: string,
+    { email }: Token,
     currentLang: string,
   ) {
-    const user = await this.userModel.findOne({ email: userEmailFromToken });
+    const user = await this.prisma.user.findUnique({ where: { email } });
 
     const doesPasswordMatch = await bcrypt.compare(oldPassword, user.password);
 
     if (doesPasswordMatch) {
-      user.password = await this.createHashedPassword(newPassword);
+      const newHashedPassword = await this.createHashedPassword(newPassword);
 
-      await user.save();
+      await this.prisma.user.update({
+        where: { email },
+        data: { password: newHashedPassword },
+      });
 
       return {
         msg: lang[currentLang].controllers.user.passwordUpdated,
       };
     }
 
-    return new HttpException(
+    throw new HttpException(
       lang[currentLang].controllers.user.passwordMismatch,
       403,
     );
   }
 
   async resetPassword(email: string, currentLang: string) {
-    const user = await this.userModel.findOne({ email });
+    const user = await this.prisma.user.findUnique({ where: { email } });
 
     if (email === undefined || user === null) {
-      return new NotFoundException(
+      throw new NotFoundException(
         lang[currentLang].controllers.user.couldNotFindEmail,
       );
     }
@@ -232,12 +297,10 @@ export class UsersService {
     const temporaryPassword = generateRandomChars(15);
     const hashedPassword = await this.createHashedPassword(temporaryPassword);
 
-    await this.userModel.updateOne(
-      { email },
-      {
-        password: hashedPassword,
-      },
-    );
+    await this.prisma.user.update({
+      where: { email },
+      data: { password: hashedPassword },
+    });
 
     const mailResponse = await this.mailService.sendEmailMessage(
       {

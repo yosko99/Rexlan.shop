@@ -4,7 +4,7 @@ export interface UserType {
   name: string;
   address: string;
   phone: string;
-  cartID?: string;
+  cartId?: string;
   zipcode?: string;
   isAdmin?: boolean;
   timeStamps?: Date;

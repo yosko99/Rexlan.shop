@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 import React, { FC, useState, useEffect, useContext } from 'react';
 
 import { Col, Container, Row } from 'react-bootstrap';
@@ -18,33 +19,32 @@ const RenderDashboard: FC<Props> = ({ user }) => {
   const { option: selectedDashboardTab } = useParams();
 
   const [subpage, setSubpage] = useState<SubpageType | undefined>(
-    subpages.find((subpage) => subpage.urlParam === selectedDashboardTab
-    )
+    subpages.find((subpage) => subpage.urlParam === selectedDashboardTab)
   );
 
   useEffect(() => {
-    setSubpage(subpages.find(
-      (subpage) => subpage.urlParam === selectedDashboardTab));
+    setSubpage(
+      subpages.find((subpage) => subpage.urlParam === selectedDashboardTab)
+    );
   }, [selectedDashboardTab]);
 
   return (
     <>
-      {subpage === undefined
-        ? <Navigate to={'/'} />
-        : <Container>
-          <p className='fs-2 my-4'>{lang.dashboard.myAccount}</p>
+      {subpage === undefined ? (
+        <Navigate to={'/'} />
+      ) : (
+        <Container>
+          <p className="fs-2 my-4">{lang.dashboard.myAccount}</p>
           <Row>
             <Col lg={2}>
               <DashboardNavigation isAdmin={user.isAdmin} />
             </Col>
-            <Col lg={10} className='shadow-sm'>
-              <div className='mx-3 mb-3 p-lg-3 p-0'>
-                {subpage.page}
-              </div>
+            <Col lg={10} className="shadow-sm">
+              <div className="mx-3 mb-3 p-lg-3 p-0">{subpage.page}</div>
             </Col>
           </Row>
         </Container>
-      }
+      )}
     </>
   );
 };
