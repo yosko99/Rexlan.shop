@@ -81,25 +81,34 @@ model Cart {
 model CartProduct {
     id        String   @id @default(uuid())
     quantity  Int
-    cartId    String
+    cartId    String?
     productId String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+    cart      Cart?    @relation(fields: [cartId], references: [id], onDelete: Cascade)
     product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+    order     Order?   @relation(fields: [orderId], references: [id])
+    orderId   String?
 }
 
 model Order {
-    id              String    @id @default(uuid())
-    user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id              String        @id @default(uuid())
+    user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId          String
-    orderStatus     String    @default("Pending")
+    orderStatus     String        @default("Pending")
     selectedCourier String
-    productsPrice   Float     @default(0)
-    deliveryPrice   Float     @default(0)
-    products        Product[]
-    createdAt       DateTime  @default(now())
-    updatedAt       DateTime  @updatedAt
+    productsPrice   Float         @default(0)
+    deliveryPrice   Float         @default(0)
+    products        CartProduct[]
+    createdAt       DateTime      @default(now())
+    updatedAt       DateTime      @updatedAt
+    address         String
+    city            String
+    name            String
+    zipcode         String
+    phone           String
+    product         Product?      @relation(fields: [productId], references: [id], onDelete: Cascade)
+    productId       String?
 }
 
 model Category {

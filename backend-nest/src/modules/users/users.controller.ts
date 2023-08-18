@@ -26,6 +26,14 @@ export class UsersController {
     return this.usersService.getUsers(userDataFromToken);
   }
 
+  @Get('/current/orders')
+  getCurrentUserOrders(
+    @RequestData('userDataFromToken')
+    userDataFromToken: Token,
+  ) {
+    return this.usersService.getCurrentUserOrders(userDataFromToken);
+  }
+
   @Post()
   createUser(
     @Headers() headers: { sendtokenback: 'true' | 'false' },

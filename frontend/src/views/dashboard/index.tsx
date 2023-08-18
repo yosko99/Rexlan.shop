@@ -22,10 +22,7 @@ const Dashboard = () => {
   } = useFetch(
     ['profile', token!.token as string],
     getCurrentUserRoute(),
-    true,
-    {
-      headers: { authorization: 'Bearer ' + token!.token }
-    }
+    true
   );
 
   if (isLoading) {

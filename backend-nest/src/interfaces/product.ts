@@ -13,6 +13,7 @@ export interface Product {
   updatedAt?: Date;
   cart?: Cart[];
   orders?: Order[];
+  quantity?: number;
   translations?: ProductTranslation[];
   category?: Category;
   categoryId?: string;

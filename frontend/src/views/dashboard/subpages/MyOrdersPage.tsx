@@ -1,6 +1,7 @@
+/* eslint-disable multiline-ternary */
 import React, { useContext } from 'react';
 
-import { Col, Row, Image } from 'react-bootstrap';
+import { Image } from 'react-bootstrap';
 
 import noOrdersImg from '../../../assets/dashboard/orders/no-orders.svg';
 import OrdersTable from '../../../components/cart/OrdersTable';
@@ -9,18 +10,22 @@ import { CurrentLanguageContext } from '../../../context/CurrentLanguageContext'
 import useFetch from '../../../hooks/useFetch';
 import { getUserOrdersRoute } from '../../../services/apiRoutes';
 import CenteredItems from '../../../styles/CenteredItems';
-import { OrderType } from '../../../types/orderTypes';
+import { Order } from '../../../types/orderTypes';
 
 const MyOrdersPage = () => {
   const { lang } = useContext(CurrentLanguageContext);
   const cartID = localStorage.getItem('cart') as string;
 
-  const { data, error, isLoading } = useFetch('orders', getUserOrdersRoute(cartID), true);
+  const { data, error, isLoading } = useFetch(
+    'orders',
+    getUserOrdersRoute(cartID),
+    true
+  );
 
-  const orders = data as OrderType[];
+  const orders = data as Order[];
 
   if (isLoading) {
-    return <Loading height='60vh' />;
+    return <Loading height="60vh" />;
   }
 
   if (error !== undefined) {
@@ -29,16 +34,17 @@ const MyOrdersPage = () => {
 
   return (
     <div>
-      <p className='fs-3 my-3'>{lang.dashboard.tabs.myOrders.header.title}</p>
+      <p className="fs-3 my-3">{lang.dashboard.tabs.myOrders.header.title}</p>
       <p>{lang.dashboard.tabs.myOrders.header.subtitle}</p>
       <hr />
-      {orders.length === 0
-        ? <CenteredItems flexColumn>
+      {orders.length === 0 ? (
+        <CenteredItems flexColumn>
           <Image src={noOrdersImg} alt="No orders" />
-          <p className='fs-5'>{lang.dashboard.tabs.myOrders.noOrders}</p>
+          <p className="fs-5">{lang.dashboard.tabs.myOrders.noOrders}</p>
         </CenteredItems>
-        : <OrdersTable orders={orders}/>
-      }
+      ) : (
+        <OrdersTable orders={orders} />
+      )}
     </div>
   );
 };

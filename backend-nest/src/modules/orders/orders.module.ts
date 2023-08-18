@@ -4,47 +4,21 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-
-import { CheckExistingOrderMiddleware } from '../../middleware/order/checkExistingOrder.middleware';
-import { InitOrderInfoMiddleware } from '../../middleware/order/initOrderInfo.middleware';
 
 import { OrdersController } from './orders.controller';
 
-import { orderSchema } from './schemas/order.schema';
-import { cartShema } from '../carts/schemas/cart.schema';
-
 import { OrdersService } from './orders.service';
+import { PrismaService } from '../prisma/prisma.service';
+import { VerifyJWTMiddleware } from 'src/middleware/user/verifyJWT.middleware';
+import { ProductsService } from '../products/products.service';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: 'Order', schema: orderSchema },
-      { name: 'Cart', schema: cartShema },
-    ]),
-  ],
   controllers: [OrdersController],
-  providers: [OrdersService],
+  providers: [OrdersService, PrismaService, ProductsService],
 })
 export class OrdersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(CheckExistingOrderMiddleware).forRoutes(
-      {
-        path: '/orders/:cartID',
-        method: RequestMethod.GET,
-      },
-      {
-        path: '/orders/:cartID',
-        method: RequestMethod.DELETE,
-      },
-    );
-
-    consumer.apply().forRoutes({
-      path: '/orders/user/:cartID',
-      method: RequestMethod.GET,
-    });
-
-    consumer.apply(InitOrderInfoMiddleware).forRoutes({
+    consumer.apply(VerifyJWTMiddleware).forRoutes({
       path: '/orders',
       method: RequestMethod.POST,
     });

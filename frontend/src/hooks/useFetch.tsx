@@ -1,7 +1,9 @@
-import React from 'react';
+import { useContext } from 'react';
 
 import axios from 'axios';
 import { useQuery } from 'react-query';
+
+import { TokenContext } from '../context/TokenContext';
 
 interface ReturnTypes {
   error: Error | undefined;
@@ -13,11 +15,16 @@ interface ReturnTypes {
 const useFetch = (
   queryKey: string | string[],
   url: string,
-  fetchOnLoad: boolean,
-  headers?: Object
+  fetchOnLoad: boolean
 ): ReturnTypes => {
+  const token = useContext(TokenContext);
+
   const getData = async () => {
-    return await axios.get(url, headers).then((response) => response.data);
+    return await axios
+      .get(url, {
+        headers: { authorization: 'Bearer ' + token!.token }
+      })
+      .then((response) => response.data);
   };
 
   const { isLoading, error, isError, data, refetch } = useQuery(

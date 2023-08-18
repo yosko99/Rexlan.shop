@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 import React from 'react';
 
 import { Navigate } from 'react-router-dom';
@@ -14,12 +15,13 @@ const Footer = () => {
   } = useFetch('categories', getCategoriesRoute(), true);
 
   return (
-		<>
-			{error !== undefined
-			  ? <Navigate to="/404" state={{ error: error.message }} />
-			  :	<RenderFooter isLoading={isLoading} categories={categories}/>
-			}
-		</>
+    <>
+      {error !== undefined ? (
+        <Navigate to="/404" state={{ error: error.message }} />
+      ) : (
+        <RenderFooter isLoading={isLoading} categories={categories} />
+      )}
+    </>
   );
 };
 

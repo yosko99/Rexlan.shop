@@ -86,6 +86,10 @@ export const getUsersRoute = (id?: string): string => {
   }
 };
 
+export const getUserOrdersRoute = (cartID: string): string => {
+  return USERS_ROUTE + 'current/orders' + getLinkDefaultSuffixes();
+};
+
 export const getUserRoute = (id: string): string => {
   return USERS_ROUTE + 'user/' + id + getLinkDefaultSuffixes();
 };
@@ -125,10 +129,6 @@ export const getOrdersRoute = (): string => {
   return ORDERS_ROUTE + getLinkDefaultSuffixes();
 };
 
-export const getOrderRoute = (cartID: string): string => {
-  return ORDERS_ROUTE + cartID + getLinkDefaultSuffixes();
-};
-
-export const getUserOrdersRoute = (cartID: string): string => {
-  return ORDERS_ROUTE + 'user/' + cartID + getLinkDefaultSuffixes();
+export const getOrderRoute = (orderId: string): string => {
+  return ORDERS_ROUTE + orderId + getLinkDefaultSuffixes();
 };

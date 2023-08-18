@@ -7,8 +7,8 @@ import { useLocation } from 'react-router-dom';
 
 import DataSplitBetween from '../../../components/partials/DataSplitBetween';
 import { CurrentLanguageContext } from '../../../context/CurrentLanguageContext';
+import getPaymentInfoHTMLFields from '../../../functions/getPaymentInfoHTMLFields';
 import PaymentType from '../../../types/paymentType';
-import TextDataType from '../../../types/textDataType';
 
 interface LocationPaymentType {
   state: PaymentType;
@@ -21,33 +21,6 @@ const SuccessfulPaymentPage = () => {
   if (location.state === null) {
     window.location.href = '/';
   }
-
-  const paymentInfoHTMLFields: TextDataType[] = [
-    {
-      text: lang.cart.successfulPaymentPage.status,
-      data: location.state.status
-    },
-    {
-      text: lang.cart.successfulPaymentPage.createTime,
-      data: location.state.create_time
-    },
-    {
-      text: lang.cart.successfulPaymentPage.currentCurrency,
-      data: location.state.purchase_units[0].amount.currency_code
-    },
-    {
-      text: lang.cart.successfulPaymentPage.email,
-      data: location.state.payer.email_address
-    },
-    {
-      text: lang.cart.successfulPaymentPage.description,
-      data: location.state.purchase_units[0].description
-    },
-    {
-      text: lang.cart.successfulPaymentPage.paymentID,
-      data: location.state.id
-    }
-  ];
 
   return (
     <Container className="d-flex justify-content-center">
@@ -62,13 +35,15 @@ const SuccessfulPaymentPage = () => {
           {lang.cart.successfulPaymentPage.title}
         </p>
         <div className="p-5 text-wrap text-break">
-          <DataSplitBetween textData={paymentInfoHTMLFields} />
+          <DataSplitBetween
+            textData={getPaymentInfoHTMLFields(lang, location)}
+          />
           <div className="d-flex flex-column my-2 flex-lg-row justify-content-between">
             <p className="m-0 my-3 fs-4">
               {lang.cart.successfulPaymentPage.amountPayed}
             </p>
             <p className="m-0 my-3 fs-4">
-              {location.state.purchase_units[0].amount.value}
+              {location.state.purchase_units[0].amount.value} $
             </p>
           </div>
         </div>

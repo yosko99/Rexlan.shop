@@ -1,47 +1,116 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-
-import { CartType } from '../../types/cart.types';
-import { OrderType } from '../../types/order.types';
 
 import lang from '../../resources/lang';
+import { PrismaService } from '../prisma/prisma.service';
+import { Token } from 'src/interfaces/token';
+import { OrderDto } from 'src/dto/order.dto';
+import calculateTotalProductsPrice from 'src/functions/calculateTotalProductsPrice';
+import excludeObjectFields from 'src/functions/excludeObjectFields';
+import { ProductsService } from '../products/products.service';
 
 @Injectable()
 export class OrdersService {
   constructor(
-    @InjectModel('Order')
-    private readonly orderModel: Model<OrderType>,
+    private readonly prisma: PrismaService,
+    private readonly productsService: ProductsService,
   ) {}
 
-  async getUserOrders(currentCart: CartType) {
-    const orders = await this.orderModel
-      .find({
-        userID: currentCart.userID,
-      })
-      .where('orderStatus')
-      .ne('Pending')
-      .select('-__v -_id');
+  async getOrder(orderId: string, currentLang: string) {
+    const order = await this.retrieveOrder(orderId);
 
-    if (orders === null) {
-      return new NotFoundException('Invalid or not provided cart ID');
-    }
-
-    return orders;
+    return {
+      ...excludeObjectFields(order, ['products', 'userId']),
+      products: order.products.map((product) => {
+        return {
+          ...this.productsService.extractProductData(
+            // @ts-ignore
+            product.product,
+            currentLang,
+          ),
+          quantity: product.quantity,
+        };
+      }),
+    };
   }
 
-  async deleteOrder(currentOrder: OrderType, currentLang: string) {
-    await this.orderModel.deleteOne({ cartID: currentOrder.cartID });
+  private async retrieveOrder(orderId: string) {
+    const order = await this.prisma.order.findUnique({
+      where: { id: orderId },
+      include: {
+        products: {
+          include: {
+            product: {
+              include: {
+                translations: true,
+                category: { include: { translations: true } },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (order === null) {
+      throw new NotFoundException('Could not find order with provided id');
+    }
+
+    return order;
+  }
+
+  async deleteOrder(orderId: string, currentLang: string) {
+    await this.retrieveOrder(orderId);
+    await this.prisma.order.delete({ where: { id: orderId } });
 
     return {
       msg: lang[currentLang].controllers.order.orderDeleted,
     };
   }
 
-  async createOrder(currentOrderInfo: OrderType, cartID: string) {
-    const newOrder = await this.orderModel.create({
-      ...currentOrderInfo,
-      cartID,
+  async createOrder(
+    {
+      address,
+      city,
+      delivery,
+      deliveryPrice,
+      name,
+      phone,
+      products,
+      zipcode,
+    }: OrderDto,
+    { email }: Token,
+  ) {
+    const productsPrice = calculateTotalProductsPrice(products);
+
+    const newOrder = await this.prisma.order.create({
+      data: {
+        address,
+        city,
+        name,
+        phone,
+        productsPrice,
+        selectedCourier: delivery,
+        deliveryPrice: Number(deliveryPrice),
+        zipcode,
+        user: { connect: { email } },
+      },
+    });
+
+    const orderProducts = products.map((product) => {
+      return {
+        productId: product.id,
+        quantity: product.quantity,
+        orderId: newOrder.id,
+      };
+    });
+
+    await this.prisma.cartProduct.createMany({
+      data: orderProducts,
+    });
+
+    await this.prisma.user.update({
+      where: { email },
+      data: { cart: { update: { products: { set: [] } } } },
     });
 
     return {

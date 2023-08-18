@@ -1,26 +1,28 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
 import { PayPalButtons } from '@paypal/react-paypal-js';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import { getCartRoute } from '../../services/apiRoutes';
+import { TokenContext } from '../../context/TokenContext';
+import { getOrdersRoute } from '../../services/apiRoutes';
+import { Product } from '../../types/productTypes';
 
 interface Props {
   className?: string;
-  value: string;
+  products: Product[];
+  orderInfo: object;
+  totalPrice: number;
 }
 
-const PaypalButtons: FC<Props> = ({ className, value }) => {
+const PaypalButtons: FC<Props> = ({
+  className,
+  totalPrice,
+  orderInfo,
+  products
+}) => {
+  const token = useContext(TokenContext);
   const navigate = useNavigate();
-
-  const handleOnApprove = async () => {
-    const cartID = localStorage.getItem('cart');
-
-    await axios.delete(getCartRoute(cartID as string));
-
-    localStorage.removeItem('cart');
-  };
 
   return (
     <PayPalButtons
@@ -35,7 +37,7 @@ const PaypalButtons: FC<Props> = ({ className, value }) => {
             {
               description: 'Rexlan online purchase',
               amount: {
-                value
+                value: String(totalPrice)
               }
             }
           ]
@@ -44,9 +46,17 @@ const PaypalButtons: FC<Props> = ({ className, value }) => {
       onApprove={async (data, actions) => {
         const order = await actions.order!.capture();
 
-        await handleOnApprove();
-
-        navigate('/payment-successful', { state: order });
+        axios
+          .post(
+            getOrdersRoute(),
+            { ...orderInfo, products },
+            {
+              headers: { authorization: 'Bearer ' + token!.token }
+            }
+          )
+          .then((response) => {
+            navigate('/payment-successful', { state: order });
+          });
       }}
       onCancel={() => {
         navigate('/cart');

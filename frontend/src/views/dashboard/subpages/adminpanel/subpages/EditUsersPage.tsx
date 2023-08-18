@@ -6,7 +6,6 @@ import DeleteDataIcon from '../../../../../components/icons/dashboard/DeleteData
 import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon';
 import Loading from '../../../../../components/loading/Loading';
 import { CurrentLanguageContext } from '../../../../../context/CurrentLanguageContext';
-import { TokenContext } from '../../../../../context/TokenContext';
 import {
   UserStructure,
   userStructure,
@@ -16,15 +15,10 @@ import useFetch from '../../../../../hooks/useFetch';
 import { getUserRoute, getUsersRoute } from '../../../../../services/apiRoutes';
 
 const EditUsersPage = () => {
-  const token = useContext(TokenContext);
-
   const { isLoading, data: users } = useFetch(
     'allUsers',
     getUsersRoute(),
-    true,
-    {
-      headers: { authorization: 'Bearer ' + token!.token }
-    }
+    true
   );
   const { lang } = useContext(CurrentLanguageContext);
 

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-import { getCategoriesRoute } from '../../services/apiRoutes';
 import useFetch from '../../hooks/useFetch';
+import { getCategoriesRoute } from '../../services/apiRoutes';
 import RenderHeader from './RenderHeader';
 
 const Header: FC = () => {
@@ -15,9 +15,7 @@ const Header: FC = () => {
     window.location.href = '/404';
   }
 
-  return (
-    <RenderHeader isLoading={isLoading} categories={categories}/>
-  );
+  return <RenderHeader isLoading={isLoading} categories={categories} />;
 };
 
 export default Header;

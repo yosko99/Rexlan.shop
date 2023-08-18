@@ -1,7 +1,7 @@
 /* eslint-disable multiline-ternary */
-import React, { FC, useState, useContext } from 'react';
+import React, { FC, useState, useContext, useRef } from 'react';
 
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 import CartOrderBox from '../../components/cart/CartOrderBox';
@@ -11,10 +11,9 @@ import DeliveryInput from '../../components/inputs/DeliveryInput';
 import NameInput from '../../components/inputs/NameInput';
 import PhoneInput from '../../components/inputs/PhoneInput';
 import ZipInput from '../../components/inputs/ZipInput';
-import FormTemplate from '../../components/templates/FormTemplate';
 import { FREE_DELIVERY_PRICE } from '../../constants/prices';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
-import { getOrdersRoute } from '../../services/apiRoutes';
+import convertFormInputToObject from '../../functions/convertFormInputToObject';
 import { DefaultValues } from '../../types/orderTypes';
 import { Product } from '../../types/productTypes';
 import calculateTotalPrice from './calculateTotalPrice';
@@ -27,12 +26,17 @@ interface Props {
 const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
   const { lang } = useContext(CurrentLanguageContext);
+  const formRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
 
-  const handleSuccess = () => {
+  const handleSubmit = (form: React.FormEvent<HTMLFormElement>) => {
+    form.preventDefault();
+
     navigate('/payment', {
       state: {
-        cartID: localStorage.getItem('cart')
+        orderInfo: convertFormInputToObject(formRef),
+        products: cartProducts,
+        totalPrice: calculateTotalPrice(cartProducts, deliveryPrice)
       }
     });
   };
@@ -43,50 +47,41 @@ const RenderCartPage: FC<Props> = ({ cartProducts, defaultValues }) => {
         <p className="fs-2">{lang.cart.header}</p>
         <Row>
           <Col lg={8} md={8} sm={12}>
-            <FormTemplate
-              className="pe-lg-5"
-              mutateURL={getOrdersRoute()}
-              onSuccessFn={() => handleSuccess()}
-              redirectOnSuccessURL="/payment"
-              inputs={
-                <>
-                  <DeliveryInput setDeliveryPrice={setDeliveryPrice} />
-                  <input
-                    type="number"
-                    name="deliveryPrice"
-                    readOnly
-                    className="d-none"
-                    value={
-                      calculateTotalPrice(cartProducts, deliveryPrice) >=
-                      FREE_DELIVERY_PRICE
-                        ? 0
-                        : deliveryPrice
-                    }
-                  />
-                  <NameInput
-                    defaultValue={
-                      defaultValues !== null ? defaultValues.name : ''
-                    }
-                  />
-                  <AddressInput
-                    defaultValue={
-                      defaultValues !== null ? defaultValues.address : ''
-                    }
-                  />
-                  <CityInput />
-                  <ZipInput
-                    defaultValue={
-                      defaultValues !== null ? defaultValues.zipcode : ''
-                    }
-                  />
-                  <PhoneInput
-                    defaultValue={
-                      defaultValues !== null ? defaultValues.phone : ''
-                    }
-                  />
-                </>
-              }
-            />
+            <Form ref={formRef} className="pe-lg-5" onSubmit={handleSubmit}>
+              <DeliveryInput setDeliveryPrice={setDeliveryPrice} />
+              <input
+                type="number"
+                name="deliveryPrice"
+                readOnly
+                className="d-none"
+                value={
+                  calculateTotalPrice(cartProducts, deliveryPrice) >=
+                  FREE_DELIVERY_PRICE
+                    ? 0
+                    : deliveryPrice
+                }
+              />
+              <NameInput
+                defaultValue={defaultValues !== null ? defaultValues.name : ''}
+              />
+              <AddressInput
+                defaultValue={
+                  defaultValues !== null ? defaultValues.address : ''
+                }
+              />
+              <CityInput />
+              <ZipInput
+                defaultValue={
+                  defaultValues !== null ? defaultValues.zipcode : ''
+                }
+              />
+              <PhoneInput
+                defaultValue={defaultValues !== null ? defaultValues.phone : ''}
+              />
+              <Button className="w-100" variant="outline-primary" type="submit">
+                Submit
+              </Button>
+            </Form>
           </Col>
           <Col lg={4} md={4} sm={12}>
             <CartOrderBox

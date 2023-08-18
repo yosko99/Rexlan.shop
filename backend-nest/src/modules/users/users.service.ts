@@ -220,6 +220,21 @@ export class UsersService {
     }
   }
 
+  async getCurrentUserOrders({ email }: Token) {
+    const orders = await this.prisma.order.findMany({
+      where: { user: { email } },
+      select: {
+        createdAt: true,
+        id: true,
+        orderStatus: true,
+        deliveryPrice: true,
+        productsPrice: true,
+      },
+    });
+
+    return orders;
+  }
+
   async loginUser(email: string, password: string, currentLang: string) {
     const user = await this.prisma.user.findUnique({
       where: { email },

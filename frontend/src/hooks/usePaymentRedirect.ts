@@ -2,15 +2,9 @@ import React, { useEffect } from 'react';
 
 import { useNavigate, useLocation } from 'react-router-dom';
 
-interface LocationPaymentType {
-  state: {
-    cartID: string
-  }
-}
-
 // Check if cartID is set in session storage and redirect otherwise
 const usePaymentRedirect = () => {
-  const location = useLocation() as unknown as LocationPaymentType;
+  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {

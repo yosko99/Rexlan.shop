@@ -25,6 +25,10 @@ export class UsersModule implements NestModule {
         method: RequestMethod.PUT,
       },
       {
+        path: '/users/current/orders',
+        method: RequestMethod.GET,
+      },
+      {
         path: '/users/current',
         method: RequestMethod.GET,
       },

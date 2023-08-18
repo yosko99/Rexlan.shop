@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 import React, { FC, useEffect, useState, useContext } from 'react';
 
 import { FormControl, Image } from 'react-bootstrap';
@@ -24,12 +25,12 @@ const SearchBar: FC = () => {
     data: products
   } = useFetch(
     ['searchProducts', searchQuery],
-    getProductsPatternRoute((searchQuery === '') ? '.*' : searchQuery),
+    getProductsPatternRoute(searchQuery === '' ? '.*' : searchQuery),
     true
   );
 
   const handleChange = (e: React.ChangeEvent) => {
-    const { value } = (e.target as HTMLInputElement);
+    const { value } = e.target as HTMLInputElement;
     setSearchTerm(value);
   };
 
@@ -43,9 +44,10 @@ const SearchBar: FC = () => {
 
   return (
     <>
-      {error !== undefined
-        ? <Navigate to="/404" state={{ error: error.message }} />
-        : <CustomOffCanvas
+      {error !== undefined ? (
+        <Navigate to="/404" state={{ error: error.message }} />
+      ) : (
+        <CustomOffCanvas
           title={lang.searchBar.titleText}
           body={
             <>
@@ -57,24 +59,31 @@ const SearchBar: FC = () => {
                 aria-label="Search"
                 onChange={(e) => handleChange(e)}
               />
-              {isLoading
-                ? <Loading />
-                : products.length === 0
-                  ? <div className='d-flex flex-column justify-content-center'>
-                    <Image className='mt-2 text-center' src={noResultsImg} fluid />
-                    <p className='text-center fs-4'>{lang.searchBar.productNotFound} '<i>{searchQuery}</i>'</p>
-                  </div>
-                  : <MultipleProductCards
-                    isLoading={isLoading}
-                    products={products}
+              {isLoading ? (
+                <Loading />
+              ) : products.length === 0 ? (
+                <div className="d-flex flex-column justify-content-center">
+                  <Image
+                    className="mt-2 text-center"
+                    src={noResultsImg}
+                    fluid
                   />
-              }
+                  <p className="text-center fs-4">
+                    {lang.searchBar.productNotFound} '<i>{searchQuery}</i>'
+                  </p>
+                </div>
+              ) : (
+                <MultipleProductCards
+                  isLoading={isLoading}
+                  products={products}
+                />
+              )}
             </>
           }
-          buttonVariant='outline-success'
+          buttonVariant="outline-success"
           buttonText={lang.searchBar.buttonText}
         />
-      }
+      )}
     </>
   );
 };
