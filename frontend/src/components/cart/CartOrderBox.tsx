@@ -5,14 +5,13 @@ import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
-import { Product, CartProductType } from '../../types/productTypes';
+import { Product } from '../../types/productTypes';
 import calculateTotalPrice from '../../views/cart/calculateTotalPrice';
 import DeliveryPrice from './DeliveryPrice';
 import RemoveProduct from './RemoveProduct';
 
 interface Props {
-  products: Product[];
-  cartProducts: CartProductType[];
+  cartProducts: Product[];
   totalPrice: number;
   deliveryPrice: number;
 }
@@ -26,7 +25,6 @@ const ProductHolder = styled.div`
 `;
 
 const CartOrderBox: FC<Props> = ({
-  products,
   cartProducts,
   totalPrice,
   deliveryPrice
@@ -38,7 +36,7 @@ const CartOrderBox: FC<Props> = ({
       <p className="fs-5">{lang.cart.orderBox.header}</p>
       <hr />
       <ProductHolder>
-        {products.map((product: Product, index: number) => (
+        {cartProducts.map((product: Product, index: number) => (
           <Row key={index}>
             <Col
               lg={3}
@@ -56,7 +54,7 @@ const CartOrderBox: FC<Props> = ({
             <Col lg={9} sm={9} xs={9}>
               <p>{product.title}</p>
               <p>
-                ${product.price} x {cartProducts[index].productQuantity}
+                ${product.price} x {cartProducts[index].quantity}
               </p>
               <div className="d-flex justify-content-end">
                 <RemoveProduct productID={product.id} />
@@ -69,7 +67,7 @@ const CartOrderBox: FC<Props> = ({
 
       <DeliveryPrice
         deliveryPrice={deliveryPrice}
-        totalPriceFromProducts={calculateTotalPrice(products, cartProducts, 0)}
+        totalPriceFromProducts={calculateTotalPrice(cartProducts, 0)}
         className="mt-3"
       />
 

@@ -12,7 +12,7 @@ import {
 import { RequestData } from '../../decorators/requestData.decorator';
 
 import { UsersService } from './users.service';
-import Token from 'src/interfaces/token';
+import { Token } from 'src/interfaces/token';
 
 @Controller('users')
 export class UsersController {

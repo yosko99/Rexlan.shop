@@ -8,7 +8,7 @@ import { productSortingType } from '../../types/product.types';
 import lang from '../../resources/lang';
 import { PrismaService } from '../prisma/prisma.service';
 import { getProductIncludeQuery } from '../prisma/queries/product.queries';
-import Product from '../../interfaces/product';
+import { Product } from '../../interfaces/product';
 import getTranslation from '../../functions/getTranslation';
 
 @Injectable()
@@ -49,7 +49,7 @@ export class ProductsService {
     );
   }
 
-  private extractProductData(product: Product, lang: string) {
+  extractProductData(product: Product, lang: string): Product {
     const productTranslation = getTranslation(product.translations, lang);
     const categoryTranslation = getTranslation(
       product.category.translations,
@@ -256,7 +256,7 @@ export class ProductsService {
     };
   }
 
-  private async retrieveProduct(productId: string, currentLang: string) {
+  async retrieveProduct(productId: string, currentLang: string) {
     const product = (await this.prisma.product.findUnique({
       where: { id: productId },
       include: getProductIncludeQuery(),

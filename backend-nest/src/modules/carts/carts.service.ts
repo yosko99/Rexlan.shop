@@ -1,67 +1,70 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
-
-import { CartProductsType, ProductType } from '../../types/product.types';
-import { OrderType } from '../../types/order.types';
-import { UserType } from '../../types/user.types';
-import { CartType } from '../../types/cart.types';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { HttpException, Injectable } from '@nestjs/common';
 
 import lang from '../../resources/lang';
 import { PrismaService } from '../prisma/prisma.service';
+import { ProductsService } from '../products/products.service';
 
 @Injectable()
 export class CartsService {
   constructor(
-    @InjectModel('Cart')
-    private readonly cartModel: Model<CartType>,
-    @InjectModel('User')
-    private readonly userModel: Model<UserType>,
-    @InjectModel('Order')
-    private readonly orderModel: Model<OrderType>,
-    @InjectModel('Product')
-    private readonly productModel: Model<ProductType>,
     private readonly prisma: PrismaService,
+    private readonly productService: ProductsService,
   ) {}
 
-  async getCartProducts(cartID: string, currentLang: string) {
-    if (!mongoose.Types.ObjectId.isValid(cartID)) {
-      return {
-        err: lang[currentLang].controllers.cart.invalidCartID,
-      };
-    }
+  async getCartProducts(cartId: string, currentLang: string) {
+    const cart = await this.retrieveCart(cartId, currentLang);
 
-    const cart = await this.cartModel.findOne({ _id: cartID });
+    return {
+      products: cart.products.map((product) => {
+        return {
+          ...this.productService.extractProductData(
+            // @ts-ignore
+            product.product,
+            currentLang,
+          ),
+          quantity: product.quantity,
+        };
+      }),
+      defaultValues: { ...cart.user },
+    };
+  }
 
-    if (cart.products.length === 0) {
-      return {
-        err: lang[currentLang].controllers.cart.noItemsInCart,
-      };
-    }
-
-    // Cart is not linked to user (cart is anonymous)
-    if (!cart.isLinked) {
-      return {
-        products: cart.products,
-        defaultValues: null,
-      };
-    } else {
-      // Cart is linked to user
-      const userID = cart.userID;
-      const user = await this.userModel.findOne({ _id: userID });
-      const { phone, address, name, zipcode } = user;
-
-      // Send user details and cart items
-      return {
-        products: cart.products,
-        defaultValues: {
-          phone,
-          address,
-          name,
-          zipcode,
+  async retrieveCart(cartId: string, currentLang: string) {
+    const cart = await this.prisma.cart.findUnique({
+      where: { id: cartId },
+      include: {
+        user: {
+          select: {
+            phone: true,
+            address: true,
+            name: true,
+            zipcode: true,
+          },
         },
-      };
+        products: {
+          select: {
+            id: true,
+            quantity: true,
+            product: {
+              include: {
+                translations: true,
+                category: { include: { translations: true } },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (cart === null) {
+      throw new HttpException(
+        lang[currentLang].controllers.cart.invalidCartID,
+        404,
+      );
     }
+
+    return cart;
   }
 
   async addProductToCart(
@@ -70,114 +73,86 @@ export class CartsService {
     productQuantity: number,
     currentLang: string,
   ) {
-    return 'lol';
-    // productQuantity =
-    //   productQuantity !== undefined ? Number(productQuantity) : 1;
+    await this.productService.retrieveProduct(productId, currentLang);
 
-    // let currentCart =
-    //   cartId !== null
-    //     ? await this.prisma.cart.findUnique({
-    //         where: { id: cartId },
-    //         include: { products: true },
-    //       })
-    //     : null;
+    const qty = productQuantity !== undefined ? Number(productQuantity) : 1;
 
-    // if (productId === undefined) {
-    //   throw new NotFoundException(lang[currentLang].global.noProductID);
-    // }
-
-    // // Check if cart with provdided id exists
-    // // If a cart exists check if the product exists in the cart
-    // // Otherwise create new cart and assign the new prodcut
-
-    // if (currentCart !== null) {
-    //   // Check if item is already in cart
-    //   const product = currentCart.products.find(
-    //     (product) => product.id === productId,
-    //   );
-
-    //   // Already in cart (increment quantity)
-    //   if (product !== undefined) {
-    //     product.quantity += productQuantity;
-    //   } else {
-    //     // Add new item to cart
-    //     currentCart.products.push({
-    //       productId,
-    //       quantity: productQuantity,
-    //     });
-    //   }
-    //   currentCart.totalPrice = await this.calculateCartTotalPrice(
-    //     currentCart.products,
-    //   );
-    //   currentCart = await currentCart.save();
-
-    //   return {
-    //     cartID: currentCart._id,
-    //   };
-    // } else {
-    //   try {
-    //     const addedProduct = await this.productModel.findOne({ id: productId });
-
-    //     const newCart = new this.cartModel({
-    //       isLinked: false,
-    //       products: [
-    //         {
-    //           productID: productId,
-    //           productQuantity,
-    //         },
-    //       ],
-    //       totalPrice: addedProduct.price * productQuantity,
-    //     });
-
-    //     const savedCart = await newCart.save();
-
-    //     return {
-    //       cartID: savedCart._id,
-    //     };
-    //   } catch (error) {
-    //     throw new NotFoundException(error.message);
-    //   }
-    // }
-  }
-
-  async deleteProductFromCart(
-    cartID: string,
-    productID: string,
-    currentLang: string,
-  ) {
-    if (!mongoose.Types.ObjectId.isValid(cartID)) {
-      return new NotFoundException(
-        lang[currentLang].controllers.cart.invalidCartID,
-      );
+    if (cartId !== null) {
+      await this.addProductToUserCart(cartId, productId, qty, currentLang);
+      return {
+        cartId,
+      };
     }
 
-    const cart = await this.cartModel.findOne({ _id: cartID });
-
-    if (cart === null) {
-      return new NotFoundException(
-        lang[currentLang].controllers.cart.invalidCartID,
-      );
-    }
-
-    const productsWithRemovedProduct: CartProductsType[] = [];
-
-    cart.products.forEach((product) => {
-      if (product.productID === productID) {
-        // Decrement quantity
-        if (product.productQuantity > 1) {
-          product.productQuantity--;
-          productsWithRemovedProduct.push(product);
-        }
-      } else {
-        productsWithRemovedProduct.push(product);
-      }
+    // Create cart without user
+    const newCart = await this.prisma.cart.create({
+      data: {
+        products: {
+          create: [
+            {
+              quantity: qty,
+              product: {
+                connect: { id: productId },
+              },
+            },
+          ],
+        },
+      },
     });
 
-    cart.products = productsWithRemovedProduct;
+    return { cartId: newCart.id };
+  }
 
-    cart.totalPrice = await this.calculateCartTotalPrice(cart.products);
+  async addProductToUserCart(
+    cartId: string,
+    productId: string,
+    qty: number,
+    currentLang: string,
+  ) {
+    const cart = await this.retrieveCart(cartId, currentLang);
+    const cartProduct = cart.products.find(
+      (product) => product.product.id === productId,
+    );
 
-    await cart.save();
+    if (cartProduct) {
+      await this.prisma.cartProduct.update({
+        where: { id: cartProduct.id },
+        data: { quantity: qty + cartProduct.quantity },
+      });
+    } else {
+      await this.prisma.cart.update({
+        where: { id: cartId },
+        data: {
+          products: {
+            create: [
+              {
+                quantity: qty,
+                product: {
+                  connect: { id: productId },
+                },
+              },
+            ],
+          },
+        },
+      });
+    }
+  }
+
+  async removeProductFromCart(
+    cartId: string,
+    productId: string,
+    currentLang: string,
+  ) {
+    await this.productService.retrieveProduct(productId, currentLang);
+    const cart = await this.retrieveCart(cartId, currentLang);
+
+    const cartProduct = cart.products.find(
+      (product) => product.product.id === productId,
+    );
+
+    await this.prisma.cartProduct.delete({
+      where: { id: cartProduct.id },
+    });
 
     return {
       msg: `${lang[currentLang].global.product} ${lang[
@@ -186,73 +161,13 @@ export class CartsService {
     };
   }
 
-  async deleteCart(
-    currentCart: mongoose.Document<CartType> & CartType,
-    reassignCartToUser: 'true' | 'false',
-    currentLang: string,
-  ) {
-    const newCart = await this.reassignNewCartToUser(
-      reassignCartToUser,
-      currentCart.userID,
-    );
-
-    await this.updateOrderStatus(currentCart._id.toString());
-    await this.cartModel.deleteOne({ _id: currentCart._id });
+  async deleteCart(cartId: string, currentLang: string) {
+    await this.retrieveCart(cartId, currentLang);
+    await this.prisma.cart.delete({ where: { id: cartId } });
 
     return {
       msg: lang[currentLang].controllers.cart.cartDeleted,
-      cartID: newCart._id,
     };
-  }
-
-  private async reassignNewCartToUser(
-    reassignCartToUser: 'true' | 'false',
-    userID: string,
-  ) {
-    if (reassignCartToUser === 'true') {
-      const newCart = await new this.cartModel({
-        userID,
-        isLinked: true,
-      }).save();
-
-      await this.userModel.updateOne(
-        { _id: userID },
-        {
-          cartID: newCart._id,
-        },
-      );
-
-      return newCart;
-    } else {
-      return {
-        _id: null,
-      };
-    }
-  }
-
-  private async updateOrderStatus(cartID: string) {
-    const order = await this.orderModel.findOne({ cartID });
-
-    if (order !== null) {
-      order.orderStatus = 'Processing';
-      await order.save();
-    }
-  }
-
-  private async calculateCartTotalPrice(cartProducts: CartProductsType[]) {
-    const productPrices = await Promise.all(
-      cartProducts.map(async (product) => {
-        const { price } = await this.productModel.findOne({
-          id: product.productID,
-        });
-
-        return price * product.productQuantity;
-      }),
-    );
-
-    return productPrices.length !== 0
-      ? Number(productPrices.reduce((a, b) => a + b).toFixed(2))
-      : 0;
   }
 
   public async deleteCategoryProductsFromCarts(categoryId: string) {
@@ -261,7 +176,6 @@ export class CartsService {
         categoryId: categoryId,
       },
     });
-
     // Find carts containing any of the products
     const cartsToUpdate = await this.prisma.cart.findMany({
       where: {
@@ -274,7 +188,6 @@ export class CartsService {
         },
       },
     });
-
     // Update each cart to remove the products
     for (const cart of cartsToUpdate) {
       await this.prisma.cart.update({
@@ -288,35 +201,5 @@ export class CartsService {
         },
       });
     }
-  }
-
-  public async checkExistingCart(cartId: string) {
-    const doesCartExist =
-      cartId !== null
-        ? await this.prisma.cart.findUnique({ where: { id: cartId } })
-        : null;
-
-    return doesCartExist !== null;
-  }
-
-  public async createUserCart(
-    currentUser: mongoose.Document<unknown, any, UserType> &
-      UserType & {
-        _id: mongoose.Types.ObjectId;
-      },
-  ) {
-    // Create new cart for user
-    const newCart = new this.cartModel({
-      isLinked: true,
-      userID: currentUser._id,
-      totalPrice: 0,
-    });
-
-    const savedCart = await newCart.save();
-    currentUser.cartId = savedCart._id.toString();
-
-    await currentUser.save();
-
-    return savedCart._id.toString();
   }
 }

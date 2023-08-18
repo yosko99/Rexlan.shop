@@ -27,8 +27,8 @@ const AddToCart: FC<Props> = ({ product }) => {
     },
     {
       onSuccess: (data) => {
-        const cartID = data.data.cartID;
-        localStorage.setItem('cart', cartID);
+        const cartId = data.data.cartId;
+        localStorage.setItem('cart', cartId);
 
         queryClient.refetchQueries('cart');
       }

@@ -1,6 +1,4 @@
-interface Token {
+export interface Token {
   email: string;
   password: string;
 }
-
-export default Token;

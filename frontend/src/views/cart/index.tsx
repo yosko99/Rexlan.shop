@@ -14,15 +14,13 @@ const CartPage = () => {
   const { data, isLoading } = useFetch(
     ['cart', cartID],
     getCartProductsRoute(cartID),
-    true
+    cartID !== 'null'
   );
 
   if (isLoading) {
     return <Loading />;
   }
-
-  // No items in cart
-  if (data.err !== undefined) {
+  if (cartID === 'null' || data.products.length === 0) {
     return <EmptyCart />;
   }
 

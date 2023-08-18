@@ -16,21 +16,23 @@ const RemoveProduct: FC<Props> = ({ productID }) => {
   const queryClient = useQueryClient();
 
   const handleRemove = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    const productID = e.currentTarget.id;
+    const productId = e.currentTarget.id;
 
-    axios.put(getCartProductsRoute(), {
-      cartID: localStorage.getItem('cart'),
-      productID
-    }).then((_response) => {
-      queryClient.refetchQueries('cart');
-    });
+    axios
+      .put(getCartProductsRoute(), {
+        cartId: localStorage.getItem('cart'),
+        productId
+      })
+      .then((_response) => {
+        queryClient.refetchQueries('cart');
+      });
   };
 
   return (
     <small
-      role='button'
+      role="button"
       id={productID}
-      className='text-danger text-right'
+      className="text-danger text-right"
       onClick={(e) => handleRemove(e)}
     >
       {lang.cart.orderBox.removeProduct}

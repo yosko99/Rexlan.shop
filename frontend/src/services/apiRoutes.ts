@@ -56,16 +56,8 @@ export const getCartsRoute = (): string => {
   return CARTS_ROUTE + getLinkDefaultSuffixes();
 };
 
-export const getCartRoute = (
-  id: string,
-  reassignCartToUser: boolean
-): string => {
-  return (
-    CARTS_ROUTE +
-    id +
-    getLinkDefaultSuffixes() +
-    `&reassignCartToUser=${reassignCartToUser}`
-  );
+export const getCartRoute = (id: string): string => {
+  return CARTS_ROUTE + id + getLinkDefaultSuffixes();
 };
 
 export const getCartProductsRoute = (cartID?: string): string => {

@@ -6,8 +6,6 @@ import {
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { CheckExistingCartFromParamMiddleware } from '../../middleware/cart/checkExistingCartFromParam.middleware';
-import { CheckExistingCartFromBodyMiddleware } from '../../middleware/cart/checkExistingCartFromBody.middleware';
 import { CheckExistingOrderMiddleware } from '../../middleware/order/checkExistingOrder.middleware';
 import { InitOrderInfoMiddleware } from '../../middleware/order/initOrderInfo.middleware';
 
@@ -27,7 +25,6 @@ import { OrdersService } from './orders.service';
   ],
   controllers: [OrdersController],
   providers: [OrdersService],
-  exports: [OrdersService],
 })
 export class OrdersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
@@ -42,16 +39,14 @@ export class OrdersModule implements NestModule {
       },
     );
 
-    consumer.apply(CheckExistingCartFromParamMiddleware).forRoutes({
+    consumer.apply().forRoutes({
       path: '/orders/user/:cartID',
       method: RequestMethod.GET,
     });
 
-    consumer
-      .apply(CheckExistingCartFromBodyMiddleware, InitOrderInfoMiddleware)
-      .forRoutes({
-        path: '/orders',
-        method: RequestMethod.POST,
-      });
+    consumer.apply(InitOrderInfoMiddleware).forRoutes({
+      path: '/orders',
+      method: RequestMethod.POST,
+    });
   }
 }

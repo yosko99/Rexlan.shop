@@ -1,7 +1,7 @@
-import Cart from './cart';
-import Order from './order';
+import { Cart } from './cart';
+import { Order } from './order';
 
-interface User {
+export interface User {
   id: string;
   email: string;
   password: string;
@@ -16,5 +16,3 @@ interface User {
   cart?: Cart;
   cartId?: string;
 }
-
-export default User;

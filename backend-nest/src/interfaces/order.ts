@@ -1,7 +1,7 @@
-import Product from './product';
-import User from './user';
+import { Product } from './product';
+import { User } from './user';
 
-interface Order {
+export interface Order {
   id: string;
   user: User;
   userId: string;
@@ -13,5 +13,3 @@ interface Order {
   createdAt: Date;
   updatedAt: Date;
 }
-
-export default Order;

@@ -1,4 +1,4 @@
-import { CacheModule, Module } from '@nestjs/common';
+import { Module, CacheModule as NestCache } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import dotenv = require('dotenv');
 
@@ -9,6 +9,8 @@ import { ProductsModule } from './modules/products/products.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { CartsModule } from './modules/carts/carts.module';
 import { UsersModule } from './modules/users/users.module';
+import { CacheService } from './cache/cache.service';
+import { CacheModule } from './cache/cache.module';
 
 dotenv.config();
 
@@ -21,12 +23,12 @@ dotenv.config();
     CategoriesModule,
     DeliveriesModule,
     OpenWeatherModule,
+    CacheModule,
     MongooseModule.forRoot(process.env.MONGO_URI),
-    CacheModule.register({
+    NestCache.register({
       isGlobal: true,
     }),
   ],
-  controllers: [],
-  providers: [],
+  providers: [CacheService],
 })
 export class AppModule {}

@@ -1,6 +1,6 @@
-import Product from './product';
+import { Product } from './product';
 
-interface Category {
+export interface Category {
   id: string;
   title: string;
   bannerImage?: string;
@@ -8,12 +8,10 @@ interface Category {
   products: Product[];
 }
 
-interface CategoryTranslation {
+export interface CategoryTranslation {
   id: string;
   title: string;
   lang: string;
   category: Category;
   categoryId: string;
 }
-
-export default Category;

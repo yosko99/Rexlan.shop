@@ -1,4 +1,4 @@
-interface Delivery {
+export interface Delivery {
   id: string;
   title: string;
   initialPrice: number;
@@ -7,5 +7,3 @@ interface Delivery {
   createdAt: Date;
   updatedAt: Date;
 }
-
-export default Delivery;

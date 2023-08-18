@@ -6,9 +6,7 @@ import {
   Param,
   Post,
   Put,
-  Query,
 } from '@nestjs/common';
-import mongoose from 'mongoose';
 
 import { RequestData } from '../../decorators/requestData.decorator';
 
@@ -17,7 +15,7 @@ import { CartType } from '../../types/cart.types';
 import { CartsService } from './carts.service';
 
 @Controller('carts')
-export class CartsControler {
+export class CartsController {
   constructor(private readonly cartsService: CartsService) {}
 
   @Get('/:cartID')
@@ -49,28 +47,23 @@ export class CartsControler {
   }
 
   @Put('/products')
-  deleteProductFromCart(
-    @Body('cartID') cartID: string,
-    @Body('productID') productID: string,
+  removeProductFromCart(
+    @Body('cartId') cartId: string,
+    @Body('productId') productId: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.cartsService.deleteProductFromCart(
-      cartID,
-      productID,
+    return this.cartsService.removeProductFromCart(
+      cartId,
+      productId,
       currentLang,
     );
   }
 
   @Delete('/:cartID')
   deleteCart(
-    @RequestData('cart') currentCart: mongoose.Document<CartType> & CartType,
-    @Query('reassignCartToUser') reassignCartToUser: 'true' | 'false',
+    @Param('id') cartId: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.cartsService.deleteCart(
-      currentCart,
-      reassignCartToUser,
-      currentLang,
-    );
+    return this.cartsService.deleteCart(cartId, currentLang);
   }
 }

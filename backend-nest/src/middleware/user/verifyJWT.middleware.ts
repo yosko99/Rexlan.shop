@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
-import Token from 'src/interfaces/token';
+import { Token } from 'src/interfaces/token';
 
 type ExtendedRequest = Request & {
   userDataFromToken: Token;

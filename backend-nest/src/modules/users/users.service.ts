@@ -12,7 +12,7 @@ import { MailService } from '../../mail/mail.service';
 import { generateRandomChars } from '../../functions/generateRandomChars';
 
 import { passwordResetTemplate } from '../../mail/htmlTemplates/passwordReset.template';
-import Token from '../../interfaces/token';
+import { Token } from '../../interfaces/token';
 import { PrismaService } from '../prisma/prisma.service';
 import excludeObjectFields from '../../functions/excludeObjectFields';
 
@@ -87,7 +87,6 @@ export class UsersService {
     // Create new user from register page
     if (sendtokenback === 'true') {
       const token = this.generateToken(userDto.email, userDto.password);
-
       const cartId = await this.assignUserCart(newUser.id, userDto.cartId);
 
       return {
@@ -99,6 +98,9 @@ export class UsersService {
     }
 
     // Create new user from admin panel
+    await this.prisma.cart.create({
+      data: { user: { connect: { id: newUser.id } } },
+    });
     return {
       msg: lang[currentLang].controllers.user.userCreated,
       user: newUser,
@@ -108,7 +110,7 @@ export class UsersService {
   private async assignUserCart(userId: string, cartId?: string) {
     if (cartId === undefined || cartId === null) {
       const cart = await this.prisma.cart.create({
-        data: { user: { connect: { id: userId } }, userId },
+        data: { user: { connect: { id: userId } } },
       });
       return cart.id;
     }
@@ -236,11 +238,12 @@ export class UsersService {
 
     if (doesPasswordMatch) {
       const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET_KEY);
+      const userCartId = await this.connectCartToUser(user.cartId, user.id);
 
       return {
         msg: lang[currentLang].controllers.user.loggedIn,
         token,
-        cartId: user.cartId,
+        cartId: userCartId,
       };
     }
 
@@ -248,6 +251,25 @@ export class UsersService {
       lang[currentLang].controllers.user.passwordMismatch,
       403,
     );
+  }
+
+  private async connectCartToUser(cartId: string, userId: string) {
+    let userCartId = cartId;
+
+    if (userCartId === null) {
+      const cart = await this.prisma.cart.findUnique({
+        where: { userId: userId },
+        select: { id: true },
+      });
+
+      await this.prisma.user.update({
+        where: { id: userId },
+        data: { cart: { connect: { id: cart.id } } },
+      });
+      userCartId = cart.id;
+    }
+
+    return userCartId;
   }
 
   async getCurrentUser({ email }: Token) {
