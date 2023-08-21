@@ -36,9 +36,4 @@ export interface Rating {
   productId: string;
 }
 
-export type ProductSortAttributes =
-  | 'title'
-  | 'price'
-  | 'description'
-  | 'category'
-  | 'rating';
+export type ProductSortAttributes = 'createdAt' | 'updatedAt' | 'price';

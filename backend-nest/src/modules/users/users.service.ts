@@ -133,7 +133,7 @@ export class UsersService {
     return token;
   }
 
-  private async retrieveUserById(userId: string) {
+  async retrieveUserById(userId: string) {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
 
     if (user === null) {
@@ -143,7 +143,7 @@ export class UsersService {
     return excludeObjectFields(user, ['password']) as unknown as User;
   }
 
-  private async retrieveUserByEmail(email: string) {
+  async retrieveUserByEmail(email: string) {
     const user = await this.prisma.user.findUnique({ where: { email } });
 
     if (user === null) {

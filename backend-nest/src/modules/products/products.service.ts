@@ -8,12 +8,16 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { getProductIncludeQuery } from '../../prisma/queries/product.queries';
 import { Product, ProductSortAttributes } from '../../interfaces/product';
 import getTranslation from '../../functions/getTranslation';
+import { CreateProductDto, UpdateProductDto } from 'src/dto/product.dto';
+import { UsersService } from '../users/users.service';
+import { Token } from 'src/interfaces/token';
 
 @Injectable()
 export class ProductsService {
   constructor(
     private readonly cacheService: CacheService,
     private readonly prisma: PrismaService,
+    private readonly userService: UsersService,
   ) {}
 
   async getProducts(qty: string, currentLang: string) {
@@ -143,13 +147,13 @@ export class ProductsService {
   }
 
   async createProduct(
-    title: string,
-    price: number,
-    description: string,
-    category: string,
-    image: string,
+    { category, description, image, price, title }: CreateProductDto,
+    { email }: Token,
     currentLang: string,
   ) {
+    const user = await this.userService.retrieveUserByEmail(email);
+    await this.userService.isAdmin(user);
+
     const selectedCategory = await this.prisma.category.findFirst({
       where: { translations: { some: { title: category } } },
     });
@@ -181,7 +185,14 @@ export class ProductsService {
     };
   }
 
-  async deleteProduct(productId: string, currentLang: string) {
+  async deleteProduct(
+    productId: string,
+    { email }: Token,
+    currentLang: string,
+  ) {
+    const user = await this.userService.retrieveUserByEmail(email);
+    await this.userService.isAdmin(user);
+
     await this.retrieveProduct(productId, currentLang);
     await this.prisma.product.delete({ where: { id: productId } });
     await this.cacheService.flushCache();
@@ -192,14 +203,14 @@ export class ProductsService {
   }
 
   async updateProduct(
+    { category, description, image, price, title }: UpdateProductDto,
     productId: string,
-    title: string,
-    price: number,
-    description: string,
-    category: string,
-    image: string,
+    { email }: Token,
     currentLang: string,
   ) {
+    const user = await this.userService.retrieveUserByEmail(email);
+    await this.userService.isAdmin(user);
+
     const product = await this.retrieveProduct(productId, currentLang);
 
     const productTranslationIndex = product.translations.findIndex(

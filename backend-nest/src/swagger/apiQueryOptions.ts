@@ -9,3 +9,10 @@ export const currentLangQuery = {
   required: false,
   description: 'Selected language',
 };
+
+export const quantityQuery = {
+  type: Number,
+  name: 'qty',
+  description: 'Number of products',
+  required: false,
+};
