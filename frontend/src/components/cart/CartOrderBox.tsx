@@ -57,7 +57,7 @@ const CartOrderBox: FC<Props> = ({
                 ${product.price} x {cartProducts[index].quantity}
               </p>
               <div className="d-flex justify-content-end">
-                <RemoveProduct productID={product.id} />
+                <RemoveProduct productId={product.id} />
               </div>
             </Col>
             <hr className="my-2" />

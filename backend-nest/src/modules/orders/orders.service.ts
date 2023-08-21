@@ -4,16 +4,18 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import lang from '../../resources/lang';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Token } from 'src/interfaces/token';
-import { OrderDto } from 'src/dto/order.dto';
+import { CreateOrderDto } from 'src/dto/order.dto';
 import calculateTotalProductsPrice from 'src/functions/calculateTotalProductsPrice';
 import excludeObjectFields from 'src/functions/excludeObjectFields';
 import { ProductsService } from '../products/products.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class OrdersService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly productsService: ProductsService,
+    private readonly userService: UsersService,
   ) {}
 
   async getOrder(orderId: string, currentLang: string) {
@@ -58,7 +60,10 @@ export class OrdersService {
     return order;
   }
 
-  async deleteOrder(orderId: string, currentLang: string) {
+  async deleteOrder(orderId: string, { email }: Token, currentLang: string) {
+    const user = await this.userService.retrieveUserByEmail(email);
+    await this.userService.isAdmin(user);
+
     await this.retrieveOrder(orderId);
     await this.prisma.order.delete({ where: { id: orderId } });
 
@@ -77,7 +82,7 @@ export class OrdersService {
       phone,
       products,
       zipcode,
-    }: OrderDto,
+    }: CreateOrderDto,
     { email }: Token,
   ) {
     const productsPrice = calculateTotalProductsPrice(products);

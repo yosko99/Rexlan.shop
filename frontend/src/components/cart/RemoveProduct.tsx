@@ -4,13 +4,13 @@ import axios from 'axios';
 import { useQueryClient } from 'react-query';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
-import { getCartProductsRoute } from '../../services/apiRoutes';
+import { getCartProductRoute } from '../../services/apiRoutes';
 
 interface Props {
-  productID: string;
+  productId: string;
 }
 
-const RemoveProduct: FC<Props> = ({ productID }) => {
+const RemoveProduct: FC<Props> = ({ productId }) => {
   const { lang } = useContext(CurrentLanguageContext);
 
   const queryClient = useQueryClient();
@@ -19,10 +19,9 @@ const RemoveProduct: FC<Props> = ({ productID }) => {
     const productId = e.currentTarget.id;
 
     axios
-      .put(getCartProductsRoute(), {
-        cartId: localStorage.getItem('cart'),
-        productId
-      })
+      .delete(
+        getCartProductRoute(localStorage.getItem('cart') as string, productId)
+      )
       .then((_response) => {
         queryClient.refetchQueries('cart');
       });
@@ -31,7 +30,7 @@ const RemoveProduct: FC<Props> = ({ productID }) => {
   return (
     <small
       role="button"
-      id={productID}
+      id={productId}
       className="text-danger text-right"
       onClick={(e) => handleRemove(e)}
     >

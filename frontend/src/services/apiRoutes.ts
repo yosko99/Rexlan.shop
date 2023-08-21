@@ -60,12 +60,21 @@ export const getCartRoute = (id: string): string => {
   return CARTS_ROUTE + id + getLinkDefaultSuffixes();
 };
 
-export const getCartProductsRoute = (cartID?: string): string => {
-  if (cartID !== undefined) {
-    return CARTS_ROUTE + 'products' + `/${cartID}` + getLinkDefaultSuffixes();
-  } else {
-    return CARTS_ROUTE + 'products' + getLinkDefaultSuffixes();
-  }
+export const getCartProductsRoute = (cartId: string): string => {
+  return CARTS_ROUTE + `${cartId}` + '/products' + getLinkDefaultSuffixes();
+};
+
+export const getCartProductRoute = (
+  cartId: string,
+  productId: string
+): string => {
+  return (
+    CARTS_ROUTE +
+    `${cartId}` +
+    '/products' +
+    `/${productId}` +
+    getLinkDefaultSuffixes()
+  );
 };
 
 // Category routes

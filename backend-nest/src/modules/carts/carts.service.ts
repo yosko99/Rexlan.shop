@@ -4,11 +4,15 @@ import { HttpException, Injectable } from '@nestjs/common';
 import lang from '../../resources/lang';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ProductsService } from '../products/products.service';
+import { AddCartProductDto } from 'src/dto/cart.dto';
+import { UsersService } from '../users/users.service';
+import { Token } from 'src/interfaces/token';
 
 @Injectable()
 export class CartsService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly userService: UsersService,
     private readonly productService: ProductsService,
   ) {}
 
@@ -68,16 +72,15 @@ export class CartsService {
   }
 
   async addProductToCart(
-    productId: string,
     cartId: string,
-    productQuantity: number,
+    { productId, productQuantity }: AddCartProductDto,
     currentLang: string,
   ) {
     await this.productService.retrieveProduct(productId, currentLang);
 
     const qty = productQuantity !== undefined ? Number(productQuantity) : 1;
 
-    if (cartId !== null) {
+    if (cartId !== null && cartId !== 'null') {
       await this.addProductToUserCart(cartId, productId, qty, currentLang);
       return {
         cartId,
@@ -161,7 +164,10 @@ export class CartsService {
     };
   }
 
-  async deleteCart(cartId: string, currentLang: string) {
+  async deleteCart(cartId: string, { email }: Token, currentLang: string) {
+    const user = await this.userService.retrieveUserByEmail(email);
+    await this.userService.isAdmin(user);
+
     await this.retrieveCart(cartId, currentLang);
     await this.prisma.cart.delete({ where: { id: cartId } });
 

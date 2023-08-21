@@ -1,4 +1,4 @@
-# Online store
+# Online store (under development, again)
 
 This project is using MERN stack (Mongoose react, Express, React, Node).<br/>
 This project is for exercise purpose 🧾.

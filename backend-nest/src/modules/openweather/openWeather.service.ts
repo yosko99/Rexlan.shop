@@ -9,11 +9,11 @@ export class OpenWeatherService {
 
   async getCurrentCity(lon: string, lat: string, currentLang: string) {
     if (process.env.OPENWEATHER_API_KEY === undefined) {
-      return new NotFoundException(lang[currentLang].global.apiKeyNotProvided);
+      throw new NotFoundException(lang[currentLang].global.apiKeyNotProvided);
     }
 
     if (lon === undefined || lat === undefined) {
-      return new NotFoundException(
+      throw new NotFoundException(
         lang[currentLang].controllers.openWeather.coordinatesNotProvided,
       );
     }
@@ -27,7 +27,7 @@ export class OpenWeatherService {
         )
         .toPromise();
     } catch (error) {
-      return new HttpException(
+      throw new HttpException(
         lang[currentLang].controllers.openWeather.invalidCoordinates,
         400,
       );

@@ -3,14 +3,13 @@ import React, { FC, useState } from 'react';
 import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 
-import { getCartsRoute } from '../../services/apiRoutes';
+import { getCartProductsRoute } from '../../services/apiRoutes';
 import { Product } from '../../types/productTypes';
 import AddedToCartModal from '../modal/AddedToCartModal';
 
 interface MutateData {
   productId: String;
   productQuantity: number;
-  cartId: String | null;
 }
 
 interface Props {
@@ -23,7 +22,10 @@ const AddToCart: FC<Props> = ({ product }) => {
 
   const mutation = useMutation(
     (data) => {
-      return axios.post(getCartsRoute(), data);
+      return axios.post(
+        getCartProductsRoute(localStorage.getItem('cart') as string),
+        data
+      );
     },
     {
       onSuccess: (data) => {
@@ -37,18 +39,9 @@ const AddToCart: FC<Props> = ({ product }) => {
 
   // Check if there is cart ID in local storage and update cart
   const handleClick = () => {
-    const localStorageCart = localStorage.getItem('cart');
-
-    let cartId: String | null = null;
-
-    if (localStorageCart !== null) {
-      cartId = localStorageCart;
-    }
-
     const mutateData: MutateData = {
       productId: product.id,
-      productQuantity,
-      cartId: cartId
+      productQuantity
     };
 
     mutation.mutate(mutateData as any);

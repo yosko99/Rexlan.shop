@@ -117,7 +117,7 @@ export class ProductsController {
   @ApiResponse(invalidTokenResponse)
   @ApiResponse(missingFieldsResponse)
   @ApiResponse(noTokenAndNoAdminResponse)
-  @ApiResponse({ status: 201, description: 'Product created created' })
+  @ApiResponse({ status: 201, description: 'Product created' })
   @ApiResponse({ status: 404, description: 'Selected category not found' })
   @ApiResponse({ status: 404, description: 'User not found' })
   createProduct(
