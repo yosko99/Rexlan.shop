@@ -1,5 +1,7 @@
 # Online store (under development, again)
 
+## ⚠️ The instructions are currently outdated! They will be updated after some changes on the project.
+
 This project is using MERN stack (Mongoose react, Express, React, Node).<br/>
 This project is for exercise purpose 🧾.
 
