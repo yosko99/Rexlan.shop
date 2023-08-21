@@ -3,7 +3,7 @@ import { Seeder } from 'nestjs-seeder';
 import categoryData from 'src/data/categories';
 import getProductsData from 'src/data/getProductsData';
 
-import { PrismaService } from 'src/modules/prisma/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class ProductsAndCategoriesSeeder implements Seeder {

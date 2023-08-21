@@ -1,4 +1,4 @@
-interface EmailMessageType {
+interface EmailMessage {
   from?: string;
   to: string | string[];
   subject: string;

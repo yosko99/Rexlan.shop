@@ -22,7 +22,7 @@ export class MailService {
     });
   }
 
-  private initEmailMessage({ to, subject, text, html }: EmailMessageType) {
+  private initEmailMessage({ to, subject, text, html }: EmailMessage) {
     return {
       from: process.env.SENDER_EMAIL,
       to,
@@ -33,7 +33,7 @@ export class MailService {
   }
 
   public async sendEmailMessage(
-    emailInformation: EmailMessageType,
+    emailInformation: EmailMessage,
     currentLang: string,
   ) {
     if (process.env.SENDER_EMAIL !== undefined) {

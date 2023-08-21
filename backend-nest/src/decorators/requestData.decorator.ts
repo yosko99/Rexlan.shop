@@ -1,9 +1,9 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-import { DataInRequestType } from '../types/request.types';
+export type MiddlewareData = 'currentLang' | 'userDataFromToken';
 
 export const RequestData = createParamDecorator(
-  (data: DataInRequestType, ctx: ExecutionContext) => {
+  (data: MiddlewareData, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
     return request[data];
   },

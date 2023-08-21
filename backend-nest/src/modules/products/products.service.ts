@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 
-import { CacheService } from '../../cache/cache.service';
-
-import { productSortingType } from '../../types/product.types';
+import { CacheService } from '../cache/cache.service';
 
 import lang from '../../resources/lang';
-import { PrismaService } from '../prisma/prisma.service';
-import { getProductIncludeQuery } from '../prisma/queries/product.queries';
-import { Product } from '../../interfaces/product';
+import { PrismaService } from '../../prisma/prisma.service';
+import { getProductIncludeQuery } from '../../prisma/queries/product.queries';
+import { Product, ProductSortAttributes } from '../../interfaces/product';
 import getTranslation from '../../functions/getTranslation';
 
 @Injectable()
@@ -100,7 +98,7 @@ export class ProductsService {
 
   async getProductsSortedByAttribute(
     qty: string,
-    productAttribute: productSortingType,
+    productAttribute: ProductSortAttributes,
     currentLang: string,
   ) {
     const productQuantity = this.getQueryQty(qty);

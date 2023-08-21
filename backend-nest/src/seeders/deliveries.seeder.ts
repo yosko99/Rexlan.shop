@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Seeder } from 'nestjs-seeder';
 import deliveriesData from 'src/data/deliveries';
 
-import { PrismaService } from 'src/modules/prisma/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class DeliveriesSeeder implements Seeder {

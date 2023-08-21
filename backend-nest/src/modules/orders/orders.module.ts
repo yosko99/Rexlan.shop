@@ -8,8 +8,8 @@ import {
 import { OrdersController } from './orders.controller';
 
 import { OrdersService } from './orders.service';
-import { PrismaService } from '../prisma/prisma.service';
-import { VerifyJWTMiddleware } from 'src/middleware/user/verifyJWT.middleware';
+import { PrismaService } from '../../prisma/prisma.service';
+import { VerifyJWTMiddleware } from 'src/middleware/utils/verifyJWT.middleware';
 import { ProductsService } from '../products/products.service';
 
 @Module({

@@ -5,13 +5,13 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 
-import { VerifyJWTMiddleware } from '../../middleware/user/verifyJWT.middleware';
+import { VerifyJWTMiddleware } from '../../middleware/utils/verifyJWT.middleware';
 
 import { UsersController } from './users.controller';
 
 import { MailService } from '../../mail/mail.service';
 import { UsersService } from './users.service';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Module({
   controllers: [UsersController],

@@ -2,7 +2,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import lang from '../../resources/lang';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { Token } from 'src/interfaces/token';
 import { OrderDto } from 'src/dto/order.dto';
 import calculateTotalProductsPrice from 'src/functions/calculateTotalProductsPrice';

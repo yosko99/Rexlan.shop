@@ -4,7 +4,7 @@ import { CategoriesController } from './categories.controller';
 
 import { CategoriesService } from '../categories/categories.service';
 
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { CartsService } from '../carts/carts.service';
 import { ProductsService } from '../products/products.service';
 

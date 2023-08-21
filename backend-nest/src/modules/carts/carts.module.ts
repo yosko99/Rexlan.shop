@@ -1,12 +1,7 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
 import { CartsController } from './carts.controller';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { CartsService } from './carts.service';
 import { ProductsService } from '../products/products.service';
 
@@ -16,9 +11,6 @@ import { ProductsService } from '../products/products.service';
 })
 export class CartsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply().forRoutes({
-      path: '/carts/:cartID',
-      method: RequestMethod.GET,
-    });
+    consumer.apply();
   }
 }

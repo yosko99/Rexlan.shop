@@ -1,6 +1,6 @@
-import { MultilanguageFieldType } from 'src/types/multilanguageField.types';
+import { MultilingualFields } from 'src/interfaces/multilingualFields';
 
-const lang: MultilanguageFieldType = {
+const lang: MultilingualFields = {
   en: {
     global: {
       noProductID: 'No product ID provided',

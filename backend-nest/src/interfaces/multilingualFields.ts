@@ -1,4 +1,4 @@
-export interface MultilanguageFieldType {
+export interface MultilingualFields {
   [key: string]: {
     global: {
       noProductID: string;

@@ -11,9 +11,8 @@ import {
 
 import { ProductsService } from './products.service';
 
-import { productSortingType } from '../../types/product.types';
-
 import { RequestData } from '../../decorators/requestData.decorator';
+import { ProductSortAttributes } from 'src/interfaces/product';
 
 @Controller('products')
 export class ProductsController {
@@ -50,7 +49,7 @@ export class ProductsController {
 
   @Get('/sort/:attribute')
   getProductsSortedByAttribute(
-    @Param('attribute') productAttribute: productSortingType,
+    @Param('attribute') productAttribute: ProductSortAttributes,
     @RequestData('currentLang') currentLang: string,
     @Query('qty') qty: string,
   ) {

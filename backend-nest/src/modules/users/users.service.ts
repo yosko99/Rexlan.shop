@@ -13,7 +13,7 @@ import { generateRandomChars } from '../../functions/generateRandomChars';
 
 import { passwordResetTemplate } from '../../mail/htmlTemplates/passwordReset.template';
 import { Token } from '../../interfaces/token';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import excludeObjectFields from '../../functions/excludeObjectFields';
 
 @Injectable()

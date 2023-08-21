@@ -10,25 +10,18 @@ import {
 
 import { RequestData } from '../../decorators/requestData.decorator';
 
-import { CartType } from '../../types/cart.types';
-
 import { CartsService } from './carts.service';
 
 @Controller('carts')
 export class CartsController {
   constructor(private readonly cartsService: CartsService) {}
 
-  @Get('/:cartID')
-  getCart(@RequestData('cart') cart: CartType) {
-    return cart;
-  }
-
-  @Get('/products/:cartID')
+  @Get('/products/:cartId')
   getCartProducts(
-    @Param('cartID') cartID: string,
+    @Param('cartId') cartId: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.cartsService.getCartProducts(cartID, currentLang);
+    return this.cartsService.getCartProducts(cartId, currentLang);
   }
 
   @Post()

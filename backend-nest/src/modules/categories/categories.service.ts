@@ -1,12 +1,12 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 
-import { CacheService } from '../../cache/cache.service';
+import { CacheService } from '../cache/cache.service';
 import { CartsService } from '../carts/carts.service';
 
 import lang from '../../resources/lang';
 import { Category } from '../../interfaces/category';
 import getTranslation from '../../functions/getTranslation';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class CategoriesService {
