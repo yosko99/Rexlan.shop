@@ -5,21 +5,13 @@ import { CategoriesController } from './categories.controller';
 import { CategoriesService } from '../categories/categories.service';
 
 import { PrismaService } from '../../prisma/prisma.service';
-import { CartsService } from '../carts/carts.service';
-import { ProductsService } from '../products/products.service';
-import { UsersService } from '../users/users.service';
-import { MailService } from 'src/mail/mail.service';
+import { CartsModule } from '../carts/carts.module';
 
 @Module({
+  imports: [CartsModule],
   controllers: [CategoriesController],
-  providers: [
-    CategoriesService,
-    PrismaService,
-    CartsService,
-    ProductsService,
-    UsersService,
-    MailService,
-  ],
+  providers: [CategoriesService, PrismaService],
+  exports: [CategoriesService],
 })
 export class CategoriesModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

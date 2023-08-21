@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { Seeder } from 'nestjs-seeder';
 import categoryData from 'src/data/categories';
 import getProductsData from 'src/data/getProductsData';
-
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()

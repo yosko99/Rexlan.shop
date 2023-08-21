@@ -11,23 +11,26 @@ import { UsersModule } from './modules/users/users.module';
 import { CacheService } from './modules/cache/cache.service';
 import { CacheModule } from './modules/cache/cache.module';
 import { GlobalExceptionFilter } from './filters/globalException.filter';
+import { MailModule } from './modules/mail/mail.module';
+import { PrismaService } from './prisma/prisma.service';
 
 dotenv.config();
 
 @Module({
   imports: [
+    MailModule,
     UsersModule,
+    CacheModule,
     CartsModule,
     OrdersModule,
     ProductsModule,
     CategoriesModule,
     DeliveriesModule,
     OpenWeatherModule,
-    CacheModule,
     NestCache.register({
       isGlobal: true,
     }),
   ],
-  providers: [CacheService, GlobalExceptionFilter],
+  providers: [CacheService, GlobalExceptionFilter, PrismaService],
 })
 export class AppModule {}

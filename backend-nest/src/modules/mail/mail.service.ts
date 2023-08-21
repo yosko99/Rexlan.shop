@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 
-import lang from '../resources/lang';
+import lang from '../../resources/lang';
 
 import dotenv = require('dotenv');
 dotenv.config();

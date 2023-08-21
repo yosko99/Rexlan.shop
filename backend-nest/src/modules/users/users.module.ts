@@ -9,13 +9,13 @@ import { VerifyJWTMiddleware } from '../../middleware/utils/verifyJWT.middleware
 
 import { UsersController } from './users.controller';
 
-import { MailService } from '../../mail/mail.service';
 import { UsersService } from './users.service';
 import { PrismaService } from '../../prisma/prisma.service';
 
 @Module({
   controllers: [UsersController],
-  providers: [UsersService, MailService, PrismaService],
+  providers: [UsersService, PrismaService],
+  exports: [UsersService],
 })
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -146,16 +146,9 @@ export class ProductsService {
     return this.getCachedProducts(products, cacheKey, currentLang);
   }
 
-  async createProduct(
-    { category, description, image, price, title }: CreateProductDto,
-    { email }: Token,
-    currentLang: string,
-  ) {
-    const user = await this.userService.retrieveUserByEmail(email);
-    await this.userService.isAdmin(user);
-
+  private async doesCategoryExist(title: string) {
     const selectedCategory = await this.prisma.category.findFirst({
-      where: { translations: { some: { title: category } } },
+      where: { translations: { some: { title } } },
     });
 
     if (selectedCategory === null) {
@@ -164,6 +157,19 @@ export class ProductsService {
         404,
       );
     }
+
+    return selectedCategory;
+  }
+
+  async createProduct(
+    { category, description, image, price, title }: CreateProductDto,
+    { email }: Token,
+    currentLang: string,
+  ) {
+    const user = await this.userService.retrieveUserByEmail(email);
+    await this.userService.isAdmin(user);
+
+    const selectedCategory = await this.doesCategoryExist(category);
 
     const newProduct = await this.prisma.product.create({
       data: {
@@ -212,14 +218,11 @@ export class ProductsService {
     await this.userService.isAdmin(user);
 
     const product = await this.retrieveProduct(productId, currentLang);
+    const selectedCategory = await this.doesCategoryExist(category);
 
     const productTranslationIndex = product.translations.findIndex(
       (translation) => translation.lang === currentLang,
     );
-
-    const selectedCategory = await this.prisma.category.findFirst({
-      where: { translations: { some: { title: category } } },
-    });
 
     // Does not exist translation
     if (productTranslationIndex === -1) {

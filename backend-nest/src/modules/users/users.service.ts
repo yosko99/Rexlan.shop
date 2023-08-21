@@ -5,9 +5,9 @@ import * as bcrypt from 'bcryptjs';
 
 import lang from '../../resources/lang';
 
-import { MailService } from '../../mail/mail.service';
+import { MailService } from '../mail/mail.service';
 
-import { passwordResetTemplate } from '../../mail/htmlTemplates/passwordReset.template';
+import { passwordResetTemplate } from '../mail/htmlTemplates/passwordReset.template';
 import { Token } from '../../interfaces/token';
 import { PrismaService } from '../../prisma/prisma.service';
 import excludeObjectFields from '../../functions/excludeObjectFields';

@@ -11,7 +11,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 @Injectable()
 export class CategoriesService {
   constructor(
-    private readonly redisService: CacheService,
+    private readonly cacheService: CacheService,
     private readonly cartsService: CartsService,
     private readonly prisma: PrismaService,
   ) {}
@@ -37,7 +37,7 @@ export class CategoriesService {
   }
 
   async getCategory(categoryId: string, currentLang: string) {
-    const category = await this.retrieveCategory(categoryId, currentLang);
+    const category = await this.retrieveCategoryById(categoryId, currentLang);
 
     return {
       title: this.extractCategoryData(category, currentLang),
@@ -46,7 +46,7 @@ export class CategoriesService {
     };
   }
 
-  private async retrieveCategory(categoryId: string, currentLang: string) {
+  private async retrieveCategoryById(categoryId: string, currentLang: string) {
     const category = (await this.prisma.category.findUnique({
       where: { id: categoryId },
       include: {
@@ -92,7 +92,7 @@ export class CategoriesService {
       },
     });
 
-    await this.redisService.flushCache();
+    await this.cacheService.flushCache();
 
     return {
       msg: lang[currentLang].controllers.category.categoryCreated,
@@ -106,7 +106,7 @@ export class CategoriesService {
     bannerImage: string,
     currentLang: string,
   ) {
-    const category = await this.retrieveCategory(categoryId, currentLang);
+    const category = await this.retrieveCategoryById(categoryId, currentLang);
 
     const categoryTranslationIndex = category.translations.findIndex(
       (translation) => translation.lang === currentLang,
@@ -146,7 +146,7 @@ export class CategoriesService {
       });
     }
 
-    await this.redisService.flushCache();
+    await this.cacheService.flushCache();
 
     return {
       msg: lang[currentLang].controllers.category.categoryUpdated,
@@ -154,14 +154,14 @@ export class CategoriesService {
   }
 
   async deleteCategory(categoryId: string, currentLang: string) {
-    await this.retrieveCategory(categoryId, currentLang);
+    await this.retrieveCategoryById(categoryId, currentLang);
     await this.cartsService.deleteCategoryProductsFromCarts(categoryId);
     await this.prisma.$transaction([
       this.prisma.product.deleteMany({ where: { categoryId } }),
       this.prisma.category.delete({ where: { id: categoryId } }),
     ]);
 
-    await this.redisService.flushCache();
+    await this.cacheService.flushCache();
 
     return {
       msg: `${lang[currentLang].global.category} ${lang[
