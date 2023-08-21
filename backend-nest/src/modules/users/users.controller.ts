@@ -4,21 +4,52 @@ import {
   Delete,
   Get,
   Headers,
+  HttpCode,
   Param,
   Post,
   Put,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 
 import { RequestData } from '../../decorators/requestData.decorator';
 
 import { UsersService } from './users.service';
 import { Token } from 'src/interfaces/token';
+import {
+  ApiHeader,
+  ApiOperation,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import {
+  CreateUserDto,
+  LoginUserDto,
+  UpdateCurrentUserDto,
+  UpdateCurrentUserPassword,
+  UpdateUserDto,
+} from 'src/dto/user.dto';
+import { currentLangQuery } from 'src/swagger/apiQueryOptions';
+import {
+  invalidTokenResponse,
+  missingFieldsResponse,
+  noTokenAndNoAdminResponse,
+  noTokenResponse,
+  passwordMismatchResponse,
+} from 'src/swagger/apiResponseOptions';
 
 @Controller('users')
+@ApiTags('Users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
+  @ApiHeader({ name: 'Authorization', required: true })
+  @ApiOperation({ summary: 'Fetch all users' })
+  @ApiResponse(invalidTokenResponse)
+  @ApiResponse(noTokenAndNoAdminResponse)
+  @ApiResponse({ status: 200, description: 'Users fetched' })
   getUsers(
     @RequestData('userDataFromToken')
     userDataFromToken: Token,
@@ -27,6 +58,11 @@ export class UsersController {
   }
 
   @Get('/current/orders')
+  @ApiHeader({ name: 'Authorization', required: true })
+  @ApiOperation({ summary: 'Fetch current user orders' })
+  @ApiResponse(noTokenResponse)
+  @ApiResponse(invalidTokenResponse)
+  @ApiResponse({ status: 200, description: 'User orders fetched' })
   getCurrentUserOrders(
     @RequestData('userDataFromToken')
     userDataFromToken: Token,
@@ -35,114 +71,131 @@ export class UsersController {
   }
 
   @Post()
+  @UsePipes(ValidationPipe)
+  @ApiHeader({ name: 'sendtokenback', required: false })
+  @ApiOperation({ summary: 'Create new user' })
+  @ApiQuery(currentLangQuery)
+  @ApiResponse(missingFieldsResponse)
+  @ApiResponse({ status: 201, description: 'User created' })
+  @ApiResponse({ status: 403, description: 'User with email already exists' })
   createUser(
     @Headers() headers: { sendtokenback: 'true' | 'false' },
-    @Body('email') email: string,
-    @Body('name') name: string,
-    @Body('password') password: string,
-    @Body('address') address: string,
-    @Body('phone') phone: string,
-    @Body('isAdmin') isAdmin: boolean,
-    @Body('cartId') cartId: string,
+    @Body() createUserDto: CreateUserDto,
     @RequestData('currentLang') currentLang: string,
   ) {
     return this.usersService.createUser(
-      { email, name, password, address, phone, cartId, isAdmin },
+      createUserDto,
       headers.sendtokenback,
       currentLang,
     );
   }
 
   @Delete('/:id')
+  @ApiOperation({ summary: 'Delete user by id' })
+  @ApiHeader({ name: 'Authorization', required: true })
+  @ApiResponse(invalidTokenResponse)
+  @ApiResponse(noTokenAndNoAdminResponse)
+  @ApiResponse({ status: 200, description: 'User deleted' })
   deleteUser(
     @Param('id') userId: string,
+    @RequestData('userDataFromToken')
+    userDataFromToken: Token,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.usersService.deleteUser(userId, currentLang);
+    return this.usersService.deleteUser(userId, userDataFromToken, currentLang);
   }
 
   @Get('/user/:id')
+  @ApiOperation({ summary: 'Get user by id' })
+  @ApiResponse({ status: 200, description: 'User fetched' })
+  @ApiResponse({ status: 404, description: 'User not found' })
   getUser(@Param('id') userId: string) {
     return this.usersService.getUser(userId);
   }
 
   @Put('/user/:id')
+  @UsePipes(ValidationPipe)
+  @ApiOperation({ summary: 'Update user by id' })
+  @ApiQuery(currentLangQuery)
+  @ApiResponse(missingFieldsResponse)
+  @ApiResponse({ status: 200, description: 'User updated' })
   updateUser(
-    @Body('email') email: string,
-    @Body('name') name: string,
-    @Body('phone') phone: string,
-    @Body('address') address: string,
-    @Body('zipcode') zipcode: string,
-    @Body('isAdmin') isAdmin: boolean,
+    @Body() updateUserDto: UpdateUserDto,
     @RequestData('currentLang') currentLang: string,
     @Param('id') userId: string,
   ) {
-    return this.usersService.updateUser(
-      userId,
-      {
-        email,
-        name,
-        phone,
-        address,
-        zipcode,
-        isAdmin,
-      },
-      currentLang,
-    );
+    return this.usersService.updateUser(userId, updateUserDto, currentLang);
   }
 
   @Put('/current')
+  @UsePipes(ValidationPipe)
+  @ApiOperation({ summary: 'Update current user' })
+  @ApiQuery(currentLangQuery)
+  @ApiResponse(missingFieldsResponse)
+  @ApiResponse({ status: 200, description: 'Current user updated' })
   updateCurrentUser(
     @RequestData('userDataFromToken')
     userDataFromToken: Token,
-    @Body('name') name: string,
-    @Body('phone') phone: string,
-    @Body('address') address: string,
-    @Body('zipcode') zipcode: string,
+    @Body() updateCurrentUserDto: UpdateCurrentUserDto,
     @RequestData('currentLang') currentLang: string,
   ) {
     return this.usersService.updateCurrentUser(
       userDataFromToken,
-      {
-        name,
-        phone,
-        address,
-        zipcode,
-      },
+      updateCurrentUserDto,
       currentLang,
     );
   }
 
   @Post('/login')
+  @HttpCode(200)
+  @UsePipes(ValidationPipe)
+  @ApiOperation({ summary: 'Login a user' })
+  @ApiResponse(missingFieldsResponse)
+  @ApiResponse(passwordMismatchResponse)
+  @ApiResponse({ status: 404, description: 'Non existent email' })
+  @ApiResponse({ status: 200, description: 'Logged in successfully' })
   loginUser(
-    @Body('email') email: string,
-    @Body('password') password: string,
+    @Body() loginUserDto: LoginUserDto,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.usersService.loginUser(email, password, currentLang);
+    return this.usersService.loginUser(loginUserDto, currentLang);
   }
 
   @Get('/current')
+  @ApiOperation({ summary: 'Get current user' })
+  @ApiResponse(noTokenResponse)
+  @ApiResponse(invalidTokenResponse)
+  @ApiResponse({ status: 200, description: 'User fetched' })
+  @ApiResponse({ status: 404, description: 'User not found' })
   getCurrentUser(@RequestData('userDataFromToken') userDataFromToken: Token) {
     return this.usersService.getCurrentUser(userDataFromToken);
   }
 
   @Put('/current/password')
+  @UsePipes(ValidationPipe)
+  @ApiOperation({ summary: 'Update current user password' })
+  @ApiQuery(currentLangQuery)
+  @ApiResponse(missingFieldsResponse)
+  @ApiResponse(passwordMismatchResponse)
+  @ApiResponse({ status: 200, description: 'Password updated' })
   changeCurrentUserPassword(
-    @Body('oldPassword') oldPassword: string,
-    @Body('newPassword') newPassword: string,
+    @Body() updateCurrentUserPasswordDto: UpdateCurrentUserPassword,
     @RequestData('userDataFromToken') userDataFromToken: Token,
     @RequestData('currentLang') currentLang: string,
   ) {
     return this.usersService.changeCurrentUserPassword(
-      oldPassword,
-      newPassword,
+      updateCurrentUserPasswordDto,
       userDataFromToken,
       currentLang,
     );
   }
 
   @Post('/password-reset')
+  @UsePipes(ValidationPipe)
+  @ApiOperation({ summary: 'Reset password' })
+  @ApiQuery(currentLangQuery)
+  @ApiResponse({ status: 200, description: 'Password reset' })
+  @ApiResponse({ status: 404, description: 'Non existent email' })
   resetPassword(
     @Body('email') email: string,
     @RequestData('currentLang') currentLang: string,

@@ -40,6 +40,10 @@ export class UsersModule implements NestModule {
         path: '/users',
         method: RequestMethod.GET,
       },
+      {
+        path: '/users/:id',
+        method: RequestMethod.DELETE,
+      },
     );
   }
 }

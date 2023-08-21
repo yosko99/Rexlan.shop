@@ -8,6 +8,7 @@ import { Button } from 'react-bootstrap';
 import { useQueryClient, useMutation } from 'react-query';
 
 import { CurrentLanguageContext } from '../../../context/CurrentLanguageContext';
+import { TokenContext } from '../../../context/TokenContext';
 
 interface Props {
   apiRoute: string;
@@ -15,6 +16,8 @@ interface Props {
 }
 
 const DeleteDataIcon: FC<Props> = ({ apiRoute, queryKey }) => {
+  const token = useContext(TokenContext);
+
   const queryClient = useQueryClient();
   const [deleteLoading, setDeleteLoading] = useState(false);
 
@@ -22,7 +25,9 @@ const DeleteDataIcon: FC<Props> = ({ apiRoute, queryKey }) => {
 
   const mutation = useMutation(
     (data) => {
-      return axios.delete(apiRoute);
+      return axios.delete(apiRoute, {
+        headers: { authorization: `Bearer ${token!.token}` }
+      });
     },
     {
       onSuccess: () => {

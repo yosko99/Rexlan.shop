@@ -10,6 +10,7 @@ import { CartsModule } from './modules/carts/carts.module';
 import { UsersModule } from './modules/users/users.module';
 import { CacheService } from './modules/cache/cache.service';
 import { CacheModule } from './modules/cache/cache.module';
+import { GlobalExceptionFilter } from './filters/globalException.filter';
 
 dotenv.config();
 
@@ -27,6 +28,6 @@ dotenv.config();
       isGlobal: true,
     }),
   ],
-  providers: [CacheService],
+  providers: [CacheService, GlobalExceptionFilter],
 })
 export class AppModule {}

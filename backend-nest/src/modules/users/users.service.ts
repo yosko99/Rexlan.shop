@@ -3,18 +3,23 @@ import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcryptjs';
 
-import { UserType } from '../../types/user.types';
-
 import lang from '../../resources/lang';
 
 import { MailService } from '../../mail/mail.service';
-
-import { generateRandomChars } from '../../functions/generateRandomChars';
 
 import { passwordResetTemplate } from '../../mail/htmlTemplates/passwordReset.template';
 import { Token } from '../../interfaces/token';
 import { PrismaService } from '../../prisma/prisma.service';
 import excludeObjectFields from '../../functions/excludeObjectFields';
+import {
+  CreateUserDto,
+  LoginUserDto,
+  UpdateCurrentUserDto,
+  UpdateCurrentUserPassword,
+  UpdateUserDto,
+} from 'src/dto/user.dto';
+import { User } from '@prisma/client';
+import generateTemporaryPassword from 'src/functions/generateTemporaryPassword';
 
 @Injectable()
 export class UsersService {
@@ -23,11 +28,12 @@ export class UsersService {
     private readonly prisma: PrismaService,
   ) {}
 
-  async getUsers(token: Token) {
-    await this.isAdmin(token.email);
+  async getUsers({ email }: Token) {
+    const user = await this.retrieveUserByEmail(email);
+    await this.isAdmin(user);
 
     const users = await this.prisma.user.findMany({
-      where: { email: { not: token.email } },
+      where: { email: { not: email } },
     });
 
     return users.map((user) => {
@@ -35,14 +41,7 @@ export class UsersService {
     });
   }
 
-  async isAdmin(email: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { email },
-      select: {
-        isAdmin: true,
-      },
-    });
-
+  async isAdmin(user: User) {
     if (!user.isAdmin) {
       throw new HttpException(
         'User not unauthorized, do not meet required privileges',
@@ -52,13 +51,21 @@ export class UsersService {
   }
 
   async createUser(
-    userDto: UserType,
+    {
+      address,
+      email,
+      isAdmin,
+      name,
+      password,
+      phone,
+      cartId: userDtoCartId,
+    }: CreateUserDto,
     sendtokenback: 'true' | 'false',
     currentLang: string,
   ) {
     const isUserRegistered =
       (await this.prisma.user.findFirst({
-        where: { email: userDto.email },
+        where: { email },
       })) !== null;
 
     if (isUserRegistered) {
@@ -68,26 +75,23 @@ export class UsersService {
       );
     }
 
-    const hashedPassword = await this.createHashedPassword(userDto.password);
+    const hashedPassword = await this.createHashedPassword(password);
 
     const newUser = await this.prisma.user.create({
       data: {
-        email: userDto.email,
+        email: email,
         password: hashedPassword,
-        name: userDto.name,
-        address: userDto.address,
-        phone: userDto.phone,
-        isAdmin:
-          typeof userDto.isAdmin === 'string'
-            ? userDto.isAdmin === 'on'
-            : userDto.isAdmin,
+        name: name,
+        address: address,
+        phone: phone,
+        isAdmin: typeof isAdmin === 'string' ? isAdmin === 'on' : isAdmin,
       },
     });
 
     // Create new user from register page
     if (sendtokenback === 'true') {
-      const token = this.generateToken(userDto.email, userDto.password);
-      const cartId = await this.assignUserCart(newUser.id, userDto.cartId);
+      const token = this.generateToken(email, password);
+      const cartId = await this.assignUserCart(newUser.id, userDtoCartId);
 
       return {
         msg: lang[currentLang].controllers.user.accountCreated,
@@ -129,24 +133,37 @@ export class UsersService {
     return token;
   }
 
-  private async retrieveUser(userId: string) {
+  private async retrieveUserById(userId: string) {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
 
     if (user === null) {
       throw new HttpException('Could not find user with provided email', 404);
     }
 
-    return excludeObjectFields(user, ['password']);
+    return excludeObjectFields(user, ['password']) as unknown as User;
+  }
+
+  private async retrieveUserByEmail(email: string) {
+    const user = await this.prisma.user.findUnique({ where: { email } });
+
+    if (user === null) {
+      throw new HttpException('Could not find user with provided email', 404);
+    }
+
+    return excludeObjectFields(user, ['password']) as unknown as User;
   }
 
   async getUser(userId: string) {
-    const user = await this.retrieveUser(userId);
+    const user = await this.retrieveUserById(userId);
 
     return user;
   }
 
-  async deleteUser(userId: string, currentLang: string) {
-    await this.retrieveUser(userId);
+  async deleteUser(userId: string, { email }: Token, currentLang: string) {
+    const user = await this.retrieveUserByEmail(email);
+    await this.isAdmin(user);
+
+    await this.retrieveUserById(userId);
     await this.prisma.user.delete({ where: { id: userId } });
 
     return {
@@ -156,13 +173,13 @@ export class UsersService {
 
   async updateUser(
     userId: string,
-    { email, name, phone, address, zipcode, isAdmin }: UserType,
+    { email, name, phone, address, zipcode, isAdmin }: UpdateUserDto,
     currentLang: string,
   ) {
-    const user = await this.retrieveUser(userId);
+    const user = await this.retrieveUserById(userId);
 
     const checkExistingEmail = await this.prisma.user.findUnique({
-      where: { email },
+      where: { email: email || '' },
     });
 
     if (
@@ -198,7 +215,7 @@ export class UsersService {
 
   async updateCurrentUser(
     { email: tokenEmail }: Token,
-    { name, phone, address, zipcode }: UserType,
+    { name, phone, address, zipcode }: UpdateCurrentUserDto,
     currentLang: string,
   ) {
     try {
@@ -235,7 +252,7 @@ export class UsersService {
     return orders;
   }
 
-  async loginUser(email: string, password: string, currentLang: string) {
+  async loginUser({ email, password }: LoginUserDto, currentLang: string) {
     const user = await this.prisma.user.findUnique({
       where: { email },
       include: { cart: { select: { id: true } } },
@@ -294,8 +311,7 @@ export class UsersService {
   }
 
   async changeCurrentUserPassword(
-    oldPassword: string,
-    newPassword: string,
+    { newPassword, oldPassword }: UpdateCurrentUserPassword,
     { email }: Token,
     currentLang: string,
   ) {
@@ -323,15 +339,9 @@ export class UsersService {
   }
 
   async resetPassword(email: string, currentLang: string) {
-    const user = await this.prisma.user.findUnique({ where: { email } });
+    await this.retrieveUserByEmail(email);
 
-    if (email === undefined || user === null) {
-      throw new NotFoundException(
-        lang[currentLang].controllers.user.couldNotFindEmail,
-      );
-    }
-
-    const temporaryPassword = generateRandomChars(15);
+    const temporaryPassword = generateTemporaryPassword();
     const hashedPassword = await this.createHashedPassword(temporaryPassword);
 
     await this.prisma.user.update({
