@@ -7,6 +7,9 @@ import lang from '../../resources/lang';
 import { Category } from '../../interfaces/category';
 import getTranslation from '../../functions/getTranslation';
 import { PrismaService } from '../../prisma/prisma.service';
+import { UsersService } from '../users/users.service';
+import { CreateCategoryDto, UpdateCategoryDto } from 'src/dto/category.dto';
+import { Token } from 'src/interfaces/token';
 
 @Injectable()
 export class CategoriesService {
@@ -14,6 +17,7 @@ export class CategoriesService {
     private readonly cacheService: CacheService,
     private readonly cartsService: CartsService,
     private readonly prisma: PrismaService,
+    private readonly userService: UsersService,
   ) {}
 
   async getCategories(currentLang: string) {
@@ -64,21 +68,14 @@ export class CategoriesService {
   }
 
   async createCategory(
-    title: string,
-    bannerImage: string,
+    { title, bannerImage }: CreateCategoryDto,
+    { email }: Token,
     currentLang: string,
   ) {
-    const doesCategoryExists =
-      (await this.prisma.category.findFirst({
-        where: { translations: { some: { title } } },
-      })) !== null;
+    const user = await this.userService.retrieveUserByEmail(email);
+    await this.userService.isAdmin(user);
 
-    if (doesCategoryExists) {
-      throw new HttpException(
-        lang[currentLang].controllers.category.nameAlreadyExists,
-        409,
-      );
-    }
+    await this.doesCategoryNameExist(title, currentLang);
 
     const newCategory = await this.prisma.category.create({
       data: {
@@ -100,13 +97,31 @@ export class CategoriesService {
     };
   }
 
+  private async doesCategoryNameExist(title: string, currentLang: string) {
+    const doesCategoryExists =
+      (await this.prisma.category.findFirst({
+        where: { translations: { some: { title } } },
+      })) !== null;
+
+    if (doesCategoryExists) {
+      throw new HttpException(
+        lang[currentLang].controllers.category.nameAlreadyExists,
+        409,
+      );
+    }
+  }
+
   async updateCategory(
     categoryId: string,
-    title: string,
-    bannerImage: string,
+    { bannerImage, title }: UpdateCategoryDto,
+    { email }: Token,
     currentLang: string,
   ) {
+    const user = await this.userService.retrieveUserByEmail(email);
+    await this.userService.isAdmin(user);
+
     const category = await this.retrieveCategoryById(categoryId, currentLang);
+    await this.doesCategoryNameExist(title, currentLang);
 
     const categoryTranslationIndex = category.translations.findIndex(
       (translation) => translation.lang === currentLang,
@@ -153,7 +168,14 @@ export class CategoriesService {
     };
   }
 
-  async deleteCategory(categoryId: string, currentLang: string) {
+  async deleteCategory(
+    categoryId: string,
+    { email }: Token,
+    currentLang: string,
+  ) {
+    const user = await this.userService.retrieveUserByEmail(email);
+    await this.userService.isAdmin(user);
+
     await this.retrieveCategoryById(categoryId, currentLang);
     await this.cartsService.deleteCategoryProductsFromCarts(categoryId);
     await this.prisma.$transaction([

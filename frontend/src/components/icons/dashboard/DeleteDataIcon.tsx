@@ -24,7 +24,7 @@ const DeleteDataIcon: FC<Props> = ({ apiRoute, queryKey }) => {
   const { lang } = useContext(CurrentLanguageContext);
 
   const mutation = useMutation(
-    (data) => {
+    (_data) => {
       return axios.delete(apiRoute, {
         headers: { authorization: `Bearer ${token!.token}` }
       });
