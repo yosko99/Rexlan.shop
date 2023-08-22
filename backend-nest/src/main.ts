@@ -20,9 +20,8 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Rexlan Shop API')
-    .setDescription('Endpoints')
+    .setDescription('Endpoints routes for Rexlan project')
     .setVersion('1.0')
-    .addTag('API')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

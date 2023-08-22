@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Injectable, NotFoundException } from '@nestjs/common';
 
+import * as jwt from 'jsonwebtoken';
 import lang from '../../resources/lang';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Token } from 'src/interfaces/token';
@@ -83,43 +84,52 @@ export class OrdersService {
       products,
       zipcode,
     }: CreateOrderDto,
-    { email }: Token,
+    tokenHeader: string,
   ) {
     const productsPrice = calculateTotalProductsPrice(products);
 
-    const newOrder = await this.prisma.order.create({
-      data: {
-        address,
-        city,
-        name,
-        phone,
-        productsPrice,
-        selectedCourier: delivery,
-        deliveryPrice: Number(deliveryPrice),
-        zipcode,
-        user: { connect: { email } },
-      },
-    });
+    const token = tokenHeader && tokenHeader.split(' ')[1];
 
-    const orderProducts = products.map((product) => {
+    return jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, data) => {
+      const orderData = {
+        data: {
+          address,
+          city,
+          name,
+          phone,
+          productsPrice,
+          selectedCourier: delivery,
+          deliveryPrice: Number(deliveryPrice),
+          zipcode,
+        },
+      };
+      if (!err) {
+        const { email } = data as Token;
+        // @ts-ignore
+        orderData.data.user = { connect: { email } };
+
+        await this.prisma.user.update({
+          where: { email },
+          data: { cart: { update: { products: { set: [] } } } },
+        });
+      }
+      const newOrder = await this.prisma.order.create(orderData);
+
+      const orderProducts = products.map((product) => {
+        return {
+          productId: product.id,
+          quantity: product.quantity,
+          orderId: newOrder.id,
+        };
+      });
+
+      await this.prisma.cartProduct.createMany({
+        data: orderProducts,
+      });
+
       return {
-        productId: product.id,
-        quantity: product.quantity,
-        orderId: newOrder.id,
+        order: newOrder,
       };
     });
-
-    await this.prisma.cartProduct.createMany({
-      data: orderProducts,
-    });
-
-    await this.prisma.user.update({
-      where: { email },
-      data: { cart: { update: { products: { set: [] } } } },
-    });
-
-    return {
-      order: newOrder,
-    };
   }
 }

@@ -22,10 +22,6 @@ export class OrdersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(VerifyJWTMiddleware).forRoutes(
       {
-        path: '/orders',
-        method: RequestMethod.POST,
-      },
-      {
         path: '/orders/:id',
         method: RequestMethod.GET,
       },

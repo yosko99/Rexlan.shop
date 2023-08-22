@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   Param,
   Post,
   UsePipes,
@@ -76,10 +77,9 @@ export class OrdersController {
   @ApiResponse(missingFieldsResponse)
   @ApiResponse({ status: 201, description: 'Order created' })
   createOrder(
-    @RequestData('userDataFromToken')
-    userDataFromToken: Token,
+    @Headers('authorization') tokenHeader: string,
     @Body() orderDto: CreateOrderDto,
   ) {
-    return this.ordersService.createOrder(orderDto, userDataFromToken);
+    return this.ordersService.createOrder(orderDto, tokenHeader);
   }
 }

@@ -93,8 +93,8 @@ model CartProduct {
 
 model Order {
     id              String        @id @default(uuid())
-    user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId          String
+    user            User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId          String?
     orderStatus     String        @default("Pending")
     selectedCourier String
     productsPrice   Float         @default(0)
