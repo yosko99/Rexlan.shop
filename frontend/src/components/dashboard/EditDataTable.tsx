@@ -3,12 +3,13 @@ import React, { FC, useContext } from 'react';
 import { Table } from 'react-bootstrap';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
-import TableAddDataButton from './TableAddDataButton';
+import InputStructure from '../../data/inputStructure/inputStructure';
+import AddDataButton from '../buttons/AddDataButton';
 
 interface Props {
   tableHeaderCells: React.ReactChild;
   tableRowCells: React.ReactChild;
-  inputStructure: any;
+  inputStructure: InputStructure[];
   createDataRoute: string;
 }
 
@@ -23,7 +24,7 @@ const EditDataTable: FC<Props> = ({
   return (
     <div className="overflow-auto">
       {/* Add data */}
-      <TableAddDataButton
+      <AddDataButton
         inputStructure={inputStructure}
         createDataRoute={createDataRoute}
       />

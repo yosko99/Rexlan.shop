@@ -5,10 +5,10 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 
+import AddToCartButton from '../../components/buttons/AddToCartButton';
+import FavoriteProductButton from '../../components/buttons/FavoriteProductButton';
 import FreeShippingBar from '../../components/partials/FreeShippingBar';
-import AddToCart from '../../components/product/AddToCart';
 import CustomRating from '../../components/product/CustomRating';
-import FavouriteBtn from '../../components/product/favouriteButton/FavouriteBtn';
 import MultipleProductCarousel from '../../components/product/MultipleProductCarousel';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import useFetch from '../../hooks/useFetch';
@@ -63,9 +63,9 @@ const RenderPDP: FC<Props> = ({ product }) => {
                 className="my-3"
               />
               <p className="text-muted mb-5">{product.description}</p>
-              <AddToCart product={product} />
+              <AddToCartButton product={product} />
               <div>
-                <FavouriteBtn
+                <FavoriteProductButton
                   size={2}
                   className="mt-4"
                   productID={product.id}

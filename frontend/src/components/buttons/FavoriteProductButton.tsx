@@ -5,15 +5,20 @@ import { faHeart as hollowHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as filledHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { checkIfLiked, clickHandle } from './functions';
+import checkIfLiked from '../../functions/checkIfLiked';
+import handleFavoriteButtonClick from '../../functions/handleFavoriteButtonClick';
 
 interface Props {
-	size?: number;
-	productID: string;
-	className?: string;
+  size?: number;
+  productID: string;
+  className?: string;
 }
 
-const FavouriteBtn: FC<Props> = ({ productID, size = '1x', className }) => {
+const FavoriteProductButton: FC<Props> = ({
+  productID,
+  size = '1x',
+  className
+}) => {
   const [heart, setHeart] = useState<IconProp>(hollowHeart);
   const [bounce, setBounce] = useState(false);
 
@@ -31,7 +36,7 @@ const FavouriteBtn: FC<Props> = ({ productID, size = '1x', className }) => {
   };
 
   const handleClick = () => {
-    clickHandle(productID);
+    handleFavoriteButtonClick(productID);
     changeIcon();
   };
 
@@ -40,17 +45,17 @@ const FavouriteBtn: FC<Props> = ({ productID, size = '1x', className }) => {
   }, [productID]);
 
   return (
-		<FontAwesomeIcon
-			color='red'
-			fontSize={`${size}em`}
-			border
+    <FontAwesomeIcon
+      color="red"
+      fontSize={`${size}em`}
+      border
       bounce={bounce}
-			onClick={handleClick}
-			icon={heart}
-			className={className}
-			role="button"
-		/>
+      onClick={handleClick}
+      icon={heart}
+      className={className}
+      role="button"
+    />
   );
 };
 
-export default FavouriteBtn;
+export default FavoriteProductButton;

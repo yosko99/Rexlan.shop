@@ -7,7 +7,7 @@ import { Container, Image } from 'react-bootstrap';
 import { Navigate, useLocation } from 'react-router-dom';
 
 import securePaymentImg from '../../../assets/cartpage/secure-payment.png';
-import PaypalButtons from '../../../components/cart/PaypalButtons';
+import PaypalButtons from '../../../components/buttons/PaypalButtons';
 import { CurrentLanguageContext } from '../../../context/CurrentLanguageContext';
 import CenteredItems from '../../../styles/CenteredItems';
 import { Product } from '../../../types/productTypes';

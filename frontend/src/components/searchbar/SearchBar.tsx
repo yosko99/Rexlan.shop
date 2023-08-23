@@ -9,8 +9,8 @@ import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import useFetch from '../../hooks/useFetch';
 import { getProductsPatternRoute } from '../../services/apiRoutes';
 import Loading from '../loading/Loading';
-import CustomOffCanvas from '../offcanvas/CustomOffCanvas';
 import MultipleProductCards from '../product/MultipleProductCards';
+import CustomOffCanvas from '../utils/CustomOffCanvas';
 
 const SearchBar: FC = () => {
   const { lang } = useContext(CurrentLanguageContext);

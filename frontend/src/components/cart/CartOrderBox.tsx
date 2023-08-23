@@ -7,8 +7,8 @@ import styled from 'styled-components';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import { Product } from '../../types/productTypes';
 import calculateTotalPrice from '../../views/cart/calculateTotalPrice';
+import RemoveProductFromCartButton from '../buttons/RemoveProductFromCartButton';
 import DeliveryPrice from './DeliveryPrice';
-import RemoveProduct from './RemoveProduct';
 
 interface Props {
   cartProducts: Product[];
@@ -57,7 +57,7 @@ const CartOrderBox: FC<Props> = ({
                 ${product.price} x {cartProducts[index].quantity}
               </p>
               <div className="d-flex justify-content-end">
-                <RemoveProduct productId={product.id} />
+                <RemoveProductFromCartButton productId={product.id} />
               </div>
             </Col>
             <hr className="my-2" />

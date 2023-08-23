@@ -41,6 +41,7 @@ const RenderHeader: FC<Props> = ({ categories, isLoading }) => {
       expanded={isExpanded}
       expand="lg"
       bg="white"
+      sticky="top"
       className="shadow-sm p-2"
       variant="light"
     >

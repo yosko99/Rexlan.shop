@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react';
 
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Carousel } from '@trendyol-js/react-carousel';
 
 import { Product } from '../../types/productTypes';
+import ProductCarouselButton from '../icons/carousel/ProductCarouselButton';
 import Loading from '../loading/Loading';
 import ProductCard from './ProductCard';
 
@@ -45,30 +45,8 @@ const MultipleProductCarousel = ({ isLoading, products }: Props) => {
           responsive
           infinite
           slide={1}
-          leftArrow={
-            <div
-              role="button"
-              className="h-100 d-flex justify-content-center align-items-center"
-            >
-              <FontAwesomeIcon
-                size={'1x'}
-                icon={faArrowLeft}
-                className="px-2"
-              />
-            </div>
-          }
-          rightArrow={
-            <div
-              role="button"
-              className="h-100 d-flex justify-content-center align-items-center"
-            >
-              <FontAwesomeIcon
-                size={'1x'}
-                icon={faArrowRight}
-                className="px-2"
-              />
-            </div>
-          }
+          leftArrow={<ProductCarouselButton icon={faArrowLeft} />}
+          rightArrow={<ProductCarouselButton icon={faArrowRight} />}
         >
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />

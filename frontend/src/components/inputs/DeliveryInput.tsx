@@ -1,20 +1,15 @@
 /* eslint-disable multiline-ternary */
 import React, { useState, FC, useContext } from 'react';
 
-import { Image, Form, ButtonGroup, Row, Col, Button } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { Navigate } from 'react-router-dom';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import useFetch from '../../hooks/useFetch';
+import Delivery from '../../interfaces/delivery';
 import { getDeliveriesRoute } from '../../services/apiRoutes';
+import DeliveryInfo from '../delivery/DeliveryInfo';
 import Loading from '../loading/Loading';
-
-interface Delivery {
-  title: string;
-  initialPrice: number;
-  priceToAddress: number;
-  image: string;
-}
 
 interface Props {
   setDeliveryPrice: React.Dispatch<React.SetStateAction<number>>;
@@ -52,7 +47,7 @@ const DeliveryInput: FC<Props> = ({ setDeliveryPrice }) => {
     }
   };
 
-  const handleAdditionalDeliverPrice = (
+  const updateDeliveryPrice = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     const additionalPrice = Number((e.target as HTMLInputElement).value);
@@ -69,7 +64,6 @@ const DeliveryInput: FC<Props> = ({ setDeliveryPrice }) => {
         <div className="my-3">
           <p className="fs-5 mt-3">{lang.inputs.delivery.label}</p>
 
-          {/* Selection of deliveries */}
           <Form.Select
             name="delivery"
             size="lg"
@@ -83,70 +77,14 @@ const DeliveryInput: FC<Props> = ({ setDeliveryPrice }) => {
               </option>
             ))}
           </Form.Select>
-          {/* Selection of deliveries */}
 
-          {/* Conditional render when delivery is selected */}
           {chosenDelivery !== null && (
-            <>
-              <Row className="d-flex mt-3">
-                <Col
-                  lg={2}
-                  sm={12}
-                  md={6}
-                  className="d-flex my-2 justify-content-center align-items-center"
-                >
-                  <Image
-                    src={chosenDelivery.image}
-                    fluid
-                    alt={chosenDelivery.title}
-                  />
-                </Col>
-                <Col
-                  lg={10}
-                  sm={12}
-                  md={6}
-                  className="d-flex flex-column justify-content-between ps-3"
-                >
-                  <p className="fs-5">
-                    {lang.cart.deliveryBox.selectedCourier} '
-                    {chosenDelivery.title}'
-                  </p>
-                  <p>
-                    {lang.cart.deliveryBox.initialPriceOfDelivery} $
-                    {chosenDelivery.initialPrice}
-                  </p>
-                  <ButtonGroup>
-                    <Button
-                      variant={
-                        additionalPriceToDeliver === 0
-                          ? 'primary'
-                          : 'outline-primary'
-                      }
-                      className="me-2 ms-0"
-                      onClick={(e) => handleAdditionalDeliverPrice(e)}
-                      value={0}
-                    >
-                      {lang.cart.deliveryBox.deliveryToOffice} + $0
-                    </Button>
-                    <Button
-                      variant={
-                        additionalPriceToDeliver ===
-                        chosenDelivery.priceToAddress
-                          ? 'primary'
-                          : 'outline-primary'
-                      }
-                      onClick={(e) => handleAdditionalDeliverPrice(e)}
-                      value={chosenDelivery.priceToAddress}
-                    >
-                      {lang.cart.deliveryBox.deliverToAddress} + $
-                      {chosenDelivery.priceToAddress}
-                    </Button>
-                  </ButtonGroup>
-                </Col>
-              </Row>
-            </>
+            <DeliveryInfo
+              delivery={chosenDelivery}
+              additionalPriceToDeliver={additionalPriceToDeliver}
+              updateDeliveryPrice={updateDeliveryPrice}
+            />
           )}
-          {/* Conditional render when delivery is selected */}
         </div>
       )}
     </>

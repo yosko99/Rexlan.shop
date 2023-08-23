@@ -10,10 +10,10 @@ const FreeShippingBar = () => {
   const { lang } = useContext(CurrentLanguageContext);
 
   return (
-		<p className='text-center bg-black text-white shadow-sm p-2 text-uppercase'>
-			{lang.freeShippingBarText} {FREE_DELIVERY_PRICE}$
-			<FontAwesomeIcon className='ms-2' fade icon={faTruck} />
-		</p>
+    <p className="text-center bg-black text-white shadow-sm p-2 text-uppercase">
+      {lang.freeShippingBarText} {FREE_DELIVERY_PRICE}$
+      <FontAwesomeIcon className="ms-2" fade icon={faTruck} />
+    </p>
   );
 };
 

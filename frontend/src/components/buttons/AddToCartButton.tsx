@@ -16,7 +16,7 @@ interface Props {
   product: Product;
 }
 
-const AddToCart: FC<Props> = ({ product }) => {
+const AddToCartButton: FC<Props> = ({ product }) => {
   const [productQuantity, setProductQuantity] = useState<number>(1);
   const queryClient = useQueryClient();
 
@@ -66,4 +66,4 @@ const AddToCart: FC<Props> = ({ product }) => {
   );
 };
 
-export default AddToCart;
+export default AddToCartButton;

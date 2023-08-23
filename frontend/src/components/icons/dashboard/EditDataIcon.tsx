@@ -13,8 +13,8 @@ import CategoriesSelect from '../../inputs/CategoriesSelect';
 import CustomInput from '../../inputs/CustomInput';
 import CustomSwitch from '../../inputs/CustomSwitch';
 import Loading from '../../loading/Loading';
-import CustomModal from '../../modal/CustomModal';
 import FormTemplate from '../../templates/FormTemplate';
+import CustomModal from '../../utils/CustomModal';
 
 interface Props {
   apiRoute: string;

@@ -10,8 +10,14 @@ interface Props {
 
 const CustomCarousel: FC<Props> = ({ carouselItems }) => {
   return (
-    <Container className='mb-4'>
-      <Carousel axis='vertical' fade interval={3000} controls={false} indicators={false}>
+    <Container className="mb-4">
+      <Carousel
+        axis="vertical"
+        fade
+        interval={3000}
+        controls={false}
+        indicators={false}
+      >
         {/* @ts-ignore */}
         {carouselItems}
       </Carousel>

@@ -9,15 +9,15 @@ import CenteredItems from '../../styles/CenteredItems';
 import CategoriesSelect from '../inputs/CategoriesSelect';
 import CustomInput from '../inputs/CustomInput';
 import CustomSwitch from '../inputs/CustomSwitch';
-import CustomModal from '../modal/CustomModal';
 import FormTemplate from '../templates/FormTemplate';
+import CustomModal from '../utils/CustomModal';
 
 interface Props {
   inputStructure: InputStructure[];
   createDataRoute: string;
 }
 
-const TableAddDataButton: FC<Props> = ({ createDataRoute, inputStructure }) => {
+const AddDataButton: FC<Props> = ({ createDataRoute, inputStructure }) => {
   const queryClient = useQueryClient();
   const { lang } = useContext(CurrentLanguageContext);
 
@@ -63,4 +63,4 @@ const TableAddDataButton: FC<Props> = ({ createDataRoute, inputStructure }) => {
   );
 };
 
-export default TableAddDataButton;
+export default AddDataButton;

@@ -127,3 +127,11 @@ model CategoryTranslation {
 
     @@unique([categoryId, lang])
 }
+
+model ProductView {
+    id        String   @id @default(uuid())
+    productId Int
+    userId    Int
+    viewedAt  DateTime @default(now())
+    count     Int      @default(0)
+}

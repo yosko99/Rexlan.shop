@@ -26,8 +26,8 @@ const OrdersTable: FC<Props> = ({ orders }) => {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order: Order, index: number) => (
-            <tr key={index}>
+          {orders.map((order: Order) => (
+            <tr key={order.id}>
               <th>
                 {order.id.substring(order.id.length, order.id.length - 4)}
               </th>

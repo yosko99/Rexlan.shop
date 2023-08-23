@@ -1,3 +1,5 @@
+import { Product } from './productTypes';
+
 export interface OrderData {
   phone: string;
   address: string;
@@ -16,7 +18,7 @@ export interface DefaultValues {
 
 type OrderStatusType = 'Pending Approval' | 'Processing' | 'Delivered';
 
-interface OrderProductsType {
+export interface OrderProductsType {
   productId: string;
   productQuantity: number;
 }
@@ -31,7 +33,7 @@ export interface Order {
   city: string;
   zipcode: number;
   phone: string;
-  products: OrderProductsType[];
+  products: Product[];
   createdAt: Date;
   updatedAt: Date;
   productsPrice: number;

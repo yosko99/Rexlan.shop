@@ -6,7 +6,7 @@ import { Routes, Route, HashRouter } from 'react-router-dom';
 import Footer from './components/footer/Footer';
 import Header from './components/header';
 import CompanyLogos from './components/partials/CompanyLogos';
-import ScrollToTop from './components/partials/ScrollToTop';
+import ScrollToTop from './components/utils/ScrollToTop';
 import { CurrentLanguageContext } from './context/CurrentLanguageContext';
 import { TokenContext } from './context/TokenContext';
 import useCurrentLanguage from './hooks/useCurrentLanguage';

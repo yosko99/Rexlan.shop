@@ -7,7 +7,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import { Product } from '../../types/productTypes';
-import CustomModal from './CustomModal';
+import CustomModal from '../utils/CustomModal';
 
 interface Props {
   onClick?: () => void;
@@ -22,37 +22,46 @@ const AddedToCartModal: FC<Props> = ({ onClick, product, productQuantity }) => {
     <>
       <CustomModal
         activateButtonText={lang.global.addToCart}
-        activateButtonClassName='fs-5 text-uppercase bg-black text-white'
+        activateButtonClassName="fs-5 text-uppercase bg-black text-white"
         activateButtonOnClick={onClick}
         modalHeader={
           <>
-            <FontAwesomeIcon icon={faCheck} className='me-2' color='green' />
+            <FontAwesomeIcon icon={faCheck} className="me-2" color="green" />
             {lang.pdp.addToCartModal.header}
           </>
         }
         modalBody={
           <Row>
-            <Col className='d-flex justify-content-center align-items-center'>
+            <Col className="d-flex justify-content-center align-items-center">
               <Image fluid src={product.image} />
             </Col>
             <Col>
-              <p className='text-uppercase text-muted mt-2'>{product.category}</p>
+              <p className="text-uppercase text-muted mt-2">
+                {product.category}
+              </p>
               <p>{product.title}</p>
-              <p>{lang.pdp.addToCartModal.productID}: {product.id}</p>
-              <p>{lang.pdp.addToCartModal.addedQuantity}: {productQuantity}</p>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod officia voluptatibus ad molestias cum commodi voluptates dolore.</p>
+              <p>
+                {lang.pdp.addToCartModal.productID}: {product.id}
+              </p>
+              <p>
+                {lang.pdp.addToCartModal.addedQuantity}: {productQuantity}
+              </p>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod
+                officia voluptatibus ad molestias cum commodi voluptates dolore.
+              </p>
             </Col>
           </Row>
         }
         modalFooter={
           <>
             <div>
-              <Button variant="outline-secondary" >
+              <Button variant="outline-secondary">
                 {lang.pdp.addToCartModal.continueShopping}
               </Button>
             </div>
-            <LinkContainer to='/cart'>
-              <Button variant="primary" >
+            <LinkContainer to="/cart">
+              <Button variant="primary">
                 {lang.pdp.addToCartModal.finishThePurchase}
               </Button>
             </LinkContainer>

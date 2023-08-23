@@ -6,8 +6,8 @@ import styled from 'styled-components';
 
 import CenteredItems from '../../styles/CenteredItems';
 import { Product } from '../../types/productTypes';
+import FavoriteProductButton from '../buttons/FavoriteProductButton';
 import CustomRating from './CustomRating';
-import FavouriteBtn from './favouriteButton/FavouriteBtn';
 
 interface Props {
   product: Product;
@@ -42,7 +42,7 @@ const ProductCard: FC<Props> = ({ product }) => {
         <Card.Body>
           <div className="d-flex justify-content-between mb-2">
             <small>{product.category}</small>
-            <FavouriteBtn productID={product.id} />
+            <FavoriteProductButton productID={product.id} />
           </div>
           <Card.Title>{product.title}</Card.Title>
           <CustomRating

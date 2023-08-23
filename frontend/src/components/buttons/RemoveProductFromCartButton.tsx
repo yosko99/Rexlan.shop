@@ -10,7 +10,7 @@ interface Props {
   productId: string;
 }
 
-const RemoveProduct: FC<Props> = ({ productId }) => {
+const RemoveProductFromCartButton: FC<Props> = ({ productId }) => {
   const { lang } = useContext(CurrentLanguageContext);
 
   const queryClient = useQueryClient();
@@ -39,4 +39,4 @@ const RemoveProduct: FC<Props> = ({ productId }) => {
   );
 };
 
-export default RemoveProduct;
+export default RemoveProductFromCartButton;

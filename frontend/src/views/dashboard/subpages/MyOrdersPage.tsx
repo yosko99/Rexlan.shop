@@ -4,8 +4,8 @@ import React, { useContext } from 'react';
 import { Image } from 'react-bootstrap';
 
 import noOrdersImg from '../../../assets/dashboard/orders/no-orders.png';
-import OrdersTable from '../../../components/cart/OrdersTable';
 import Loading from '../../../components/loading/Loading';
+import OrdersTable from '../../../components/order/OrdersTable';
 import { CurrentLanguageContext } from '../../../context/CurrentLanguageContext';
 import useFetch from '../../../hooks/useFetch';
 import { getUserOrdersRoute } from '../../../services/apiRoutes';
