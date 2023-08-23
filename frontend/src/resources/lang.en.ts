@@ -37,6 +37,7 @@ const lang: HTMLFields = {
   },
   pdp: {
     inStock: 'In stock - pickup or order via courier',
+    relatedProducts: 'Products you may also like',
     addToCartModal: {
       addedQuantity: 'Added quantity',
       header: 'Product added to cart',

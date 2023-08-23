@@ -33,8 +33,11 @@ export const getProductsPatternRoute = (matchString: string): string => {
   return PRODUCTS_ROUTE + 'regex/' + matchString + getLinkDefaultSuffixes();
 };
 
-export const getProductsByCategoryRoute = (category: string): string => {
-  return PRODUCTS_ROUTE + 'category/' + category + getLinkDefaultSuffixes();
+export const getProductsByCategoryRoute = (
+  category: string,
+  qty?: number
+): string => {
+  return PRODUCTS_ROUTE + 'category/' + category + getLinkDefaultSuffixes(qty);
 };
 
 type productSortingType =

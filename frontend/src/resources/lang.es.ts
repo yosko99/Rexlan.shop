@@ -37,6 +37,7 @@ const lang: HTMLFields = {
   },
   pdp: {
     inStock: 'En stock - recoger o pedir por mensajería',
+    relatedProducts: 'Productos que también te pueden gustar',
     addToCartModal: {
       addedQuantity: 'Cantidad agregada',
       header: 'Producto agregado al carrito',

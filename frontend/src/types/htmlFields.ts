@@ -43,6 +43,7 @@ interface HTMLFields {
   };
   pdp: {
     inStock: string;
+    relatedProducts: string;
     addToCartModal: {
       header: string;
       productID: string;

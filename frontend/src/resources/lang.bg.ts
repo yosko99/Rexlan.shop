@@ -37,6 +37,7 @@ const lang: HTMLFields = {
   },
   pdp: {
     inStock: 'В наличност - вземете от магазин или поръчайте чрез куриер',
+    relatedProducts: 'Продукти, които също може да харесате',
     addToCartModal: {
       header: 'Продуктът е добавен в количката',
       addedQuantity: 'Добавено количество',

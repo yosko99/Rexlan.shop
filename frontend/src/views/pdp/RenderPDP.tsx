@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 import React, { FC, useContext } from 'react';
 
 import { Container, Row, Col } from 'react-bootstrap';
@@ -8,7 +9,10 @@ import FreeShippingBar from '../../components/partials/FreeShippingBar';
 import AddToCart from '../../components/product/AddToCart';
 import CustomRating from '../../components/product/CustomRating';
 import FavouriteBtn from '../../components/product/favouriteButton/FavouriteBtn';
+import MultipleProductCarousel from '../../components/product/MultipleProductCarousel';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
+import useFetch from '../../hooks/useFetch';
+import { getProductsByCategoryRoute } from '../../services/apiRoutes';
 import { Product } from '../../types/productTypes';
 
 interface Props {
@@ -23,6 +27,14 @@ const ProductImage = styled.img`
 
 const RenderPDP: FC<Props> = ({ product }) => {
   const { lang } = useContext(CurrentLanguageContext);
+
+  const { data, isLoading } = useFetch(
+    `${product.category}-products`,
+    getProductsByCategoryRoute(product.category, 4),
+    true
+  );
+
+  const categoryProducts = data as Product[];
 
   return (
     <>
@@ -74,6 +86,11 @@ const RenderPDP: FC<Props> = ({ product }) => {
           accusamus iste vel quos tempora, dolorum velit neque incidunt odio quo
           suscipit eum sapiente!
         </p>
+        <p className="fs-3 mb-4 mt-5">{lang.pdp.relatedProducts}</p>
+        <MultipleProductCarousel
+          products={categoryProducts}
+          isLoading={isLoading}
+        />
       </Container>
     </>
   );
