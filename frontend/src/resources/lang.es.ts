@@ -197,7 +197,9 @@ const lang: HTMLFields = {
       choosePayment: 'Por favor, elige un método de pago',
       developmentWarning:
         '¡Atención! El pago actualmente no está completamente funcional. Todos los pagos solo funcionan con cuentas de "sandbox".',
-      toPay: 'Cantidad a pagar'
+      toPay: 'Cantidad a pagar',
+      payPalNotSet:
+        'Lo sentimos, no puedes finalizar tu pedido en este momento. No se pudo encontrar la clave API de PayPal.'
     },
     successfulPaymentPage: {
       createTime: 'Fecha de creación',

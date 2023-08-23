@@ -124,6 +124,7 @@ interface HTMLFields {
       toPay: string;
       developmentWarning: string;
       choosePayment: string;
+      payPalNotSet: string;
     };
     successfulPaymentPage: {
       paymentID: string;

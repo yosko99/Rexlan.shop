@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 
 import { Image } from 'react-bootstrap';
 
-import noOrdersImg from '../../../assets/dashboard/orders/no-orders.svg';
+import noOrdersImg from '../../../assets/dashboard/orders/no-orders.png';
 import OrdersTable from '../../../components/cart/OrdersTable';
 import Loading from '../../../components/loading/Loading';
 import { CurrentLanguageContext } from '../../../context/CurrentLanguageContext';

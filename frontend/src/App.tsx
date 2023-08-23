@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Routes, Route, HashRouter } from 'react-router-dom';
 
 import Footer from './components/footer/Footer';
 import Header from './components/header';
@@ -31,7 +31,7 @@ const App = () => {
   const { currentLanguage, setCurrentLanguage } = useCurrentLanguage();
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <ScrollToTop />
       <GlobalCSS />
       <PayPalScriptProvider
@@ -76,7 +76,7 @@ const App = () => {
           </CurrentLanguageContext.Provider>
         </TokenContext.Provider>
       </PayPalScriptProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 

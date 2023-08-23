@@ -67,6 +67,7 @@ export class ProductsController {
   @ApiQuery(quantityQuery)
   @ApiQuery(currentLangQuery)
   @ApiResponse({ status: 200, description: 'Products in category fetched' })
+  @ApiResponse({ status: 404, description: 'Could not find category' })
   getProductsByCategory(
     @Param('category') categoryName: string,
     @RequestData('currentLang') currentLang: string,

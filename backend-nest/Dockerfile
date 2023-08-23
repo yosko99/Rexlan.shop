@@ -1,17 +1,29 @@
-# Pull Docker Hub base image
-FROM node:lts-alpine
+FROM node:lts AS builder
 
-# Set working directory
-WORKDIR /usr/app
+# Create app directory
+WORKDIR /app
 
-COPY . .
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
+COPY ./prisma ./prisma/
 
+# Install app dependencies
 RUN npm install --silent
-RUN npm run build
-RUN npm run seed:refresh
 
-# Copy app to container
 COPY . .
+
+RUN npm run build
+
+FROM node:lts
+
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/prisma ./prisma
+
+# Create .env file with the environment variables
+RUN echo "PORT=5000" >> .env && echo "SALT_ROUNDS=10" >> .env && echo "JWT_SECRET_KEY=p0tpY8rIzugOu7pV5qBW" >> .env && echo 'DATABASE_URL="postgresql://postgres:example@database:5432/postgres"' >> .env
 
 EXPOSE 5000
+
+CMD [  "npm", "run", "start:migrate:prod" ]
