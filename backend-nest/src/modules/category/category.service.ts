@@ -1,23 +1,23 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 
 import { CacheService } from '../cache/cache.service';
-import { CartsService } from '../carts/carts.service';
+import { CartService } from '../cart/cart.service';
 
 import lang from '../../resources/lang';
 import { Category } from '../../interfaces/category';
 import getTranslation from '../../functions/getTranslation';
 import { PrismaService } from '../../prisma/prisma.service';
-import { UsersService } from '../users/users.service';
+import { UserService } from '../user/user.service';
 import { CreateCategoryDto, UpdateCategoryDto } from 'src/dto/category.dto';
 import { Token } from 'src/interfaces/token';
 
 @Injectable()
-export class CategoriesService {
+export class CategoryService {
   constructor(
     private readonly cacheService: CacheService,
-    private readonly cartsService: CartsService,
+    private readonly cartService: CartService,
     private readonly prisma: PrismaService,
-    private readonly userService: UsersService,
+    private readonly userService: UserService,
   ) {}
 
   async getCategories(currentLang: string) {
@@ -177,7 +177,7 @@ export class CategoriesService {
     await this.userService.isAdmin(user);
 
     await this.retrieveCategoryById(categoryId, currentLang);
-    await this.cartsService.deleteCategoryProductsFromCarts(categoryId);
+    await this.cartService.deleteCategoryProductsFromCarts(categoryId);
     await this.prisma.$transaction([
       this.prisma.product.deleteMany({ where: { categoryId } }),
       this.prisma.category.delete({ where: { id: categoryId } }),

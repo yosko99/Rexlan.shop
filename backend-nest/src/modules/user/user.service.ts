@@ -22,7 +22,7 @@ import { User } from '@prisma/client';
 import generateTemporaryPassword from 'src/functions/generateTemporaryPassword';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
     private readonly mailService: MailService,
     private readonly prisma: PrismaService,

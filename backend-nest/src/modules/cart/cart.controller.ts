@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 
 import { RequestData } from '../../decorators/requestData.decorator';
 
-import { CartsService } from './carts.service';
+import { CartService } from './cart.service';
 import {
   ApiHeader,
   ApiOperation,
@@ -20,8 +20,8 @@ import { Token } from 'src/interfaces/token';
 
 @Controller('carts')
 @ApiTags('Carts')
-export class CartsController {
-  constructor(private readonly cartsService: CartsService) {}
+export class CartController {
+  constructor(private readonly cartService: CartService) {}
 
   @Get('/:id/products')
   @ApiOperation({ summary: 'Fetch cart products' })
@@ -32,7 +32,7 @@ export class CartsController {
     @Param('id') cartId: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.cartsService.getCartProducts(cartId, currentLang);
+    return this.cartService.getCartProducts(cartId, currentLang);
   }
 
   @Post('/:id/products')
@@ -45,7 +45,7 @@ export class CartsController {
     @Body() addCartProductDto: AddCartProductDto,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.cartsService.addProductToCart(
+    return this.cartService.addProductToCart(
       cartId,
       addCartProductDto,
       currentLang,
@@ -62,7 +62,7 @@ export class CartsController {
     @Param('productId') productId: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.cartsService.removeProductFromCart(
+    return this.cartService.removeProductFromCart(
       cartId,
       productId,
       currentLang,
@@ -83,6 +83,6 @@ export class CartsController {
     userDataFromToken: Token,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.cartsService.deleteCart(cartId, userDataFromToken, currentLang);
+    return this.cartService.deleteCart(cartId, userDataFromToken, currentLang);
   }
 }

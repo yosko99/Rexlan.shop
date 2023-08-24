@@ -7,17 +7,17 @@ import lang from '../../resources/lang';
 import { PrismaService } from '../../prisma/prisma.service';
 import { getProductIncludeQuery } from '../../prisma/queries/product.queries';
 import { Product, ProductSortAttributes } from '../../interfaces/product';
-import getTranslation from '../../functions/getTranslation';
 import { CreateProductDto, UpdateProductDto } from 'src/dto/product.dto';
-import { UsersService } from '../users/users.service';
+import { UserService } from '../user/user.service';
 import { Token } from 'src/interfaces/token';
+import extractProductData from 'src/functions/extractProductData';
 
 @Injectable()
-export class ProductsService {
+export class ProductService {
   constructor(
     private readonly cacheService: CacheService,
     private readonly prisma: PrismaService,
-    private readonly userService: UsersService,
+    private readonly userService: UserService,
   ) {}
 
   async getProducts(qty: string, currentLang: string) {
@@ -35,40 +35,24 @@ export class ProductsService {
   async getProduct(productId: string, currentLang: string) {
     const cacheKey = `product-${productId}-lang${currentLang}`;
 
-    const product = (await this.prisma.product.findUnique({
-      where: { id: productId },
-      include: getProductIncludeQuery(),
-    })) as unknown as Product;
-
-    if (product === null) {
-      return new NotFoundException(
-        lang[currentLang].global.noDataWithProvidedID,
-      );
-    }
+    const product = await this.retrieveProduct(productId, currentLang);
+    await this.updateProductViews(productId);
 
     return this.cacheService.setAndGetData(cacheKey, () =>
-      this.extractProductData(product, currentLang),
+      extractProductData(product, currentLang),
     );
   }
 
-  extractProductData(product: Product, lang: string): Product {
-    const productTranslation = getTranslation(product.translations, lang);
-    const categoryTranslation = getTranslation(
-      product.category.translations,
-      lang,
-    );
-
-    return {
-      id: product.id,
-      price: product.price,
-      image: product.image,
-      rating: product.rating,
-      category:
-        categoryTranslation?.title || product.category.translations[0].title,
-      title: productTranslation?.title || product.translations[0].title,
-      description:
-        productTranslation?.description || product.translations[0].description,
-    };
+  private async updateProductViews(productId: string) {
+    await this.prisma.productView.upsert({
+      create: {
+        product: { connect: { id: productId } },
+      },
+      update: {
+        count: { increment: 1 },
+      },
+      where: { productId },
+    });
   }
 
   async getProductsByCategory(
@@ -290,7 +274,7 @@ export class ProductsService {
   ) {
     return this.cacheService.setAndGetData(cacheKey, () =>
       products.map((product) => {
-        return this.extractProductData(product as unknown as Product, lang);
+        return extractProductData(product as unknown as Product, lang);
       }),
     );
   }

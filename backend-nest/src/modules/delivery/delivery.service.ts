@@ -4,7 +4,7 @@ import lang from '../../resources/lang';
 import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
-export class DeliveriesService {
+export class DeliveryService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getDeliveries(currentLang: string) {

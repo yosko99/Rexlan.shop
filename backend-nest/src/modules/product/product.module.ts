@@ -5,22 +5,22 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 
-import { ProductsController } from './products.controller';
+import { ProductsController } from './product.controller';
 
 import { PrismaService } from '../../prisma/prisma.service';
-import { ProductsService } from './products.service';
-import { VerifyJWTMiddleware } from 'src/middleware/utils/verifyJWT.middleware';
-import { UsersModule } from '../users/users.module';
+import { ProductService } from './product.service';
+import { VerifyJWT } from 'src/middleware/utils/verifyJWT.middleware';
+import { UserModule } from '../user/user.module';
 
 @Module({
-  imports: [UsersModule],
+  imports: [UserModule],
   controllers: [ProductsController],
-  providers: [ProductsService, PrismaService],
-  exports: [ProductsService],
+  providers: [ProductService, PrismaService],
+  exports: [ProductService],
 })
-export class ProductsModule implements NestModule {
+export class ProductModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(VerifyJWTMiddleware).forRoutes(
+    consumer.apply(VerifyJWT).forRoutes(
       {
         path: '/products',
         method: RequestMethod.POST,

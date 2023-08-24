@@ -12,7 +12,7 @@ import {
 
 import { RequestData } from '../../decorators/requestData.decorator';
 
-import { OrdersService } from './orders.service';
+import { OrderService } from './order.service';
 import { Token } from 'src/interfaces/token';
 import {
   ApiHeader,
@@ -32,8 +32,8 @@ import { CreateOrderDto } from 'src/dto/order.dto';
 
 @Controller('orders')
 @ApiTags('Orders')
-export class OrdersController {
-  constructor(private readonly ordersService: OrdersService) {}
+export class OrderController {
+  constructor(private readonly orderService: OrderService) {}
 
   @Get('/:id')
   @ApiHeader({ name: 'Authorization', required: true })
@@ -47,7 +47,7 @@ export class OrdersController {
     @Param('id') orderId: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.ordersService.getOrder(orderId, currentLang);
+    return this.orderService.getOrder(orderId, currentLang);
   }
 
   @Delete('/:id')
@@ -64,7 +64,7 @@ export class OrdersController {
     userDataFromToken: Token,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.ordersService.deleteOrder(
+    return this.orderService.deleteOrder(
       orderId,
       userDataFromToken,
       currentLang,
@@ -80,6 +80,6 @@ export class OrdersController {
     @Headers('authorization') tokenHeader: string,
     @Body() orderDto: CreateOrderDto,
   ) {
-    return this.ordersService.createOrder(orderDto, tokenHeader);
+    return this.orderService.createOrder(orderDto, tokenHeader);
   }
 }

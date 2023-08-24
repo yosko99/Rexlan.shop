@@ -8,7 +8,7 @@ type ExtendedRequest = Request & {
 };
 
 @Injectable()
-export class VerifyJWTMiddleware implements NestMiddleware {
+export class VerifyJWT implements NestMiddleware {
   async use(req: ExtendedRequest, res: Response, next: NextFunction) {
     const tokenHeader = req.headers.authorization;
     const token = tokenHeader && tokenHeader.split(' ')[1];

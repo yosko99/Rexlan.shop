@@ -11,7 +11,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 
-import { ProductsService } from './products.service';
+import { ProductService } from './product.service';
 
 import { RequestData } from '../../decorators/requestData.decorator';
 import { ProductSortAttributes } from 'src/interfaces/product';
@@ -36,7 +36,7 @@ import { Token } from 'src/interfaces/token';
 @Controller('products')
 @ApiTags('Products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(private readonly productService: ProductService) {}
 
   @Get()
   @ApiOperation({ summary: 'Fetch all products' })
@@ -47,7 +47,7 @@ export class ProductsController {
     @Query('qty') qty: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.productsService.getProducts(qty, currentLang);
+    return this.productService.getProducts(qty, currentLang);
   }
 
   @Get('/:id')
@@ -59,7 +59,7 @@ export class ProductsController {
     @Param('id') productId: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.productsService.getProduct(productId, currentLang);
+    return this.productService.getProduct(productId, currentLang);
   }
 
   @Get('/category/:category')
@@ -73,7 +73,7 @@ export class ProductsController {
     @RequestData('currentLang') currentLang: string,
     @Query('qty') qty: string,
   ) {
-    return this.productsService.getProductsByCategory(
+    return this.productService.getProductsByCategory(
       qty,
       categoryName,
       currentLang,
@@ -92,7 +92,7 @@ export class ProductsController {
     @RequestData('currentLang') currentLang: string,
     @Query('qty') qty: string,
   ) {
-    return this.productsService.getProductsSortedByAttribute(
+    return this.productService.getProductsSortedByAttribute(
       qty,
       productAttribute,
       currentLang,
@@ -107,7 +107,7 @@ export class ProductsController {
     @Param('pattern') pattern: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.productsService.getProductsByQueryString(pattern, currentLang);
+    return this.productService.getProductsByQueryString(pattern, currentLang);
   }
 
   @Post()
@@ -127,7 +127,7 @@ export class ProductsController {
     @RequestData('userDataFromToken')
     userDataFromToken: Token,
   ) {
-    return this.productsService.createProduct(
+    return this.productService.createProduct(
       createProductDto,
       userDataFromToken,
       currentLang,
@@ -152,7 +152,7 @@ export class ProductsController {
     userDataFromToken: Token,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.productsService.updateProduct(
+    return this.productService.updateProduct(
       updateProductDto,
       productId,
       userDataFromToken,
@@ -175,7 +175,7 @@ export class ProductsController {
     userDataFromToken: Token,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.productsService.deleteProduct(
+    return this.productService.deleteProduct(
       productId,
       userDataFromToken,
       currentLang,

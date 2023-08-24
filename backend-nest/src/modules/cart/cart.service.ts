@@ -3,17 +3,18 @@ import { HttpException, Injectable } from '@nestjs/common';
 
 import lang from '../../resources/lang';
 import { PrismaService } from '../../prisma/prisma.service';
-import { ProductsService } from '../products/products.service';
+import { ProductService } from '../product/product.service';
 import { AddCartProductDto } from 'src/dto/cart.dto';
-import { UsersService } from '../users/users.service';
+import { UserService } from '../user/user.service';
 import { Token } from 'src/interfaces/token';
+import extractProductData from 'src/functions/extractProductData';
 
 @Injectable()
-export class CartsService {
+export class CartService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly userService: UsersService,
-    private readonly productService: ProductsService,
+    private readonly userService: UserService,
+    private readonly productService: ProductService,
   ) {}
 
   async getCartProducts(cartId: string, currentLang: string) {
@@ -22,7 +23,7 @@ export class CartsService {
     return {
       products: cart.products.map((product) => {
         return {
-          ...this.productService.extractProductData(
+          ...extractProductData(
             // @ts-ignore
             product.product,
             currentLang,

@@ -14,7 +14,7 @@ import {
 
 import { RequestData } from '../../decorators/requestData.decorator';
 
-import { UsersService } from './users.service';
+import { UserService } from './user.service';
 import { Token } from 'src/interfaces/token';
 import {
   ApiHeader,
@@ -41,8 +41,8 @@ import {
 
 @Controller('users')
 @ApiTags('Users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
   @Get()
   @ApiHeader({ name: 'Authorization', required: true })
@@ -54,7 +54,7 @@ export class UsersController {
     @RequestData('userDataFromToken')
     userDataFromToken: Token,
   ) {
-    return this.usersService.getUsers(userDataFromToken);
+    return this.userService.getUsers(userDataFromToken);
   }
 
   @Get('/current/orders')
@@ -67,7 +67,7 @@ export class UsersController {
     @RequestData('userDataFromToken')
     userDataFromToken: Token,
   ) {
-    return this.usersService.getCurrentUserOrders(userDataFromToken);
+    return this.userService.getCurrentUserOrders(userDataFromToken);
   }
 
   @Post()
@@ -83,7 +83,7 @@ export class UsersController {
     @Body() createUserDto: CreateUserDto,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.usersService.createUser(
+    return this.userService.createUser(
       createUserDto,
       headers.sendtokenback,
       currentLang,
@@ -102,7 +102,7 @@ export class UsersController {
     userDataFromToken: Token,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.usersService.deleteUser(userId, userDataFromToken, currentLang);
+    return this.userService.deleteUser(userId, userDataFromToken, currentLang);
   }
 
   @Get('/user/:id')
@@ -110,7 +110,7 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'User fetched' })
   @ApiResponse({ status: 404, description: 'User not found' })
   getUser(@Param('id') userId: string) {
-    return this.usersService.getUser(userId);
+    return this.userService.getUser(userId);
   }
 
   @Put('/user/:id')
@@ -124,7 +124,7 @@ export class UsersController {
     @RequestData('currentLang') currentLang: string,
     @Param('id') userId: string,
   ) {
-    return this.usersService.updateUser(userId, updateUserDto, currentLang);
+    return this.userService.updateUser(userId, updateUserDto, currentLang);
   }
 
   @Put('/current')
@@ -139,7 +139,7 @@ export class UsersController {
     @Body() updateCurrentUserDto: UpdateCurrentUserDto,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.usersService.updateCurrentUser(
+    return this.userService.updateCurrentUser(
       userDataFromToken,
       updateCurrentUserDto,
       currentLang,
@@ -158,7 +158,7 @@ export class UsersController {
     @Body() loginUserDto: LoginUserDto,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.usersService.loginUser(loginUserDto, currentLang);
+    return this.userService.loginUser(loginUserDto, currentLang);
   }
 
   @Get('/current')
@@ -168,7 +168,7 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'User fetched' })
   @ApiResponse({ status: 404, description: 'User not found' })
   getCurrentUser(@RequestData('userDataFromToken') userDataFromToken: Token) {
-    return this.usersService.getCurrentUser(userDataFromToken);
+    return this.userService.getCurrentUser(userDataFromToken);
   }
 
   @Put('/current/password')
@@ -183,7 +183,7 @@ export class UsersController {
     @RequestData('userDataFromToken') userDataFromToken: Token,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.usersService.changeCurrentUserPassword(
+    return this.userService.changeCurrentUserPassword(
       updateCurrentUserPasswordDto,
       userDataFromToken,
       currentLang,
@@ -200,6 +200,6 @@ export class UsersController {
     @Body('email') email: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.usersService.resetPassword(email, currentLang);
+    return this.userService.resetPassword(email, currentLang);
   }
 }

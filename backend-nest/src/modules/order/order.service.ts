@@ -8,15 +8,14 @@ import { Token } from 'src/interfaces/token';
 import { CreateOrderDto } from 'src/dto/order.dto';
 import calculateTotalProductsPrice from 'src/functions/calculateTotalProductsPrice';
 import excludeObjectFields from 'src/functions/excludeObjectFields';
-import { ProductsService } from '../products/products.service';
-import { UsersService } from '../users/users.service';
+import { UserService } from '../user/user.service';
+import extractProductData from 'src/functions/extractProductData';
 
 @Injectable()
-export class OrdersService {
+export class OrderService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly productsService: ProductsService,
-    private readonly userService: UsersService,
+    private readonly userService: UserService,
   ) {}
 
   async getOrder(orderId: string, currentLang: string) {
@@ -26,7 +25,7 @@ export class OrdersService {
       ...excludeObjectFields(order, ['products', 'userId']),
       products: order.products.map((product) => {
         return {
-          ...this.productsService.extractProductData(
+          ...extractProductData(
             // @ts-ignore
             product.product,
             currentLang,

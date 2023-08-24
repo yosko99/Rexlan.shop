@@ -5,21 +5,21 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 
-import { VerifyJWTMiddleware } from '../../middleware/utils/verifyJWT.middleware';
+import { VerifyJWT } from '../../middleware/utils/verifyJWT.middleware';
 
-import { UsersController } from './users.controller';
+import { UserController } from './user.controller';
 
-import { UsersService } from './users.service';
+import { UserService } from './user.service';
 import { PrismaService } from '../../prisma/prisma.service';
 
 @Module({
-  controllers: [UsersController],
-  providers: [UsersService, PrismaService],
-  exports: [UsersService],
+  controllers: [UserController],
+  providers: [UserService, PrismaService],
+  exports: [UserService],
 })
-export class UsersModule implements NestModule {
+export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(VerifyJWTMiddleware).forRoutes(
+    consumer.apply(VerifyJWT).forRoutes(
       {
         path: '/users/current',
         method: RequestMethod.PUT,

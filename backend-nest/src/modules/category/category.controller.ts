@@ -10,7 +10,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 
-import { CategoriesService } from './categories.service';
+import { CategoryService } from './category.service';
 
 import { RequestData } from '../../decorators/requestData.decorator';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -25,15 +25,15 @@ import { CreateCategoryDto, UpdateCategoryDto } from 'src/dto/category.dto';
 
 @Controller('categories')
 @ApiTags('Categories')
-export class CategoriesController {
-  constructor(private readonly categoriesService: CategoriesService) {}
+export class CategoryController {
+  constructor(private readonly categoryService: CategoryService) {}
 
   @Get()
   @ApiOperation({ summary: 'Fetch all categories' })
   @ApiQuery(currentLangQuery)
   @ApiResponse({ status: 200, description: 'Categories fetched' })
   getCategories(@RequestData('currentLang') currentLang: string) {
-    return this.categoriesService.getCategories(currentLang);
+    return this.categoryService.getCategories(currentLang);
   }
 
   @Get('/:id')
@@ -45,7 +45,7 @@ export class CategoriesController {
     @Param('id') categoryId: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.categoriesService.getCategory(categoryId, currentLang);
+    return this.categoryService.getCategory(categoryId, currentLang);
   }
 
   @Post()
@@ -63,7 +63,7 @@ export class CategoriesController {
     userDataFromToken: Token,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.categoriesService.createCategory(
+    return this.categoryService.createCategory(
       createCategoryDto,
       userDataFromToken,
       currentLang,
@@ -87,7 +87,7 @@ export class CategoriesController {
     @RequestData('userDataFromToken')
     userDataFromToken: Token,
   ) {
-    return this.categoriesService.updateCategory(
+    return this.categoryService.updateCategory(
       categoryId,
       updateCategoryDto,
       userDataFromToken,
@@ -108,7 +108,7 @@ export class CategoriesController {
     @RequestData('userDataFromToken')
     userDataFromToken: Token,
   ) {
-    return this.categoriesService.deleteCategory(
+    return this.categoryService.deleteCategory(
       categoryId,
       userDataFromToken,
       currentLang,
