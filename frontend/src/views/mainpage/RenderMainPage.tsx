@@ -1,6 +1,6 @@
 import React, { FC, useContext } from 'react';
 
-import { Container, Row, Col, Image, Button, Carousel } from 'react-bootstrap';
+import { Button, Carousel, Col, Container, Image, Row } from 'react-bootstrap';
 // @ts-ignore
 import Fade from 'react-reveal/Fade';
 
@@ -17,13 +17,13 @@ import { Product } from '../../types/productTypes';
 interface Props {
   isLoading: boolean;
   featuredProducts: Product[];
-  bestSellers: Product[];
+  mostViewedProducts: Product[];
 }
 
 const RenderMainPage: FC<Props> = ({
   isLoading,
   featuredProducts,
-  bestSellers
+  mostViewedProducts
 }) => {
   const { lang } = useContext(CurrentLanguageContext);
   const carouselItems = Array(4)
@@ -38,9 +38,9 @@ const RenderMainPage: FC<Props> = ({
 
   return (
     <Container>
-      <CustomCarousel carouselItems={carouselItems} />
+      <CustomCarousel carouselItems={carouselItems}/>
 
-      <InfoBar textAreas={lang.mainPage.infoBar} />
+      <InfoBar textAreas={lang.mainPage.infoBar}/>
 
       {/* Women photos */}
       <Row className="my-5">
@@ -66,7 +66,7 @@ const RenderMainPage: FC<Props> = ({
         title={lang.mainPage.featuredProductsHeading.title}
         description={lang.mainPage.featuredProductsHeading.subtitle}
       />
-      <MultipleProductCards isLoading={isLoading} products={featuredProducts} />
+      <MultipleProductCards isLoading={isLoading} products={featuredProducts}/>
       {/* Featured products */}
 
       {/* Summer collection */}
@@ -123,7 +123,7 @@ const RenderMainPage: FC<Props> = ({
         title={lang.mainPage.bestSellersHeading.title}
         description={lang.mainPage.bestSellersHeading.subtitle}
       />
-      <MultipleProductCards isLoading={isLoading} products={bestSellers} />
+      <MultipleProductCards isLoading={isLoading} products={mostViewedProducts}/>
       {/* Best seller */}
     </Container>
   );

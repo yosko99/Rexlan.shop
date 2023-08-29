@@ -19,27 +19,27 @@ const MainPage = () => {
       link: getProductsRoute(4)
     },
     {
-      queryKey: 'bestSellers',
-      link: getProductsSortedByRoute('price', 3)
+      queryKey: 'mostViewed',
+      link: getProductsSortedByRoute('mostViewed', 3)
     }
   ]);
 
   if (isLoading) {
-    return <Loading height='90vh' />;
+    return <Loading height='90vh'/>;
   }
   if (error !== undefined) {
-    return <Navigate to="/404" state={{ error: error.message }} />;
+    return <Navigate to="/404" state={{ error: error.message }}/>;
   }
 
   const featuredProducts: Product[] = data[0] || [];
-  const bestSellers: Product[] = data[1] || [];
+  const mostViewedProducts: Product[] = data[1] || [];
 
   return (
     <>
       <RenderMainPage
         isLoading={isLoading}
         featuredProducts={featuredProducts}
-        bestSellers={bestSellers}
+        mostViewedProducts={mostViewedProducts}
       />
     </>
   );

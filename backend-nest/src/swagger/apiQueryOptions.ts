@@ -1,4 +1,4 @@
-import Language from 'src/enums/supportedLanguages.enum';
+import Language from '../enums/supportedLanguages.enum';
 
 export const currentLangQuery = {
   name: 'lang',

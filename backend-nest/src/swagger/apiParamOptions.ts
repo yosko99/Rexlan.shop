@@ -1,4 +1,4 @@
-import ProductSortAttribute from 'src/enums/productAttribute.enum';
+import ProductSortAttribute from '../enums/productAttribute.enum';
 
 export const productSortParam = {
   name: 'attribute',

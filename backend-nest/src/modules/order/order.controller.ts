@@ -13,7 +13,7 @@ import {
 import { RequestData } from '../../decorators/requestData.decorator';
 
 import { OrderService } from './order.service';
-import { Token } from 'src/interfaces/token';
+import { Token } from '../../interfaces/token';
 import {
   ApiHeader,
   ApiOperation,
@@ -21,14 +21,14 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { currentLangQuery } from 'src/swagger/apiQueryOptions';
+import { currentLangQuery } from '../../swagger/apiQueryOptions';
 import {
   invalidTokenResponse,
   missingFieldsResponse,
   noTokenAndNoAdminResponse,
   noTokenResponse,
-} from 'src/swagger/apiResponseOptions';
-import { CreateOrderDto } from 'src/dto/order.dto';
+} from '../../swagger/apiResponseOptions';
+import { CreateOrderDto } from '../../dto/order.dto';
 
 @Controller('orders')
 @ApiTags('Orders')

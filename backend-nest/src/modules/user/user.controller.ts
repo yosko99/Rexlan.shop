@@ -15,7 +15,7 @@ import {
 import { RequestData } from '../../decorators/requestData.decorator';
 
 import { UserService } from './user.service';
-import { Token } from 'src/interfaces/token';
+import { Token } from '../../interfaces/token';
 import {
   ApiHeader,
   ApiOperation,
@@ -29,15 +29,15 @@ import {
   UpdateCurrentUserDto,
   UpdateCurrentUserPassword,
   UpdateUserDto,
-} from 'src/dto/user.dto';
-import { currentLangQuery } from 'src/swagger/apiQueryOptions';
+} from '../../dto/user.dto';
+import { currentLangQuery } from '../../swagger/apiQueryOptions';
 import {
   invalidTokenResponse,
   missingFieldsResponse,
   noTokenAndNoAdminResponse,
   noTokenResponse,
   passwordMismatchResponse,
-} from 'src/swagger/apiResponseOptions';
+} from '../../swagger/apiResponseOptions';
 
 @Controller('users')
 @ApiTags('Users')

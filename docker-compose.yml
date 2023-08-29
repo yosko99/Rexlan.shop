@@ -5,32 +5,12 @@ services:
       context: ./backend-nest
       dockerfile: Dockerfile
     ports:
-      - 5000:5000
+      - '5000:5000'
     depends_on:
       - database
     networks:
       - rexlan-network
     restart: on-failure
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
-    networks:
-      - rexlan-network
-
-  database:
-    image: postgres:13
-    ports:
-      - 5432:5432
-    expose:
-      - 5432
-    environment:
-      - POSTGRES_PASSWORD=example
-      - POSTGRES_DB=postgres
-    networks:
-      - rexlan-network
 
   frontend:
     build:
@@ -41,6 +21,26 @@ services:
     depends_on:
       - backend
     command: serve -d build -p 3000
+    networks:
+      - rexlan-network
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - '8080:8080'
+    networks:
+      - rexlan-network
+
+  database:
+    image: postgres:13
+    ports:
+      - '5432:5432'
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_PASSWORD=example
+      - POSTGRES_DB=postgres
     networks:
       - rexlan-network
 

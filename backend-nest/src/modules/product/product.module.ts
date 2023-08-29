@@ -9,7 +9,7 @@ import { ProductsController } from './product.controller';
 
 import { PrismaService } from '../../prisma/prisma.service';
 import { ProductService } from './product.service';
-import { VerifyJWT } from 'src/middleware/utils/verifyJWT.middleware';
+import { VerifyJWT } from '../../middleware/utils/verifyJWT.middleware';
 import { UserModule } from '../user/user.module';
 
 @Module({

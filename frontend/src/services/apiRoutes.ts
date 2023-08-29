@@ -1,11 +1,11 @@
 import {
-  USERS_ROUTE,
   CARTS_ROUTE,
-  PRODUCTS_ROUTE,
   CATEGORIES_ROUTE,
   DELIVERIES_ROUTE,
   OPENWEATHER_ROUTE,
-  ORDERS_ROUTE
+  ORDERS_ROUTE,
+  PRODUCTS_ROUTE,
+  USERS_ROUTE
 } from '../constants/apiRouteConstants';
 
 const getCurrentLang = (): string => {
@@ -41,11 +41,10 @@ export const getProductsByCategoryRoute = (
 };
 
 type productSortingType =
-  | 'title'
+  | 'createdAt'
+  | 'updatedAt'
   | 'price'
-  | 'description'
-  | 'category'
-  | 'rating';
+  | 'mostViewed';
 
 export const getProductsSortedByRoute = (
   sort: productSortingType,

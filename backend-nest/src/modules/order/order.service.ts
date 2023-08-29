@@ -4,12 +4,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 import lang from '../../resources/lang';
 import { PrismaService } from '../../prisma/prisma.service';
-import { Token } from 'src/interfaces/token';
-import { CreateOrderDto } from 'src/dto/order.dto';
-import calculateTotalProductsPrice from 'src/functions/calculateTotalProductsPrice';
-import excludeObjectFields from 'src/functions/excludeObjectFields';
+import { Token } from '../../interfaces/token';
+import { CreateOrderDto } from '../../dto/order.dto';
+import calculateTotalProductsPrice from '../../functions/calculateTotalProductsPrice';
+import excludeObjectFields from '../../functions/excludeObjectFields';
 import { UserService } from '../user/user.service';
-import extractProductData from 'src/functions/extractProductData';
+import extractProductData from '../../functions/extractProductData';
 
 @Injectable()
 export class OrderService {

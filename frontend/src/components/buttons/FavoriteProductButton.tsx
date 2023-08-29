@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faHeart as hollowHeart } from '@fortawesome/free-regular-svg-icons';

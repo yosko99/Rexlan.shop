@@ -4,7 +4,7 @@ import { RequestData } from '../../decorators/requestData.decorator';
 
 import { DeliveryService } from './delivery.service';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { currentLangQuery } from 'src/swagger/apiQueryOptions';
+import { currentLangQuery } from '../../swagger/apiQueryOptions';
 
 @Controller('deliveries')
 @ApiTags('Deliveries')

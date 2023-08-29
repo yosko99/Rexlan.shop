@@ -11,7 +11,7 @@ import { CategoryService } from './category.service';
 
 import { PrismaService } from '../../prisma/prisma.service';
 import { CartModule } from '../cart/cart.module';
-import { VerifyJWT } from 'src/middleware/utils/verifyJWT.middleware';
+import { VerifyJWT } from '../../middleware/utils/verifyJWT.middleware';
 import { UserModule } from '../user/user.module';
 
 @Module({

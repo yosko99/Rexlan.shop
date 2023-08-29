@@ -7,10 +7,10 @@ import lang from '../../resources/lang';
 import { PrismaService } from '../../prisma/prisma.service';
 import { getProductIncludeQuery } from '../../prisma/queries/product.queries';
 import { Product, ProductSortAttributes } from '../../interfaces/product';
-import { CreateProductDto, UpdateProductDto } from 'src/dto/product.dto';
+import { CreateProductDto, UpdateProductDto } from '../../dto/product.dto';
 import { UserService } from '../user/user.service';
-import { Token } from 'src/interfaces/token';
-import extractProductData from 'src/functions/extractProductData';
+import { Token } from '../../interfaces/token';
+import extractProductData from '../../functions/extractProductData';
 
 @Injectable()
 export class ProductService {
@@ -30,6 +30,27 @@ export class ProductService {
     })) as unknown as Product[];
 
     return this.getCachedProducts(products, cacheKey, currentLang);
+  }
+
+  private async getMostViewedProducts(qty: number, currentLang: string) {
+    const topViewedProducts = await this.prisma.productView.findMany({
+      take: qty,
+      orderBy: {
+        count: 'desc',
+      },
+      include: {
+        product: {
+          include: getProductIncludeQuery(),
+        },
+      },
+    });
+
+    return topViewedProducts.map((product) => {
+      return extractProductData(
+        product.product as unknown as Product,
+        currentLang,
+      );
+    });
   }
 
   async getProduct(productId: string, currentLang: string) {
@@ -90,6 +111,11 @@ export class ProductService {
     currentLang: string,
   ) {
     const productQuantity = this.getQueryQty(qty);
+
+    if (productAttribute === 'mostViewed') {
+      return this.getMostViewedProducts(productQuantity, currentLang);
+    }
+
     const cacheKey = `${productAttribute}-qty${productQuantity}-lang${currentLang}`;
 
     try {

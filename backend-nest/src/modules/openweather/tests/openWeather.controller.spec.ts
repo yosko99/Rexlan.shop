@@ -5,8 +5,8 @@ import * as request from 'supertest';
 import setLanguageMiddleware from '../../../middleware/utils/setLanguage.middleware';
 
 import { AppModule } from '../../../app.module';
-
 import dotenv = require('dotenv');
+
 dotenv.config();
 
 describe('Testing openweather API', () => {
@@ -46,9 +46,9 @@ describe('Testing openweather API', () => {
       return request(app.getHttpServer())
         .get('/openweather/city')
         .expect('Content-Type', /json/)
+        .expect(404)
         .then((response) => {
           expect(response.body.message).toBe('Coordinates not provided');
-          expect(response.body.status).toBe(404);
         });
     });
 
@@ -56,8 +56,8 @@ describe('Testing openweather API', () => {
       return request(app.getHttpServer())
         .get('/openweather/city?lon=asdads213&lat=12')
         .expect('Content-Type', /json/)
+        .expect(400)
         .then((response) => {
-          expect(response.body.status).toBe(400);
           expect(response.body.message).toBe('Invalid coordinates');
         });
     });

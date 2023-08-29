@@ -14,14 +14,14 @@ import { CategoryService } from './category.service';
 
 import { RequestData } from '../../decorators/requestData.decorator';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { currentLangQuery } from 'src/swagger/apiQueryOptions';
+import { currentLangQuery } from '../../swagger/apiQueryOptions';
 import {
   invalidTokenResponse,
   missingFieldsResponse,
   noTokenAndNoAdminResponse,
-} from 'src/swagger/apiResponseOptions';
-import { Token } from 'src/interfaces/token';
-import { CreateCategoryDto, UpdateCategoryDto } from 'src/dto/category.dto';
+} from '../../swagger/apiResponseOptions';
+import { Token } from '../../interfaces/token';
+import { CreateCategoryDto, UpdateCategoryDto } from '../../dto/category.dto';
 
 @Controller('categories')
 @ApiTags('Categories')

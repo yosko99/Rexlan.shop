@@ -14,7 +14,7 @@ import {
 import { ProductService } from './product.service';
 
 import { RequestData } from '../../decorators/requestData.decorator';
-import { ProductSortAttributes } from 'src/interfaces/product';
+import { ProductSortAttributes } from '../../interfaces/product';
 import {
   ApiHeader,
   ApiOperation,
@@ -23,15 +23,15 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { currentLangQuery, quantityQuery } from 'src/swagger/apiQueryOptions';
-import { productSortParam } from 'src/swagger/apiParamOptions';
-import { CreateProductDto, UpdateProductDto } from 'src/dto/product.dto';
+import { currentLangQuery, quantityQuery } from '../../swagger/apiQueryOptions';
+import { productSortParam } from '../../swagger/apiParamOptions';
+import { CreateProductDto, UpdateProductDto } from '../../dto/product.dto';
 import {
   invalidTokenResponse,
   missingFieldsResponse,
   noTokenAndNoAdminResponse,
-} from 'src/swagger/apiResponseOptions';
-import { Token } from 'src/interfaces/token';
+} from '../../swagger/apiResponseOptions';
+import { Token } from '../../interfaces/token';
 
 @Controller('products')
 @ApiTags('Products')

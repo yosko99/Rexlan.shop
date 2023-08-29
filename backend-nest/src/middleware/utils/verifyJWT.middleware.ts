@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
-import { Token } from 'src/interfaces/token';
+import { Token } from '../../interfaces/token';
 
 type ExtendedRequest = Request & {
   userDataFromToken: Token;
@@ -22,7 +22,7 @@ export class VerifyJWT implements NestMiddleware {
         return res.status(403).send(err);
       }
 
-      req.userDataFromToken = data;
+      req.userDataFromToken = data as Token;
       next();
     });
   }

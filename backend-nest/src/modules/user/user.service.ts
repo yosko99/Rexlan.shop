@@ -19,7 +19,7 @@ import {
   UpdateUserDto,
 } from 'src/dto/user.dto';
 import { User } from '@prisma/client';
-import generateTemporaryPassword from 'src/functions/generateTemporaryPassword';
+import generateTemporaryPassword from '../../functions/generateTemporaryPassword';
 
 @Injectable()
 export class UserService {
@@ -128,9 +128,7 @@ export class UserService {
   }
 
   private generateToken(email: string, password: string) {
-    const token = jwt.sign({ email, password }, process.env.JWT_SECRET_KEY);
-
-    return token;
+    return jwt.sign({ email, password }, process.env.JWT_SECRET_KEY);
   }
 
   async retrieveUserById(userId: string) {
@@ -154,9 +152,7 @@ export class UserService {
   }
 
   async getUser(userId: string) {
-    const user = await this.retrieveUserById(userId);
-
-    return user;
+    return await this.retrieveUserById(userId);
   }
 
   async deleteUser(userId: string, { email }: Token, currentLang: string) {
@@ -238,7 +234,7 @@ export class UserService {
   }
 
   async getCurrentUserOrders({ email }: Token) {
-    const orders = await this.prisma.order.findMany({
+    return await this.prisma.order.findMany({
       where: { user: { email } },
       select: {
         createdAt: true,
@@ -248,8 +244,6 @@ export class UserService {
         productsPrice: true,
       },
     });
-
-    return orders;
   }
 
   async loginUser({ email, password }: LoginUserDto, currentLang: string) {
@@ -349,7 +343,7 @@ export class UserService {
       data: { password: hashedPassword },
     });
 
-    const mailResponse = await this.mailService.sendEmailMessage(
+    return await this.mailService.sendEmailMessage(
       {
         to: email,
         subject: lang[currentLang].controllers.user.passwordReset.subject,
@@ -363,14 +357,11 @@ export class UserService {
       },
       currentLang,
     );
-
-    return mailResponse;
   }
 
   private async createHashedPassword(password: string): Promise<string> {
     const salt = bcrypt.genSaltSync(Number(process.env.SALT_ROUNDS));
-    const hashedPassword = bcrypt.hashSync(password, salt);
 
-    return hashedPassword;
+    return bcrypt.hashSync(password, salt);
   }
 }

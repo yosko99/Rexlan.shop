@@ -9,7 +9,7 @@ import { OrderController } from './order.controller';
 
 import { OrderService } from './order.service';
 import { PrismaService } from '../../prisma/prisma.service';
-import { VerifyJWT } from 'src/middleware/utils/verifyJWT.middleware';
+import { VerifyJWT } from '../../middleware/utils/verifyJWT.middleware';
 import { UserModule } from '../user/user.module';
 
 @Module({

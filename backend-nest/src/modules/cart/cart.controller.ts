@@ -10,13 +10,13 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { currentLangQuery } from 'src/swagger/apiQueryOptions';
+import { currentLangQuery } from '../../swagger/apiQueryOptions';
 import {
   invalidTokenResponse,
   noTokenAndNoAdminResponse,
-} from 'src/swagger/apiResponseOptions';
-import { AddCartProductDto } from 'src/dto/cart.dto';
-import { Token } from 'src/interfaces/token';
+} from '../../swagger/apiResponseOptions';
+import { AddCartProductDto } from '../../dto/cart.dto';
+import { Token } from '../../interfaces/token';
 
 @Controller('carts')
 @ApiTags('Carts')

@@ -6,8 +6,8 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { ProductService } from '../product/product.service';
 import { AddCartProductDto } from 'src/dto/cart.dto';
 import { UserService } from '../user/user.service';
-import { Token } from 'src/interfaces/token';
-import extractProductData from 'src/functions/extractProductData';
+import { Token } from '../../interfaces/token';
+import extractProductData from '../../functions/extractProductData';
 
 @Injectable()
 export class CartService {
