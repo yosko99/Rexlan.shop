@@ -176,19 +176,27 @@ export class ProductService {
     { email }: Token,
     currentLang: string,
   ) {
-    const user = await this.userService.retrieveUserByEmail(email);
-    await this.userService.isAdmin(user);
+    await this.userService.isAdmin(email);
 
     const selectedCategory = await this.doesCategoryExist(category);
 
     const newProduct = await this.prisma.product.create({
       data: {
-        rating: { create: { count: 0, rate: 0 } },
+        rating: {
+          create: {
+            count: 0,
+            rate: 0,
+          },
+        },
         price: price === undefined ? 0 : Number(price),
         category: { connect: { id: selectedCategory.id } },
         image,
         translations: {
-          create: { lang: currentLang, title, description },
+          create: {
+            lang: currentLang,
+            title,
+            description,
+          },
         },
       },
     });
@@ -206,8 +214,7 @@ export class ProductService {
     { email }: Token,
     currentLang: string,
   ) {
-    const user = await this.userService.retrieveUserByEmail(email);
-    await this.userService.isAdmin(user);
+    await this.userService.isAdmin(email);
 
     await this.retrieveProduct(productId, currentLang);
     await this.prisma.product.delete({ where: { id: productId } });
@@ -224,8 +231,7 @@ export class ProductService {
     { email }: Token,
     currentLang: string,
   ) {
-    const user = await this.userService.retrieveUserByEmail(email);
-    await this.userService.isAdmin(user);
+    await this.userService.isAdmin(email);
 
     const product = await this.retrieveProduct(productId, currentLang);
     const selectedCategory = await this.doesCategoryExist(category);

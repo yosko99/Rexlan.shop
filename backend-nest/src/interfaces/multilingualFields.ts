@@ -17,6 +17,7 @@ export interface MultilingualFields {
       dataDeleted: string;
       dataUpdated: string;
       couldNotFindData: string;
+      titleAlreadyExists: string;
     };
     controllers: {
       cart: {
@@ -55,6 +56,9 @@ export interface MultilingualFields {
       product: {
         productUpdated: string;
         productCreated: string;
+      };
+      delivery: {
+        deliveryCreated: string;
       };
       order: {
         orderCreated: string;

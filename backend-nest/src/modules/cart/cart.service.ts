@@ -166,8 +166,7 @@ export class CartService {
   }
 
   async deleteCart(cartId: string, { email }: Token, currentLang: string) {
-    const user = await this.userService.retrieveUserByEmail(email);
-    await this.userService.isAdmin(user);
+    await this.userService.isAdmin(email);
 
     await this.retrieveCart(cartId, currentLang);
     await this.prisma.cart.delete({ where: { id: cartId } });

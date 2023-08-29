@@ -29,8 +29,7 @@ export class UserService {
   ) {}
 
   async getUsers({ email }: Token) {
-    const user = await this.retrieveUserByEmail(email);
-    await this.isAdmin(user);
+    await this.isAdmin(email);
 
     const users = await this.prisma.user.findMany({
       where: { email: { not: email } },
@@ -41,13 +40,17 @@ export class UserService {
     });
   }
 
-  async isAdmin(user: User) {
+  async isAdmin(email: string) {
+    const user = await this.retrieveUserByEmail(email);
+
     if (!user.isAdmin) {
       throw new HttpException(
         'User not unauthorized, do not meet required privileges',
         401,
       );
     }
+
+    return user;
   }
 
   async createUser(
@@ -128,7 +131,13 @@ export class UserService {
   }
 
   private generateToken(email: string, password: string) {
-    return jwt.sign({ email, password }, process.env.JWT_SECRET_KEY);
+    return jwt.sign(
+      {
+        email,
+        password,
+      },
+      process.env.JWT_SECRET_KEY,
+    );
   }
 
   async retrieveUserById(userId: string) {
@@ -156,8 +165,7 @@ export class UserService {
   }
 
   async deleteUser(userId: string, { email }: Token, currentLang: string) {
-    const user = await this.retrieveUserByEmail(email);
-    await this.isAdmin(user);
+    await this.isAdmin(email);
 
     await this.retrieveUserById(userId);
     await this.prisma.user.delete({ where: { id: userId } });

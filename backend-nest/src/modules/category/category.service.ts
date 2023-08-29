@@ -22,7 +22,14 @@ export class CategoryService {
 
   async getCategories(currentLang: string) {
     const categories = (await this.prisma.category.findMany({
-      include: { translations: { select: { title: true, lang: true } } },
+      include: {
+        translations: {
+          select: {
+            title: true,
+            lang: true,
+          },
+        },
+      },
     })) as unknown as Category[];
 
     return categories.map((category) => {
@@ -72,8 +79,7 @@ export class CategoryService {
     { email }: Token,
     currentLang: string,
   ) {
-    const user = await this.userService.retrieveUserByEmail(email);
-    await this.userService.isAdmin(user);
+    await this.userService.isAdmin(email);
 
     await this.doesCategoryNameExist(title, currentLang);
 
@@ -117,8 +123,7 @@ export class CategoryService {
     { email }: Token,
     currentLang: string,
   ) {
-    const user = await this.userService.retrieveUserByEmail(email);
-    await this.userService.isAdmin(user);
+    await this.userService.isAdmin(email);
 
     const category = await this.retrieveCategoryById(categoryId, currentLang);
     await this.doesCategoryNameExist(title, currentLang);
@@ -173,9 +178,7 @@ export class CategoryService {
     { email }: Token,
     currentLang: string,
   ) {
-    const user = await this.userService.retrieveUserByEmail(email);
-    await this.userService.isAdmin(user);
-
+    await this.userService.isAdmin(email);
     await this.retrieveCategoryById(categoryId, currentLang);
     await this.cartService.deleteCategoryProductsFromCarts(categoryId);
     await this.prisma.$transaction([

@@ -19,6 +19,7 @@ const lang: MultilingualFields = {
       dataDeleted: 'Data successfully deleted.',
       dataUpdated: 'Data updated successfully',
       couldNotFindData: 'Could not find data',
+      titleAlreadyExists: 'Title already exists',
     },
     controllers: {
       cart: {
@@ -58,6 +59,9 @@ const lang: MultilingualFields = {
         productUpdated: 'The product was updated',
         productCreated: 'The product was created',
       },
+      delivery: {
+        deliveryCreated: 'The delivery was crated',
+      },
       order: {
         orderCreated:
           'Your order was created successfully, now you can wait for phone or email comfirmation from our team.',
@@ -84,6 +88,7 @@ const lang: MultilingualFields = {
       dataDeleted: 'Данните бяха успешно изтрити.',
       dataUpdated: 'Данните бяха успешно обновени',
       couldNotFindData: 'Не можахме да намерим данни',
+      titleAlreadyExists: 'Заглавието вече съществува',
     },
     controllers: {
       cart: {
@@ -127,6 +132,9 @@ const lang: MultilingualFields = {
         productUpdated: 'Продуктът е обновен',
         productCreated: 'Продуктът е създаден',
       },
+      delivery: {
+        deliveryCreated: 'Опцията за доставка беше създадена',
+      },
       order: {
         orderCreated:
           'Вашата поръчка е създадена успешно, сега можете да изчакате потвърждение по телефона или имейл от нашия екип.',
@@ -153,6 +161,7 @@ const lang: MultilingualFields = {
       dataDeleted: 'Datos eliminados correctamente.',
       dataUpdated: 'Datos actualizados correctamente',
       couldNotFindData: 'No se pudieron encontrar los datos',
+      titleAlreadyExists: 'El título ya existe',
     },
     controllers: {
       cart: {
@@ -193,6 +202,9 @@ const lang: MultilingualFields = {
           description:
             'Puede utilizar la contraseña temporal proporcionada para iniciar sesión.',
         },
+      },
+      delivery: {
+        deliveryCreated: 'Se creó la opción de entrega.',
       },
       product: {
         productUpdated: 'El producto se ha actualizado',

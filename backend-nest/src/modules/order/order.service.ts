@@ -61,8 +61,7 @@ export class OrderService {
   }
 
   async deleteOrder(orderId: string, { email }: Token, currentLang: string) {
-    const user = await this.userService.retrieveUserByEmail(email);
-    await this.userService.isAdmin(user);
+    await this.userService.isAdmin(email);
 
     await this.retrieveOrder(orderId);
     await this.prisma.order.delete({ where: { id: orderId } });
