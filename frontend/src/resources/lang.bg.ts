@@ -1,9 +1,4 @@
-import {
-  faCircleDollarToSlot,
-  faClock,
-  faLock,
-  faTruck
-} from '@fortawesome/free-solid-svg-icons';
+import { faCircleDollarToSlot, faClock, faLock, faTruck } from '@fortawesome/free-solid-svg-icons';
 
 import HTMLFields from '../types/htmlFields';
 
@@ -14,6 +9,7 @@ const lang: HTMLFields = {
     categories: 'Категории',
     contacts: 'Контакти',
     help: 'Помощ',
+    deliveries: 'Доставки',
     orders: 'Поръчки',
     pricing: 'Цени',
     settings: 'Настройки',
@@ -143,7 +139,7 @@ const lang: HTMLFields = {
       inputText: 'Никога не бихме споделили вашия имейл с някой друг.'
     },
     password: {
-      label: "Парола <span className='text-muted'>(минимум 8 символа)</span>",
+      label: 'Парола <span className=\'text-muted\'>(минимум 8 символа)</span>',
       placeholder: 'Парола',
       inputAlert: `Моля предоставете парола която съдържа
       (поне 1 главна буква,
@@ -162,13 +158,13 @@ const lang: HTMLFields = {
     phone: {
       label: 'Вашият телефон',
       placeholder: '+12345678910',
-      inputAlert: "Очакваният формат за телефонен номер е '+xxxxxxxxxxxx'"
+      inputAlert: 'Очакваният формат за телефонен номер е \'+xxxxxxxxxxxx\''
     },
     city: {
       label: 'Град',
       placeholder: 'Амстердам',
       inputText:
-        "Позволявайки 'текущо местоположение' ние ще попълни тази стойност за вас."
+        'Позволявайки \'текущо местоположение\' ние ще попълни тази стойност за вас.'
     },
     postalCode: {
       label: 'Пощенски код',
@@ -302,6 +298,16 @@ const lang: HTMLFields = {
               'Тук можете да добавяте, премахвате и редактирате продукти'
           },
           editProductsTableCols: {
+            imageCol: 'Изображение',
+            titleCol: 'Заглавие'
+          }
+        },
+        editDeliveries: {
+          header: {
+            title: 'Редактиране на доставки',
+            subtitle: 'Тук можете да добавяте, премахвате и редактирате доставки'
+          },
+          editDeliveriesTableCols: {
             imageCol: 'Изображение',
             titleCol: 'Заглавие'
           }

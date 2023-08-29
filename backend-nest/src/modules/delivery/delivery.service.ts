@@ -114,4 +114,14 @@ export class DeliveryService {
       throw new HttpException(`Something went wrong: ${e.message}`, 502);
     }
   }
+
+  async deleteDelivery(id: string, { email }: Token, currentLang: string) {
+    await this.userService.isAdmin(email);
+    await this.retrieveDelivery(id, currentLang);
+    await this.prisma.delivery.delete({ where: { id } });
+
+    return {
+      msg: lang[currentLang].global.dataDeleted,
+    };
+  }
 }

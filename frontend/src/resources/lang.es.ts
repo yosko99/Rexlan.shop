@@ -1,9 +1,4 @@
-import {
-  faCircleDollarToSlot,
-  faClock,
-  faLock,
-  faTruck
-} from '@fortawesome/free-solid-svg-icons';
+import { faCircleDollarToSlot, faClock, faLock, faTruck } from '@fortawesome/free-solid-svg-icons';
 
 import HTMLFields from '../types/htmlFields';
 
@@ -14,6 +9,7 @@ const lang: HTMLFields = {
     categories: 'Categorías',
     contacts: 'Contactos',
     help: 'Ayuda',
+    deliveries: 'Entregas',
     orders: 'Órdenes',
     pricing: 'Precios',
     settings: 'Configuración',
@@ -145,7 +141,7 @@ const lang: HTMLFields = {
     },
     password: {
       label:
-        "Contraseña <span className='text-muted'>(mínimo 8 caracteres)</span>",
+        'Contraseña <span className=\'text-muted\'>(mínimo 8 caracteres)</span>',
       placeholder: 'Contraseña',
       inputAlert:
         'Por favor, proporciona una contraseña que incluya (Al menos 1 mayúscula, Al menos 1 minúscula, Al menos 1 número, Al menos 1 símbolo (símbolos permitidos !@#$%^&*_=+-))'
@@ -286,7 +282,7 @@ const lang: HTMLFields = {
             billingInfo: 'Información de facturación',
             shippingAddress: 'Dirección de envío',
             ifYouNeedHelp:
-              "If you need help with anything please don't hesitate to drop us an email :)"
+              'If you need help with anything please don\'t hesitate to drop us an email :)'
           }
         }
       },
@@ -301,6 +297,16 @@ const lang: HTMLFields = {
             subtitle: 'Aquí puede agregar, quitar y actualizar productos'
           },
           editProductsTableCols: {
+            imageCol: 'Imagen',
+            titleCol: 'Título'
+          }
+        },
+        editDeliveries: {
+          header: {
+            title: 'Editar entregas',
+            subtitle: 'Aquí puedes agregar, eliminar y actualizar entregas.'
+          },
+          editDeliveriesTableCols: {
             imageCol: 'Imagen',
             titleCol: 'Título'
           }

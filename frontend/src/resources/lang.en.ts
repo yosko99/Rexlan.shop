@@ -1,9 +1,4 @@
-import {
-  faCircleDollarToSlot,
-  faClock,
-  faLock,
-  faTruck
-} from '@fortawesome/free-solid-svg-icons';
+import { faCircleDollarToSlot, faClock, faLock, faTruck } from '@fortawesome/free-solid-svg-icons';
 
 import HTMLFields from '../types/htmlFields';
 
@@ -14,6 +9,7 @@ const lang: HTMLFields = {
     categories: 'Categories',
     contacts: 'Contacts',
     help: 'Help',
+    deliveries: 'Deliveries',
     orders: 'Orders',
     pricing: 'Pricing',
     settings: 'Settings',
@@ -61,7 +57,7 @@ const lang: HTMLFields = {
     buttonText: 'Search products',
     inputfieldPlaceholder: 'Search',
     titleText: 'Search products',
-    productNotFound: "Sorry we couldn't find any matches for"
+    productNotFound: 'Sorry we couldn\'t find any matches for'
   },
   mainPage: {
     infoBar: [
@@ -114,7 +110,7 @@ const lang: HTMLFields = {
       title: 'Welcome back !',
       subtitle: 'Please enter your login details.'
     },
-    dontHaveAccount: "Don't have an account?",
+    dontHaveAccount: 'Don\'t have an account?',
     signUpForFree: 'Sign up for free!',
     rembemberMe: 'Remember me',
     resetPassword: 'Forgot your password?'
@@ -139,10 +135,10 @@ const lang: HTMLFields = {
       label: 'Email address',
       placeholder: 'steven@gmail.com',
       inputAlert: 'Please provide a valid email format.',
-      inputText: "We'll never share your email with anyone else."
+      inputText: 'We\'ll never share your email with anyone else.'
     },
     password: {
-      label: "Password <span className='text-muted'>(min 8 chars)</span>",
+      label: 'Password <span className=\'text-muted\'>(min 8 chars)</span>',
       placeholder: 'Password',
       inputAlert: `Please provide a password that includes
       (At least 1 Uppercase,
@@ -161,13 +157,13 @@ const lang: HTMLFields = {
     phone: {
       label: 'Your phone',
       placeholder: '+12345678910',
-      inputAlert: "The expected format for phone number is '+xxxxxxxxxxxx'"
+      inputAlert: 'The expected format for phone number is \'+xxxxxxxxxxxx\''
     },
     city: {
       label: 'City',
       placeholder: 'Amsterdam',
       inputText:
-        "By allowing 'current location' we will populate this value for you."
+        'By allowing \'current location\' we will populate this value for you.'
     },
     postalCode: {
       label: 'Postal code',
@@ -180,7 +176,7 @@ const lang: HTMLFields = {
   },
   cart: {
     addProductsToCart: 'Add products to cart',
-    emptyCart: "I'm empty :(",
+    emptyCart: 'I\'m empty :(',
     header: 'Shopping cart',
     orderBox: {
       total: 'Total',
@@ -269,7 +265,7 @@ const lang: HTMLFields = {
           title: 'My orders',
           subtitle: 'All your orders are listed below'
         },
-        noOrders: "Currently you don't have any created orders.",
+        noOrders: 'Currently you don\'t have any created orders.',
         ordersTable: {
           header: {
             date: 'Date',
@@ -280,12 +276,12 @@ const lang: HTMLFields = {
           viewOrderModal: {
             activateButtonText: 'View',
             header:
-              "We've got your order! Your world is about to look a whole lot better. We'll drop you another email when your order ships.",
+              'We\'ve got your order! Your world is about to look a whole lot better. We\'ll drop you another email when your order ships.',
             orderedProducts: 'Ordered products',
             billingInfo: 'Billing info',
             shippingAddress: 'Shipping address',
             ifYouNeedHelp:
-              "If you need help with anything please don't hesitate to drop us an email :)"
+              'If you need help with anything please don\'t hesitate to drop us an email :)'
           }
         }
       },
@@ -300,6 +296,16 @@ const lang: HTMLFields = {
             subtitle: 'Here you can add, remove and update products'
           },
           editProductsTableCols: {
+            imageCol: 'Image',
+            titleCol: 'Title'
+          }
+        },
+        editDeliveries: {
+          header: {
+            title: 'Edit deliveries',
+            subtitle: 'Here you can add, remove and update deliveries'
+          },
+          editDeliveriesTableCols: {
             imageCol: 'Image',
             titleCol: 'Title'
           }

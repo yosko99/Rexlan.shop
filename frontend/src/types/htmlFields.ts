@@ -26,6 +26,7 @@ interface HTMLFields {
     products: string;
     submit: string;
     discount: string;
+    deliveries: string;
     delivery: string;
     free: string;
     addToCart: string;
@@ -196,6 +197,13 @@ interface HTMLFields {
         editProducts: {
           header: HeadingType;
           editProductsTableCols: {
+            imageCol: string;
+            titleCol: string;
+          };
+        };
+        editDeliveries: {
+          header: HeadingType;
+          editDeliveriesTableCols: {
             imageCol: string;
             titleCol: string;
           };

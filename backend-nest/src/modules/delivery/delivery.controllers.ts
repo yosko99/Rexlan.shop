@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -134,6 +135,40 @@ export class DeliveryController {
   ) {
     return this.deliveryService.updateDelivery(
       updateDeliveryDto,
+      deliveryId,
+      userDataFromToken,
+      currentLang,
+    );
+  }
+
+  @Delete('/:id')
+  @ApiHeader({
+    name: 'Authorization',
+    required: true,
+  })
+  @ApiOperation({ summary: 'Delete delivery' })
+  @ApiQuery(currentLangQuery)
+  @ApiResponse(invalidTokenResponse)
+  @ApiResponse(noTokenAndNoAdminResponse)
+  @ApiResponse({
+    status: 200,
+    description: 'Delivery deleted',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Delivery not found',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
+  })
+  deleteProduct(
+    @Param('id') deliveryId: string,
+    @RequestData('userDataFromToken')
+    userDataFromToken: Token,
+    @RequestData('currentLang') currentLang: string,
+  ) {
+    return this.deliveryService.deleteDelivery(
       deliveryId,
       userDataFromToken,
       currentLang,

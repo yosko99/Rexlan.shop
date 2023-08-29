@@ -29,6 +29,10 @@ export class DeliveryModule implements NestModule {
         path: '/deliveries/:id',
         method: RequestMethod.PUT,
       },
+      {
+        path: '/deliveries/:id',
+        method: RequestMethod.DELETE,
+      },
     );
   }
 }

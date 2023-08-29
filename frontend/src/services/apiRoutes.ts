@@ -135,6 +135,10 @@ export const getDeliveriesRoute = (): string => {
   return DELIVERIES_ROUTE + getLinkDefaultSuffixes();
 };
 
+export const getDeliveryRoute = (id: string): string => {
+  return DELIVERIES_ROUTE + id + getLinkDefaultSuffixes();
+};
+
 // Order routes
 export const getOrdersRoute = (): string => {
   return ORDERS_ROUTE + getLinkDefaultSuffixes();
