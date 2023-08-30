@@ -7,7 +7,11 @@ import lang from '../../resources/lang';
 import { PrismaService } from '../../prisma/prisma.service';
 import { getProductIncludeQuery } from '../../prisma/queries/product.queries';
 import { Product, ProductSortAttributes } from '../../interfaces/product';
-import { CreateProductDto, UpdateProductDto } from '../../dto/product.dto';
+import {
+  CreateProductDto,
+  CreateProductReviewDto,
+  UpdateProductDto,
+} from '../../dto/product.dto';
 import { UserService } from '../user/user.service';
 import { Token } from '../../interfaces/token';
 import extractProductData from '../../functions/extractProductData';
@@ -52,6 +56,50 @@ export class ProductService {
         currentLang,
       );
     });
+  }
+
+  private async checkAlreadyCreatedReview(
+    productId: string,
+    userId: string,
+    currentLang: string,
+  ) {
+    const review = await this.prisma.rating.findUnique({
+      where: {
+        productId_userId: {
+          productId,
+          userId,
+        },
+      },
+    });
+
+    if (review !== null) {
+      throw new HttpException(
+        lang[currentLang].controllers.product.reviewAlreadyCreated,
+        409,
+      );
+    }
+  }
+
+  async createProductReview(
+    id: string,
+    { rate }: CreateProductReviewDto,
+    { email }: Token,
+    currentLang: string,
+  ) {
+    await this.retrieveProduct(id, currentLang);
+    const user = await this.userService.retrieveUserByEmail(email);
+    await this.checkAlreadyCreatedReview(id, user.id, currentLang);
+
+    await this.prisma.rating.create({
+      data: {
+        rate,
+        productId: id,
+        userId: user.id,
+      },
+    });
+    await this.cacheService.flushCache();
+
+    return { msg: lang[currentLang].controllers.product.reviewCreated };
   }
 
   async getProduct(productId: string, currentLang: string) {
@@ -183,12 +231,6 @@ export class ProductService {
     const selectedCategory = await this.doesCategoryExist(category);
     const newProduct = await this.prisma.product.create({
       data: {
-        rating: {
-          create: {
-            count: 0,
-            rate: 0,
-          },
-        },
         price: price === undefined ? 0 : Number(price),
         category: { connect: { id: selectedCategory.id } },
         image: filename,

@@ -26,7 +26,9 @@ const ProductImage = styled.img`
   object-fit: contain;
 `;
 
-const RenderPDP: FC<Props> = ({ product }) => {
+const RenderPDP: FC<Props> = ({
+  product
+}) => {
   const { lang } = useContext(CurrentLanguageContext);
 
   const {
@@ -61,8 +63,7 @@ const RenderPDP: FC<Props> = ({ product }) => {
               <p className="fs-2 mt-3 mb-2">{product.title}</p>
               <p className="fs-3 mb-0">$ {product.price}</p>
               <CustomRating
-                ratingRate={product.rating.rate}
-                ratingCount={product.rating.count}
+                product={product}
                 starSize={30}
                 className="my-3"
               />

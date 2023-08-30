@@ -1,27 +1,46 @@
-import React, { useState, FC, useContext } from 'react';
+import React, { FC, useContext, useState } from 'react';
 
 import { Rating } from 'react-simple-star-rating';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
+import useMutationWithToken from '../../hooks/useMutationWithToken';
+import { getProductReviewsRoute } from '../../services/apiRoutes';
+import { Product } from '../../types/productTypes';
 
 interface Props {
-  ratingRate: number;
-  ratingCount: number;
+  product: Product;
   starSize?: number;
   className?: string;
+  readonly?: boolean;
 }
 
 const CustomRating: FC<Props> = ({
-  ratingRate,
   starSize,
   className,
-  ratingCount
+  product,
+  readonly
 }) => {
   const [rating, setRating] = useState(0);
+  const [rate, setRate] = useState(product.rating.rate);
+  const [count, setCount] = useState(product.rating.count);
+
+  const {
+    data,
+    error,
+    mutate
+  } = useMutationWithToken(getProductReviewsRoute(product.id), false);
   const { lang } = useContext(CurrentLanguageContext);
 
-  const handleRating = (rate: number) => {
-    setRating(rate);
+  const handleRating = (newRate: number) => {
+    const scaledValue = (newRate / 100) * 5;
+
+    mutate({ rate: scaledValue }, {
+      onSuccess: () => {
+        setCount(count + 1);
+        const updatedRate = ((rate * count) + scaledValue) / (count + 1);
+        setRate(updatedRate);
+      }
+    });
   };
 
   return (
@@ -29,13 +48,15 @@ const CustomRating: FC<Props> = ({
       <Rating
         onClick={handleRating}
         ratingValue={rating}
-        initialValue={ratingRate}
+        readonly={readonly}
+        initialValue={rate}
         size={starSize}
+        allowHalfIcon
         transition
         className={className}
       />
       <span className="text-muted ms-2">
-        {ratingRate} {lang.global.outOf} {ratingCount}
+        {rate} {lang.global.outOf} {count}
       </span>
     </>
   );

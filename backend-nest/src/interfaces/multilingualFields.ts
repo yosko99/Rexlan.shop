@@ -56,6 +56,8 @@ export interface MultilingualFields {
       product: {
         productUpdated: string;
         productCreated: string;
+        reviewCreated: string;
+        reviewAlreadyCreated: string;
       };
       delivery: {
         deliveryCreated: string;

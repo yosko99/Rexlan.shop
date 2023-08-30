@@ -30,6 +30,13 @@ export class ProductModule implements NestModule {
         path: '/products/:id',
         method: RequestMethod.PUT,
       },
+    );
+
+    consumer.apply(VerifyJWT).forRoutes(
+      {
+        path: '/products/:id/reviews',
+        method: RequestMethod.POST,
+      },
       {
         path: '/products/:id',
         method: RequestMethod.DELETE,

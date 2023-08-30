@@ -18,15 +18,15 @@ const PDPPage = () => {
   } = useFetch(`product-${id!}`, getProductRoute(id as string), true);
 
   if (isLoading) {
-    return <Loading height="90vh" />;
+    return <Loading height="90vh"/>;
   }
 
   return (
     <>
       {error !== undefined ? (
-        <Navigate to="/404" state={{ error: error.message }} />
+        <Navigate to="/404" state={{ error: error.message }}/>
       ) : (
-        <RenderPDP product={product} />
+        <RenderPDP product={product}/>
       )}
     </>
   );

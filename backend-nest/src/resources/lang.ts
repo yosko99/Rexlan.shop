@@ -58,6 +58,9 @@ const lang: MultilingualFields = {
       product: {
         productUpdated: 'The product was updated',
         productCreated: 'The product was created',
+        reviewCreated: 'You review for this product was saved',
+        reviewAlreadyCreated:
+          'Sorry, you have already left review on this product',
       },
       delivery: {
         deliveryCreated: 'The delivery was crated',
@@ -131,6 +134,9 @@ const lang: MultilingualFields = {
       product: {
         productUpdated: 'Продуктът е обновен',
         productCreated: 'Продуктът е създаден',
+        reviewCreated: 'Вашият отзив за този продукт беше запазен',
+        reviewAlreadyCreated:
+          'Съжаляваме, но вече сте оставили отзив за този продукт',
       },
       delivery: {
         deliveryCreated: 'Опцията за доставка беше създадена',
@@ -209,6 +215,9 @@ const lang: MultilingualFields = {
       product: {
         productUpdated: 'El producto se ha actualizado',
         productCreated: 'El producto se ha creado',
+        reviewCreated: 'Tu reseña de este producto fue guardada',
+        reviewAlreadyCreated:
+          'Lo sentimos, ya has dejado una reseña sobre este producto',
       },
       order: {
         orderCreated:

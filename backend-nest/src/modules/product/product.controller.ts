@@ -30,7 +30,11 @@ import {
 } from '@nestjs/swagger';
 import { currentLangQuery, quantityQuery } from '../../swagger/apiQueryOptions';
 import { productSortParam } from '../../swagger/apiParamOptions';
-import { CreateProductDto, UpdateProductDto } from '../../dto/product.dto';
+import {
+  CreateProductDto,
+  CreateProductReviewDto,
+  UpdateProductDto,
+} from '../../dto/product.dto';
 import {
   invalidTokenResponse,
   missingFieldsResponse,
@@ -141,6 +145,38 @@ export class ProductsController {
     return this.productService.getProductsByQueryString(pattern, currentLang);
   }
 
+  @Post('/:id/reviews')
+  @UsePipes(ValidationPipe)
+  @ApiOperation({ summary: 'Create review for product' })
+  @ApiQuery(currentLangQuery)
+  @ApiResponse(missingFieldsResponse)
+  @ApiResponse({
+    status: 200,
+    description: 'Review user updated',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Product or User not found',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'User already added review',
+  })
+  createProductReview(
+    @Param('id') productId: string,
+    @RequestData('userDataFromToken')
+    userDataFromToken: Token,
+    @Body() createProductReviewDto: CreateProductReviewDto,
+    @RequestData('currentLang') currentLang: string,
+  ) {
+    return this.productService.createProductReview(
+      productId,
+      createProductReviewDto,
+      userDataFromToken,
+      currentLang,
+    );
+  }
+
   @Post()
   @ApiConsumes('multipart/form-data')
   @UsePipes(ValidationPipe)
@@ -160,11 +196,7 @@ export class ProductsController {
   })
   @ApiResponse({
     status: 404,
-    description: 'Selected category not found',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'User not found',
+    description: 'Category or User not found',
   })
   createProduct(
     @UploadedFile(
@@ -205,11 +237,7 @@ export class ProductsController {
   })
   @ApiResponse({
     status: 404,
-    description: 'Selected category not found',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'User not found',
+    description: 'Category or User not found',
   })
   updateProduct(
     @UploadedFile(
@@ -248,11 +276,7 @@ export class ProductsController {
   })
   @ApiResponse({
     status: 404,
-    description: 'Product not found',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'User not found',
+    description: 'Product or User not found',
   })
   deleteProduct(
     @Param('id') productId: string,

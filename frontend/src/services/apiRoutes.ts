@@ -29,6 +29,10 @@ export const getProductRoute = (id: string): string => {
   return PRODUCTS_ROUTE + id + getLinkDefaultSuffixes();
 };
 
+export const getProductReviewsRoute = (id: string): string => {
+  return PRODUCTS_ROUTE + id + '/reviews' + getLinkDefaultSuffixes();
+};
+
 export const getProductsPatternRoute = (matchString: string): string => {
   return PRODUCTS_ROUTE + 'regex/' + matchString + getLinkDefaultSuffixes();
 };

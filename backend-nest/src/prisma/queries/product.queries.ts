@@ -5,18 +5,21 @@ export const getProductIncludeQuery = (): Prisma.ProductInclude => {
     category: {
       include: {
         translations: {
-          select: { title: true, lang: true },
+          select: {
+            title: true,
+            lang: true,
+          },
         },
       },
     },
-    rating: {
-      select: {
-        rate: true,
-        count: true,
-      },
-    },
+    ratings: true,
     translations: {
-      select: { title: true, description: true, lang: true, id: true },
+      select: {
+        title: true,
+        description: true,
+        lang: true,
+        id: true,
+      },
     },
   };
 };

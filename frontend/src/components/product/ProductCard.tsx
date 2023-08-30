@@ -2,10 +2,11 @@ import React, { FC } from 'react';
 
 import { Card } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import styled from 'styled-components';
 
 import { ASSET_PROXY_URL } from '../../constants/apiRouteConstants';
 import CenteredItems from '../../styles/CenteredItems';
+import ProductCardBody from '../../styles/product/ProductCardBody';
+import ProductCardImg from '../../styles/product/ProductCardImg';
 import { Product } from '../../types/productTypes';
 import FavoriteProductButton from '../buttons/FavoriteProductButton';
 import CustomRating from './CustomRating';
@@ -13,21 +14,6 @@ import CustomRating from './CustomRating';
 interface Props {
   product: Product;
 }
-
-const ProductCardImg = styled.img`
-  width: 200px;
-  height: 200px;
-  object-fit: contain;
-`;
-
-const ProductCardBody = styled.div`
-  transition: 0.5s ease-in-out;
-
-  :hover {
-    box-shadow: 0px 5px 5px 0px lightgray;
-    transform: translateY(-0.2em);
-  }
-`;
 
 const ProductCard: FC<Props> = ({ product }) => {
   return (
@@ -48,8 +34,8 @@ const ProductCard: FC<Props> = ({ product }) => {
           </div>
           <Card.Title>{product.title}</Card.Title>
           <CustomRating
-            ratingRate={product.rating.rate}
-            ratingCount={product.rating.count}
+            product={product}
+            readonly
             starSize={20}
             className="mb-2"
           />

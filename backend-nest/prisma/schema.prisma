@@ -1,136 +1,139 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-    id        String   @id @default(uuid())
-    email     String   @unique
-    password  String
-    name      String
-    address   String
-    phone     String
-    zipcode   String?  @default("")
-    isAdmin   Boolean? @default(false)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    orders    Order[]
-    cart      Cart?
-    cartId    String?
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  address   String
+  phone     String
+  zipcode   String?  @default("")
+  isAdmin   Boolean? @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+  cart      Cart?
+  cartId    String?
+  ratings   Rating[]
 }
 
 model Delivery {
-    id             String   @id @default(uuid())
-    title          String
-    initialPrice   Float
-    priceToAddress Float
-    image          String
-    createdAt      DateTime @default(now())
-    updatedAt      DateTime @updatedAt
+  id             String   @id @default(uuid())
+  title          String
+  initialPrice   Float
+  priceToAddress Float
+  image          String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model Product {
-    id           String               @id @default(uuid())
-    price        Float
-    image        String
-    rating       Rating?
-    createdAt    DateTime             @default(now())
-    updatedAt    DateTime             @updatedAt
-    carts        Cart[]
-    orders       Order[]
-    translations ProductTranslation[]
-    category     Category?            @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-    categoryId   String?
-    CartProduct  CartProduct[]
-    ProductView  ProductView[]
+  id           String               @id @default(uuid())
+  price        Float
+  image        String
+  ratings      Rating[]
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  carts        Cart[]
+  orders       Order[]
+  translations ProductTranslation[]
+  category     Category?            @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId   String?
+  CartProduct  CartProduct[]
+  ProductView  ProductView[]
 }
 
 model ProductTranslation {
-    id          String  @id @default(uuid())
-    title       String
-    description String
-    lang        String
-    product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-    productId   String
+  id          String  @id @default(uuid())
+  title       String
+  description String
+  lang        String
+  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId   String
 
-    @@unique([productId, lang])
+  @@unique([productId, lang])
 }
 
 model Rating {
-    id        String   @id @default(uuid())
-    rate      Float    @default(0)
-    count     Int      @default(0)
-    product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
-    productId String   @unique
+  rate      Float    @default(0)
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String   @unique
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String?
+
+  @@unique([productId, userId])
 }
 
 model Cart {
-    id        String        @id @default(uuid())
-    createdAt DateTime      @default(now())
-    updatedAt DateTime      @updatedAt
-    products  CartProduct[]
-    user      User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId    String?       @unique
-    product   Product?      @relation(fields: [productId], references: [id], onDelete: Cascade)
-    productId String?
+  id        String        @id @default(uuid())
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  products  CartProduct[]
+  user      User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String?       @unique
+  product   Product?      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String?
 }
 
 model CartProduct {
-    id        String   @id @default(uuid())
-    quantity  Int
-    cartId    String?
-    productId String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    cart      Cart?    @relation(fields: [cartId], references: [id], onDelete: Cascade)
-    product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-    order     Order?   @relation(fields: [orderId], references: [id])
-    orderId   String?
+  id        String   @id @default(uuid())
+  quantity  Int
+  cartId    String?
+  productId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cart      Cart?    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  order     Order?   @relation(fields: [orderId], references: [id])
+  orderId   String?
 }
 
 model Order {
-    id              String        @id @default(uuid())
-    user            User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId          String?
-    orderStatus     String        @default("Pending")
-    selectedCourier String
-    productsPrice   Float         @default(0)
-    deliveryPrice   Float         @default(0)
-    products        CartProduct[]
-    createdAt       DateTime      @default(now())
-    updatedAt       DateTime      @updatedAt
-    address         String
-    city            String
-    name            String
-    zipcode         String
-    phone           String
-    product         Product?      @relation(fields: [productId], references: [id], onDelete: Cascade)
-    productId       String?
+  id              String        @id @default(uuid())
+  user            User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String?
+  orderStatus     String        @default("Pending")
+  selectedCourier String
+  productsPrice   Float         @default(0)
+  deliveryPrice   Float         @default(0)
+  products        CartProduct[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  address         String
+  city            String
+  name            String
+  zipcode         String
+  phone           String
+  product         Product?      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId       String?
 }
 
 model Category {
-    id           String                @id @default(uuid())
-    bannerImage  String?
-    translations CategoryTranslation[]
-    Product      Product[]
+  id           String                @id @default(uuid())
+  bannerImage  String?
+  translations CategoryTranslation[]
+  Product      Product[]
 }
 
 model CategoryTranslation {
-    id         String   @id @default(uuid())
-    title      String
-    lang       String
-    category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-    categoryId String
+  id         String   @id @default(uuid())
+  title      String
+  lang       String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String
 
-    @@unique([categoryId, lang])
+  @@unique([categoryId, lang])
 }
 
 model ProductView {
-    product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-    productId String  @unique
-    count     Int     @default(1)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String  @unique
+  count     Int     @default(1)
 }

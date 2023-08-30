@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
 
 export class CreateProductDto {
   @IsNotEmpty()
@@ -49,4 +56,17 @@ export class UpdateProductDto {
 
   @ApiProperty()
   image: Express.Multer.File;
+}
+
+export class CreateProductReviewDto {
+  @IsNotEmpty()
+  @IsNumber()
+  @Min(0)
+  @Max(5)
+  @ApiProperty({
+    minimum: 0,
+    maximum: 5,
+    type: 'number',
+  })
+  rate: number;
 }
