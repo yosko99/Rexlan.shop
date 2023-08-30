@@ -45,6 +45,7 @@ export class OrderService {
             product: {
               include: {
                 translations: true,
+                ratings: true,
                 category: { include: { translations: true } },
               },
             },

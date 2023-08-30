@@ -1,7 +1,7 @@
 import { Rating } from '../interfaces/product';
 
 const calculateProductRatings = (ratings: Rating[]) => {
-  if (ratings.length !== 0) {
+  if (ratings !== undefined && ratings.length !== 0) {
     const totalRatings = ratings.length;
     let sumOfRatings = 0;
 

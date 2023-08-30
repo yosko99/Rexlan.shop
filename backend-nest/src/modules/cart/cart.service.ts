@@ -53,6 +53,7 @@ export class CartService {
             quantity: true,
             product: {
               include: {
+                ratings: true,
                 translations: true,
                 category: { include: { translations: true } },
               },
