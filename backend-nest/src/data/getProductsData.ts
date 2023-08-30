@@ -6,7 +6,7 @@ const getProductsData = (
 ) => [
   {
     price: 109.95,
-    image: '/assets/products/81fPKd-2AYL._AC_SL1500_.jpg',
+    image: '/products/81fPKd-2AYL._AC_SL1500_.jpg',
     category: { connect: { id: menClothingId } },
     rating: {
       create: {
@@ -42,7 +42,7 @@ const getProductsData = (
   },
   {
     price: 22.3,
-    image: '/assets/products/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg',
+    image: '/products/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg',
     category: { connect: { id: menClothingId } },
     rating: {
       create: {
@@ -77,7 +77,7 @@ const getProductsData = (
   },
   {
     price: 22.3,
-    image: '/assets/products/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg',
+    image: '/products/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg',
     category: { connect: { id: menClothingId } },
     rating: {
       create: {
@@ -112,7 +112,7 @@ const getProductsData = (
   },
   {
     price: 55.99,
-    image: '/assets/products/71li-ujtlUL._AC_UX679_.jpg',
+    image: '/products/71li-ujtlUL._AC_UX679_.jpg',
     category: { connect: { id: menClothingId } },
     rating: {
       create: {
@@ -147,7 +147,7 @@ const getProductsData = (
   },
   {
     price: 15.99,
-    image: '/assets/products/71YXzeOuslL._AC_UY879_.jpg',
+    image: '/products/71YXzeOuslL._AC_UY879_.jpg',
     category: { connect: { id: menClothingId } },
     rating: {
       create: {
@@ -182,7 +182,7 @@ const getProductsData = (
   },
   {
     price: 695,
-    image: '/assets/products/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg',
+    image: '/products/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg',
     category: { connect: { id: jewelryId } },
     rating: {
       create: {
@@ -220,7 +220,7 @@ const getProductsData = (
   },
   {
     price: 152,
-    image: '/assets/products/61sbMiUnoGL._AC_UL640_QL65_ML3_.jpg',
+    image: '/products/61sbMiUnoGL._AC_UL640_QL65_ML3_.jpg',
     category: { connect: { id: jewelryId } },
     rating: {
       create: {
@@ -255,7 +255,7 @@ const getProductsData = (
   },
   {
     price: 9.99,
-    image: '/assets/products/71YAIFU48IL._AC_UL640_QL65_ML3_.jpg',
+    image: '/products/71YAIFU48IL._AC_UL640_QL65_ML3_.jpg',
     category: { connect: { id: jewelryId } },
     rating: {
       create: {
@@ -290,7 +290,7 @@ const getProductsData = (
   },
   {
     price: 91.99,
-    image: '/assets/products/51UDEzMJVpL._AC_UL640_QL65_ML3_.jpg',
+    image: '/products/51UDEzMJVpL._AC_UL640_QL65_ML3_.jpg',
     category: { connect: { id: jewelryId } },
     rating: {
       create: {
@@ -326,7 +326,7 @@ const getProductsData = (
   },
   {
     price: 65,
-    image: '/assets/products/61IBBVJvSDL._AC_SY879_.jpg',
+    image: '/products/61IBBVJvSDL._AC_SY879_.jpg',
     category: { connect: { id: electronicsId } },
     rating: {
       create: {
@@ -361,7 +361,7 @@ const getProductsData = (
   },
   {
     price: 109,
-    image: '/assets/products/61U7T1koQqL._AC_SX679_.jpg',
+    image: '/products/61U7T1koQqL._AC_SX679_.jpg',
     category: { connect: { id: electronicsId } },
     rating: {
       create: {
@@ -396,7 +396,7 @@ const getProductsData = (
   },
   {
     price: 120,
-    image: '/assets/products/71kWymZ+c+L._AC_SX679_.jpg',
+    image: '/products/71kWymZ+c+L._AC_SX679_.jpg',
     category: { connect: { id: electronicsId } },
     rating: {
       create: {
@@ -434,7 +434,7 @@ const getProductsData = (
   },
   {
     price: 115,
-    image: '/assets/products/61mtL65D4cL._AC_SX679_.jpg',
+    image: '/products/61mtL65D4cL._AC_SX679_.jpg',
     category: { connect: { id: electronicsId } },
     rating: {
       create: {
@@ -472,7 +472,7 @@ const getProductsData = (
   },
   {
     price: 559,
-    image: '/assets/products/81QpkIctqPL._AC_SX679_.jpg',
+    image: '/products/81QpkIctqPL._AC_SX679_.jpg',
     category: { connect: { id: electronicsId } },
     rating: {
       create: {
@@ -510,7 +510,7 @@ const getProductsData = (
   },
   {
     price: 999.99,
-    image: '/assets/products/81Zt42ioCgL._AC_SX679_.jpg',
+    image: '/products/81Zt42ioCgL._AC_SX679_.jpg',
     category: { connect: { id: electronicsId } },
     rating: {
       create: {
@@ -548,7 +548,7 @@ const getProductsData = (
   },
   {
     price: 58.99,
-    image: '/assets/products/51Y5NI-I5jL._AC_UX679_.jpg',
+    image: '/products/51Y5NI-I5jL._AC_UX679_.jpg',
     category: { connect: { id: womenClothingId } },
     rating: {
       create: {
@@ -584,7 +584,7 @@ const getProductsData = (
   },
   {
     price: 29.99,
-    image: '/assets/products/81XH0e8fefL._AC_UY879_.jpg',
+    image: '/products/81XH0e8fefL._AC_UY879_.jpg',
     category: { connect: { id: womenClothingId } },
     rating: {
       create: {
@@ -622,7 +622,7 @@ const getProductsData = (
   },
   {
     price: 39.99,
-    image: '/assets/products/71HblAHs5xL._AC_UY879_-2.jpg',
+    image: '/products/71HblAHs5xL._AC_UY879_-2.jpg',
     category: { connect: { id: womenClothingId } },
     rating: {
       create: {
@@ -659,7 +659,7 @@ const getProductsData = (
   },
   {
     price: 9.99,
-    image: '/assets/products/71z3kpMAYsL._AC_UY879_.jpg',
+    image: '/products/71z3kpMAYsL._AC_UY879_.jpg',
     category: { connect: { id: womenClothingId } },
     rating: {
       create: {
@@ -694,7 +694,7 @@ const getProductsData = (
   },
   {
     price: 7.99,
-    image: '/assets/products/51eg55uWmdL._AC_UX679_.jpg',
+    image: '/products/51eg55uWmdL._AC_UX679_.jpg',
     category: { connect: { id: womenClothingId } },
     rating: {
       create: {
@@ -729,7 +729,7 @@ const getProductsData = (
   },
   {
     price: 17.99,
-    image: '/assets/products/61pHAEJ4NML._AC_UX679_.jpg',
+    image: '/products/61pHAEJ4NML._AC_UX679_.jpg',
     category: { connect: { id: womenClothingId } },
     rating: {
       create: {

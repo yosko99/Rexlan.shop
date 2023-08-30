@@ -1,8 +1,8 @@
 /* eslint-disable indent */
-import React, { useState, FC, useContext, useRef, useEffect } from 'react';
+import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 
 import axios from 'axios';
-import { Form, Alert, Spinner, Button } from 'react-bootstrap';
+import { Alert, Button, Form, Spinner } from 'react-bootstrap';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,6 +20,7 @@ interface Props {
   inputs: React.ReactChild;
   updateRequest?: boolean;
   sendTokenBack?: boolean;
+  sendFormData?: boolean;
 }
 
 const FormTemplate: FC<Props> = ({
@@ -29,7 +30,8 @@ const FormTemplate: FC<Props> = ({
   redirectOnSuccessURL,
   onSuccessFn,
   updateRequest,
-  sendTokenBack
+  sendTokenBack,
+  sendFormData
 }) => {
   const queryClient = useQueryClient();
   const data = useRef({});
@@ -51,11 +53,11 @@ const FormTemplate: FC<Props> = ({
     (data) => {
       return !updateRequest
         ? axios.post(mutateURL, data, {
-            headers: requestHeaders
-          })
+          headers: requestHeaders
+        })
         : axios.put(mutateURL, data, {
-            headers: requestHeaders
-          });
+          headers: requestHeaders
+        });
     },
     {
       onError: (err: ErrorResponse) => {
@@ -85,7 +87,7 @@ const FormTemplate: FC<Props> = ({
             <Alert className="mt-3 rounded-pill text-center" variant="success">
               {data.data.msg}
               {redirectOnSuccessURL !== undefined && (
-                <Spinner animation="border" size="sm" className="ms-2" />
+                <Spinner animation="border" size="sm" className="ms-2"/>
               )}
             </Alert>
           );
@@ -110,6 +112,8 @@ const FormTemplate: FC<Props> = ({
   );
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     data.current = convertFormInputToObject(formRef);
     const form = event.currentTarget;
     const localStorageCart = localStorage.getItem('cart');
@@ -119,10 +123,21 @@ const FormTemplate: FC<Props> = ({
       cartId = localStorageCart;
     }
 
-    event.preventDefault();
+    let requestData;
+
+    if (sendFormData) {
+      requestData = new FormData(event.target as HTMLFormElement);
+      requestData.append('cartId', cartId as string);
+    } else {
+      requestData = {
+        ...data.current,
+        cartId
+      };
+    }
 
     if (form.checkValidity()) {
-      mutation.mutate({ ...data.current, cartId } as any);
+      // @ts-ignore
+      mutation.mutate(requestData);
     }
 
     setFormValidated(true);
@@ -149,7 +164,7 @@ const FormTemplate: FC<Props> = ({
       <>{inputs}</>
 
       <Button variant="outline-primary" className="w-100 mt-3" type="submit">
-        {isFetchingData ? <Loading height="10" /> : <>{lang.global.submit}</>}
+        {isFetchingData ? <Loading height="10"/> : <>{lang.global.submit}</>}
       </Button>
 
       {(mutation.isError || mutation.isSuccess) && <>{onMutateAlert}</>}

@@ -4,6 +4,7 @@ import { Card } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 
+import { ASSET_PROXY_URL } from '../../constants/apiRouteConstants';
 import CenteredItems from '../../styles/CenteredItems';
 import { Product } from '../../types/productTypes';
 import FavoriteProductButton from '../buttons/FavoriteProductButton';
@@ -21,6 +22,7 @@ const ProductCardImg = styled.img`
 
 const ProductCardBody = styled.div`
   transition: 0.5s ease-in-out;
+
   :hover {
     box-shadow: 0px 5px 5px 0px lightgray;
     transform: translateY(-0.2em);
@@ -36,13 +38,13 @@ const ProductCard: FC<Props> = ({ product }) => {
             to={`/${product.category}/product/${product.id}`}
             role="button"
           >
-            <ProductCardImg src={product.image} />
+            <ProductCardImg src={ASSET_PROXY_URL + product.image}/>
           </LinkContainer>
         </CenteredItems>
         <Card.Body>
           <div className="d-flex justify-content-between mb-2">
             <small>{product.category}</small>
-            <FavoriteProductButton productID={product.id} />
+            <FavoriteProductButton productID={product.id}/>
           </div>
           <Card.Title>{product.title}</Card.Title>
           <CustomRating

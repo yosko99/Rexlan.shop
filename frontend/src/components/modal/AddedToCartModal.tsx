@@ -2,9 +2,10 @@ import React, { FC, useContext } from 'react';
 
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Row, Col, Image } from 'react-bootstrap';
+import { Button, Col, Image, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
+import { PROXY_URL } from '../../constants/apiRouteConstants';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import { Product } from '../../types/productTypes';
 import CustomModal from '../utils/CustomModal';
@@ -15,7 +16,11 @@ interface Props {
   productQuantity: number;
 }
 
-const AddedToCartModal: FC<Props> = ({ onClick, product, productQuantity }) => {
+const AddedToCartModal: FC<Props> = ({
+  onClick,
+  product,
+  productQuantity
+}) => {
   const { lang } = useContext(CurrentLanguageContext);
 
   return (
@@ -26,14 +31,14 @@ const AddedToCartModal: FC<Props> = ({ onClick, product, productQuantity }) => {
         activateButtonOnClick={onClick}
         modalHeader={
           <>
-            <FontAwesomeIcon icon={faCheck} className="me-2" color="green" />
+            <FontAwesomeIcon icon={faCheck} className="me-2" color="green"/>
             {lang.pdp.addToCartModal.header}
           </>
         }
         modalBody={
           <Row>
             <Col className="d-flex justify-content-center align-items-center">
-              <Image fluid src={product.image} />
+              <Image fluid src={PROXY_URL + product.image}/>
             </Col>
             <Col>
               <p className="text-uppercase text-muted mt-2">

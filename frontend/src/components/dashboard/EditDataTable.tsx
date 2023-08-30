@@ -11,13 +11,15 @@ interface Props {
   tableRowCells: React.ReactChild;
   inputStructure: InputStructure[];
   createDataRoute: string;
+  sendFormData: boolean;
 }
 
 const EditDataTable: FC<Props> = ({
   tableHeaderCells,
   tableRowCells,
   inputStructure,
-  createDataRoute
+  createDataRoute,
+  sendFormData
 }) => {
   const { lang } = useContext(CurrentLanguageContext);
 
@@ -25,6 +27,7 @@ const EditDataTable: FC<Props> = ({
     <div className="overflow-auto">
       {/* Add data */}
       <AddDataButton
+        sendFormData={sendFormData}
         inputStructure={inputStructure}
         createDataRoute={createDataRoute}
       />
@@ -33,13 +36,13 @@ const EditDataTable: FC<Props> = ({
       {/* Table wtih data */}
       <Table striped bordered hover className="text-center">
         <thead>
-          <tr className="text-center">
-            {tableHeaderCells}
-            <th>{lang.dashboard.tabs.adminPanel.editDataTable.editDataBtn}</th>
-            <th>
-              {lang.dashboard.tabs.adminPanel.editDataTable.deleteDataBtn}
-            </th>
-          </tr>
+        <tr className="text-center">
+          {tableHeaderCells}
+          <th>{lang.dashboard.tabs.adminPanel.editDataTable.editDataBtn}</th>
+          <th>
+            {lang.dashboard.tabs.adminPanel.editDataTable.deleteDataBtn}
+          </th>
+        </tr>
         </thead>
         <tbody>{tableRowCells}</tbody>
       </Table>

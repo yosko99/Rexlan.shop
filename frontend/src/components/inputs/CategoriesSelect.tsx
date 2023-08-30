@@ -6,17 +6,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Form } from 'react-bootstrap';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
-import { ProductStructure } from '../../data/inputStructure/productStructure';
 import useFetch from '../../hooks/useFetch';
 import { getCategoriesRoute } from '../../services/apiRoutes';
 import Category from '../../types/categoryType';
 import Loading from '../loading/Loading';
 
 interface Props {
-  currentProduct?: ProductStructure;
+  defaultCategory?: string;
 }
 
-const CategoriesSelect: FC<Props> = ({ currentProduct }) => {
+const CategoriesSelect: FC<Props> = ({ defaultCategory }) => {
   const {
     data: categories,
     isLoading,
@@ -25,19 +24,8 @@ const CategoriesSelect: FC<Props> = ({ currentProduct }) => {
 
   const { lang } = useContext(CurrentLanguageContext);
 
-  if (currentProduct === undefined) {
-    currentProduct = {
-      category: '',
-      description: '',
-      image: '',
-      inputs: {},
-      price: 0,
-      title: ''
-    };
-  }
-
   if (isLoading) {
-    return <Loading />;
+    return <Loading/>;
   }
 
   if (error !== undefined) {
@@ -50,12 +38,12 @@ const CategoriesSelect: FC<Props> = ({ currentProduct }) => {
       <Form.Select
         name="category"
         defaultValue={
-          currentProduct.title === '' ? 'DEFAULT' : currentProduct.category
+          defaultCategory === '' ? 'DEFAULT' : defaultCategory
         }
         required
         aria-label="category"
       >
-        {currentProduct.title === '' ? ( // Not provided current product
+        {defaultCategory === '' ? ( // Not provided current product
           <>
             <option></option>
             {categories.map((category: Category, index: number) => (
@@ -70,13 +58,13 @@ const CategoriesSelect: FC<Props> = ({ currentProduct }) => {
               category: Category,
               index: number // With provided current product
             ) =>
-              category.title === currentProduct!.category ? (
+              category.title === defaultCategory ? (
                 <option
-                  key={currentProduct!.category}
+                  key={defaultCategory}
                   selected
-                  value={currentProduct!.category}
+                  value={defaultCategory}
                 >
-                  {currentProduct!.category}
+                  {defaultCategory}
                 </option>
               ) : (
                 <option key={index} value={category.title}>
@@ -92,7 +80,7 @@ const CategoriesSelect: FC<Props> = ({ currentProduct }) => {
             Currently there are no created categories!
           </p>
           <span>
-            <FontAwesomeIcon color="red" className="ms-2" icon={faWarning} />
+            <FontAwesomeIcon color="red" className="ms-2" icon={faWarning}/>
           </span>
         </div>
       )}

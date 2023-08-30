@@ -34,12 +34,13 @@ export const productStructure: ProductStructure = {
       },
       {
         title: 'Image URL',
-        name: 'image'
+        name: 'image',
+        isFile: true
       },
       {
         title: 'Category',
         name: 'category',
-        isDropdown: true
+        isCategoryDropdown: true
       }
     ],
     bg: [
@@ -58,12 +59,13 @@ export const productStructure: ProductStructure = {
       },
       {
         title: 'URL на изображение',
-        name: 'image'
+        name: 'image',
+        isFile: true
       },
       {
         title: 'Категория',
         name: 'category',
-        isDropdown: true
+        isCategoryDropdown: true
       }
     ],
     es: [
@@ -82,12 +84,13 @@ export const productStructure: ProductStructure = {
       },
       {
         title: 'URL de la imagen',
-        name: 'image'
+        name: 'image',
+        isFile: true
       },
       {
         title: 'Categoría',
         name: 'category',
-        isDropdown: true
+        isCategoryDropdown: true
       }
     ]
   }

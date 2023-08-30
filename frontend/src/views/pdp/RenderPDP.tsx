@@ -1,7 +1,7 @@
 /* eslint-disable multiline-ternary */
 import React, { FC, useContext } from 'react';
 
-import { Container, Row, Col } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 
@@ -10,6 +10,7 @@ import FavoriteProductButton from '../../components/buttons/FavoriteProductButto
 import FreeShippingBar from '../../components/partials/FreeShippingBar';
 import CustomRating from '../../components/product/CustomRating';
 import MultipleProductCarousel from '../../components/product/MultipleProductCarousel';
+import { ASSET_PROXY_URL } from '../../constants/apiRouteConstants';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import useFetch from '../../hooks/useFetch';
 import { getProductsByCategoryRoute } from '../../services/apiRoutes';
@@ -28,7 +29,10 @@ const ProductImage = styled.img`
 const RenderPDP: FC<Props> = ({ product }) => {
   const { lang } = useContext(CurrentLanguageContext);
 
-  const { data, isLoading } = useFetch(
+  const {
+    data,
+    isLoading
+  } = useFetch(
     `${product.category}-products`,
     getProductsByCategoryRoute(product.category, 4),
     true
@@ -38,14 +42,14 @@ const RenderPDP: FC<Props> = ({ product }) => {
 
   return (
     <>
-      <FreeShippingBar />
+      <FreeShippingBar/>
       <Container>
         <Row>
           <Col
             lg={7}
             className="d-flex align-items-center justify-content-center"
           >
-            <ProductImage src={product.image} alt={product.title} />
+            <ProductImage src={ASSET_PROXY_URL + product.image} alt={product.title}/>
           </Col>
           <Col lg={5} className="d-flex align-items-center mt-4">
             <div className="text-left">
@@ -63,7 +67,7 @@ const RenderPDP: FC<Props> = ({ product }) => {
                 className="my-3"
               />
               <p className="text-muted mb-5">{product.description}</p>
-              <AddToCartButton product={product} />
+              <AddToCartButton product={product}/>
               <div>
                 <FavoriteProductButton
                   size={2}

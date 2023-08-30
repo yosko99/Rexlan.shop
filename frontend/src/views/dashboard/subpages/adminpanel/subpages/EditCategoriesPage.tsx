@@ -11,19 +11,17 @@ import EditDataTable from '../../../../../components/dashboard/EditDataTable';
 import DeleteDataIcon from '../../../../../components/icons/dashboard/DeleteDataIcon';
 import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon';
 import Loading from '../../../../../components/loading/Loading';
+import { ASSET_PROXY_URL } from '../../../../../constants/apiRouteConstants';
 import { CurrentLanguageContext } from '../../../../../context/CurrentLanguageContext';
-import {
-  categoryStructure,
-  CategoryStructure
-} from '../../../../../data/inputStructure/categoryStructure';
+import { categoryStructure, CategoryStructure } from '../../../../../data/inputStructure/categoryStructure';
 import useFetch from '../../../../../hooks/useFetch';
-import {
-  getCategoriesRoute,
-  getCategoryRoute
-} from '../../../../../services/apiRoutes';
+import { getCategoriesRoute, getCategoryRoute } from '../../../../../services/apiRoutes';
 
 const EditCategoriesPage = () => {
-  const { isLoading, data: categories } = useFetch(
+  const {
+    isLoading,
+    data: categories
+  } = useFetch(
     'categories',
     getCategoriesRoute(),
     true
@@ -37,14 +35,15 @@ const EditCategoriesPage = () => {
       </p>
       <p>{lang.dashboard.tabs.adminPanel.editCategories.header.subtitle}</p>
       <p className="text-danger">
-        <FontAwesomeIcon icon={faWarning} className="me-2" beat />
+        <FontAwesomeIcon icon={faWarning} className="me-2" beat/>
         {lang.dashboard.tabs.adminPanel.editCategories.header.secondSubtitle}
       </p>
-      <hr />
+      <hr/>
       {isLoading ? (
-        <Loading />
+        <Loading/>
       ) : (
         <EditDataTable
+          sendFormData
           createDataRoute={getCategoriesRoute()}
           inputStructure={categoryStructure.inputs[lang.current]}
           tableHeaderCells={
@@ -73,7 +72,7 @@ const EditCategoriesPage = () => {
                       to={'/category/' + category.title}
                     >
                       <Image
-                        src={category.bannerImage || imgNotFoundImg}
+                        src={ASSET_PROXY_URL + category.bannerImage || imgNotFoundImg}
                         width={100}
                       />
                     </LinkContainer>

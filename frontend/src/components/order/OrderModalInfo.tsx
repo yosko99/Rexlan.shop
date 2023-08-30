@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+import { ASSET_PROXY_URL } from '../../constants/apiRouteConstants';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import getOrderDeliveryHTMLFields from '../../functions/getOrderDeliveryHTMLFields';
 import getOrderPriceHTMLFields from '../../functions/getOrderPriceHTMLFields';
@@ -35,7 +36,7 @@ const OrderModalInfo = ({ order }: Props) => {
         <div className="d-flex justify-content-between my-3" key={index}>
           <CenteredItems>
             <Image
-              src={product.image}
+              src={ASSET_PROXY_URL + product.image}
               style={{ width: '50px' }}
               fluid
               alt={product.title}
@@ -54,7 +55,7 @@ const OrderModalInfo = ({ order }: Props) => {
         </div>
       ))}
 
-      <hr className="mt-4 mb-1" />
+      <hr className="mt-4 mb-1"/>
 
       <div className="d-flex my-2 flex-column flex-lg-row justify-content-between text-uppercase text-muted">
         <p className="m-0">
@@ -66,7 +67,7 @@ const OrderModalInfo = ({ order }: Props) => {
         <p className="m-0"></p>
       </div>
 
-      <DataSplitBetween textData={getOrderDeliveryHTMLFields(lang, order)} />
+      <DataSplitBetween textData={getOrderDeliveryHTMLFields(lang, order)}/>
       <DataSplitBetween
         textData={getOrderPriceHTMLFields(lang, order)}
         className={'my-3'}

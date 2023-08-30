@@ -22,10 +22,8 @@ export class CreateProductDto {
   @ApiProperty()
   category: string;
 
-  @IsNotEmpty()
-  @IsString()
   @ApiProperty()
-  image: string;
+  image: Express.Multer.File;
 }
 
 export class UpdateProductDto {
@@ -49,8 +47,6 @@ export class UpdateProductDto {
   @ApiProperty()
   category: string;
 
-  @IsString()
-  @IsOptional()
   @ApiProperty()
-  image: string;
+  image: Express.Multer.File;
 }

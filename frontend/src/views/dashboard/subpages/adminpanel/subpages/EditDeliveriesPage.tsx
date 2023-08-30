@@ -6,6 +6,7 @@ import EditDataTable from '../../../../../components/dashboard/EditDataTable';
 import DeleteDataIcon from '../../../../../components/icons/dashboard/DeleteDataIcon';
 import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon';
 import Loading from '../../../../../components/loading/Loading';
+import { ASSET_PROXY_URL } from '../../../../../constants/apiRouteConstants';
 import { CurrentLanguageContext } from '../../../../../context/CurrentLanguageContext';
 import { deliveryStructure } from '../../../../../data/inputStructure/deliveryStructure';
 import useFetch from '../../../../../hooks/useFetch';
@@ -38,6 +39,7 @@ const EditDeliveriesPage = () => {
           )
         : (
           <EditDataTable
+            sendFormData
             createDataRoute={getDeliveriesRoute()}
             inputStructure={deliveryStructure.inputs[lang.current]}
             tableHeaderCells={
@@ -61,7 +63,7 @@ const EditDeliveriesPage = () => {
                 {deliveries.map((delivery: Delivery) => (
                   <tr key={delivery.id}>
                     <td>
-                      <Image src={delivery.image} width={50}/>
+                      <Image src={ASSET_PROXY_URL + delivery.image} width={50}/>
                     </td>
                     <td>{delivery.title}</td>
                     <td>

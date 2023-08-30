@@ -8,10 +8,7 @@ import { Navigate } from 'react-router-dom';
 import { CurrentLanguageContext } from '../../../context/CurrentLanguageContext';
 import InputStructure from '../../../data/inputStructure/inputStructure';
 import useFetch from '../../../hooks/useFetch';
-import CenteredItems from '../../../styles/CenteredItems';
-import CategoriesSelect from '../../inputs/CategoriesSelect';
-import CustomInput from '../../inputs/CustomInput';
-import CustomSwitch from '../../inputs/CustomSwitch';
+import InputsRenderer from '../../inputs/InputsRenderer';
 import Loading from '../../loading/Loading';
 import FormTemplate from '../../templates/FormTemplate';
 import CustomModal from '../../utils/CustomModal';
@@ -22,7 +19,11 @@ interface Props {
   inputStructure: InputStructure[];
 }
 
-const EditDataIcon: FC<Props> = ({ apiRoute, queryKey, inputStructure }) => {
+const EditDataIcon: FC<Props> = ({
+  apiRoute,
+  queryKey,
+  inputStructure
+}) => {
   const {
     isLoading,
     data: fetchedData,
@@ -33,7 +34,7 @@ const EditDataIcon: FC<Props> = ({ apiRoute, queryKey, inputStructure }) => {
   const { lang } = useContext(CurrentLanguageContext);
 
   if (error !== undefined) {
-    return <Navigate to="/404" state={{ error: error.message }} />;
+    return <Navigate to="/404" state={{ error: error.message }}/>;
   }
 
   const handleClick = () => {
@@ -43,46 +44,20 @@ const EditDataIcon: FC<Props> = ({ apiRoute, queryKey, inputStructure }) => {
   return (
     <>
       <CustomModal
-        activateButtonText={<FontAwesomeIcon icon={faEdit} />}
+        activateButtonText={<FontAwesomeIcon icon={faEdit}/>}
         activateButtonOnClick={handleClick}
         modalBody={
           isLoading || fetchedData === undefined ? (
-            <Loading />
+            <Loading/>
           ) : (
             <>
               {
                 <FormTemplate
                   inputs={
-                    <>
-                      {inputStructure.map(
-                        (input: InputStructure, index: number) =>
-                          input.isDropdown ? (
-                            <CategoriesSelect
-                              key={index}
-                              currentProduct={fetchedData}
-                            />
-                          ) : input.isRadio ? (
-                            <CenteredItems key={index} className="fs-5">
-                              <CustomSwitch
-                                defaultValue={fetchedData[input.name]}
-                                label={input.title}
-                                name={input.name}
-                              />
-                            </CenteredItems>
-                          ) : (
-                            <CustomInput
-                              key={index}
-                              inputLabel={input.title}
-                              inputName={input.name}
-                              defaultValue={fetchedData[input.name]}
-                              isNumber={input.isNumber || false}
-                              pattern={input.pattern}
-                            />
-                          )
-                      )}
-                    </>
+                    <InputsRenderer fetchedData={fetchedData} inputStructure={inputStructure}/>
                   }
                   mutateURL={apiRoute}
+                  sendFormData
                   updateRequest
                   onSuccessFn={() => refetch()}
                 />

@@ -5,19 +5,21 @@ import { useQueryClient } from 'react-query';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import InputStructure from '../../data/inputStructure/inputStructure';
-import CenteredItems from '../../styles/CenteredItems';
-import CategoriesSelect from '../inputs/CategoriesSelect';
-import CustomInput from '../inputs/CustomInput';
-import CustomSwitch from '../inputs/CustomSwitch';
+import InputsRenderer from '../inputs/InputsRenderer';
 import FormTemplate from '../templates/FormTemplate';
 import CustomModal from '../utils/CustomModal';
 
 interface Props {
   inputStructure: InputStructure[];
   createDataRoute: string;
+  sendFormData: boolean;
 }
 
-const AddDataButton: FC<Props> = ({ createDataRoute, inputStructure }) => {
+const AddDataButton: FC<Props> = ({
+  createDataRoute,
+  inputStructure,
+  sendFormData
+}) => {
   const queryClient = useQueryClient();
   const { lang } = useContext(CurrentLanguageContext);
 
@@ -29,30 +31,9 @@ const AddDataButton: FC<Props> = ({ createDataRoute, inputStructure }) => {
       modalHeader={lang.dashboard.tabs.adminPanel.editDataTable.addDataBtn}
       modalBody={
         <FormTemplate
+          sendFormData={sendFormData}
           inputs={
-            <>
-              {inputStructure.map((input: InputStructure, index: number) =>
-                input.isDropdown ? (
-                  <CategoriesSelect key={index} />
-                ) : input.isRadio ? (
-                  <CenteredItems key={index} className="fs-5">
-                    <CustomSwitch
-                      defaultValue={false}
-                      label={input.title}
-                      name={input.name}
-                    />
-                  </CenteredItems>
-                ) : (
-                  <CustomInput
-                    key={index}
-                    inputLabel={input.title}
-                    inputName={input.name}
-                    isNumber={input.isNumber || false}
-                    pattern={input.pattern}
-                  />
-                )
-              )}
-            </>
+            <InputsRenderer inputStructure={inputStructure}/>
           }
           mutateURL={createDataRoute}
           onSuccessFn={() => queryClient.refetchQueries()}

@@ -11,6 +11,7 @@ import { CreateProductDto, UpdateProductDto } from '../../dto/product.dto';
 import { UserService } from '../user/user.service';
 import { Token } from '../../interfaces/token';
 import extractProductData from '../../functions/extractProductData';
+import deleteImage from '../../functions/deleteImage';
 
 @Injectable()
 export class ProductService {
@@ -172,7 +173,8 @@ export class ProductService {
   }
 
   async createProduct(
-    { category, description, image, price, title }: CreateProductDto,
+    { category, description, price, title }: CreateProductDto,
+    filename: string,
     { email }: Token,
     currentLang: string,
   ) {
@@ -190,7 +192,7 @@ export class ProductService {
         },
         price: price === undefined ? 0 : Number(price),
         category: { connect: { id: selectedCategory.id } },
-        image,
+        image: filename,
         translations: {
           create: {
             lang: currentLang,
@@ -216,9 +218,10 @@ export class ProductService {
   ) {
     await this.userService.isAdmin(email);
 
-    await this.retrieveProduct(productId, currentLang);
+    const product = await this.retrieveProduct(productId, currentLang);
     await this.prisma.product.delete({ where: { id: productId } });
     await this.cacheService.flushCache();
+    await deleteImage(product.image);
 
     return {
       msg: lang[currentLang].global.dataDeleted,
@@ -226,8 +229,9 @@ export class ProductService {
   }
 
   async updateProduct(
-    { category, description, image, price, title }: UpdateProductDto,
+    { category, description, price, title }: UpdateProductDto,
     productId: string,
+    filename: string,
     { email }: Token,
     currentLang: string,
   ) {
@@ -240,13 +244,15 @@ export class ProductService {
       (translation) => translation.lang === currentLang,
     );
 
+    await deleteImage(product.image);
+
     // Does not exist translation
     if (productTranslationIndex === -1) {
       await this.prisma.product.update({
         where: { id: productId },
         data: {
           price: Number(price) || product.price,
-          image: image || product.image,
+          image: filename,
           translations: {
             create: {
               title: title || product.title,
@@ -262,7 +268,7 @@ export class ProductService {
         where: { id: productId },
         data: {
           price: Number(price) || product.price,
-          image: image || product.image,
+          image: filename,
           category: { connect: { id: selectedCategory.id } },
           translations: {
             update: {

@@ -7,15 +7,18 @@ import EditDataIcon from '../../../../../components/icons/dashboard/EditDataIcon
 import Loading from '../../../../../components/loading/Loading';
 import { CurrentLanguageContext } from '../../../../../context/CurrentLanguageContext';
 import {
-  UserStructure,
+  passwordInputForUserStructure,
   userStructure,
-  passwordInputForUserStructure
+  UserStructure
 } from '../../../../../data/inputStructure/userStructure';
 import useFetch from '../../../../../hooks/useFetch';
 import { getUserRoute, getUsersRoute } from '../../../../../services/apiRoutes';
 
 const EditUsersPage = () => {
-  const { isLoading, data: users } = useFetch(
+  const {
+    isLoading,
+    data: users
+  } = useFetch(
     'allUsers',
     getUsersRoute(),
     true
@@ -23,7 +26,7 @@ const EditUsersPage = () => {
   const { lang } = useContext(CurrentLanguageContext);
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading/>;
   }
 
   return (
@@ -32,9 +35,10 @@ const EditUsersPage = () => {
         {lang.dashboard.tabs.adminPanel.editUsers.header.title}
       </p>
       <p>{lang.dashboard.tabs.adminPanel.editUsers.header.subtitle}</p>
-      <hr />
+      <hr/>
 
       <EditDataTable
+        sendFormData={false}
         createDataRoute={getUsersRoute()}
         inputStructure={[
           passwordInputForUserStructure[lang.current],

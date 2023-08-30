@@ -3,8 +3,9 @@ interface InputStructure {
   name: string;
   isNumber?: boolean;
   pattern?: string;
-  isDropdown?: boolean;
+  isCategoryDropdown?: boolean;
   isRadio?: boolean;
+  isFile?: boolean;
 }
 
 export default InputStructure;

@@ -1,6 +1,6 @@
 const categoryData = [
   {
-    bannerImage: '/assets/categories/electronics.webp',
+    bannerImage: '/categories/electronics.webp',
     translations: {
       createMany: {
         data: [
@@ -21,7 +21,7 @@ const categoryData = [
     },
   },
   {
-    bannerImage: '/assets/categories/jewelery.webp',
+    bannerImage: '/categories/jewelery.webp',
     translations: {
       createMany: {
         data: [
@@ -42,7 +42,7 @@ const categoryData = [
     },
   },
   {
-    bannerImage: "/assets/categories/men's clothing.webp",
+    bannerImage: "/categories/men's clothing.webp",
     translations: {
       createMany: {
         data: [
@@ -63,7 +63,7 @@ const categoryData = [
     },
   },
   {
-    bannerImage: "/assets/categories/women's clothing.webp",
+    bannerImage: "/categories/women's clothing.webp",
     translations: {
       createMany: {
         data: [

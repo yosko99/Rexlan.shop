@@ -1,9 +1,10 @@
 import React, { FC, useContext } from 'react';
 
-import { Col, Row, Image } from 'react-bootstrap';
+import { Col, Image, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 
+import { ASSET_PROXY_URL } from '../../constants/apiRouteConstants';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import { Product } from '../../types/productTypes';
 import calculateTotalPrice from '../../views/cart/calculateTotalPrice';
@@ -34,7 +35,7 @@ const CartOrderBox: FC<Props> = ({
   return (
     <div className="mt-2">
       <p className="fs-5">{lang.cart.orderBox.header}</p>
-      <hr />
+      <hr/>
       <ProductHolder>
         {cartProducts.map((product: Product, index: number) => (
           <Row key={index}>
@@ -48,7 +49,7 @@ const CartOrderBox: FC<Props> = ({
                 to={`/${product.category}/product/${product.id}`}
                 role="button"
               >
-                <Image src={product.image} fluid alt={product.title} />
+                <Image src={ASSET_PROXY_URL + product.image} fluid alt={product.title}/>
               </LinkContainer>
             </Col>
             <Col lg={9} sm={9} xs={9}>
@@ -57,10 +58,10 @@ const CartOrderBox: FC<Props> = ({
                 ${product.price} x {cartProducts[index].quantity}
               </p>
               <div className="d-flex justify-content-end">
-                <RemoveProductFromCartButton productId={product.id} />
+                <RemoveProductFromCartButton productId={product.id}/>
               </div>
             </Col>
-            <hr className="my-2" />
+            <hr className="my-2"/>
           </Row>
         ))}
       </ProductHolder>
@@ -75,7 +76,7 @@ const CartOrderBox: FC<Props> = ({
         <p>{lang.global.discount}</p>
         <p>0 $</p>
       </div>
-      <hr className="m-0 mb-2" />
+      <hr className="m-0 mb-2"/>
       <div className="d-flex justify-content-between">
         <p className="fs-3">{lang.cart.orderBox.total}</p>
         <p className="fs-3">{totalPrice} $</p>
