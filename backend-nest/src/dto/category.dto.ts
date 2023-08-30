@@ -7,10 +7,8 @@ export class CreateCategoryDto {
   @ApiProperty()
   title: string;
 
-  @IsNotEmpty()
-  @IsString()
   @ApiProperty()
-  bannerImage: string;
+  bannerImage: Express.Multer.File;
 }
 
 export class UpdateCategoryDto {
@@ -19,8 +17,6 @@ export class UpdateCategoryDto {
   @ApiProperty()
   title: string;
 
-  @IsOptional()
-  @IsString()
   @ApiProperty()
-  bannerImage: string;
+  bannerImage: Express.Multer.File;
 }

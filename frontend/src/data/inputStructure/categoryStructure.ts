@@ -21,7 +21,8 @@ export const categoryStructure: CategoryStructure = {
       },
       {
         title: 'Banner image URL',
-        name: 'bannerImage'
+        name: 'bannerImage',
+        isFile: true
       }
     ],
     bg: [
@@ -31,7 +32,8 @@ export const categoryStructure: CategoryStructure = {
       },
       {
         title: 'URL на банер',
-        name: 'bannerImage'
+        name: 'bannerImage',
+        isFile: true
       }
     ],
     es: [
@@ -41,7 +43,8 @@ export const categoryStructure: CategoryStructure = {
       },
       {
         title: 'URL de la imagen del banner',
-        name: 'bannerImage'
+        name: 'bannerImage',
+        isFile: true
       }
     ]
   }

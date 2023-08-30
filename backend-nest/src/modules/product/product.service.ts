@@ -181,7 +181,6 @@ export class ProductService {
     await this.userService.isAdmin(email);
 
     const selectedCategory = await this.doesCategoryExist(category);
-
     const newProduct = await this.prisma.product.create({
       data: {
         rating: {

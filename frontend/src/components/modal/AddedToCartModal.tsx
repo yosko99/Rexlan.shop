@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, Image, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { PROXY_URL } from '../../constants/apiRouteConstants';
+import { ASSET_PROXY_URL } from '../../constants/apiRouteConstants';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import { Product } from '../../types/productTypes';
 import CustomModal from '../utils/CustomModal';
@@ -38,7 +38,7 @@ const AddedToCartModal: FC<Props> = ({
         modalBody={
           <Row>
             <Col className="d-flex justify-content-center align-items-center">
-              <Image fluid src={PROXY_URL + product.image}/>
+              <Image fluid src={ASSET_PROXY_URL + product.image}/>
             </Col>
             <Col>
               <p className="text-uppercase text-muted mt-2">

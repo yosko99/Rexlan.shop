@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 
 import { Button, ButtonGroup, Col, Image, Row } from 'react-bootstrap';
 
+import { ASSET_PROXY_URL } from '../../constants/apiRouteConstants';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import Delivery from '../../interfaces/delivery';
 
@@ -29,7 +30,7 @@ const DeliveryInfo = ({
           md={6}
           className="d-flex my-2 justify-content-center align-items-center"
         >
-          <Image src={delivery.image} fluid alt={delivery.title} />
+          <Image src={ASSET_PROXY_URL + delivery.image} fluid alt={delivery.title}/>
         </Col>
         <Col
           lg={10}
