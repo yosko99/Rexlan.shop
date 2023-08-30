@@ -5,6 +5,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CreateDeliveryDto, UpdateDeliveryDto } from '../../dto/delivery.dto';
 import { Token } from '../../interfaces/token';
 import { UserService } from '../user/user.service';
+import deleteImage from '../../functions/deleteImage';
 
 @Injectable()
 export class DeliveryService {
@@ -39,17 +40,17 @@ export class DeliveryService {
     return delivery;
   }
 
-  private async doesCategoryTitleAlreadyExist(
+  private async doesDeliveryTitleAlreadyExist(
     title: string,
     currentLang: string,
+    image?: string,
   ) {
     const category = await this.prisma.delivery.findFirst({
       where: { title },
     });
 
-    console.log(title);
-
     if (category !== null) {
+      await deleteImage(image);
       throw new HttpException(lang[currentLang].global.titleAlreadyExists, 409);
     }
 
@@ -57,18 +58,19 @@ export class DeliveryService {
   }
 
   async createDelivery(
-    { priceToAddress, initialPrice, title, image }: CreateDeliveryDto,
+    { priceToAddress, initialPrice, title }: CreateDeliveryDto,
+    filename: string,
     { email }: Token,
     currentLang: string,
   ) {
     await this.userService.isAdmin(email);
-    await this.doesCategoryTitleAlreadyExist(title, currentLang);
+    await this.doesDeliveryTitleAlreadyExist(title, currentLang, filename);
 
     try {
       const newDelivery = await this.prisma.delivery.create({
         data: {
           title,
-          image,
+          image: filename,
           initialPrice: Number(initialPrice),
           priceToAddress: Number(priceToAddress),
         },
@@ -79,13 +81,15 @@ export class DeliveryService {
         delivery: newDelivery,
       };
     } catch (e) {
+      await deleteImage(filename);
       throw new HttpException(`Something went wrong: ${e.message}`, 502);
     }
   }
 
   async updateDelivery(
-    { priceToAddress, initialPrice, image, title }: UpdateDeliveryDto,
+    { priceToAddress, initialPrice, title }: UpdateDeliveryDto,
     id: string,
+    filename: string,
     { email }: Token,
     currentLang: string,
   ) {
@@ -93,7 +97,7 @@ export class DeliveryService {
     const delivery = await this.retrieveDelivery(id, currentLang);
 
     if (delivery.title !== title && title !== undefined) {
-      await this.doesCategoryTitleAlreadyExist(title, currentLang);
+      await this.doesDeliveryTitleAlreadyExist(title, currentLang, filename);
     }
 
     try {
@@ -101,23 +105,27 @@ export class DeliveryService {
         where: { id },
         data: {
           title,
-          image,
+          image: filename,
           initialPrice: Number(initialPrice) || delivery.initialPrice,
           priceToAddress: Number(priceToAddress) || delivery.priceToAddress,
         },
       });
 
+      await deleteImage(delivery.image);
+
       return {
         msg: lang[currentLang].global.dataUpdated,
       };
     } catch (e) {
+      await deleteImage(filename);
       throw new HttpException(`Something went wrong: ${e.message}`, 502);
     }
   }
 
   async deleteDelivery(id: string, { email }: Token, currentLang: string) {
     await this.userService.isAdmin(email);
-    await this.retrieveDelivery(id, currentLang);
+    const delivery = await this.retrieveDelivery(id, currentLang);
+    await deleteImage(delivery.image);
     await this.prisma.delivery.delete({ where: { id } });
 
     return {

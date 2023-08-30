@@ -62,6 +62,7 @@ const EditUsersPage = () => {
                 <td>{user.name}</td>
                 <td>
                   <EditDataIcon
+                    sendFormData={false}
                     queryKey={`user-${user.id}`}
                     apiRoute={getUserRoute(user.id)}
                     inputStructure={userStructure.inputs[lang.current]}

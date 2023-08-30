@@ -263,6 +263,7 @@ export class ProductService {
         },
       });
     } else {
+      // Update product translation
       await this.prisma.product.update({
         where: { id: productId },
         data: {

@@ -17,10 +17,8 @@ export class CreateDeliveryDto {
   @ApiProperty()
   priceToAddress: number;
 
-  @IsNotEmpty()
-  @IsString()
   @ApiProperty()
-  image: string;
+  image: Express.Multer.File;
 }
 
 export class UpdateDeliveryDto {
@@ -39,8 +37,6 @@ export class UpdateDeliveryDto {
   @ApiProperty()
   priceToAddress: number;
 
-  @IsOptional()
-  @IsString()
   @ApiProperty()
-  image: string;
+  image: Express.Multer.File;
 }

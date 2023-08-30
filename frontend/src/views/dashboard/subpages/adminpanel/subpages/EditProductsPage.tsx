@@ -71,6 +71,7 @@ const EditProductsPage = () => {
                   <td>{product.title}</td>
                   <td>
                     <EditDataIcon
+                      sendFormData
                       queryKey={`product-${product.id}`}
                       apiRoute={getProductRoute(product.id)}
                       inputStructure={productStructure.inputs[lang.current]}

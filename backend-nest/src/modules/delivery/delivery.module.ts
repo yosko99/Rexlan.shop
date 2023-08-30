@@ -5,7 +5,7 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 
-import { DeliveryController } from './delivery.controllers';
+import { DeliveryController } from './delivery.controller';
 
 import { DeliveryService } from './delivery.service';
 import { PrismaService } from '../../prisma/prisma.service';

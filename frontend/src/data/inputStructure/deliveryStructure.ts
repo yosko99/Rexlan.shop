@@ -33,7 +33,8 @@ export const deliveryStructure: DeliveryStructure = {
       },
       {
         title: 'Image URL',
-        name: 'image'
+        name: 'image',
+        isFile: true
       }
     ],
     bg: [
@@ -53,7 +54,8 @@ export const deliveryStructure: DeliveryStructure = {
       },
       {
         title: 'URL на изображение',
-        name: 'image'
+        name: 'image',
+        isFile: true
       }
     ],
     es: [
@@ -73,7 +75,8 @@ export const deliveryStructure: DeliveryStructure = {
       },
       {
         title: 'URL de la imagen',
-        name: 'image'
+        name: 'image',
+        isFile: true
       }
     ]
   }

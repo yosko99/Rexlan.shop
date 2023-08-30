@@ -68,6 +68,7 @@ const EditDeliveriesPage = () => {
                     <td>{delivery.title}</td>
                     <td>
                       <EditDataIcon
+                        sendFormData
                         queryKey={`delivery-${delivery.id}`}
                         apiRoute={getDeliveryRoute(delivery.id)}
                         inputStructure={deliveryStructure.inputs[lang.current]}

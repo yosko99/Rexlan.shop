@@ -80,6 +80,7 @@ const EditCategoriesPage = () => {
                   <td>{category.title}</td>
                   <td>
                     <EditDataIcon
+                      sendFormData
                       queryKey={'category-' + category.id}
                       apiRoute={getCategoryRoute(category.id)}
                       inputStructure={categoryStructure.inputs[lang.current]}

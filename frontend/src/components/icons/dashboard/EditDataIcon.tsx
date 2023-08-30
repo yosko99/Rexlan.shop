@@ -17,12 +17,14 @@ interface Props {
   apiRoute: string;
   queryKey: string;
   inputStructure: InputStructure[];
+  sendFormData: boolean;
 }
 
 const EditDataIcon: FC<Props> = ({
   apiRoute,
   queryKey,
-  inputStructure
+  inputStructure,
+  sendFormData
 }) => {
   const {
     isLoading,
@@ -57,7 +59,7 @@ const EditDataIcon: FC<Props> = ({
                     <InputsRenderer fetchedData={fetchedData} inputStructure={inputStructure}/>
                   }
                   mutateURL={apiRoute}
-                  sendFormData
+                  sendFormData={sendFormData}
                   updateRequest
                   onSuccessFn={() => refetch()}
                 />

@@ -2,10 +2,14 @@ import {
   Body,
   Controller,
   Delete,
+  FileTypeValidator,
   Get,
   Param,
+  ParseFilePipe,
   Post,
   Put,
+  UploadedFile,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -14,6 +18,7 @@ import { RequestData } from '../../decorators/requestData.decorator';
 
 import { DeliveryService } from './delivery.service';
 import {
+  ApiConsumes,
   ApiHeader,
   ApiOperation,
   ApiQuery,
@@ -28,6 +33,8 @@ import {
 } from '../../swagger/apiResponseOptions';
 import { Token } from '../../interfaces/token';
 import { CreateDeliveryDto, UpdateDeliveryDto } from '../../dto/delivery.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { multerFilter } from '../../config/multer';
 
 @Controller('deliveries')
 @ApiTags('Deliveries')
@@ -56,7 +63,7 @@ export class DeliveryController {
     status: 404,
     description: 'Delivery with id not found',
   })
-  getProduct(
+  getDelivery(
     @Param('id') deliveryId: string,
     @RequestData('currentLang') currentLang: string,
   ) {
@@ -64,7 +71,9 @@ export class DeliveryController {
   }
 
   @Post()
+  @ApiConsumes('multipart/form-data')
   @UsePipes(ValidationPipe)
+  @UseInterceptors(FileInterceptor('image', multerFilter))
   @ApiHeader({
     name: 'Authorization',
     required: true,
@@ -86,7 +95,13 @@ export class DeliveryController {
     status: 409,
     description: 'Delivery title already exists',
   })
-  createProduct(
+  createDelivery(
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [new FileTypeValidator({ fileType: /(jpg|jpeg|png)$/ })],
+      }),
+    )
+    file: Express.Multer.File,
     @Body() createDeliveryDto: CreateDeliveryDto,
     @RequestData('currentLang') currentLang: string,
     @RequestData('userDataFromToken')
@@ -94,13 +109,16 @@ export class DeliveryController {
   ) {
     return this.deliveryService.createDelivery(
       createDeliveryDto,
+      file.filename,
       userDataFromToken,
       currentLang,
     );
   }
 
   @Put('/:id')
+  @ApiConsumes('multipart/form-data')
   @UsePipes(ValidationPipe)
+  @UseInterceptors(FileInterceptor('image', multerFilter))
   @ApiHeader({
     name: 'Authorization',
     required: true,
@@ -126,7 +144,13 @@ export class DeliveryController {
     status: 409,
     description: 'Delivery title already exists',
   })
-  updateProduct(
+  updateDelivery(
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [new FileTypeValidator({ fileType: /(jpg|jpeg|png)$/ })],
+      }),
+    )
+    file: Express.Multer.File,
     @Body() updateDeliveryDto: UpdateDeliveryDto,
     @Param('id') deliveryId: string,
     @RequestData('userDataFromToken')
@@ -136,6 +160,7 @@ export class DeliveryController {
     return this.deliveryService.updateDelivery(
       updateDeliveryDto,
       deliveryId,
+      file.filename,
       userDataFromToken,
       currentLang,
     );
@@ -162,7 +187,7 @@ export class DeliveryController {
     status: 404,
     description: 'User not found',
   })
-  deleteProduct(
+  deleteDelivery(
     @Param('id') deliveryId: string,
     @RequestData('userDataFromToken')
     userDataFromToken: Token,

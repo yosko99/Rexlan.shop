@@ -32,4 +32,15 @@ yarn-error.log*
 
 .idea
 
-/backend-nest/uploads
+!/backend-nest/uploads/
+/backend-nest/uploads/*
+!/backend-nest/uploads/products/
+/backend-nest/uploads/products/*
+!/backend-nest/uploads/categories/
+/backend-nest/uploads/categories/*
+!/backend-nest/uploads/deliveries/
+/backend-nest/uploads/deliveries/*
+
+!/backend-nest/uploads/products/**
+!/backend-nest/uploads/categories/**
+!/backend-nest/uploads/deliveries/**
