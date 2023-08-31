@@ -1,6 +1,6 @@
-import HTMLFields from '../types/htmlFields';
-import PaymentType from '../types/paymentType';
-import TextDataType from '../types/textDataType';
+import HTMLFields from '../../types/htmlFields';
+import PaymentType from '../../types/paymentType';
+import TextDataType from '../../types/textDataType';
 
 const getPaymentInfoHTMLFields = (
   lang: HTMLFields,

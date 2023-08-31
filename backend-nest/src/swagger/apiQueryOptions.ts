@@ -16,3 +16,10 @@ export const quantityQuery = {
   description: 'Number of products',
   required: false,
 };
+
+export const productIdsQuery = {
+  type: String,
+  name: 'ids',
+  description: 'Product ids',
+  required: false,
+};

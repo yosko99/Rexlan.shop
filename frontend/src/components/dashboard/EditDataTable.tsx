@@ -25,15 +25,11 @@ const EditDataTable: FC<Props> = ({
 
   return (
     <div className="overflow-auto">
-      {/* Add data */}
       <AddDataButton
         sendFormData={sendFormData}
         inputStructure={inputStructure}
         createDataRoute={createDataRoute}
       />
-      {/* Add data */}
-
-      {/* Table wtih data */}
       <Table striped bordered hover className="text-center">
         <thead>
         <tr className="text-center">
@@ -46,7 +42,6 @@ const EditDataTable: FC<Props> = ({
         </thead>
         <tbody>{tableRowCells}</tbody>
       </Table>
-      {/* Table wtih data */}
     </div>
   );
 };

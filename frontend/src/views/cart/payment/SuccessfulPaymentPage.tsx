@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 
 import DataSplitBetween from '../../../components/partials/DataSplitBetween';
 import { CurrentLanguageContext } from '../../../context/CurrentLanguageContext';
-import getPaymentInfoHTMLFields from '../../../functions/getPaymentInfoHTMLFields';
+import getPaymentInfoHTMLFields from '../../../functions/html-fields/getPaymentInfoHTMLFields';
 import PaymentType from '../../../types/paymentType';
 
 interface LocationPaymentType {

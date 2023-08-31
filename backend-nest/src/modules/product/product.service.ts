@@ -25,16 +25,34 @@ export class ProductService {
     private readonly userService: UserService,
   ) {}
 
-  async getProducts(qty: string, currentLang: string) {
+  async getProducts(qty: string, currentLang: string, ids?: string) {
     const productQuantity = this.getQueryQty(qty);
-    const cacheKey = `products-qty${productQuantity}-lang${currentLang}`;
+    const cacheKey = `products-qty-${productQuantity}-lang-${currentLang}-ids-${ids}`;
 
-    const products = (await this.prisma.product.findMany({
-      take: productQuantity,
-      include: getProductIncludeQuery(),
-    })) as unknown as Product[];
+    let products: Product[];
+
+    if (ids !== undefined) {
+      const productIds = ids.split(',');
+      products = await this.getProductsByIds(productIds);
+    } else {
+      products = (await this.prisma.product.findMany({
+        take: productQuantity,
+        include: getProductIncludeQuery(),
+      })) as unknown as Product[];
+    }
 
     return this.getCachedProducts(products, cacheKey, currentLang);
+  }
+
+  private async getProductsByIds(ids: string[]) {
+    return this.prisma.product.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+      include: getProductIncludeQuery(),
+    }) as unknown as Product[];
   }
 
   private async getMostViewedProducts(qty: number, currentLang: string) {

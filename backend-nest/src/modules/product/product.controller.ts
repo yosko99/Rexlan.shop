@@ -28,7 +28,11 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { currentLangQuery, quantityQuery } from '../../swagger/apiQueryOptions';
+import {
+  currentLangQuery,
+  productIdsQuery,
+  quantityQuery,
+} from '../../swagger/apiQueryOptions';
 import { productSortParam } from '../../swagger/apiParamOptions';
 import {
   CreateProductDto,
@@ -50,8 +54,9 @@ export class ProductsController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Fetch all products' })
+  @ApiOperation({ summary: 'Fetch products' })
   @ApiQuery(quantityQuery)
+  @ApiQuery(productIdsQuery)
   @ApiQuery(currentLangQuery)
   @ApiResponse({
     status: 200,
@@ -59,9 +64,10 @@ export class ProductsController {
   })
   getProducts(
     @Query('qty') qty: string,
+    @Query('ids') ids: string,
     @RequestData('currentLang') currentLang: string,
   ) {
-    return this.productService.getProducts(qty, currentLang);
+    return this.productService.getProducts(qty, currentLang, ids);
   }
 
   @Get('/:id')

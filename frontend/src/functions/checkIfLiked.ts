@@ -2,8 +2,8 @@ const checkIfLiked = (productID: string): boolean => {
   const liked = localStorage.getItem('liked');
 
   if (liked !== null && liked !== '[]') {
-    const localStorageProcuts = JSON.parse(liked);
-    const productIndex = localStorageProcuts.indexOf(productID);
+    const localStorageProducts = JSON.parse(liked);
+    const productIndex = localStorageProducts.indexOf(productID);
 
     return productIndex !== -1;
   }

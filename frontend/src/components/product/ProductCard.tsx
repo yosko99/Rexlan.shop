@@ -9,7 +9,7 @@ import ProductCardBody from '../../styles/product/ProductCardBody';
 import ProductCardImg from '../../styles/product/ProductCardImg';
 import { Product } from '../../types/productTypes';
 import FavoriteProductButton from '../buttons/FavoriteProductButton';
-import CustomRating from './CustomRating';
+import CustomRating from '../utils/CustomRating';
 
 interface Props {
   product: Product;

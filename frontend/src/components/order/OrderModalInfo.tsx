@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 
 import { ASSET_PROXY_URL } from '../../constants/apiRouteConstants';
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
-import getOrderDeliveryHTMLFields from '../../functions/getOrderDeliveryHTMLFields';
-import getOrderPriceHTMLFields from '../../functions/getOrderPriceHTMLFields';
+import getOrderDeliveryHTMLFields from '../../functions/html-fields/getOrderDeliveryHTMLFields';
+import getOrderPriceHTMLFields from '../../functions/html-fields/getOrderPriceHTMLFields';
 import CenteredItems from '../../styles/CenteredItems';
 import { Order } from '../../types/orderTypes';
 import { Product } from '../../types/productTypes';

@@ -1,6 +1,6 @@
-import HTMLFields from '../types/htmlFields';
-import { Order } from '../types/orderTypes';
-import TextDataType from '../types/textDataType';
+import HTMLFields from '../../types/htmlFields';
+import { Order } from '../../types/orderTypes';
+import TextDataType from '../../types/textDataType';
 
 const getOrderPriceHTMLFields = (lang: HTMLFields, order: Order) => {
   const orderPriceHTMLFields: TextDataType[] = [

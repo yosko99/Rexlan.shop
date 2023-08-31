@@ -115,16 +115,10 @@ const FormTemplate: FC<Props> = ({
     event.preventDefault();
 
     data.current = convertFormInputToObject(formRef);
-    const form = event.currentTarget;
     const localStorageCart = localStorage.getItem('cart');
-    let cartId: String | null = null;
-
-    if (localStorageCart !== null) {
-      cartId = localStorageCart;
-    }
+    const cartId = localStorageCart || null;
 
     let requestData;
-
     if (sendFormData) {
       requestData = new FormData(event.target as HTMLFormElement);
       requestData.append('cartId', cartId as string);
@@ -135,7 +129,7 @@ const FormTemplate: FC<Props> = ({
       };
     }
 
-    if (form.checkValidity()) {
+    if (event.currentTarget.checkValidity()) {
       // @ts-ignore
       mutation.mutate(requestData);
     }

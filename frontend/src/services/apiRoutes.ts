@@ -25,6 +25,10 @@ export const getProductsRoute = (qty?: number): string => {
   return PRODUCTS_ROUTE + getLinkDefaultSuffixes(qty);
 };
 
+export const getProductWithIdsRoute = (ids: string): string => {
+  return PRODUCTS_ROUTE + `?ids=${ids}`;
+};
+
 export const getProductRoute = (id: string): string => {
   return PRODUCTS_ROUTE + id + getLinkDefaultSuffixes();
 };

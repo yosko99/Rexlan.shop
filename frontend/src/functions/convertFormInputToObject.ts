@@ -1,7 +1,7 @@
 import React from 'react';
 
 const convertFormInputToObject = (
-  formRef: React.RefObject<HTMLFormElement>
+  formRef: React.RefObject<HTMLFormElement> | HTMLFormElement
 ): object => {
   const inputs = formRef.current!.elements;
   const inputsObject = {};
