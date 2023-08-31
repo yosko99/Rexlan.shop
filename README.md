@@ -146,7 +146,7 @@ All the routes are documented with the swagger API. You can check it under `loca
 
 # Database schema
 
-![Screenshot from 2023-08-22 18-47-19](https://github.com/yosko99/Rexlan.shop/assets/80975936/3464e100-60f6-4d4a-8842-8bf5727abe99)
+![Screenshot from 2023-08-31 13-45-37](https://github.com/yosko99/Rexlan.shop/assets/80975936/02856bff-d61b-47bf-9b2a-0be8ce296cea)
 
 
 
