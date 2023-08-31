@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Navigate } from 'react-router-dom';
 
-import Loading from '../../components/loading/Loading';
 import useMultipleFetch from '../../hooks/useMultipleFetch';
 import { getProductsRoute, getProductsSortedByRoute } from '../../services/apiRoutes';
 import { Product } from '../../types/productTypes';
@@ -24,9 +23,6 @@ const MainPage = () => {
     }
   ]);
 
-  if (isLoading) {
-    return <Loading height='90vh'/>;
-  }
   if (error !== undefined) {
     return <Navigate to="/404" state={{ error: error.message }}/>;
   }

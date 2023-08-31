@@ -2,6 +2,7 @@ import React, { FC, useContext } from 'react';
 
 import axios from 'axios';
 import { useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import { getCartProductRoute } from '../../services/apiRoutes';
@@ -23,6 +24,7 @@ const RemoveProductFromCartButton: FC<Props> = ({ productId }) => {
         getCartProductRoute(localStorage.getItem('cart') as string, productId)
       )
       .then((_response) => {
+        toast(lang.toasts.removeProductFromCartButton.productRemovedFromCart, { type: 'info' });
         queryClient.refetchQueries('cart');
       });
   };

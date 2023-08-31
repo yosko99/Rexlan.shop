@@ -4,6 +4,19 @@ import HTMLFields from '../types/htmlFields';
 
 const lang: HTMLFields = {
   current: 'bg',
+  toasts: {
+    favoriteProductButton: {
+      productAddedToFavorites: 'Продуктът беше добавен към любими',
+      productRemoveFromFavorites: 'Продуктът беше премахнат от любими'
+    },
+    removeProductFromCartButton: {
+      productRemovedFromCart: 'Продуктът беше премахнат от количката'
+    },
+    review: {
+      reviewAdded: 'Вашият отзив беше запазен',
+      reviewAlreadyCreated: 'Съжаляваме, вече сте оставили отзив за този продукт'
+    }
+  },
   global: {
     findOutMore: 'Научете повече',
     categories: 'Категории',

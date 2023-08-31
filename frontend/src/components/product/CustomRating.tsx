@@ -1,6 +1,7 @@
 import React, { FC, useContext, useState } from 'react';
 
 import { Rating } from 'react-simple-star-rating';
+import { toast } from 'react-toastify';
 
 import { CurrentLanguageContext } from '../../context/CurrentLanguageContext';
 import useMutationWithToken from '../../hooks/useMutationWithToken';
@@ -20,25 +21,29 @@ const CustomRating: FC<Props> = ({
   product,
   readonly
 }) => {
-  const [rating, setRating] = useState(0);
-  const [rate, setRate] = useState(product.rating.rate);
   const [count, setCount] = useState(product.rating.count);
+  const [rate, setRate] = useState(product.rating.rate);
+
+  const { lang } = useContext(CurrentLanguageContext);
 
   const {
     data,
     error,
     mutate
   } = useMutationWithToken(getProductReviewsRoute(product.id), false);
-  const { lang } = useContext(CurrentLanguageContext);
 
   const handleRating = (newRate: number) => {
     const scaledValue = (newRate / 100) * 5;
 
     mutate({ rate: scaledValue }, {
       onSuccess: () => {
-        setCount(count + 1);
         const updatedRate = ((rate * count) + scaledValue) / (count + 1);
+        setCount(count + 1);
         setRate(updatedRate);
+        toast(lang.toasts.review.reviewAdded, { type: 'success' });
+      },
+      onError: () => {
+        toast(lang.toasts.review.reviewAlreadyCreated, { type: 'warning' });
       }
     });
   };
@@ -47,7 +52,7 @@ const CustomRating: FC<Props> = ({
     <>
       <Rating
         onClick={handleRating}
-        ratingValue={rating}
+        ratingValue={0}
         readonly={readonly}
         initialValue={rate}
         size={starSize}

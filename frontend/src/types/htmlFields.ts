@@ -15,6 +15,19 @@ interface FormInputType {
 
 interface HTMLFields {
   current: string;
+  toasts: {
+    favoriteProductButton: {
+      productAddedToFavorites: string;
+      productRemoveFromFavorites: string;
+    }
+    removeProductFromCartButton: {
+      productRemovedFromCart: string;
+    }
+    review: {
+      reviewAdded: string;
+      reviewAlreadyCreated: string;
+    }
+  };
   global: {
     findOutMore: string;
     categories: string;

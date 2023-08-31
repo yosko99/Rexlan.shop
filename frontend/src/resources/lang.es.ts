@@ -4,6 +4,19 @@ import HTMLFields from '../types/htmlFields';
 
 const lang: HTMLFields = {
   current: 'es',
+  toasts: {
+    favoriteProductButton: {
+      productAddedToFavorites: 'El producto ha sido añadido a tus favoritos',
+      productRemoveFromFavorites: 'El producto ha sido eliminado de tus favoritos'
+    },
+    removeProductFromCartButton: {
+      productRemovedFromCart: 'El producto ha sido eliminado del carrito'
+    },
+    review: {
+      reviewAdded: 'Tu reseña ha sido guardada',
+      reviewAlreadyCreated: 'Lo siento, ya has dejado una reseña para este producto'
+    }
+  },
   global: {
     findOutMore: 'Más información',
     categories: 'Categorías',

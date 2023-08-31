@@ -1,6 +1,9 @@
+import { toast } from 'react-toastify';
+
+import HTMLFields from '../types/htmlFields';
 import checkIfLiked from './checkIfLiked';
 
-export const handleFavoriteButtonClick = (productID: string): void => {
+export const handleFavoriteButtonClick = (productID: string, lang: HTMLFields): void => {
   const checkExists = checkIfLiked(productID);
 
   // Check if array is empty
@@ -14,8 +17,10 @@ export const handleFavoriteButtonClick = (productID: string): void => {
     // Not in array (add it)
     const likedProducts = [...likedLocalStorage, productID];
     localStorage.setItem('liked', JSON.stringify(likedProducts));
+    toast(lang.toasts.favoriteProductButton.productAddedToFavorites, { type: 'success' });
   } else {
     // Product id is in array (remove it)
+    toast(lang.toasts.favoriteProductButton.productRemoveFromFavorites, { type: 'info' });
     const likedProducts = likedLocalStorage.filter(
       (likedProduct: string) => likedProduct !== productID
     );

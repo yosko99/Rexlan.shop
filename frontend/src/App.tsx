@@ -6,6 +6,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import Footer from './components/footer/Footer';
 import Header from './components/header';
 import CompanyLogos from './components/partials/CompanyLogos';
+import CustomToast from './components/utils/CustomToast';
 import ScrollToTop from './components/utils/ScrollToTop';
 import { CurrentLanguageContext } from './context/CurrentLanguageContext';
 import { TokenContext } from './context/TokenContext';
@@ -27,8 +28,14 @@ import PDPPage from './views/pdp';
 import RegisterPage from './views/registerpage';
 
 const App = () => {
-  const { currentLanguage, setCurrentLanguage } = useCurrentLanguage();
-  const { token, setToken } = useToken();
+  const {
+    currentLanguage,
+    setCurrentLanguage
+  } = useCurrentLanguage();
+  const {
+    token,
+    setToken
+  } = useToken();
 
   return (
     <HashRouter>
@@ -39,9 +46,15 @@ const App = () => {
           'client-id': process.env.REACT_APP_PAYPAL_CLIENT_ID as string
         }}
       >
-        <TokenContext.Provider value={{ token, setToken }}>
+        <TokenContext.Provider value={{
+          token,
+          setToken
+        }}>
           <CurrentLanguageContext.Provider
-            value={{ lang: currentLanguage, setCurrentLanguage }}
+            value={{
+              lang: currentLanguage,
+              setCurrentLanguage
+            }}
           >
             <Header/>
             <main style={{ minHeight: '70vh' }}>
@@ -76,6 +89,7 @@ const App = () => {
           </CurrentLanguageContext.Provider>
         </TokenContext.Provider>
       </PayPalScriptProvider>
+      <CustomToast/>
     </HashRouter>
   );
 };
